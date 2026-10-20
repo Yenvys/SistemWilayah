@@ -5,12 +5,58 @@
 
 @section('content')
     <style>
+        .stat-card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        .stat-card-link .stat-link-action svg {
+            transition: transform 0.25s var(--ease-spring);
+        }
+        .stat-card-link:hover .stat-link-action svg {
+            transform: translateX(4px);
+        }
+
+        /* Combined Banner Responsive */
+        .module-shortcut-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(99, 102, 241, 0.06) 50%, rgba(56, 189, 248, 0.06) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.22);
+            border-radius: 16px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px -2px rgba(99, 102, 241, 0.06);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .module-shortcut-actions {
+            display: flex;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
         @media (max-width: 992px) {
             .village-matrix-layout {
                 grid-template-columns: 1fr !important;
             }
         }
+
         @media (max-width: 768px) {
+            .module-shortcut-banner {
+                padding: 1.25rem 1.25rem;
+            }
+            .module-shortcut-actions {
+                width: 100%;
+            }
+            .module-shortcut-actions .btn {
+                flex: 1 1 auto;
+                text-align: center;
+                justify-content: center;
+                min-height: 42px;
+            }
             .dashboard-announcements-polls-grid {
                 grid-template-columns: 1fr !important;
                 gap: 1.25rem !important;
@@ -25,6 +71,17 @@
                 flex: 1 1 auto !important;
                 text-align: center !important;
                 justify-content: center !important;
+                min-height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .village-header-summary-badge {
+                width: 100% !important;
+                justify-content: space-between !important;
+            }
+            .village-kpi-grid {
+                grid-template-columns: 1fr !important;
             }
         }
     </style>
@@ -71,7 +128,7 @@
     </h1>
 
     <div class="stats-grid">
-        <a href="{{ route('areas.index', ['tab' => 'desa']) }}" class="stat-card" style="text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+        <a href="{{ route('areas.index', ['tab' => 'desa']) }}" class="stat-card stat-card-link" title="Buka kelola data desa">
             <div class="stat-header">
                 <span class="stat-title">Total Desa</span>
                 <span class="stat-icon">
@@ -79,48 +136,48 @@
                 </span>
             </div>
             <div class="stat-value">{{ $stats['villages'] ?? 0 }}</div>
-            <div style="font-size: 0.8rem; color: var(--accent-1); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.25rem;">
+            <div class="stat-link-action" style="font-size: 0.8rem; color: var(--accent-1); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
                 <span>Kelola Data Desa</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 14px; height: 14px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </div>
         </a>
 
-        <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" class="stat-card" style="text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+        <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" class="stat-card stat-card-link" title="Buka kelola data RW & RT">
             <div class="stat-header">
                 <span class="stat-title">Total RW & RT</span>
                 <span class="stat-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v6h18V2H3zm2 4H4V4h1v2zm3 0H7V4h1v2zm3 0h-1V4h1v2zm9 10a2 2 0 0 1-2 2H6l-4 4V10a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6z"/></svg>
                 </span>
             </div>
-            <div class="stat-value" style="display: flex; align-items: baseline; gap: 0.5rem;">
-                {{ $stats['rws'] ?? 0 }} <span style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">RW</span>
-                <span style="font-size: 1rem; color: var(--border-glass);">|</span>
-                {{ $stats['rts'] ?? 0 }} <span style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">RT</span>
+            <div class="stat-value" style="display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap;">
+                <span>{{ $stats['rws'] ?? 0 }} <span style="font-size: 0.95rem; color: var(--text-muted); font-weight: 500;">RW</span></span>
+                <span style="font-size: 0.95rem; color: var(--border-glass);">|</span>
+                <span>{{ $stats['rts'] ?? 0 }} <span style="font-size: 0.95rem; color: var(--text-muted); font-weight: 500;">RT</span></span>
             </div>
-            <div style="font-size: 0.8rem; color: var(--accent-1); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.25rem;">
+            <div class="stat-link-action" style="font-size: 0.8rem; color: var(--accent-1); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
                 <span>Kelola Data RW & RT</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 14px; height: 14px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </div>
         </a>
 
-        <a href="{{ route('areas.index', ['tab' => 'penduduk']) }}" class="stat-card" style="text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+        <a href="{{ route('areas.index', ['tab' => 'penduduk']) }}" class="stat-card stat-card-link" title="Buka kelola data kependudukan">
             <div class="stat-header">
                 <span class="stat-title">Total Penduduk & KK</span>
                 <span class="stat-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </span>
             </div>
-            <div class="stat-value">{{ $stats['residents'] ?? 0 }} <span style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">Jiwa</span></div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem; display: flex; gap: 0.75rem;">
+            <div class="stat-value">{{ $stats['residents'] ?? 0 }} <span style="font-size: 0.95rem; color: var(--text-muted); font-weight: 500;">Jiwa</span></div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.35rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
                 <span><strong>{{ $stats['male'] ?? 0 }}</strong> L</span>
                 <span>•</span>
                 <span><strong>{{ $stats['female'] ?? 0 }}</strong> P</span>
                 <span>•</span>
-                <span style="color: var(--accent-1); font-weight: 600;">{{ $stats['families'] ?? 0 }} KK</span>
+                <span style="color: var(--accent-1); font-weight: 700;">{{ $stats['families'] ?? 0 }} KK</span>
             </div>
         </a>
 
-        <a href="{{ route('complaints.index') }}" class="stat-card" style="text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+        <a href="{{ route('complaints.index') }}" class="stat-card stat-card-link" title="Buka daftar pengaduan warga">
             <div class="stat-header">
                 <span class="stat-title">Total Pengaduan</span>
                 <span class="stat-icon">
@@ -128,15 +185,15 @@
                 </span>
             </div>
             <div class="stat-value">{{ $stats['complaints'] ?? 0 }}</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.25rem;">
+            <div class="stat-link-action" style="font-size: 0.8rem; color: var(--accent-1); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
                 <span>Buka Pengaduan Warga</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 14px; height: 14px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </div>
         </a>
     </div>
 
     {{-- Combined Module Shortcut Banner --}}
-    <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.08) 50%, rgba(59, 130, 246, 0.08) 100%); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 16px; padding: 1.5rem 1.75rem; margin-bottom: 2rem; box-shadow: 0 4px 20px -2px rgba(99, 102, 241, 0.08); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.25rem;">
+    <div class="module-shortcut-banner">
         <div>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
                 <span style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; background: rgba(99, 102, 241, 0.15); color: var(--accent-1); border: 1px solid rgba(99, 102, 241, 0.3);">
@@ -169,7 +226,7 @@
                 </span>
             </div>
         </div>
-        <div style="display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center;">
+        <div class="module-shortcut-actions">
             <a href="{{ route('areas.index', ['tab' => 'desa']) }}" class="btn btn-sm btn-outline" style="border-color: rgba(99, 102, 241, 0.35); display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.85rem;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 Tab Desa
@@ -248,7 +305,7 @@
 
                                 {{-- Quick Village Summary Badges & Action --}}
                                 <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
-                                    <div style="background: var(--bg-body); border: 1px solid var(--border-glass); border-radius: 8px; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem;">
+                                    <div class="village-header-summary-badge" style="background: var(--bg-body); border: 1px solid var(--border-glass); border-radius: 8px; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem;">
                                         <span style="color: var(--accent-1); font-weight: 700;">{{ $vResidents }}</span>
                                         <span style="color: var(--text-muted); font-size: 0.75rem;">Jiwa</span>
                                         <span style="color: var(--border-glass);">|</span>
@@ -377,7 +434,7 @@
                                         </div>
 
                                         {{-- 2x2 Mini KPI Cards --}}
-                                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem; margin-bottom: 0.95rem;">
+                                        <div class="village-kpi-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem; margin-bottom: 0.95rem;">
                                             <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 8px; padding: 0.65rem 0.75rem;">
                                                 <div style="font-size: 0.72rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem;">
                                                     <span style="width: 6px; height: 6px; border-radius: 50%; background: #6366f1;"></span>
