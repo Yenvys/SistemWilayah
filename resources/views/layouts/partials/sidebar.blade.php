@@ -241,9 +241,9 @@
                 <input type="hidden" name="type" value="DARURAT UMUM">
                 <input type="hidden" name="location_lat" id="sos_lat">
                 <input type="hidden" name="location_lng" id="sos_lng">
-                <button type="button" onclick="triggerSos()" class="btn btn-danger btn-sos" style="width: 100%; padding: 0.75rem; border-radius: 10px; font-size: 0.88rem; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    TOMBOL SOS
+                <button type="button" onclick="triggerSos()" class="btn btn-danger btn-sos" style="width: 100%;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span>TOMBOL SOS</span>
                 </button>
             </form>
             <script>
