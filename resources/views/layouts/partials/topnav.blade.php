@@ -1,9 +1,15 @@
-<header class="topnav">
+<header class="topnav" role="banner">
     <div class="topnav-left">
-        <button class="menu-toggle" onclick="toggleSidebar()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <button type="button" class="menu-toggle" onclick="toggleSidebar()" aria-label="Buka navigasi menu" title="Buka/Tutup Navigasi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="menu-icon-default">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
         </button>
-        <span class="topnav-title">@yield('page-title', 'Dashboard')</span>
+        <div class="topnav-heading">
+            <span class="topnav-title">@yield('page-title', 'Dashboard')</span>
+        </div>
     </div>
 
     <div class="topnav-right">

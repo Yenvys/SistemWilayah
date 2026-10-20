@@ -1,12 +1,23 @@
-<aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar" aria-label="Navigasi Utama">
     <div class="sidebar-logo">
-        <div class="sidebar-logo-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <path d="m9 12 2 2 4-4"/>
+        <a href="{{ url('/dashboard') }}" class="sidebar-brand-link" title="SIWIL AI Dashboard">
+            <div class="sidebar-logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+            </div>
+            <div class="sidebar-brand-meta">
+                <span class="sidebar-logo-text">SIWIL AI</span>
+                <span class="sidebar-logo-sub">Sistem Wilayah Terpadu</span>
+            </div>
+        </a>
+        <button type="button" class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Tutup navigasi" title="Tutup Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
-        </div>
-        <span class="sidebar-logo-text">SIWIL AI</span>
+        </button>
     </div>
 
     <nav class="sidebar-nav">
