@@ -63,23 +63,23 @@
             </p>
         </div>
 
-        <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
-            <button type="button" onclick="openModal('modalCreatePoll')" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 0.45rem;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <div class="actions-bar" style="display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center;">
+            <button type="button" onclick="openModal('modalCreatePoll')" class="btn btn-primary btn-sm">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 <span>+ Buat Polling / Musyawarah</span>
             </button>
-            <a href="{{ route('documents.index') }}" class="btn btn-outline btn-sm" style="display: inline-flex; align-items: center; gap: 0.45rem;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <a href="{{ route('documents.index') }}" class="btn btn-outline btn-sm">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/></svg>
                 <span>Layanan Surat</span>
                 @if(($stats['pending_documents'] ?? 0) > 0)
-                    <span class="badge badge-yellow" style="font-size: 0.7rem; padding: 0.15rem 0.4rem;">{{ $stats['pending_documents'] }}</span>
+                    <span class="badge badge-yellow">{{ $stats['pending_documents'] }}</span>
                 @endif
             </a>
-            <a href="{{ route('complaints.index') }}" class="btn btn-outline btn-sm" style="display: inline-flex; align-items: center; gap: 0.45rem;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <a href="{{ route('complaints.index') }}" class="btn btn-outline btn-sm">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 <span>Pengaduan</span>
                 @if(($stats['pending_complaints'] ?? 0) > 0)
-                    <span class="badge badge-red" style="font-size: 0.7rem; padding: 0.15rem 0.4rem;">{{ $stats['pending_complaints'] }}</span>
+                    <span class="badge badge-red">{{ $stats['pending_complaints'] }}</span>
                 @endif
             </a>
         </div>
