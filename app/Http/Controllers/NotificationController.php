@@ -45,6 +45,7 @@ class NotificationController extends Controller
 
         if ($notification->url) {
             $destUrl = $this->normalizeNotificationUrl($notification->url);
+
             return redirect($destUrl);
         }
 
@@ -73,11 +74,14 @@ class NotificationController extends Controller
 
     protected function normalizeNotificationUrl(?string $url): ?string
     {
-        if (!$url) return null;
+        if (! $url) {
+            return null;
+        }
 
         $parsed = parse_url($url);
-        if (isset($parsed['host']) && $parsed['host'] === 'localhost' && isset($parsed['port']) && (int)$parsed['port'] === 8000) {
+        if (isset($parsed['host']) && $parsed['host'] === 'localhost' && isset($parsed['port']) && (int) $parsed['port'] === 8000) {
             $path = $parsed['path'] ?? '/';
+
             return url($path);
         }
 

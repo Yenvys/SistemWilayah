@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Models\Complaint;
 use App\Models\DocumentRequest;
+use App\Models\Poll;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -24,6 +26,7 @@ class TelegramService
     {
         if (empty($this->botToken)) {
             Log::warning('TelegramService: BOT_TOKEN is not configured.');
+
             return false;
         }
 
@@ -41,6 +44,7 @@ class TelegramService
 
             if ($response->successful()) {
                 Log::info("TelegramService: Message sent successfully to chat_id {$chatId}");
+
                 return true;
             }
 
@@ -49,11 +53,13 @@ class TelegramService
                 'status' => $response->status(),
                 'response' => $response->json(),
             ]);
+
             return false;
         } catch (\Throwable $e) {
-            Log::error('TelegramService Exception: ' . $e->getMessage(), [
+            Log::error('TelegramService Exception: '.$e->getMessage(), [
                 'chat_id' => $chatId,
             ]);
+
             return false;
         }
     }
@@ -92,37 +98,37 @@ class TelegramService
                 'Pengajuan Masuk (Menunggu Verifikasi RT)',
                 '📝',
                 'Pengajuan surat Anda telah masuk ke sistem dan sedang menunggu verifikasi oleh Ketua RT.',
-                'Silakan menunggu proses verifikasi awal dari pengurus RT Anda.'
+                'Silakan menunggu proses verifikasi awal dari pengurus RT Anda.',
             ],
             'DIAJUKAN_RW' => [
                 'Disetujui RT (Diteruskan ke RW)',
                 '⏳',
                 "Pengajuan surat Anda telah disetujui oleh {$actorTitle} ({$actorName}) dan diteruskan ke Ketua RW untuk verifikasi tahap selanjutnya.",
-                'Pengajuan sedang dalam antrean verifikasi pengurus RW.'
+                'Pengajuan sedang dalam antrean verifikasi pengurus RW.',
             ],
             'DIAJUKAN_DESA' => [
                 'Disetujui RW (Diteruskan ke Kantor Desa)',
                 '⏳',
                 "Pengajuan surat Anda telah disetujui oleh {$actorTitle} ({$actorName}) dan diteruskan ke Kantor Desa untuk verifikasi dan penandatanganan akhir.",
-                'Pengajuan sedang diproses oleh pihak Kantor Desa.'
+                'Pengajuan sedang diproses oleh pihak Kantor Desa.',
             ],
             'DISETUJUI', 'SELESAI' => [
                 'Surat Disetujui & Siap Dicetak',
                 '✅',
                 "Kabar baik! Pengajuan surat Anda telah disetujui penuh oleh {$actorTitle} ({$actorName}) dan selesai diproses.",
-                'Dokumen surat sudah selesai. Anda dapat mengunduh/mencetak melalui dashboard website SIWIL atau mengambil surat fisik di kantor yang bersangkutan.'
+                'Dokumen surat sudah selesai. File PDF resmi Anda dikirimkan di bawah ini dan siap langsung dicetak.',
             ],
             'DITOLAK' => [
                 'Pengajuan Surat Ditolak',
                 '❌',
                 "Mohon maaf, pengajuan surat Anda ditolak oleh {$actorTitle} ({$actorName}).",
-                'Silakan lengkapi berkas atau perbaiki persyaratan sesuai catatan di atas, kemudian ajukan kembali.'
+                'Silakan lengkapi berkas atau perbaiki persyaratan sesuai catatan di atas, kemudian ajukan kembali.',
             ],
             default => [
                 "Status: {$status}",
                 'ℹ️',
                 "Status pengajuan surat Anda telah diperbarui menjadi {$status} oleh {$actorTitle}.",
-                'Gunakan perintah /cek_pengajuan di bot ini untuk memantau status surat.'
+                'Gunakan perintah /cek_pengajuan di bot ini untuk memantau status surat.',
             ]
         };
 
@@ -131,7 +137,7 @@ class TelegramService
         // 1. Notifikasi ke Pemohon (Warga)
         if ($wargaUser && ! empty($wargaUser->telegram_id)) {
             $wargaName = $docRequest->resident?->full_name ?? $wargaUser->name ?? 'Warga';
-            $currentTime = now()->format('d M Y, H:i') . ' WIB';
+            $currentTime = now()->format('d M Y, H:i').' WIB';
 
             $msg = "📬 <b>UPDATE PROSES SURAT SIWIL</b>\n\n";
             $msg .= "Halo <b>{$wargaName}</b>,\n";
@@ -148,9 +154,34 @@ class TelegramService
             $msg .= "⏰ <b>Waktu Pembaruan:</b> {$currentTime}\n\n";
             $msg .= "💡 <i>{$statusDescription}</i>\n\n";
             $msg .= "👉 <b>Langkah Selanjutnya:</b>\n{$nextStepInfo}\n\n";
-            $msg .= "<i>Ketik /cek_pengajuan untuk melihat riwayat surat Anda.</i>";
+            $msg .= '<i>Ketik /cek_pengajuan untuk melihat riwayat surat Anda.</i>';
 
             $sent = $this->sendMessage($wargaUser->telegram_id, $msg);
+
+            // Jika status DISETUJUI / SELESAI, kirimkan langsung file PDF resmi ke Telegram!
+            if (in_array($status, ['DISETUJUI', 'SELESAI'])) {
+                try {
+                    $pdfContent = $this->generateDocumentPdf($docRequest);
+                    if ($pdfContent) {
+                        $filename = "Surat_{$docRequest->request_number}.pdf";
+                        $caption = "📄 <b>Dokumen Resmi SIWIL</b>\n\n".
+                            "• <b>Nomor:</b> <code>{$docRequest->request_number}</code>\n".
+                            "• <b>Layanan:</b> {$docTypeName}\n".
+                            "• <b>Pemohon:</b> {$wargaName}\n".
+                            "• <b>Status:</b> ✅ Selesai & Disetujui\n\n".
+                            '<i>Dokumen resmi Anda telah siap dan dapat langsung diunduh/dicetak.</i>';
+
+                        $this->sendDocument(
+                            $wargaUser->telegram_id,
+                            $pdfContent,
+                            $filename,
+                            $caption
+                        );
+                    }
+                } catch (\Throwable $e) {
+                    Log::error("TelegramService: Failed to attach PDF to approval notification: {$e->getMessage()}");
+                }
+            }
         }
 
         // 2. Notifikasi ke Petugas / Verifikator Selanjutnya (jika terhubung ke Telegram)
@@ -178,7 +209,7 @@ class TelegramService
         // Notif ke Warga pemohon jika belum menerima konfirmasi
         if ($wargaUser && ! empty($wargaUser->telegram_id)) {
             $wargaName = $docRequest->resident?->full_name ?? $wargaUser->name ?? 'Warga';
-            $currentTime = now()->format('d M Y, H:i') . ' WIB';
+            $currentTime = now()->format('d M Y, H:i').' WIB';
 
             $msg = "📄 <b>PENGAJUAN SURAT BARU BERHASIL</b>\n\n";
             $msg .= "Halo <b>{$wargaName}</b>,\n";
@@ -190,7 +221,7 @@ class TelegramService
                 $msg .= "📝 <b>Keperluan:</b> {$docRequest->notes}\n";
             }
             $msg .= "⏰ <b>Waktu:</b> {$currentTime}\n\n";
-            $msg .= "ℹ️ <i>Pengajuan Anda akan segera diverifikasi oleh Ketua RT setempat. Setiap perkembangan proses akan langsung dinotifikasikan ke Telegram ini.</i>";
+            $msg .= 'ℹ️ <i>Pengajuan Anda akan segera diverifikasi oleh Ketua RT setempat. Setiap perkembangan proses akan langsung dinotifikasikan ke Telegram ini.</i>';
 
             $this->sendMessage($wargaUser->telegram_id, $msg);
         }
@@ -206,7 +237,9 @@ class TelegramService
     {
         try {
             $resident = $docRequest->resident;
-            if (! $resident) return;
+            if (! $resident) {
+                return;
+            }
 
             $rtId = $resident->rt_id ?? ($resident->family?->rt_id ?? null);
             $rwId = $resident->rt?->rw_id ?? ($resident->family?->rt?->rw_id ?? null);
@@ -235,11 +268,13 @@ class TelegramService
                     ->where('village_id', $villageId)
                     ->whereNotNull('telegram_id')
                     ->get();
-                $stageText = "Perlu Verifikasi & Tanda Tangan Kantor Desa";
+                $stageText = 'Perlu Verifikasi & Tanda Tangan Kantor Desa';
             }
 
             foreach ($approvers as $approver) {
-                if (empty($approver->telegram_id)) continue;
+                if (empty($approver->telegram_id)) {
+                    continue;
+                }
 
                 $approverMsg = "🔔 <b>SURAT MASUK MEMERLUKAN VERIFIKASI</b>\n\n";
                 $approverMsg .= "Halo <b>{$approver->name}</b>,\n";
@@ -256,7 +291,7 @@ class TelegramService
                 $this->sendMessage($approver->telegram_id, $approverMsg);
             }
         } catch (\Throwable $e) {
-            Log::warning('TelegramService notifyNextApprover error: ' . $e->getMessage());
+            Log::warning('TelegramService notifyNextApprover error: '.$e->getMessage());
         }
     }
 
@@ -317,30 +352,30 @@ class TelegramService
                 'Pengaduan Sedang Diproses',
                 '🔄',
                 "Laporan pengaduan Anda sedang ditindaklanjuti dan diproses oleh {$actorTitle} ({$actorName}).",
-                'Petugas sedang melakukan pengecekan atau penanganan langsung di lapangan.'
+                'Petugas sedang melakukan pengecekan atau penanganan langsung di lapangan.',
             ],
             'RESOLVED' => [
                 'Pengaduan Selesai Ditangani',
                 '✅',
                 "Laporan pengaduan Anda telah selesai ditangani oleh {$actorTitle} ({$actorName}).",
-                'Terima kasih atas partisipasi dan kepedulian Anda dalam menjaga kenyamanan dan ketertiban lingkungan kita.'
+                'Terima kasih atas partisipasi dan kepedulian Anda dalam menjaga kenyamanan dan ketertiban lingkungan kita.',
             ],
             'REJECTED' => [
                 'Pengaduan Ditolak / Tidak Ditindaklanjuti',
                 '❌',
                 "Laporan pengaduan Anda belum dapat ditindaklanjuti atau ditolak oleh {$actorTitle} ({$actorName}).",
-                'Silakan periksa kembali kelengkapan informasi laporan Anda atau hubungi pengurus RT/RW setempat jika memerlukan klarifikasi.'
+                'Silakan periksa kembali kelengkapan informasi laporan Anda atau hubungi pengurus RT/RW setempat jika memerlukan klarifikasi.',
             ],
             default => [
                 "Status: {$status}",
                 'ℹ️',
                 "Status laporan pengaduan Anda telah diperbarui menjadi {$status} oleh {$actorTitle}.",
-                'Gunakan perintah /cek_pengaduan di bot ini untuk memantau status pengaduan.'
+                'Gunakan perintah /cek_pengaduan di bot ini untuk memantau status pengaduan.',
             ]
         };
 
         $wargaName = $wargaUser->resident?->full_name ?? $wargaUser->name ?? 'Warga';
-        $currentTime = now()->format('d M Y, H:i') . ' WIB';
+        $currentTime = now()->format('d M Y, H:i').' WIB';
 
         $msg = "📢 <b>UPDATE STATUS PENGADUAN WARGA</b>\n\n";
         $msg .= "Halo <b>{$wargaName}</b>,\n";
@@ -354,7 +389,7 @@ class TelegramService
         $msg .= "⏰ <b>Waktu Pembaruan:</b> {$currentTime}\n\n";
         $msg .= "💡 <i>{$statusDescription}</i>\n\n";
         $msg .= "👉 <b>Keterangan:</b>\n{$nextStepInfo}\n\n";
-        $msg .= "<i>Ketik /cek_pengaduan untuk melihat riwayat pengaduan Anda.</i>";
+        $msg .= '<i>Ketik /cek_pengaduan untuk melihat riwayat pengaduan Anda.</i>';
 
         return $this->sendMessage($wargaUser->telegram_id, $msg);
     }
@@ -374,7 +409,7 @@ class TelegramService
         // 1. Notifikasi ke Pelapor (Warga) jika memiliki telegram_id
         if (! empty($creator->telegram_id)) {
             $wargaName = $creator->resident?->full_name ?? $creator->name ?? 'Warga';
-            $currentTime = now()->format('d M Y, H:i') . ' WIB';
+            $currentTime = now()->format('d M Y, H:i').' WIB';
 
             $msg = "📢 <b>PENGADUAN BERHASIL DIAJUKAN</b>\n\n";
             $msg .= "Halo <b>{$wargaName}</b>,\n";
@@ -387,7 +422,7 @@ class TelegramService
             $msg .= "🔄 <b>Status Saat Ini:</b> ⏳ <b>Menunggu Tindak Lanjut (PENDING)</b>\n";
             $msg .= "⏰ <b>Waktu Lapor:</b> {$currentTime}\n\n";
             $msg .= "ℹ️ <i>Pengaduan Anda akan segera ditinjau dan ditindaklanjuti oleh petugas wilayah. Setiap perkembangan proses akan langsung dinotifikasikan ke Telegram ini.</i>\n\n";
-            $msg .= "<i>Ketik /cek_pengaduan untuk mengecek status laporan kapan saja.</i>";
+            $msg .= '<i>Ketik /cek_pengaduan untuk mengecek status laporan kapan saja.</i>';
 
             $this->sendMessage($creator->telegram_id, $msg);
         }
@@ -428,7 +463,9 @@ class TelegramService
             }
 
             foreach ($officers->unique('id') as $officer) {
-                if (empty($officer->telegram_id)) continue;
+                if (empty($officer->telegram_id)) {
+                    continue;
+                }
 
                 $officerMsg = "🔔 <b>PENGADUAN WARGA BARU MASUK</b>\n\n";
                 $officerMsg .= "Halo <b>{$officer->name}</b>,\n";
@@ -444,26 +481,26 @@ class TelegramService
                 $this->sendMessage($officer->telegram_id, $officerMsg);
             }
         } catch (\Throwable $e) {
-            Log::warning('TelegramService notifyOfficersForComplaint error: ' . $e->getMessage());
+            Log::warning('TelegramService notifyOfficersForComplaint error: '.$e->getMessage());
         }
     }
 
     /**
      * Broadcast notification when a poll is created to target citizens who have telegram_id.
      */
-    public function sendPollCreatedNotification(\App\Models\Poll $poll): void
+    public function sendPollCreatedNotification(Poll $poll): void
     {
         try {
             $poll->loadMissing(['creator', 'options']);
             $targetCitizens = $poll->getTargetCitizenUsers();
 
-            $optionsList = "";
+            $optionsList = '';
             foreach ($poll->options as $index => $option) {
-                $optionsList .= "▫️ <b>" . ($index + 1) . ".</b> " . htmlspecialchars($option->text) . "\n";
+                $optionsList .= '▫️ <b>'.($index + 1).'.</b> '.htmlspecialchars($option->text)."\n";
             }
 
             $expiresText = $poll->expires_at
-                ? $poll->expires_at->format('d M Y, H:i') . ' WIB'
+                ? $poll->expires_at->format('d M Y, H:i').' WIB'
                 : 'Belum ditentukan batas akhir';
 
             $creatorRole = $poll->creator?->role ?? 'Pengurus';
@@ -477,33 +514,35 @@ class TelegramService
             $pollUrl = route('polls.show', $poll->id);
 
             foreach ($targetCitizens as $citizen) {
-                if (empty($citizen->telegram_id)) continue;
+                if (empty($citizen->telegram_id)) {
+                    continue;
+                }
 
                 $citizenName = $citizen->resident?->full_name ?? $citizen->name ?? $citizen->username;
 
                 $msg = "🗳️ <b>MUSYAWARAH & POLLING WARGA SIWIL</b>\n\n";
-                $msg .= "Halo <b>" . htmlspecialchars($citizenName) . "</b>! 👋\n";
+                $msg .= 'Halo <b>'.htmlspecialchars($citizenName)."</b>! 👋\n";
                 $msg .= "Ada musyawarah / polling baru dari <b>{$creatorTitle}</b> yang memerlukan partisipasi suara Anda:\n\n";
-                $msg .= "📌 <b>Judul:</b> <b>" . htmlspecialchars($poll->title) . "</b>\n";
+                $msg .= '📌 <b>Judul:</b> <b>'.htmlspecialchars($poll->title)."</b>\n";
                 if (! empty($poll->description)) {
-                    $msg .= "📝 <b>Keterangan:</b> <i>\"" . htmlspecialchars($poll->description) . "\"</i>\n";
+                    $msg .= '📝 <b>Keterangan:</b> <i>"'.htmlspecialchars($poll->description)."\"</i>\n";
                 }
                 $msg .= "⏰ <b>Batas Waktu:</b> {$expiresText}\n\n";
                 $msg .= "<b>Pilihan Suara Tersedia:</b>\n{$optionsList}\n";
                 $msg .= "👉 <a href=\"{$pollUrl}\">Klik di sini untuk berpartisipasi di SIWIL</a>\n\n";
-                $msg .= "<i>Suara Anda sangat menentukan masa depan dan kemajuan lingkungan kita.</i>";
+                $msg .= '<i>Suara Anda sangat menentukan masa depan dan kemajuan lingkungan kita.</i>';
 
                 $this->sendMessage($citizen->telegram_id, $msg);
             }
         } catch (\Throwable $e) {
-            Log::warning('TelegramService sendPollCreatedNotification error: ' . $e->getMessage());
+            Log::warning('TelegramService sendPollCreatedNotification error: '.$e->getMessage());
         }
     }
 
     /**
      * Broadcast notification when a poll is closed with results to target citizens who have telegram_id.
      */
-    public function sendPollClosedNotification(\App\Models\Poll $poll, string $resultMessage): void
+    public function sendPollClosedNotification(Poll $poll, string $resultMessage): void
     {
         try {
             $poll->loadMissing(['creator', 'options.votes']);
@@ -511,22 +550,109 @@ class TelegramService
             $pollUrl = route('polls.show', $poll->id);
 
             foreach ($targetCitizens as $citizen) {
-                if (empty($citizen->telegram_id)) continue;
+                if (empty($citizen->telegram_id)) {
+                    continue;
+                }
 
                 $citizenName = $citizen->resident?->full_name ?? $citizen->name ?? $citizen->username;
 
                 $msg = "🏛️ <b>HASIL AKHIR MUSYAWARAH SIWIL</b>\n\n";
-                $msg .= "Halo <b>" . htmlspecialchars($citizenName) . "</b>,\n";
+                $msg .= 'Halo <b>'.htmlspecialchars($citizenName)."</b>,\n";
                 $msg .= "Musyawarah warga berikut telah resmi ditutup dan hasilnya telah dipublikasikan ke Informasi Desa:\n\n";
-                $msg .= "📌 <b>Judul:</b> <b>" . htmlspecialchars($poll->title) . "</b>\n\n";
-                $msg .= "📊 <b>Hasil Keputusan:</b>\n" . htmlspecialchars($resultMessage) . "\n\n";
+                $msg .= '📌 <b>Judul:</b> <b>'.htmlspecialchars($poll->title)."</b>\n\n";
+                $msg .= "📊 <b>Hasil Keputusan:</b>\n".htmlspecialchars($resultMessage)."\n\n";
                 $msg .= "👉 <a href=\"{$pollUrl}\">Lihat detail perolehan suara di Dashboard SIWIL</a>\n\n";
-                $msg .= "<i>Terima kasih atas partisipasi aktif warga dalam musyawarah lingkungan.</i>";
+                $msg .= '<i>Terima kasih atas partisipasi aktif warga dalam musyawarah lingkungan.</i>';
 
                 $this->sendMessage($citizen->telegram_id, $msg);
             }
         } catch (\Throwable $e) {
-            Log::warning('TelegramService sendPollClosedNotification error: ' . $e->getMessage());
+            Log::warning('TelegramService sendPollClosedNotification error: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Send document file (e.g. PDF) to a specific Telegram chat/user.
+     */
+    public function sendDocument(string $chatId, string $fileContent, string $filename, ?string $caption = null, string $parseMode = 'HTML'): bool
+    {
+        if (empty($this->botToken) || empty($chatId)) {
+            return false;
+        }
+
+        try {
+            $response = Http::timeout(30)
+                ->attach('document', $fileContent, $filename)
+                ->post("https://api.telegram.org/bot{$this->botToken}/sendDocument", [
+                    'chat_id' => $chatId,
+                    'caption' => $caption ?? '',
+                    'parse_mode' => $parseMode,
+                ]);
+
+            if ($response->successful()) {
+                Log::info("TelegramService: Document sent successfully to chat_id {$chatId}");
+
+                return true;
+            }
+
+            Log::error('TelegramService: Failed to send document', [
+                'chat_id' => $chatId,
+                'status' => $response->status(),
+                'response' => $response->json(),
+            ]);
+
+            return false;
+        } catch (\Throwable $e) {
+            Log::error('TelegramService sendDocument Exception: '.$e->getMessage(), [
+                'chat_id' => $chatId,
+            ]);
+
+            return false;
+        }
+    }
+
+    /**
+     * Generate printable PDF binary for a DocumentRequest
+     */
+    public function generateDocumentPdf(DocumentRequest $docRequest): ?string
+    {
+        $docRequest->loadMissing([
+            'resident.rt.rw.village',
+            'resident.family.rt.rw.village',
+            'resident.user',
+            'verifiedBy.resident',
+            'rtApprovedBy',
+            'rwApprovedBy',
+            'desaApprovedBy',
+        ]);
+
+        $level = $docRequest->final_approval_level;
+        $viewName = match ($level) {
+            'RT' => 'dashboard.documents.formats.rt_only',
+            'RW' => 'dashboard.documents.formats.rw_only',
+            'DESA' => 'dashboard.documents.formats.desa',
+            default => 'dashboard.documents.formats.default',
+        };
+
+        if (! view()->exists($viewName)) {
+            $viewName = 'dashboard.documents.formats.default';
+        }
+
+        try {
+            $pdf = Pdf::loadView($viewName, [
+                'docRequest' => $docRequest,
+                'isPdf' => true,
+            ]);
+            $pdf->setPaper('a4', 'portrait');
+            $pdf->getDomPDF()->set_option('defaultMediaType', 'print');
+            $pdf->getDomPDF()->set_option('isHtml5ParserEnabled', true);
+            $pdf->getDomPDF()->set_option('isRemoteEnabled', true);
+
+            return $pdf->output();
+        } catch (\Throwable $e) {
+            Log::error("TelegramService: PDF generation failed: {$e->getMessage()}");
+
+            return null;
         }
     }
 }

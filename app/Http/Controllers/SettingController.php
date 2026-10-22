@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Resident;
 use App\Models\Rt;
+use App\Models\User;
+use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -159,7 +161,7 @@ class SettingController extends Controller
         ]);
 
         $rawNumber = trim($request->input('whatsapp_number'));
-        $normalized = \App\Services\WhatsAppService::normalizePhoneNumber($rawNumber);
+        $normalized = WhatsAppService::normalizePhoneNumber($rawNumber);
 
         if (! $normalized || strlen($normalized) < 10) {
             return response()->json([
@@ -169,7 +171,7 @@ class SettingController extends Controller
 
         $user = Auth::user();
 
-        $exists = \App\Models\User::where('whatsapp_number', $normalized)
+        $exists = User::where('whatsapp_number', $normalized)
             ->where('id', '!=', $user->id)
             ->exists();
 
@@ -181,20 +183,20 @@ class SettingController extends Controller
 
         $user->whatsapp_number = $normalized;
         if (empty($user->phone_number)) {
-            $user->phone_number = str_starts_with($normalized, '62') ? ('0' . substr($normalized, 2)) : $normalized;
+            $user->phone_number = str_starts_with($normalized, '62') ? ('0'.substr($normalized, 2)) : $normalized;
         }
         $user->save();
 
         $botNumber = config('services.whatsapp.bot_number', env('WHATSAPP_BOT_NUMBER', '628981295171'));
-        $greeting = 'Halo SIWIL, saya ' . ($user->resident?->full_name ?? $user->username);
+        $greeting = 'Halo SIWIL, saya '.($user->resident?->full_name ?? $user->username);
 
         return response()->json([
             'success' => true,
             'message' => 'Nomor WhatsApp berhasil dihubungkan ke akun Anda!',
             'whatsapp_number' => $normalized,
-            'formatted_number' => '+' . substr($normalized, 0, 2) . ' ' . substr($normalized, 2, 3) . '-' . substr($normalized, 5, 4) . '-' . substr($normalized, 9),
+            'formatted_number' => '+'.substr($normalized, 0, 2).' '.substr($normalized, 2, 3).'-'.substr($normalized, 5, 4).'-'.substr($normalized, 9),
             'bot_number' => $botNumber,
-            'wa_link' => 'https://wa.me/' . $botNumber . '?text=' . urlencode($greeting),
+            'wa_link' => 'https://wa.me/'.$botNumber.'?text='.urlencode($greeting),
         ]);
     }
 
@@ -211,7 +213,6 @@ class SettingController extends Controller
         ]);
     }
 
-
     public function disconnectTelegram()
     {
         $user = Auth::user();
@@ -224,4 +225,3 @@ class SettingController extends Controller
         ]);
     }
 }
-

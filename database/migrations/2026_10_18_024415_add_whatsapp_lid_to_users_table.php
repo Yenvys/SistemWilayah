@@ -25,5 +25,4 @@ return new class extends Migration
             $table->dropColumn('whatsapp_lid');
         });
     }
-
 };

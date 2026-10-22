@@ -125,10 +125,10 @@ class AiKnowledgeController extends Controller
                         [
                             'role' => 'user',
                             'parts' => [
-                                ['text' => 'Halo! Balas hanya dengan satu kata: SIWIL_OK']
-                            ]
-                        ]
-                    ]
+                                ['text' => 'Halo! Balas hanya dengan satu kata: SIWIL_OK'],
+                            ],
+                        ],
+                    ],
                 ];
                 $response = Http::timeout(10)->post($url, $payload);
             } else {
@@ -141,21 +141,21 @@ class AiKnowledgeController extends Controller
                     default => 'https://api.groq.com/openai/v1/chat/completions',
                 };
 
-                if ($provider === 'custom' && $baseUrl && !str_contains($baseUrl, '/chat/completions')) {
-                    $endpoint = rtrim($baseUrl, '/') . '/chat/completions';
+                if ($provider === 'custom' && $baseUrl && ! str_contains($baseUrl, '/chat/completions')) {
+                    $endpoint = rtrim($baseUrl, '/').'/chat/completions';
                 }
 
                 $payload = [
                     'model' => $model,
                     'messages' => [
-                        ['role' => 'user', 'content' => 'Halo! Balas hanya dengan satu kata: SIWIL_OK']
+                        ['role' => 'user', 'content' => 'Halo! Balas hanya dengan satu kata: SIWIL_OK'],
                     ],
                     'max_tokens' => 20,
                 ];
 
                 $response = Http::timeout(10)
                     ->withHeaders([
-                        'Authorization' => 'Bearer ' . $apiKey,
+                        'Authorization' => 'Bearer '.$apiKey,
                         'Content-Type' => 'application/json',
                     ])
                     ->post($endpoint, $payload);
@@ -184,7 +184,7 @@ class AiKnowledgeController extends Controller
         } catch (\Throwable $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menghubungi server API: ' . $e->getMessage(),
+                'message' => 'Gagal menghubungi server API: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -192,13 +192,13 @@ class AiKnowledgeController extends Controller
     private function setEnvValue(string $env, string $key, string $value): string
     {
         $escaped = (str_contains($value, ' ') || str_contains($value, '#') || str_contains($value, '$'))
-            ? '"' . addcslashes($value, '"') . '"'
+            ? '"'.addcslashes($value, '"').'"'
             : $value;
 
         if (preg_match("/^{$key}=/m", $env)) {
             return preg_replace("/^{$key}=.*/m", "{$key}={$escaped}", $env);
         }
 
-        return rtrim($env) . "\n{$key}={$escaped}\n";
+        return rtrim($env)."\n{$key}={$escaped}\n";
     }
 }

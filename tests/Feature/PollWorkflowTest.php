@@ -169,7 +169,7 @@ class PollWorkflowTest extends TestCase
 
         // Result should also be published to Announcements (Informasi Desa)
         $this->assertDatabaseHas('announcements', [
-            'title' => 'Hasil Musyawarah: ' . $poll->title,
+            'title' => 'Hasil Musyawarah: '.$poll->title,
         ]);
 
         // Citizen cannot vote after poll is closed

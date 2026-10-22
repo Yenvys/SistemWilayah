@@ -44,6 +44,18 @@
             <span>Dashboard</span>
         </a>
 
+        @if($role !== 'WARGA')
+        <a href="{{ route('areas.index') }}" class="nav-item {{ request()->is('dashboard/areas*') || request()->is('dashboard/villages*') || request()->is('dashboard/residents*') ? 'active' : '' }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>{{ $role === 'RT' ? 'Data Warga RT' : ($role === 'RW' ? 'Data Warga RW' : 'Wilayah & Penduduk') }}</span>
+        </a>
+        @endif
+
         <a href="{{ url('/dashboard/announcements') }}" class="nav-item {{ request()->is('dashboard/announcements*') ? 'active' : '' }}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
             <span>Pengumuman Desa</span>
@@ -74,24 +86,6 @@
         <a href="{{ route('families.my-family') }}" class="nav-item {{ request()->routeIs('families.my-family') ? 'active' : '' }}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             <span>Data Keluarga</span>
-        </a>
-        @endif
-
-        {{-- KATEGORI: KEPENDUDUKAN & WILAYAH (Non-Warga) --}}
-        @if($role !== 'WARGA')
-        <div class="sidebar-category">
-            <span class="sidebar-category-title">Kependudukan</span>
-            <span class="sidebar-category-line"></span>
-        </div>
-
-        <a href="{{ route('areas.index') }}" class="nav-item {{ request()->is('dashboard/areas*') || request()->is('dashboard/villages*') || request()->is('dashboard/residents*') ? 'active' : '' }}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-            <span>{{ $role === 'RT' ? 'Data Warga RT' : ($role === 'RW' ? 'Data Warga RW' : 'Wilayah & Penduduk') }}</span>
         </a>
         @endif
 

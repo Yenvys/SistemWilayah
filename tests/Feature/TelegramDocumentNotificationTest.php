@@ -9,9 +9,9 @@ use App\Models\Rw;
 use App\Models\User;
 use App\Models\Village;
 use App\Services\DocumentRequestService;
-use App\Services\TelegramService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class TelegramDocumentNotificationTest extends TestCase
@@ -30,9 +30,9 @@ class TelegramDocumentNotificationTest extends TestCase
             'https://api.telegram.org/*' => Http::response(['ok' => true], 200),
         ]);
 
-        $village = Village::create(['id' => (string) \Illuminate\Support\Str::uuid(), 'name' => 'Sukamaju', 'code' => 'SKM']);
-        $rw = Rw::create(['id' => (string) \Illuminate\Support\Str::uuid(), 'number' => '01', 'village_id' => $village->id]);
-        $rt = Rt::create(['id' => (string) \Illuminate\Support\Str::uuid(), 'number' => '05', 'rw_id' => $rw->id]);
+        $village = Village::create(['id' => (string) Str::uuid(), 'name' => 'Sukamaju', 'code' => 'SKM']);
+        $rw = Rw::create(['id' => (string) Str::uuid(), 'number' => '01', 'village_id' => $village->id]);
+        $rt = Rt::create(['id' => (string) Str::uuid(), 'number' => '05', 'rw_id' => $rw->id]);
 
         $citizen = User::factory()->create([
             'username' => '3201123456789001',
@@ -41,7 +41,7 @@ class TelegramDocumentNotificationTest extends TestCase
         ]);
 
         $resident = Resident::create([
-            'id' => (string) \Illuminate\Support\Str::uuid(),
+            'id' => (string) Str::uuid(),
             'nik' => $citizen->username,
             'full_name' => 'Ahmad Warga',
             'rt_id' => $rt->id,
@@ -75,6 +75,7 @@ class TelegramDocumentNotificationTest extends TestCase
         // Assert Telegram API was called for the citizen telegram_id
         Http::assertSent(function ($request) use ($doc) {
             $data = $request->data();
+
             return str_contains($request->url(), 'sendMessage')
                 && ($data['chat_id'] ?? null) === '123456789'
                 && str_contains($data['text'] ?? '', $doc->request_number)
@@ -95,7 +96,7 @@ class TelegramDocumentNotificationTest extends TestCase
         ]);
 
         $resident = Resident::create([
-            'id' => (string) \Illuminate\Support\Str::uuid(),
+            'id' => (string) Str::uuid(),
             'nik' => $citizen->username,
             'full_name' => 'Siti Aminah',
         ]);
@@ -106,7 +107,7 @@ class TelegramDocumentNotificationTest extends TestCase
         ]);
 
         $doc = DocumentRequest::create([
-            'id' => (string) \Illuminate\Support\Str::uuid(),
+            'id' => (string) Str::uuid(),
             'request_number' => 'SRT-20261016-TEST',
             'type' => 'SURAT_KETERANGAN_USAHA',
             'resident_id' => $resident->id,
@@ -119,8 +120,9 @@ class TelegramDocumentNotificationTest extends TestCase
             'notes' => 'Foto usaha belum dilampirkan',
         ], $officer);
 
-        Http::assertSent(function ($request) use ($doc) {
+        Http::assertSent(function ($request) {
             $data = $request->data();
+
             return str_contains($request->url(), 'sendMessage')
                 && ($data['chat_id'] ?? null) === '987654321'
                 && str_contains($data['text'] ?? '', 'Pengajuan Surat Ditolak')

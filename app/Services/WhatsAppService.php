@@ -9,6 +9,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class WhatsAppService
 {
@@ -32,9 +33,9 @@ class WhatsAppService
         $clean = preg_replace('/[^0-9]/', '', $phone);
 
         if (str_starts_with($clean, '0')) {
-            $clean = '62' . substr($clean, 1);
+            $clean = '62'.substr($clean, 1);
         } elseif (str_starts_with($clean, '8')) {
-            $clean = '62' . $clean;
+            $clean = '62'.$clean;
         }
 
         return $clean;
@@ -110,6 +111,7 @@ class WhatsAppService
                 $resData = $response->json();
                 $action = ($resData['edited'] ?? false) ? 'Edited' : 'Sent';
                 Log::info("WhatsAppService: {$action} message to {$normalized}");
+
                 return true;
             }
 
@@ -117,9 +119,11 @@ class WhatsAppService
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
+
             return false;
         } catch (\Throwable $e) {
             Log::warning("WhatsAppService Exception sending message: {$e->getMessage()}");
+
             return false;
         }
     }
@@ -145,6 +149,7 @@ class WhatsAppService
 
             if ($response->successful()) {
                 Log::info("WhatsAppService: Sent document {$filename} to {$normalized}");
+
                 return true;
             }
 
@@ -152,9 +157,11 @@ class WhatsAppService
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
+
             return false;
         } catch (\Throwable $e) {
             Log::warning("WhatsAppService Exception sending document: {$e->getMessage()}");
+
             return false;
         }
     }
@@ -198,6 +205,7 @@ class WhatsAppService
             return $pdf->output();
         } catch (\Throwable $e) {
             Log::error("WhatsAppService: PDF generation failed: {$e->getMessage()}");
+
             return null;
         }
     }
@@ -236,37 +244,37 @@ class WhatsAppService
                 'Pengajuan Masuk (Menunggu Verifikasi RT)',
                 '📝',
                 'Pengajuan surat Anda telah masuk ke sistem dan sedang menunggu verifikasi oleh Ketua RT.',
-                'Silakan menunggu proses verifikasi awal dari pengurus RT Anda.'
+                'Silakan menunggu proses verifikasi awal dari pengurus RT Anda.',
             ],
             'DIAJUKAN_RW' => [
                 'Disetujui RT (Diteruskan ke RW)',
                 '⏳',
                 "Pengajuan surat Anda telah disetujui oleh {$actorTitle} ({$actorName}) dan diteruskan ke Ketua RW untuk verifikasi tahap selanjutnya.",
-                'Pengajuan sedang dalam antrean verifikasi pengurus RW.'
+                'Pengajuan sedang dalam antrean verifikasi pengurus RW.',
             ],
             'DIAJUKAN_DESA' => [
                 'Disetujui RW (Diteruskan ke Kantor Desa)',
                 '⏳',
                 "Pengajuan surat Anda telah disetujui oleh {$actorTitle} ({$actorName}) dan diteruskan ke Kantor Desa untuk verifikasi dan penandatanganan akhir.",
-                'Pengajuan sedang diproses oleh pihak Kantor Desa.'
+                'Pengajuan sedang diproses oleh pihak Kantor Desa.',
             ],
             'DISETUJUI', 'SELESAI' => [
                 'Surat Disetujui & Siap Dicetak / Diunduh',
                 '✅',
                 "Kabar gembira! Pengajuan surat Anda telah disetujui penuh oleh {$actorTitle} ({$actorName}) dan selesai diproses.",
-                'File PDF dokumen resmi Anda terlampir di bawah ini dan siap langsung dicetak.'
+                'File PDF dokumen resmi Anda terlampir di bawah ini dan siap langsung dicetak.',
             ],
             'DITOLAK' => [
                 'Pengajuan Surat Ditolak',
                 '❌',
                 "Mohon maaf, pengajuan surat Anda ditolak oleh {$actorTitle} ({$actorName}).",
-                'Silakan lengkapi berkas atau perbaiki persyaratan sesuai catatan pengurus, kemudian ajukan kembali.'
+                'Silakan lengkapi berkas atau perbaiki persyaratan sesuai catatan pengurus, kemudian ajukan kembali.',
             ],
             default => [
                 "Status: {$status}",
                 'ℹ️',
                 "Status pengajuan surat Anda telah diperbarui menjadi {$status} oleh {$actorTitle}.",
-                'Ketik *surat_status* di bot ini untuk memantau status surat.'
+                'Ketik *surat_status* di bot ini untuk memantau status surat.',
             ]
         };
 
@@ -276,7 +284,7 @@ class WhatsAppService
         // 1. Notifikasi ke Pemohon (Warga)
         if ($wargaWhatsApp) {
             $wargaName = $docRequest->resident?->full_name ?? $wargaUser->name ?? 'Warga';
-            $currentTime = now()->format('d M Y, H:i') . ' WIB';
+            $currentTime = now()->format('d M Y, H:i').' WIB';
 
             $msg = "📄 *Update Layanan Surat SIWIL*\n\n";
             $msg .= "Halo, *{$wargaName}* 👋\n";
@@ -310,12 +318,12 @@ class WhatsAppService
                     $pdfContent = $this->generateDocumentPdf($docRequest);
                     if ($pdfContent) {
                         $filename = "Surat_{$docRequest->request_number}.pdf";
-                        $caption = "📄 *Dokumen Resmi SIWIL*\n\n" .
-                            "• *Nomor:* `{$docRequest->request_number}`\n" .
-                            "• *Layanan:* {$docTypeName}\n" .
-                            "• *Pemohon:* {$wargaName}\n" .
-                            "• *Status:* ✅ Disetujui\n\n" .
-                            "_Dokumen resmi siap langsung dicetak pada kertas A4._";
+                        $caption = "📄 *Dokumen Resmi SIWIL*\n\n".
+                            "• *Nomor:* `{$docRequest->request_number}`\n".
+                            "• *Layanan:* {$docTypeName}\n".
+                            "• *Pemohon:* {$wargaName}\n".
+                            "• *Status:* ✅ Disetujui\n\n".
+                            '_Dokumen resmi siap langsung dicetak pada kertas A4._';
 
                         $this->sendDocument(
                             $wargaWhatsApp,
@@ -356,7 +364,7 @@ class WhatsAppService
         // Notifikasi konfirmasi ke Warga pemohon
         if ($wargaWhatsApp) {
             $wargaName = $docRequest->resident?->full_name ?? $wargaUser->name ?? 'Warga';
-            $currentTime = now()->format('d M Y, H:i') . ' WIB';
+            $currentTime = now()->format('d M Y, H:i').' WIB';
 
             $msg = "📄 *Pengajuan Surat Diterima*\n\n";
             $msg .= "Halo, *{$wargaName}* 👋\n";
@@ -392,7 +400,9 @@ class WhatsAppService
     {
         try {
             $resident = $docRequest->resident;
-            if (! $resident) return;
+            if (! $resident) {
+                return;
+            }
 
             $rtId = $resident->rt_id ?? ($resident->family?->rt_id ?? null);
             $rwId = $resident->rt?->rw_id ?? ($resident->family?->rt?->rw_id ?? null);
@@ -418,12 +428,14 @@ class WhatsAppService
                 $approvers = User::whereIn('role', ['ADMIN_DESA', 'SUPER_ADMIN'])
                     ->where('village_id', $villageId)
                     ->get();
-                $stageText = "Verifikasi & Tanda Tangan Kantor Desa";
+                $stageText = 'Verifikasi & Tanda Tangan Kantor Desa';
             }
 
             foreach ($approvers as $approver) {
                 $approverWa = $this->getUserWhatsAppNumber($approver);
-                if (empty($approverWa)) continue;
+                if (empty($approverWa)) {
+                    continue;
+                }
 
                 $msg = "*Tugas Verifikasi Surat SIWIL*\n\n";
                 $msg .= "Halo, *{$approver->name}* 👋\n";
@@ -447,7 +459,7 @@ class WhatsAppService
                 );
             }
         } catch (\Throwable $e) {
-            Log::warning('WhatsAppService notifyNextApprover error: ' . $e->getMessage());
+            Log::warning('WhatsAppService notifyNextApprover error: '.$e->getMessage());
         }
     }
 
@@ -486,30 +498,30 @@ class WhatsAppService
                 'Pengaduan Sedang Diproses',
                 '🔄',
                 "Laporan pengaduan Anda sedang ditindaklanjuti dan diproses oleh {$actorTitle} ({$actorName}).",
-                'Petugas sedang melakukan pengecekan atau penanganan langsung di lapangan.'
+                'Petugas sedang melakukan pengecekan atau penanganan langsung di lapangan.',
             ],
             'RESOLVED' => [
                 'Pengaduan Selesai Ditangani',
                 '✅',
                 "Laporan pengaduan Anda telah selesai ditangani oleh {$actorTitle} ({$actorName}).",
-                'Terima kasih atas partisipasi dan kepedulian Anda dalam menjaga kenyamanan dan ketertiban lingkungan kita.'
+                'Terima kasih atas partisipasi dan kepedulian Anda dalam menjaga kenyamanan dan ketertiban lingkungan kita.',
             ],
             'REJECTED' => [
                 'Pengaduan Ditolak / Tidak Ditindaklanjuti',
                 '❌',
                 "Laporan pengaduan Anda belum dapat ditindaklanjuti atau ditolak oleh {$actorTitle} ({$actorName}).",
-                'Silakan periksa kembali kejelasan informasi laporan Anda atau hubungi pengurus RT/RW setempat jika memerlukan klarifikasi.'
+                'Silakan periksa kembali kejelasan informasi laporan Anda atau hubungi pengurus RT/RW setempat jika memerlukan klarifikasi.',
             ],
             default => [
                 "Status: {$status}",
                 'ℹ️',
                 "Status laporan pengaduan Anda telah diperbarui menjadi {$status} oleh {$actorTitle}.",
-                'Ketik *lapor_status* di bot ini untuk memantau status pengaduan.'
+                'Ketik *lapor_status* di bot ini untuk memantau status pengaduan.',
             ]
         };
 
         $wargaName = $wargaUser->resident?->full_name ?? $wargaUser->name ?? 'Warga';
-        $currentTime = now()->format('d M Y, H:i') . ' WIB';
+        $currentTime = now()->format('d M Y, H:i').' WIB';
 
         $msg = "📢 *Update Pengaduan Warga*\n\n";
         $msg .= "Halo, *{$wargaName}* 👋\n";
@@ -552,7 +564,7 @@ class WhatsAppService
         // 1. Notifikasi konfirmasi ke Pelapor (Warga)
         if ($wargaWhatsApp) {
             $wargaName = $creator->resident?->full_name ?? $creator->name ?? 'Warga';
-            $currentTime = now()->format('d M Y, H:i') . ' WIB';
+            $currentTime = now()->format('d M Y, H:i').' WIB';
 
             $msg = "📢 *Pengaduan Warga Diterima*\n\n";
             $msg .= "Halo, *{$wargaName}* 👋\n";
@@ -611,7 +623,9 @@ class WhatsAppService
 
             foreach ($officers->unique('id') as $officer) {
                 $officerWa = $this->getUserWhatsAppNumber($officer);
-                if (empty($officerWa)) continue;
+                if (empty($officerWa)) {
+                    continue;
+                }
 
                 $msg = "*Laporan Pengaduan Warga Masuk*\n\n";
                 $msg .= "Halo, *{$officer->name}* 👋\n";
@@ -634,7 +648,7 @@ class WhatsAppService
                 );
             }
         } catch (\Throwable $e) {
-            Log::warning('WhatsAppService notifyOfficersForComplaint error: ' . $e->getMessage());
+            Log::warning('WhatsAppService notifyOfficersForComplaint error: '.$e->getMessage());
         }
     }
 
@@ -647,13 +661,13 @@ class WhatsAppService
             $poll->loadMissing(['creator', 'options']);
             $targetCitizens = $poll->getTargetCitizenUsers();
 
-            $optionsList = "";
+            $optionsList = '';
             foreach ($poll->options as $index => $option) {
-                $optionsList .= "▫️ *" . ($index + 1) . ".* {$option->text}\n";
+                $optionsList .= '▫️ *'.($index + 1).".* {$option->text}\n";
             }
 
             $expiresText = $poll->expires_at
-                ? $poll->expires_at->format('d M Y, H:i') . ' WIB'
+                ? $poll->expires_at->format('d M Y, H:i').' WIB'
                 : 'Belum ditentukan batas akhir';
 
             $msg = "*Musyawarah & Polling Warga SIWIL*\n\n";
@@ -665,13 +679,13 @@ class WhatsAppService
             }
             $msg .= "• *Batas Waktu:* {$expiresText}\n\n";
             $msg .= "*Pilihan Suara Tersedia:*\n{$optionsList}\n\n";
-            $msg .= "> Tekan salah satu tombol pilihan di bawah untuk memberikan suara:";
+            $msg .= '> Tekan salah satu tombol pilihan di bawah untuk memberikan suara:';
 
             $buttons = [];
             foreach ($poll->options->take(3) as $index => $option) {
                 $buttons[] = [
-                    'id' => "vote_{$poll->id}_" . ($index + 1),
-                    'text' => '🗳️ ' . \Illuminate\Support\Str::limit($option->text, 16),
+                    'id' => "vote_{$poll->id}_".($index + 1),
+                    'text' => '🗳️ '.Str::limit($option->text, 16),
                 ];
             }
             $buttons[] = ['id' => 'menu_polling', 'text' => '📊 Lihat Polling'];
@@ -689,7 +703,7 @@ class WhatsAppService
                 }
             }
         } catch (\Throwable $e) {
-            Log::warning('WhatsAppService sendPollCreatedNotification error: ' . $e->getMessage());
+            Log::warning('WhatsAppService sendPollCreatedNotification error: '.$e->getMessage());
         }
     }
 
@@ -705,7 +719,7 @@ class WhatsAppService
             $msg .= "Musyawarah warga berikut telah resmi ditutup:\n\n";
             $msg .= "• *Judul:* *{$poll->title}*\n\n";
             $msg .= "*Hasil Perolehan Suara:*\n{$resultMessage}\n\n";
-            $msg .= "> Terima kasih atas partisipasi aktif warga dalam musyawarah lingkungan.";
+            $msg .= '> Terima kasih atas partisipasi aktif warga dalam musyawarah lingkungan.';
 
             $buttons = [
                 ['id' => 'menu_polling', 'text' => '📊 Lihat Hasil Polling'],
@@ -725,7 +739,7 @@ class WhatsAppService
                 }
             }
         } catch (\Throwable $e) {
-            Log::warning('WhatsAppService sendPollClosedNotification error: ' . $e->getMessage());
+            Log::warning('WhatsAppService sendPollClosedNotification error: '.$e->getMessage());
         }
     }
 
@@ -750,5 +764,64 @@ class WhatsAppService
         ];
 
         return $types[$type] ?? ucwords(str_replace('_', ' ', strtolower($type)));
+    }
+
+    /**
+     * Send Password Reset OTP to User via WhatsApp
+     */
+    public function sendPasswordResetOtp(User $user, string $otp): bool
+    {
+        $toNumber = $this->getUserWhatsAppNumber($user);
+        if (! $toNumber) {
+            return false;
+        }
+
+        $name = $user->resident?->full_name ?? $user->name ?? $user->username;
+        $time = now()->locale('id')->isoFormat('dddd, D MMMM Y - HH:mm');
+
+        $message = "🔐 *KODE OTP RESET PASSWORD SIWIL*\n\n"
+            ."Halo, *{$name}* 👋\n\n"
+            ."Permintaan reset kata sandi akun SIWIL telah diterima pada {$time} WIB.\n\n"
+            ."Gunakan kode OTP berikut untuk melanjutkan proses reset password:\n\n"
+            ."👉 *{$otp}* 👈\n\n"
+            ."⚠️ *PENTING:*\n"
+            ."• Kode ini hanya berlaku selama *10 menit*.\n"
+            ."• JANGAN PERNAH memberikan kode OTP ini kepada siapa pun (termasuk admin desa atau pengurus RT/RW).\n"
+            ."• Jika Anda tidak meminta reset kata sandi, abaikan pesan ini. Akun Anda tetap aman.\n\n"
+            .'_SIWIL AI — Sistem Informasi Wilayah Terpadu_';
+
+        return $this->sendMessage(
+            $toNumber,
+            $message,
+            title: '🔐 Kode OTP Reset Password',
+            footer: 'SIWIL AI Keamanan Akun'
+        );
+    }
+
+    /**
+     * Send Password Changed Notification via WhatsApp
+     */
+    public function sendPasswordChangedNotification(User $user): bool
+    {
+        $toNumber = $this->getUserWhatsAppNumber($user);
+        if (! $toNumber) {
+            return false;
+        }
+
+        $name = $user->resident?->full_name ?? $user->name ?? $user->username;
+        $time = now()->locale('id')->isoFormat('dddd, D MMMM Y - HH:mm');
+
+        $message = "✅ *KATA SANDI BERHASIL DIUBAH*\n\n"
+            ."Halo, *{$name}* 👋\n\n"
+            ."Kata sandi akun SIWIL Anda telah berhasil diperbarui pada {$time} WIB.\n\n"
+            ."Jika Anda merasa tidak melakukan perubahan ini, segera hubungi pengurus RT atau Administrator SIWIL untuk mengamankan akun Anda.\n\n"
+            .'_SIWIL AI — Sistem Informasi Wilayah Terpadu_';
+
+        return $this->sendMessage(
+            $toNumber,
+            $message,
+            title: '✅ Keamanan Akun SIWIL',
+            footer: 'SIWIL AI Notifikasi'
+        );
     }
 }

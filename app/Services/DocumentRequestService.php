@@ -12,7 +12,9 @@ use Illuminate\Support\Str;
 class DocumentRequestService
 {
     protected TelegramService $telegramService;
+
     protected WhatsAppService $whatsAppService;
+
     protected EmailNotificationService $emailNotificationService;
 
     public function __construct(
@@ -24,6 +26,7 @@ class DocumentRequestService
         $this->whatsAppService = $whatsAppService;
         $this->emailNotificationService = $emailNotificationService;
     }
+
     /**
      * @throws \Exception
      */

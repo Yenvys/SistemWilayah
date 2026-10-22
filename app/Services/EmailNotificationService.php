@@ -56,8 +56,9 @@ class EmailNotificationService
             $wargaUser = $docRequest->resident?->user
                 ?? User::where('username', $docRequest->resident?->nik)->first();
 
-            if (!$wargaUser || empty($wargaUser->email)) {
+            if (! $wargaUser || empty($wargaUser->email)) {
                 Log::info("EmailNotificationService: Warga pemohon surat ({$docRequest->id}) tidak memiliki email.");
+
                 return false;
             }
 
@@ -75,35 +76,35 @@ class EmailNotificationService
             [$statusTitle, $statusDescription] = match ($status) {
                 'DIAJUKAN_RT' => [
                     'Pengajuan Masuk (Menunggu Verifikasi RT)',
-                    'Pengajuan surat Anda telah masuk ke sistem dan sedang menunggu verifikasi oleh Ketua RT.'
+                    'Pengajuan surat Anda telah masuk ke sistem dan sedang menunggu verifikasi oleh Ketua RT.',
                 ],
                 'DIAJUKAN_RW' => [
                     'Disetujui RT (Diteruskan ke RW)',
-                    "Pengajuan surat Anda telah disetujui oleh {$actorTitle} ({$actorName}) dan diteruskan ke Ketua RW untuk verifikasi tahap selanjutnya."
+                    "Pengajuan surat Anda telah disetujui oleh {$actorTitle} ({$actorName}) dan diteruskan ke Ketua RW untuk verifikasi tahap selanjutnya.",
                 ],
                 'DIAJUKAN_DESA' => [
                     'Disetujui RW (Diteruskan ke Kantor Desa)',
-                    "Pengajuan surat Anda telah disetujui oleh {$actorTitle} ({$actorName}) dan diteruskan ke Kantor Desa untuk verifikasi dan penandatanganan akhir."
+                    "Pengajuan surat Anda telah disetujui oleh {$actorTitle} ({$actorName}) dan diteruskan ke Kantor Desa untuk verifikasi dan penandatanganan akhir.",
                 ],
                 'SELESAI', 'APPROVED', 'DISETUJUI_DESA' => [
                     'Surat Selesai & Diterbitkan',
-                    "Selamat! Pengajuan surat Anda telah selesai diproses dan disetujui resmi oleh {$actorTitle} ({$actorName}). Dokumen resmi telah siap dan dapat langsung diunduh melalui website."
+                    "Selamat! Pengajuan surat Anda telah selesai diproses dan disetujui resmi oleh {$actorTitle} ({$actorName}). Dokumen resmi telah siap dan dapat langsung diunduh melalui website.",
                 ],
                 'DITOLAK_RT' => [
                     'Pengajuan Ditolak oleh RT',
-                    "Pengajuan surat Anda belum dapat disetujui oleh {$actorTitle} ({$actorName}). Silakan periksa catatan perbaikan."
+                    "Pengajuan surat Anda belum dapat disetujui oleh {$actorTitle} ({$actorName}). Silakan periksa catatan perbaikan.",
                 ],
                 'DITOLAK_RW' => [
                     'Pengajuan Ditolak oleh RW',
-                    "Pengajuan surat Anda belum dapat disetujui oleh {$actorTitle} ({$actorName}). Silakan periksa catatan perbaikan."
+                    "Pengajuan surat Anda belum dapat disetujui oleh {$actorTitle} ({$actorName}). Silakan periksa catatan perbaikan.",
                 ],
                 'DITOLAK_DESA', 'REJECTED' => [
                     'Pengajuan Ditolak oleh Desa',
-                    "Pengajuan surat Anda belum dapat disetujui oleh {$actorTitle} ({$actorName}). Silakan periksa catatan perbaikan."
+                    "Pengajuan surat Anda belum dapat disetujui oleh {$actorTitle} ({$actorName}). Silakan periksa catatan perbaikan.",
                 ],
                 default => [
                     'Status Surat Diperbarui',
-                    "Status pengajuan surat Anda telah diperbarui menjadi {$status} oleh {$actorTitle} ({$actorName})."
+                    "Status pengajuan surat Anda telah diperbarui menjadi {$status} oleh {$actorTitle} ({$actorName}).",
                 ]
             };
 
@@ -123,12 +124,14 @@ class EmailNotificationService
             ));
 
             Log::info("EmailNotificationService: Berhasil mengirim email status surat [{$status}] ke {$wargaUser->email}");
+
             return true;
         } catch (\Throwable $e) {
-            Log::error("EmailNotificationService sendDocumentStatusNotification error: " . $e->getMessage(), [
+            Log::error('EmailNotificationService sendDocumentStatusNotification error: '.$e->getMessage(), [
                 'doc_request_id' => $docRequest->id,
-                'status' => $status
+                'status' => $status,
             ]);
+
             return false;
         }
     }
@@ -149,15 +152,17 @@ class EmailNotificationService
                 complaint: $complaint,
                 status: 'PENDING',
                 statusTitle: 'Pengaduan Berhasil Dikirim',
-                statusDescription: "Pengaduan Anda telah kami terima dan tercatat di sistem SIWIL. Laporan Anda sedang menunggu verifikasi dari pengurus lingkungan.",
+                statusDescription: 'Pengaduan Anda telah kami terima dan tercatat di sistem SIWIL. Laporan Anda sedang menunggu verifikasi dari pengurus lingkungan.',
                 userName: $creator->name ?: 'Warga',
                 actionUrl: $actionUrl
             ));
 
             Log::info("EmailNotificationService: Berhasil mengirim email konfirmasi pengaduan ke {$creator->email}");
+
             return true;
         } catch (\Throwable $e) {
-            Log::error("EmailNotificationService sendComplaintCreatedNotification error: " . $e->getMessage());
+            Log::error('EmailNotificationService sendComplaintCreatedNotification error: '.$e->getMessage());
+
             return false;
         }
     }
@@ -171,7 +176,7 @@ class EmailNotificationService
             $complaint->loadMissing('user');
             $user = $complaint->user;
 
-            if (!$user || empty($user->email)) {
+            if (! $user || empty($user->email)) {
                 return false;
             }
 
@@ -186,19 +191,19 @@ class EmailNotificationService
             [$statusTitle, $statusDescription] = match ($status) {
                 'PROCESSING' => [
                     'Pengaduan Sedang Diproses',
-                    "Pengaduan Anda '{$complaint->title}' sedang ditindaklanjuti dan diproses oleh {$actorTitle} ({$actorName})."
+                    "Pengaduan Anda '{$complaint->title}' sedang ditindaklanjuti dan diproses oleh {$actorTitle} ({$actorName}).",
                 ],
                 'RESOLVED' => [
                     'Pengaduan Telah Selesai Ditangani',
-                    "Pengaduan Anda '{$complaint->title}' telah berhasil diselesaikan oleh {$actorTitle} ({$actorName}). Terima kasih atas kepedulian Anda."
+                    "Pengaduan Anda '{$complaint->title}' telah berhasil diselesaikan oleh {$actorTitle} ({$actorName}). Terima kasih atas kepedulian Anda.",
                 ],
                 'REJECTED' => [
                     'Pengaduan Ditolak',
-                    "Pengaduan Anda '{$complaint->title}' belum dapat ditindaklanjuti oleh {$actorTitle} ({$actorName})."
+                    "Pengaduan Anda '{$complaint->title}' belum dapat ditindaklanjuti oleh {$actorTitle} ({$actorName}).",
                 ],
                 default => [
                     'Status Pengaduan Diperbarui',
-                    "Status pengaduan Anda '{$complaint->title}' telah diperbarui menjadi {$status} oleh {$actorTitle} ({$actorName})."
+                    "Status pengaduan Anda '{$complaint->title}' telah diperbarui menjadi {$status} oleh {$actorTitle} ({$actorName}).",
                 ]
             };
 
@@ -216,9 +221,11 @@ class EmailNotificationService
             ));
 
             Log::info("EmailNotificationService: Berhasil mengirim email status pengaduan [{$status}] ke {$user->email}");
+
             return true;
         } catch (\Throwable $e) {
-            Log::error("EmailNotificationService sendComplaintStatusNotification error: " . $e->getMessage());
+            Log::error('EmailNotificationService sendComplaintStatusNotification error: '.$e->getMessage());
+
             return false;
         }
     }
@@ -233,8 +240,8 @@ class EmailNotificationService
             $targetCitizens = $poll->getTargetCitizenUsers();
 
             $creatorTitle = match ($poll->creator?->role) {
-                'RT' => 'Ketua RT ' . ($poll->rt?->number ?? ''),
-                'RW' => 'Ketua RW ' . ($poll->rw?->number ?? ''),
+                'RT' => 'Ketua RT '.($poll->rt?->number ?? ''),
+                'RW' => 'Ketua RW '.($poll->rw?->number ?? ''),
                 'ADMIN_DESA' => 'Pemerintah Desa',
                 default => 'Pengurus Wilayah'
             };
@@ -243,7 +250,7 @@ class EmailNotificationService
 
             $sentCount = 0;
             foreach ($targetCitizens as $citizen) {
-                if (!empty($citizen->email)) {
+                if (! empty($citizen->email)) {
                     try {
                         Mail::to($citizen->email)->send(new PollNotificationMail(
                             poll: $poll,
@@ -253,14 +260,14 @@ class EmailNotificationService
                         ));
                         $sentCount++;
                     } catch (\Throwable $inner) {
-                        Log::warning("Gagal kirim email polling ke {$citizen->email}: " . $inner->getMessage());
+                        Log::warning("Gagal kirim email polling ke {$citizen->email}: ".$inner->getMessage());
                     }
                 }
             }
 
             Log::info("EmailNotificationService: Berhasil menyiarkan email polling baru [{$poll->title}] ke {$sentCount} warga.");
         } catch (\Throwable $e) {
-            Log::error("EmailNotificationService sendPollCreatedNotification error: " . $e->getMessage());
+            Log::error('EmailNotificationService sendPollCreatedNotification error: '.$e->getMessage());
         }
     }
 
@@ -274,8 +281,8 @@ class EmailNotificationService
             $targetCitizens = $poll->getTargetCitizenUsers();
 
             $creatorTitle = match ($poll->creator?->role) {
-                'RT' => 'Ketua RT ' . ($poll->rt?->number ?? ''),
-                'RW' => 'Ketua RW ' . ($poll->rw?->number ?? ''),
+                'RT' => 'Ketua RT '.($poll->rt?->number ?? ''),
+                'RW' => 'Ketua RW '.($poll->rw?->number ?? ''),
                 'ADMIN_DESA' => 'Pemerintah Desa',
                 default => 'Pengurus Wilayah'
             };
@@ -284,7 +291,7 @@ class EmailNotificationService
 
             $sentCount = 0;
             foreach ($targetCitizens as $citizen) {
-                if (!empty($citizen->email)) {
+                if (! empty($citizen->email)) {
                     try {
                         Mail::to($citizen->email)->send(new PollNotificationMail(
                             poll: $poll,
@@ -295,14 +302,14 @@ class EmailNotificationService
                         ));
                         $sentCount++;
                     } catch (\Throwable $inner) {
-                        Log::warning("Gagal kirim email hasil polling ke {$citizen->email}: " . $inner->getMessage());
+                        Log::warning("Gagal kirim email hasil polling ke {$citizen->email}: ".$inner->getMessage());
                     }
                 }
             }
 
             Log::info("EmailNotificationService: Berhasil menyiarkan email hasil polling [{$poll->title}] ke {$sentCount} warga.");
         } catch (\Throwable $e) {
-            Log::error("EmailNotificationService sendPollClosedNotification error: " . $e->getMessage());
+            Log::error('EmailNotificationService sendPollClosedNotification error: '.$e->getMessage());
         }
     }
 
@@ -325,13 +332,13 @@ class EmailNotificationService
                     ));
                     $sentCount++;
                 } catch (\Throwable $inner) {
-                    Log::warning("Gagal kirim email pengumuman ke {$user->email}: " . $inner->getMessage());
+                    Log::warning("Gagal kirim email pengumuman ke {$user->email}: ".$inner->getMessage());
                 }
             }
 
             Log::info("EmailNotificationService: Berhasil menyiarkan pengumuman [{$announcement->title}] ke {$sentCount} email warga terdaftar.");
         } catch (\Throwable $e) {
-            Log::error("EmailNotificationService sendAnnouncementNotification error: " . $e->getMessage());
+            Log::error('EmailNotificationService sendAnnouncementNotification error: '.$e->getMessage());
         }
     }
 }

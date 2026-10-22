@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 class ComplaintController extends Controller
 {
     protected TelegramService $telegramService;
+
     protected WhatsAppService $whatsAppService;
+
     protected EmailNotificationService $emailNotificationService;
 
     public function __construct(
@@ -25,6 +27,7 @@ class ComplaintController extends Controller
         $this->whatsAppService = $whatsAppService;
         $this->emailNotificationService = $emailNotificationService;
     }
+
     public function index(Request $request)
     {
         $user = auth()->user();

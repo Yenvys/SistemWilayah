@@ -15,25 +15,27 @@
 
         :root {
             --bg-body: #fafafa;
-            --bg-glass: rgba(255, 255, 255, 0.85);
-            --border-glass: rgba(0, 0, 0, 0.05);
+            --bg-glass: rgba(255, 255, 255, 0.88);
+            --border-glass: rgba(0, 0, 0, 0.08);
             --text-primary: #18181b;
             --text-secondary: #52525b;
             --text-muted: #a1a1aa;
             --accent-1: #2563eb; 
             --accent-2: #3b82f6; 
             --accent-gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            --success: #10b981;
         }
 
         [data-theme="dark"] {
             --bg-body: #0f172a;
-            --bg-glass: rgba(15, 23, 42, 0.85);
+            --bg-glass: rgba(15, 23, 42, 0.88);
             --border-glass: rgba(255, 255, 255, 0.1);
             --text-primary: #f8fafc;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
             --accent-1: #3b82f6; 
             --accent-2: #60a5fa; 
+            --success: #10b981;
         }
 
         body {
@@ -56,7 +58,7 @@
                 linear-gradient(rgba(37, 99, 235, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(37, 99, 235, 0.03) 1px, transparent 1px);
             background-size: 30px 30px;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             position: relative; overflow: hidden;
         }
 
@@ -76,10 +78,10 @@
         }
 
         .login-card {
-            width: 100%; max-width: 420px;
+            width: 100%; max-width: 440px;
             background: var(--bg-glass);
             border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.08);
             border: 1px solid var(--border-glass);
             position: relative; z-index: 1;
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -87,7 +89,7 @@
 
         .login-header {
             text-align: center;
-            padding: 2.5rem 2rem 1.5rem;
+            padding: 2.25rem 2rem 1.25rem;
         }
 
         .logo-icon {
@@ -95,7 +97,7 @@
             background: var(--accent-gradient);
             border-radius: 16px;
             display: inline-flex; align-items: center; justify-content: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.875rem;
             box-shadow: 0 8px 20px rgba(37,99,235,0.25);
         }
 
@@ -121,11 +123,11 @@
 
         .tab-btn {
             flex: 1;
-            padding: 1rem 0.5rem;
+            padding: 0.875rem 0.5rem;
             background: none; border: none;
             border-bottom: 2px solid transparent;
             color: var(--text-muted);
-            font-size: 0.85rem; font-weight: 500;
+            font-size: 0.875rem; font-weight: 500;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 0.5rem;
             transition: all 0.2s;
@@ -143,13 +145,13 @@
 
         .tab-btn svg { width: 16px; height: 16px; }
 
-        .form-area { padding: 2rem; }
+        .form-area { padding: 1.75rem 2rem 2rem; }
 
         .alert {
             padding: 0.75rem 1rem;
             border-radius: 12px;
             font-size: 0.825rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             border: 1px solid;
             line-height: 1.5;
         }
@@ -157,14 +159,36 @@
         .alert-error { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
         .alert-success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
 
-        .form-group { margin-bottom: 1.25rem; }
+        .form-group { margin-bottom: 1.15rem; }
+
+        .form-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.45rem;
+        }
 
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.45rem;
             font-size: 0.825rem;
             font-weight: 500;
             color: var(--text-primary);
+        }
+
+        .form-label-row .form-label { margin-bottom: 0; }
+
+        .forgot-link {
+            font-size: 0.8rem;
+            color: var(--accent-1);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+            filter: brightness(115%);
         }
 
         .input-wrapper { position: relative; }
@@ -190,8 +214,53 @@
             font-family: inherit;
         }
 
+        .form-input.password-input {
+            padding-right: 2.75rem;
+        }
+
         .form-input::placeholder { color: var(--text-muted); }
-        .form-input:focus { border-color: var(--accent-1); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); background: rgba(255,255,255,0.02); }
+        .form-input:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .toggle-password-btn {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.15s, background-color 0.15s;
+            line-height: 1;
+        }
+
+        .toggle-password-btn:hover {
+            color: var(--text-primary);
+            background-color: rgba(37, 99, 235, 0.08);
+        }
+
+        [data-theme="dark"] .toggle-password-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .toggle-password-btn:focus-visible {
+            outline: 2px solid var(--accent-1);
+        }
+
+        .toggle-password-btn svg {
+            width: 18px;
+            height: 18px;
+            pointer-events: none;
+        }
 
         .submit-btn {
             width: 100%;
@@ -202,7 +271,7 @@
             display: flex; align-items: center; justify-content: center; gap: 0.5rem;
             transition: all 0.2s;
             font-family: inherit;
-            margin-top: 1rem;
+            margin-top: 1.25rem;
         }
 
         .submit-btn.login-btn {
@@ -221,11 +290,11 @@
 
         .helper-text {
             font-size: 0.8rem; color: var(--text-secondary);
-            padding: 0.875rem;
+            padding: 0.75rem 0.875rem;
             background: rgba(37,99,235,0.05);
             border-radius: 12px;
-            margin-bottom: 1.25rem;
-            line-height: 1.5;
+            margin-bottom: 1.15rem;
+            line-height: 1.45;
             border: 1px solid var(--border-glass);
         }
         .helper-text strong { color: var(--text-primary); font-weight: 600; }
@@ -279,22 +348,60 @@
                 <form id="login-form" method="POST" action="{{ url('/login') }}">
                     @csrf
                     <div class="form-group">
-                        <label class="form-label">NIK / Email / No. HP</label>
+                        <label class="form-label" for="login-username">NIK / Email / No. HP</label>
                         <div class="input-wrapper">
                             <span class="input-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                             </span>
-                            <input type="text" name="username" class="form-input" placeholder="Masukkan NIK, Email, atau No. HP" value="{{ old('username') }}" required>
+                            <input
+                                type="text"
+                                id="login-username"
+                                name="username"
+                                class="form-input"
+                                placeholder="Masukkan NIK, Email, atau No. HP"
+                                value="{{ old('username') }}"
+                                required
+                                autofocus
+                            >
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Password</label>
+                        <div class="form-label-row">
+                            <label class="form-label" for="login-password">Password</label>
+                            <a href="{{ route('password.request') }}" class="forgot-link">Lupa Password?</a>
+                        </div>
                         <div class="input-wrapper">
                             <span class="input-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                             </span>
-                            <input type="password" name="password" class="form-input" placeholder="Masukkan password" required>
+                            <input
+                                type="password"
+                                id="login-password"
+                                name="password"
+                                class="form-input password-input"
+                                placeholder="Masukkan password"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button
+                                type="button"
+                                class="toggle-password-btn"
+                                onclick="togglePasswordVisibility('login-password', this)"
+                                aria-label="Lihat password"
+                                title="Lihat password"
+                            >
+                                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-closed" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                                    <line x1="2" y1="2" x2="22" y2="22"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
 
@@ -308,26 +415,135 @@
                 <form id="register-form" method="POST" action="{{ url('/register') }}">
                     @csrf
                     <div class="helper-text">
-                        Masukkan <strong>NIK</strong> Anda yang sudah terdaftar di data kependudukan oleh RT/RW setempat dan buat password baru.
+                        Masukkan <strong>NIK</strong> dan <strong>No. Kartu Keluarga (KK)</strong> Anda yang terdaftar pada data kependudukan RT/RW setempat.
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">NIK (Nomor Induk Kependudukan)</label>
+                        <label class="form-label" for="reg-nik">NIK (Nomor Induk Kependudukan)</label>
                         <div class="input-wrapper">
                             <span class="input-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
                             </span>
-                            <input type="text" name="nik" class="form-input" placeholder="Masukkan 16 digit NIK" maxlength="16" required>
+                            <input
+                                type="text"
+                                id="reg-nik"
+                                name="nik"
+                                class="form-input"
+                                placeholder="Masukkan 16 digit NIK"
+                                maxlength="16"
+                                value="{{ old('nik') }}"
+                                required
+                                inputmode="numeric"
+                            >
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Buat Password Baru</label>
+                        <label class="form-label" for="reg-kk">Nomor Kartu Keluarga (KK)</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            </span>
+                            <input
+                                type="text"
+                                id="reg-kk"
+                                name="kk_number"
+                                class="form-input"
+                                placeholder="Masukkan 16 digit No. KK"
+                                maxlength="16"
+                                value="{{ old('kk_number') }}"
+                                required
+                                inputmode="numeric"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reg-phone">No. WhatsApp / HP <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">(Opsional, untuk OTP)</span></label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </span>
+                            <input
+                                type="tel"
+                                id="reg-phone"
+                                name="phone_number"
+                                class="form-input"
+                                placeholder="Contoh: 081234567890"
+                                value="{{ old('phone_number') }}"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reg-password">Buat Password Baru</label>
                         <div class="input-wrapper">
                             <span class="input-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                             </span>
-                            <input type="password" name="password" class="form-input" placeholder="Buat password minimal 6 karakter" required>
+                            <input
+                                type="password"
+                                id="reg-password"
+                                name="password"
+                                class="form-input password-input"
+                                placeholder="Minimal 6 karakter"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <button
+                                type="button"
+                                class="toggle-password-btn"
+                                onclick="togglePasswordVisibility('reg-password', this)"
+                                aria-label="Lihat password"
+                                title="Lihat password"
+                            >
+                                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-closed" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                                    <line x1="2" y1="2" x2="22" y2="22"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reg-password-confirm">Konfirmasi Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            </span>
+                            <input
+                                type="password"
+                                id="reg-password-confirm"
+                                name="password_confirmation"
+                                class="form-input password-input"
+                                placeholder="Ulangi password"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <button
+                                type="button"
+                                class="toggle-password-btn"
+                                onclick="togglePasswordVisibility('reg-password-confirm', this)"
+                                aria-label="Lihat password"
+                                title="Lihat password"
+                            >
+                                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-closed" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                                    <line x1="2" y1="2" x2="22" y2="22"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
 
@@ -345,6 +561,31 @@
     </div>
 
     <script>
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+
+            const eyeOpen = btn.querySelector('.eye-open');
+            const eyeClosed = btn.querySelector('.eye-closed');
+
+            if (eyeOpen && eyeClosed) {
+                if (isPassword) {
+                    eyeOpen.style.display = 'none';
+                    eyeClosed.style.display = 'inline-block';
+                    btn.setAttribute('aria-label', 'Sembunyikan password');
+                    btn.setAttribute('title', 'Sembunyikan password');
+                } else {
+                    eyeOpen.style.display = 'inline-block';
+                    eyeClosed.style.display = 'none';
+                    btn.setAttribute('aria-label', 'Lihat password');
+                    btn.setAttribute('title', 'Lihat password');
+                }
+            }
+        }
+
         function switchTab(tab) {
             const loginForm = document.getElementById('login-form');
             const registerForm = document.getElementById('register-form');
@@ -364,8 +605,12 @@
             }
         }
 
-        // Auto-switch ke tab register jika ada error validasi dari route /register
-        @if($errors->any() && request()->is('register') || old('nik'))
+        // Auto-switch ke tab register jika diarahkan ke register atau ada error validasi register
+        @if(
+            ($errors->any() && (request()->is('register') || old('nik') || old('kk_number') || $errors->has('nik') || $errors->has('kk_number') || $errors->has('password_confirmation'))) ||
+            (isset($initialTab) && $initialTab === 'register') ||
+            request()->query('tab') === 'register'
+        )
             document.addEventListener('DOMContentLoaded', function() { switchTab('register'); });
         @endif
     </script>

@@ -24,6 +24,7 @@ class PollNotificationMail extends Mailable
     public function envelope(): Envelope
     {
         $prefix = ($this->type === 'CLOSED') ? 'Hasil Musyawarah' : 'Musyawarah Warga Baru';
+
         return new Envelope(
             subject: "[SIWIL] {$prefix}: {$this->poll->title}",
         );
