@@ -890,12 +890,13 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
-            <form method="POST" action="{{ route('areas.rw.store') }}">
+            <form method="POST" action="{{ route('areas.rw.store') }}" onsubmit="const btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerText = 'Menyimpan...';">
                 @csrf
                 <div class="siwil-modal-body">
                     <div class="form-group">
                         <label class="form-label">Nomor RW *</label>
                         <input type="text" name="number" class="form-input" placeholder="Contoh: 01" required>
+                        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px; display: block;">Cukup masukkan angka saja, misalnya <strong>01</strong> atau <strong>02</strong>.</small>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Wilayah Desa *</label>
@@ -924,12 +925,13 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
-            <form method="POST" action="{{ route('areas.rt.store') }}">
+            <form method="POST" action="{{ route('areas.rt.store') }}" onsubmit="const btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerText = 'Menyimpan...';">
                 @csrf
                 <div class="siwil-modal-body">
                     <div class="form-group">
                         <label class="form-label">Nomor RT *</label>
                         <input type="text" name="number" class="form-input" placeholder="Contoh: 01" required>
+                        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px; display: block;">Cukup masukkan angka saja, misalnya <strong>01</strong> atau <strong>03</strong>.</small>
                     </div>
                     <div class="form-group">
                         <label class="form-label">RW Induk *</label>

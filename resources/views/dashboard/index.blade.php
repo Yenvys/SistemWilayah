@@ -38,6 +38,149 @@
             align-items: center;
         }
 
+        /* Glassmorphism & Ambient Shapes */
+        .glass-surface-village {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            box-shadow: 0 10px 32px -4px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+            padding: 1.5rem;
+        }
+
+        .glass-box {
+            background: rgba(248, 250, 252, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 14px;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card-nested {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            transition: all 0.25s var(--ease-spring);
+        }
+
+        .glass-card-nested:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+            border-color: rgba(99, 102, 241, 0.35);
+        }
+
+        .glass-stat-pill {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.78rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+
+        .glass-quick-action {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            transition: all 0.25s var(--ease-spring);
+        }
+
+        .glass-quick-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px -2px rgba(37, 99, 235, 0.1);
+            border-color: var(--accent-1);
+        }
+
+        .glass-rt-item {
+            background: rgba(248, 250, 252, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            border-radius: 9px;
+            padding: 0.7rem 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .glass-rt-item:hover {
+            background: rgba(241, 245, 249, 0.9);
+            border-color: rgba(99, 102, 241, 0.25);
+        }
+
+        /* Ambient blurred orbs */
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] .glass-surface-village {
+            background: rgba(21, 30, 50, 0.72) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        [data-theme="dark"] .glass-box {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.06) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+        }
+
+        [data-theme="dark"] .glass-card-nested {
+            background: rgba(26, 38, 64, 0.75) !important;
+            border-color: rgba(255, 255, 255, 0.07) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+        }
+
+        [data-theme="dark"] .glass-card-nested:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+            border-color: rgba(99, 102, 241, 0.45) !important;
+        }
+
+        [data-theme="dark"] .glass-rt-item {
+            background: rgba(15, 23, 42, 0.65) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+        }
+
+        [data-theme="dark"] .glass-rt-item:hover {
+            background: rgba(15, 23, 42, 0.85) !important;
+            border-color: rgba(99, 102, 241, 0.35) !important;
+        }
+
+        [data-theme="dark"] .glass-rt-pill {
+            background: rgba(99, 102, 241, 0.18) !important;
+            color: #a5b4fc !important;
+        }
+
+        [data-theme="dark"] .glass-stat-pill {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        [data-theme="dark"] .glass-quick-action {
+            background: rgba(26, 38, 64, 0.7) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+        }
+
         @media (max-width: 992px) {
             .village-matrix-layout {
                 grid-template-columns: 1fr !important;
@@ -248,11 +391,11 @@
     {{-- Hierarchical Territory & Population Matrix --}}
     @if(isset($territoryTree) && $territoryTree->count() > 0)
         <div class="data-card" style="margin-bottom: 2rem;">
-            <div class="data-card-header">
+            <div class="data-card-header" style="background: rgba(255, 255, 255, 0.03); padding: 0.95rem 1.35rem; border-bottom: 1px solid var(--border-glass);">
                 <div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                        <span class="data-card-title">Matriks Hierarki Wilayah & Kependudukan</span>
-                        <span class="badge badge-blue">{{ $territoryTree->count() }} Desa Terdaftar</span>
+                    <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                        <span class="data-card-title" style="font-size: 1.05rem; letter-spacing: -0.01em;">Matriks Hierarki Wilayah & Kependudukan</span>
+                        <span style="font-size: 0.72rem; font-weight: 600; color: var(--accent-1); background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.2); padding: 2px 8px; border-radius: 6px;">{{ $territoryTree->count() }} Desa Terdaftar</span>
                     </div>
                     <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem; color: var(--text-muted);">
                         Distribusi unit rukun warga (RW), rukun tetangga (RT), kepadatan demografi, dan status sensus
@@ -282,326 +425,345 @@
                             $maxRtResidents = max(1, $village->rws->flatMap->rts->max('residents_count') ?? 1);
                         @endphp
 
-                        <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 12px; padding: 1.35rem; box-shadow: var(--shadow-soft);">
-                            
-                            {{-- Village Header Banner --}}
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
-                                <div style="display: flex; align-items: center; gap: 0.85rem;">
-                                    <div style="width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(99, 102, 241, 0.15)); color: var(--accent-1); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37, 99, 235, 0.25);">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 22px; height: 22px;"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-                                    </div>
-                                    <div>
-                                        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                                            <h4 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">
-                                                {{ $village->name }}
-                                            </h4>
-                                            <span class="badge badge-blue" style="font-size: 0.75rem; font-weight: 600;">Kode: {{ $village->code }}</span>
-                                            <span style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 2px 8px; border-radius: 20px; font-size: 0.68rem; font-weight: 600; background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25);">
-                                                <span style="width: 5px; height: 5px; border-radius: 50%; background: #10b981;"></span>
-                                                Wilayah Aktif Terdata
-                                            </span>
-                                        </div>
-                                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
-                                            Kecamatan: <strong>{{ $village->district ?? '-' }}</strong> • Kabupaten: <strong>{{ $village->regency ?? '-' }}</strong>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="glass-surface-village">
+                            {{-- Ambient Decorative Blurred Shapes (Glassmorphic Glow Orbs) --}}
+                            <div class="ambient-orb" style="top: -60px; right: -30px; width: 280px; height: 280px; background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, rgba(99, 102, 241, 0.06) 60%, transparent 80%); filter: blur(42px);"></div>
+                            <div class="ambient-orb" style="bottom: -60px; left: -30px; width: 290px; height: 290px; background: radial-gradient(circle, rgba(16, 185, 129, 0.13) 0%, rgba(56, 189, 248, 0.06) 60%, transparent 80%); filter: blur(45px);"></div>
+                            <div class="ambient-orb" style="top: 35%; left: 42%; width: 220px; height: 220px; background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%); filter: blur(48px);"></div>
 
-                                {{-- Quick Village Summary Badges & Action --}}
-                                <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
-                                    <div class="village-header-summary-badge" style="background: var(--bg-body); border: 1px solid var(--border-glass); border-radius: 8px; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem;">
-                                        <span style="color: var(--accent-1); font-weight: 700;">{{ $vResidents }}</span>
-                                        <span style="color: var(--text-muted); font-size: 0.75rem;">Jiwa</span>
-                                        <span style="color: var(--border-glass);">|</span>
-                                        <span style="color: var(--text-primary); font-weight: 700;">{{ $vFamilies }}</span>
-                                        <span style="color: var(--text-muted); font-size: 0.75rem;">KK</span>
-                                        <span style="color: var(--border-glass);">|</span>
-                                        <span style="color: var(--text-muted); font-size: 0.75rem;"><strong>{{ $vRws }}</strong> RW <strong>{{ $vRts }}</strong> RT</span>
-                                    </div>
-                                    <a href="{{ route('areas.index', ['tab' => 'desa', 'search_village' => $village->name]) }}" class="btn btn-sm btn-outline" title="Kelola Detail Desa">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                        <span>Detail</span>
-                                    </a>
-                                </div>
-                            </div>
-
-                            {{-- Dual-Column Main Layout: Left Structure / Right Demography Insights (Balanced 1:1 Parallel Twin Shapes) --}}
-                            <div class="village-matrix-layout" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch;">
-                                
-                                {{-- LEFT SHAPE: Struktur Satuan Wilayah (RW & RT) --}}
-                                <div style="background: var(--bg-body); border: 1px solid var(--border-glass); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-                                    <div>
-                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.65rem; border-bottom: 1px solid var(--border-glass);">
-                                            <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
-                                                <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(99, 102, 241, 0.12); color: var(--accent-1); display: flex; align-items: center; justify-content: center;">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><path d="M3 2v6h18V2H3zm2 4H4V4h1v2zm3 0H7V4h1v2zm3 0h-1V4h1v2zm9 10a2 2 0 0 1-2 2H6l-4 4V10a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6z"/></svg>
-                                                </div>
-                                                Struktur Satuan Wilayah (RW & RT)
+                            <div style="position: relative; z-index: 1;">
+                                {{-- Ultra-Clean Village Header Banner --}}
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.35rem; border-bottom: 1px solid rgba(148, 163, 184, 0.15); padding-bottom: 1.15rem; flex-wrap: wrap; gap: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.9rem;">
+                                        <div style="width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(99, 102, 241, 0.14)); color: var(--accent-1); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(99, 102, 241, 0.22); box-shadow: 0 4px 14px rgba(37, 99, 235, 0.09);">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 22px; height: 22px;"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                                        </div>
+                                        <div>
+                                            <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                                                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em;">
+                                                    {{ $village->name }}
+                                                </h3>
+                                                <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-muted); background: rgba(148, 163, 184, 0.12); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border-glass);">
+                                                    #{{ $village->code }}
+                                                </span>
+                                                <span style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 2px 10px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25);">
+                                                    <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px #10b981;"></span>
+                                                    Aktif Terdata
+                                                </span>
                                             </div>
-                                            <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); background: var(--bg-card); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border-glass);">
-                                                Total: {{ $vRws }} RW • {{ $vRts }} RT
-                                            </span>
+                                            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; display: flex; align-items: center; gap: 0.4rem;">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px; opacity: 0.6;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                                <span>Kecamatan {{ $village->district ?? '-' }}, Kabupaten {{ $village->regency ?? '-' }}</span>
+                                            </div>
                                         </div>
+                                    </div>
 
-                                        @if($village->rws->count() > 0)
-                                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; align-items: stretch;">
-                                                @foreach($village->rws as $rw)
-                                                    @php
-                                                        $rwResidents = $rw->rts->sum('residents_count');
-                                                        $rwFamilies = $rw->rts->sum('families_count');
-                                                    @endphp
-                                                    <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
-                                                        <div>
-                                                            {{-- RW Header --}}
-                                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--border-glass);">
-                                                                <div style="display: flex; align-items: center; gap: 0.45rem;">
-                                                                    <div style="width: 24px; height: 24px; border-radius: 6px; background: rgba(99, 102, 241, 0.15); color: var(--accent-1); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">
-                                                                        {{ $rw->number }}
+                                    {{-- Clean Quick Stats Chips & Action --}}
+                                    <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                                        <div class="glass-stat-pill" style="background: rgba(37, 99, 235, 0.08); border-color: rgba(37, 99, 235, 0.2);">
+                                            <strong style="color: var(--accent-1); font-size: 0.85rem;">{{ $vResidents }}</strong>
+                                            <span style="color: var(--text-muted);">Jiwa</span>
+                                        </div>
+                                        <div class="glass-stat-pill" style="background: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.2);">
+                                            <strong style="color: #6366f1; font-size: 0.85rem;">{{ $vFamilies }}</strong>
+                                            <span style="color: var(--text-muted);">KK</span>
+                                        </div>
+                                        <div class="glass-stat-pill">
+                                            <span style="color: var(--text-primary); font-weight: 600;">{{ $vRws }} RW</span>
+                                            <span style="color: var(--text-muted); font-size: 0.7rem;">•</span>
+                                            <span style="color: var(--text-primary); font-weight: 600;">{{ $vRts }} RT</span>
+                                        </div>
+                                        <a href="{{ route('areas.index', ['tab' => 'desa', 'search_village' => $village->name]) }}" class="btn btn-sm btn-outline" style="border-radius: 8px; backdrop-filter: blur(8px);" title="Kelola Detail Desa">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <span>Detail</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {{-- Dual-Column Main Layout: Left Structure / Right Demography Insights (Balanced 1:1 Parallel Twin Shapes) --}}
+                                <div class="village-matrix-layout" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch;">
+                                    
+                                    {{-- LEFT SHAPE: Struktur Satuan Wilayah (RW & RT) with Glassmorphism --}}
+                                    <div class="glass-box" style="padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                                        {{-- Ambient Orb inside Left Box --}}
+                                        <div class="ambient-orb" style="top: -40px; right: -40px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%); filter: blur(32px);"></div>
+
+                                        <div style="position: relative; z-index: 1;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(148, 163, 184, 0.15);">
+                                                <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                                                    <div style="width: 28px; height: 28px; border-radius: 7px; background: rgba(99, 102, 241, 0.12); color: var(--accent-1); display: flex; align-items: center; justify-content: center;">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><path d="M3 2v6h18V2H3zm2 4H4V4h1v2zm3 0H7V4h1v2zm3 0h-1V4h1v2zm9 10a2 2 0 0 1-2 2H6l-4 4V10a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6z"/></svg>
+                                                    </div>
+                                                    Struktur Satuan Wilayah (RW & RT)
+                                                </div>
+                                                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); background: var(--bg-card); padding: 3px 9px; border-radius: 6px; border: 1px solid var(--border-glass);">
+                                                    Total: {{ $vRws }} RW • {{ $vRts }} RT
+                                                </span>
+                                            </div>
+
+                                            @if($village->rws->count() > 0)
+                                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; align-items: stretch;">
+                                                    @foreach($village->rws as $rw)
+                                                        @php
+                                                            $rwResidents = $rw->rts->sum('residents_count');
+                                                            $rwFamilies = $rw->rts->sum('families_count');
+                                                        @endphp
+                                                        <div class="glass-card-nested" style="padding: 1.1rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                                                            <div>
+                                                                {{-- RW Header --}}
+                                                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--border-glass);">
+                                                                    <div style="display: flex; align-items: center; gap: 0.45rem;">
+                                                                        <div style="width: 24px; height: 24px; border-radius: 6px; background: rgba(99, 102, 241, 0.15); color: var(--accent-1); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">
+                                                                            {{ $rw->number }}
+                                                                        </div>
+                                                                        <strong style="color: var(--text-primary); font-size: 0.95rem;">RW {{ $rw->number }}</strong>
                                                                     </div>
-                                                                    <strong style="color: var(--text-primary); font-size: 0.95rem;">RW {{ $rw->number }}</strong>
+                                                                    <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                                                        <span class="badge badge-yellow" style="font-size: 0.7rem; padding: 2px 7px;">{{ $rw->rts->count() }} RT</span>
+                                                                        <span class="badge badge-blue" style="font-size: 0.7rem; padding: 2px 7px;">{{ $rwResidents }} Jiwa</span>
+                                                                    </div>
                                                                 </div>
-                                                                <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                                                    <span class="badge badge-yellow" style="font-size: 0.7rem; padding: 2px 7px;">{{ $rw->rts->count() }} RT</span>
-                                                                    <span class="badge badge-blue" style="font-size: 0.7rem; padding: 2px 7px;">{{ $rwResidents }} Jiwa</span>
-                                                                </div>
-                                                            </div>
 
-                                                            {{-- RT List inside this RW --}}
-                                                            <div style="display: grid; gap: 0.65rem;">
-                                                                @forelse($rw->rts as $rt)
-                                                                    @php
-                                                                        $rtPct = $vResidents > 0 ? round(($rt->residents_count / $vResidents) * 100) : 0;
-                                                                    @endphp
-                                                                    <div style="background: var(--bg-body); padding: 0.7rem 0.85rem; border-radius: 8px; font-size: 0.825rem; border: 1px solid var(--border-glass);">
-                                                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                                                                            <div style="display: flex; align-items: center; gap: 0.4rem;">
-                                                                                <span style="font-weight: 700; color: var(--text-primary);">RT {{ $rt->number }}</span>
-                                                                                <span style="font-size: 0.7rem; color: var(--text-muted); background: rgba(99,102,241,0.08); padding: 1px 6px; border-radius: 4px;">{{ $rtPct }}% warga</span>
+                                                                {{-- RT List inside this RW --}}
+                                                                <div style="display: grid; gap: 0.65rem;">
+                                                                    @forelse($rw->rts as $rt)
+                                                                        @php
+                                                                            $rtPct = $vResidents > 0 ? round(($rt->residents_count / $vResidents) * 100) : 0;
+                                                                        @endphp
+                                                                        <div class="glass-rt-item">
+                                                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                                                                                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                                                                    <span style="font-weight: 700; color: var(--text-primary); font-size: 0.825rem;">RT {{ $rt->number }}</span>
+                                                                                    <span class="glass-rt-pill" style="font-size: 0.7rem; color: var(--text-muted); background: rgba(99,102,241,0.08); padding: 1px 6px; border-radius: 4px;">{{ $rtPct }}% warga</span>
+                                                                                </div>
+                                                                                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                                                                                    <span style="color: var(--text-primary); font-size: 0.8rem; font-weight: 600;">
+                                                                                        <strong>{{ $rt->residents_count }}</strong> <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 400;">jiwa</span>
+                                                                                    </span>
+                                                                                    <span style="color: var(--border-glass);">|</span>
+                                                                                    <span style="color: var(--accent-1); font-size: 0.8rem; font-weight: 700;">
+                                                                                        {{ $rt->families_count }} <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 400;">KK</span>
+                                                                                    </span>
+                                                                                </div>
                                                                             </div>
-                                                                            <div style="display: flex; align-items: center; gap: 0.45rem;">
-                                                                                <span style="color: var(--text-primary); font-size: 0.8rem; font-weight: 600;">
-                                                                                    <strong>{{ $rt->residents_count }}</strong> <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 400;">jiwa</span>
-                                                                                </span>
-                                                                                <span style="color: var(--border-glass);">|</span>
-                                                                                <span style="color: var(--accent-1); font-size: 0.8rem; font-weight: 700;">
-                                                                                    {{ $rt->families_count }} <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 400;">KK</span>
-                                                                                </span>
+
+                                                                            {{-- Proportional visual density bar --}}
+                                                                            <div style="width: 100%; height: 6px; background: rgba(148, 163, 184, 0.18); border-radius: 10px; overflow: hidden;">
+                                                                                <div style="height: 100%; width: {{ max(6, ($rt->residents_count / $maxRtResidents) * 100) }}%; background: linear-gradient(90deg, #6366f1, #3b82f6); border-radius: 10px;"></div>
                                                                             </div>
                                                                         </div>
-
-                                                                        {{-- Proportional visual density bar --}}
-                                                                        <div style="width: 100%; height: 6px; background: rgba(148, 163, 184, 0.18); border-radius: 10px; overflow: hidden;">
-                                                                            <div style="height: 100%; width: {{ max(6, ($rt->residents_count / $maxRtResidents) * 100) }}%; background: linear-gradient(90deg, #6366f1, #3b82f6); border-radius: 10px;"></div>
+                                                                    @empty
+                                                                        <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 0.75rem; background: var(--bg-body); border-radius: 6px; border: 1px dashed var(--border-glass);">
+                                                                            Belum ada RT terdaftar di RW ini.
                                                                         </div>
-                                                                    </div>
-                                                                @empty
-                                                                    <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 0.75rem; background: var(--bg-body); border-radius: 6px; border: 1px dashed var(--border-glass);">
-                                                                        Belum ada RT terdaftar di RW ini.
-                                                                    </div>
-                                                                @endforelse
+                                                                    @endforelse
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                @endforeach
+                                                    @endforeach
 
-                                                {{-- Quick Add RW Slot (Height 100% perfectly matching sibling) --}}
-                                                <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" style="text-decoration: none; border: 2px dashed rgba(99, 102, 241, 0.3); border-radius: 10px; padding: 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--accent-1); background: rgba(99, 102, 241, 0.02); transition: all 0.2s ease; height: 100%; min-height: 140px; box-sizing: border-box;" onmouseover="this.style.background='rgba(99, 102, 241, 0.07)'; this.style.borderColor='var(--accent-1)';" onmouseout="this.style.background='rgba(99, 102, 241, 0.02)'; this.style.borderColor='rgba(99, 102, 241, 0.3)';">
-                                                    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(99, 102, 241, 0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
-                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 18px; height: 18px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                                    </div>
-                                                    <span style="font-weight: 700; font-size: 0.875rem;">Tambah RW / RT</span>
-                                                    <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Perluas cakupan wilayah desa</span>
-                                                </a>
-                                            </div>
-                                        @else
-                                            <div style="text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-card); border-radius: 10px; border: 1px dashed var(--border-glass); color: var(--text-muted); font-size: 0.875rem;">
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 36px; height: 36px; margin: 0 auto 0.5rem; opacity: 0.4;"><path d="M3 2v6h18V2H3zm2 4H4V4h1v2zm3 0H7V4h1v2zm3 0h-1V4h1v2zm9 10a2 2 0 0 1-2 2H6l-4 4V10a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6z"/></svg>
-                                                <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Belum ada data RW & RT untuk desa ini</div>
-                                                <p style="margin: 0 0 0.85rem 0; font-size: 0.8rem;">Daftarkan nomor rukun warga (RW) dan rukun tetangga (RT) untuk memulai integrasi kependudukan.</p>
-                                                <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" class="btn btn-sm btn-primary">+ Tambah RW/RT Baru</a>
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    {{-- Left Card Footer (Aligns with Right Card Footer) --}}
-                                    <div style="margin-top: 1.25rem; padding-top: 0.75rem; border-top: 1px dashed var(--border-glass); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem;">
-                                        <span style="display: flex; align-items: center; gap: 0.35rem;">
-                                            <span style="width: 6px; height: 6px; border-radius: 50%; background: #6366f1;"></span>
-                                            Keluarga: <strong>{{ $vFamilies }} KK Terdata</strong>
-                                        </span>
-                                        <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" style="color: var(--accent-1); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem;">
-                                            Kelola Satuan Unit &rarr;
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {{-- RIGHT SHAPE: Indikator & Demografi Desa (Parallel Twin Shape) --}}
-                                <div style="background: var(--bg-body); border: 1px solid var(--border-glass); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-                                    <div>
-                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.65rem; border-bottom: 1px solid var(--border-glass);">
-                                            <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
-                                                <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(16, 185, 129, 0.12); color: #10b981; display: flex; align-items: center; justify-content: center;">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                                    {{-- Quick Add RW Slot (Height 100% perfectly matching sibling) --}}
+                                                    <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" class="glass-card-nested" style="text-decoration: none; border: 2px dashed rgba(99, 102, 241, 0.35); background: rgba(99, 102, 241, 0.03); padding: 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--accent-1); height: 100%; min-height: 140px; box-sizing: border-box;" onmouseover="this.style.background='rgba(99, 102, 241, 0.08)';" onmouseout="this.style.background='rgba(99, 102, 241, 0.03)';">
+                                                        <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 18px; height: 18px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                                        </div>
+                                                        <span style="font-weight: 700; font-size: 0.875rem;">Tambah RW / RT</span>
+                                                        <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Perluas cakupan wilayah desa</span>
+                                                    </a>
                                                 </div>
-                                                Indikator & Demografi Desa
-                                            </div>
-                                            <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); background: var(--bg-card); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border-glass);">
-                                                Kepadatan Terhitung
+                                            @else
+                                                <div style="text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-card); border-radius: 10px; border: 1px dashed var(--border-glass); color: var(--text-muted); font-size: 0.875rem;">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 36px; height: 36px; margin: 0 auto 0.5rem; opacity: 0.4;"><path d="M3 2v6h18V2H3zm2 4H4V4h1v2zm3 0H7V4h1v2zm3 0h-1V4h1v2zm9 10a2 2 0 0 1-2 2H6l-4 4V10a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6z"/></svg>
+                                                    <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">Belum ada data RW & RT untuk desa ini</div>
+                                                    <p style="margin: 0 0 0.85rem 0; font-size: 0.8rem;">Daftarkan nomor rukun warga (RW) dan rukun tetangga (RT) untuk memulai integrasi kependudukan.</p>
+                                                    <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" class="btn btn-sm btn-primary">+ Tambah RW/RT Baru</a>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- Left Card Footer (Aligns with Right Card Footer) --}}
+                                        <div style="position: relative; z-index: 1; margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px dashed var(--border-glass); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem;">
+                                            <span style="display: flex; align-items: center; gap: 0.4rem;">
+                                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #6366f1;"></span>
+                                                Keluarga: <strong>{{ $vFamilies }} KK Terdata</strong>
                                             </span>
+                                            <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" style="color: var(--accent-1); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                                Kelola Satuan Unit &rarr;
+                                            </a>
                                         </div>
-
-                                        {{-- 2x2 Mini KPI Cards --}}
-                                        <div class="village-kpi-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
-                                            <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 10px; padding: 0.85rem 1rem;">
-                                                <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
-                                                    <span style="width: 6px; height: 6px; border-radius: 50%; background: #6366f1;"></span>
-                                                    Rerata Jiwa / KK
-                                                </div>
-                                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 0.25rem;">
-                                                    {{ $avgPerKk }} <span style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted);">jiwa</span>
-                                                </div>
-                                                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Beban keluarga normal</div>
-                                            </div>
-
-                                            <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 10px; padding: 0.85rem 1rem;">
-                                                <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
-                                                    <span style="width: 6px; height: 6px; border-radius: 50%; background: #3b82f6;"></span>
-                                                    Rerata Jiwa / RT
-                                                </div>
-                                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 0.25rem;">
-                                                    ~{{ $avgPerRt }} <span style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted);">jiwa</span>
-                                                </div>
-                                                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Sebaran unit seimbang</div>
-                                            </div>
-
-                                            <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 10px; padding: 0.85rem 1rem;">
-                                                <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
-                                                    <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
-                                                    Cakupan RT
-                                                </div>
-                                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 0.25rem;">
-                                                    {{ $vRts }} <span style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted);">RT Terdaftar</span>
-                                                </div>
-                                                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Dalam {{ $vRws }} RW</div>
-                                            </div>
-
-                                            <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 10px; padding: 0.85rem 1rem;">
-                                                <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
-                                                    <span style="width: 6px; height: 6px; border-radius: 50%; background: #f59e0b;"></span>
-                                                    Status Sensus
-                                                </div>
-                                                <div style="font-size: 1.25rem; font-weight: 800; color: #10b981; margin-top: 0.25rem;">
-                                                    100%
-                                                </div>
-                                                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Tersinkron SIWIL AI</div>
-                                            </div>
-                                        </div>
-
-                                        {{-- Visual Distribution Progress Bar --}}
-                                        @if($vResidents > 0)
-                                            <div>
-                                                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.4rem;">
-                                                    <span style="font-weight: 600;">Distribusi Populasi RT</span>
-                                                    <span style="font-weight: 700; color: var(--text-primary);">Total: {{ $vResidents }} Jiwa</span>
-                                                </div>
-                                                <div style="width: 100%; height: 9px; background: rgba(148, 163, 184, 0.2); border-radius: 12px; overflow: hidden; display: flex;">
-                                                    @php
-                                                        $colors = ['#6366f1', '#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'];
-                                                        $cIdx = 0;
-                                                    @endphp
-                                                    @foreach($village->rws as $rw)
-                                                        @foreach($rw->rts as $rt)
-                                                            @php
-                                                                $rtWidth = ($rt->residents_count / max($vResidents, 1)) * 100;
-                                                                $curColor = $colors[$cIdx % count($colors)];
-                                                                $cIdx++;
-                                                            @endphp
-                                                            <div style="height: 100%; width: {{ $rtWidth }}%; background: {{ $curColor }};" title="RT {{ $rt->number }}: {{ $rt->residents_count }} jiwa ({{ round($rtWidth) }}%)"></div>
-                                                        @endforeach
-                                                    @endforeach
-                                                </div>
-                                                
-                                                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.6rem; font-size: 0.75rem; color: var(--text-muted);">
-                                                    @php $cIdx = 0; @endphp
-                                                    @foreach($village->rws as $rw)
-                                                        @foreach($rw->rts as $rt)
-                                                            @php
-                                                                $curColor = $colors[$cIdx % count($colors)];
-                                                                $rtPct = $vResidents > 0 ? round(($rt->residents_count / $vResidents) * 100) : 0;
-                                                                $cIdx++;
-                                                            @endphp
-                                                            <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
-                                                                <span style="width: 8px; height: 8px; border-radius: 2px; background: {{ $curColor }};"></span>
-                                                                <strong>RT {{ $rt->number }}:</strong> {{ $rt->residents_count }} jiwa ({{ $rtPct }}%)
-                                                            </span>
-                                                        @endforeach
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        @endif
                                     </div>
 
-                                    {{-- Demographic Ratio Summary Footer (Aligns with Left Card Footer) --}}
-                                    <div style="margin-top: 1.25rem; padding-top: 0.75rem; border-top: 1px dashed var(--border-glass); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem;">
-                                        <span style="display: flex; align-items: center; gap: 0.35rem;">
-                                            <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
-                                            Kepadatan: <strong>{{ $vRts > 0 ? round($vFamilies / $vRts, 1) : 0 }} KK / RT</strong>
-                                        </span>
-                                        <a href="{{ route('areas.index', ['tab' => 'desa']) }}" style="color: var(--accent-1); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem;">
-                                            Detail Demografi &rarr;
+                                    {{-- RIGHT SHAPE: Indikator & Demografi Desa with Glassmorphism --}}
+                                    <div class="glass-box" style="padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                                        {{-- Ambient Orb inside Right Box --}}
+                                        <div class="ambient-orb" style="top: -40px; right: -40px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%); filter: blur(32px);"></div>
+
+                                        <div style="position: relative; z-index: 1;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(148, 163, 184, 0.15);">
+                                                <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                                                    <div style="width: 28px; height: 28px; border-radius: 7px; background: rgba(16, 185, 129, 0.12); color: #10b981; display: flex; align-items: center; justify-content: center;">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                                    </div>
+                                                    Indikator & Demografi Desa
+                                                </div>
+                                                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); background: var(--bg-card); padding: 3px 9px; border-radius: 6px; border: 1px solid var(--border-glass);">
+                                                    Kepadatan Terhitung
+                                                </span>
+                                            </div>
+
+                                            {{-- 2x2 Mini KPI Cards --}}
+                                            <div class="village-kpi-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.1rem;">
+                                                <div class="glass-card-nested" style="padding: 0.95rem 1.05rem;">
+                                                    <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
+                                                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #6366f1;"></span>
+                                                        Rerata Jiwa / KK
+                                                    </div>
+                                                    <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary); margin-top: 0.25rem;">
+                                                        {{ $avgPerKk }} <span style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted);">jiwa</span>
+                                                    </div>
+                                                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Beban keluarga normal</div>
+                                                </div>
+
+                                                <div class="glass-card-nested" style="padding: 0.95rem 1.05rem;">
+                                                    <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
+                                                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #3b82f6;"></span>
+                                                        Rerata Jiwa / RT
+                                                    </div>
+                                                    <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary); margin-top: 0.25rem;">
+                                                        ~{{ $avgPerRt }} <span style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted);">jiwa</span>
+                                                    </div>
+                                                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Sebaran unit seimbang</div>
+                                                </div>
+
+                                                <div class="glass-card-nested" style="padding: 0.95rem 1.05rem;">
+                                                    <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
+                                                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
+                                                        Cakupan RT
+                                                    </div>
+                                                    <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary); margin-top: 0.25rem;">
+                                                        {{ $vRts }} <span style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted);">RT Terdaftar</span>
+                                                    </div>
+                                                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Dalam {{ $vRws }} RW</div>
+                                                </div>
+
+                                                <div class="glass-card-nested" style="padding: 0.95rem 1.05rem;">
+                                                    <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; font-weight: 600;">
+                                                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #f59e0b;"></span>
+                                                        Status Sensus
+                                                    </div>
+                                                    <div style="font-size: 1.3rem; font-weight: 800; color: #10b981; margin-top: 0.25rem;">
+                                                        100%
+                                                    </div>
+                                                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Tersinkron SIWIL AI</div>
+                                                </div>
+                                            </div>
+
+                                            {{-- Visual Distribution Progress Bar --}}
+                                            @if($vResidents > 0)
+                                                <div>
+                                                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.45rem;">
+                                                        <span style="font-weight: 600;">Distribusi Populasi RT</span>
+                                                        <span style="font-weight: 700; color: var(--text-primary);">Total: {{ $vResidents }} Jiwa</span>
+                                                    </div>
+                                                    <div style="width: 100%; height: 9px; background: rgba(148, 163, 184, 0.2); border-radius: 12px; overflow: hidden; display: flex;">
+                                                        @php
+                                                            $colors = ['#6366f1', '#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'];
+                                                            $cIdx = 0;
+                                                        @endphp
+                                                        @foreach($village->rws as $rw)
+                                                            @foreach($rw->rts as $rt)
+                                                                @php
+                                                                    $rtWidth = ($rt->residents_count / max($vResidents, 1)) * 100;
+                                                                    $curColor = $colors[$cIdx % count($colors)];
+                                                                    $cIdx++;
+                                                                @endphp
+                                                                <div style="height: 100%; width: {{ $rtWidth }}%; background: {{ $curColor }};" title="RT {{ $rt->number }}: {{ $rt->residents_count }} jiwa ({{ round($rtWidth) }}%)"></div>
+                                                            @endforeach
+                                                        @endforeach
+                                                    </div>
+                                                    
+                                                    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.65rem; font-size: 0.75rem; color: var(--text-muted);">
+                                                        @php $cIdx = 0; @endphp
+                                                        @foreach($village->rws as $rw)
+                                                            @foreach($rw->rts as $rt)
+                                                                @php
+                                                                    $curColor = $colors[$cIdx % count($colors)];
+                                                                    $rtPct = $vResidents > 0 ? round(($rt->residents_count / $vResidents) * 100) : 0;
+                                                                    $cIdx++;
+                                                                @endphp
+                                                                <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+                                                                    <span style="width: 8px; height: 8px; border-radius: 2px; background: {{ $curColor }};"></span>
+                                                                    <strong>RT {{ $rt->number }}:</strong> {{ $rt->residents_count }} jiwa ({{ $rtPct }}%)
+                                                                </span>
+                                                            @endforeach
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- Demographic Ratio Summary Footer (Aligns with Left Card Footer) --}}
+                                        <div style="position: relative; z-index: 1; margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px dashed var(--border-glass); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem;">
+                                            <span style="display: flex; align-items: center; gap: 0.4rem;">
+                                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
+                                                Kepadatan: <strong>{{ $vRts > 0 ? round($vFamilies / $vRts, 1) : 0 }} KK / RT</strong>
+                                            </span>
+                                            <a href="{{ route('areas.index', ['tab' => 'desa']) }}" style="color: var(--accent-1); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                                Detail Demografi &rarr;
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- FULL-WIDTH BALANCED ROW: Pusat Aksi Cepat Wilayah with Glassmorphism --}}
+                                <div style="margin-top: 1.35rem; padding-top: 1.15rem; border-top: 1px solid rgba(148, 163, 184, 0.15);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+                                        <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                                            <div style="width: 26px; height: 26px; border-radius: 7px; background: rgba(99, 102, 241, 0.12); color: var(--accent-1); display: flex; align-items: center; justify-content: center;">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                                            </div>
+                                            Pusat Aksi Cepat Wilayah
+                                        </div>
+                                        <span style="font-size: 0.75rem; color: var(--text-muted);">Pintasan Cepat Tata Kelola Desa & Kependudukan</span>
+                                    </div>
+
+                                    <div class="village-quick-actions-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: stretch;">
+                                        <a href="{{ route('residents.create') }}" class="glass-quick-action" style="display: flex; align-items: center; gap: 0.9rem; padding: 0.95rem 1.2rem; text-decoration: none; color: inherit; height: 100%; box-sizing: border-box;">
+                                            <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(37, 99, 235, 0.12); color: var(--accent-1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 19px; height: 19px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                                            </div>
+                                            <div style="flex: 1; min-width: 0;">
+                                                <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">+ Input Warga Baru</div>
+                                                <div style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.15rem;">Daftarkan warga & NIK baru</div>
+                                            </div>
+                                            <span style="font-size: 1.05rem; color: var(--accent-1);">&rarr;</span>
+                                        </a>
+
+                                        <a href="{{ route('areas.index', ['tab' => 'penduduk']) }}" class="glass-quick-action" style="display: flex; align-items: center; gap: 0.9rem; padding: 0.95rem 1.2rem; text-decoration: none; color: inherit; height: 100%; box-sizing: border-box;">
+                                            <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(16, 185, 129, 0.12); color: #10b981; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 19px; height: 19px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                            </div>
+                                            <div style="flex: 1; min-width: 0;">
+                                                <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Kelola Sensus Warga</div>
+                                                <div style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.15rem;">Saring & verifikasi data lengkap</div>
+                                            </div>
+                                            <span style="font-size: 1.05rem; color: var(--accent-1);">&rarr;</span>
+                                        </a>
+
+                                        <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" class="glass-quick-action" style="display: flex; align-items: center; gap: 0.9rem; padding: 0.95rem 1.2rem; text-decoration: none; color: inherit; height: 100%; box-sizing: border-box;">
+                                            <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(245, 158, 11, 0.12); color: var(--warning); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 19px; height: 19px;"><path d="M3 2v6h18V2H3zm2 4H4V4h1v2zm3 0H7V4h1v2zm3 0h-1V4h1v2zm9 10a2 2 0 0 1-2 2H6l-4 4V10a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6z"/></svg>
+                                            </div>
+                                            <div style="flex: 1; min-width: 0;">
+                                                <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Kelola Struktur RW & RT</div>
+                                                <div style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.15rem;">Pengurus unit & pemetaan nomor</div>
+                                            </div>
+                                            <span style="font-size: 1.05rem; color: var(--accent-1);">&rarr;</span>
                                         </a>
                                     </div>
-                                </div>
-                            </div>
-
-                            {{-- FULL-WIDTH BALANCED ROW: Pusat Aksi Cepat Wilayah (Docked at the bottom) --}}
-                            <div style="margin-top: 1.25rem; padding-top: 1.15rem; border-top: 1px solid var(--border-glass);">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
-                                    <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
-                                        <div style="width: 26px; height: 26px; border-radius: 6px; background: rgba(99, 102, 241, 0.12); color: var(--accent-1); display: flex; align-items: center; justify-content: center;">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                                        </div>
-                                        Pusat Aksi Cepat Wilayah
-                                    </div>
-                                    <span style="font-size: 0.75rem; color: var(--text-muted);">Pintasan Cepat Tata Kelola Desa & Kependudukan</span>
-                                </div>
-
-                                <div class="village-quick-actions-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: stretch;">
-                                    <a href="{{ route('residents.create') }}" style="display: flex; align-items: center; gap: 0.85rem; background: var(--bg-body); border: 1px solid var(--border-glass); border-radius: 10px; padding: 0.85rem 1.1rem; text-decoration: none; color: inherit; transition: all 0.2s ease; height: 100%; box-sizing: border-box;" onmouseover="this.style.borderColor='var(--accent-1)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 14px rgba(37,99,235,0.08)';" onmouseout="this.style.borderColor='var(--border-glass)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                                        <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(37, 99, 235, 0.12); color: var(--accent-1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-                                        </div>
-                                        <div style="flex: 1; min-width: 0;">
-                                            <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">+ Input Warga Baru</div>
-                                            <div style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.15rem;">Daftarkan warga & NIK baru</div>
-                                        </div>
-                                        <span style="font-size: 1rem; color: var(--accent-1); transition: transform 0.2s;">&rarr;</span>
-                                    </a>
-
-                                    <a href="{{ route('areas.index', ['tab' => 'penduduk']) }}" style="display: flex; align-items: center; gap: 0.85rem; background: var(--bg-body); border: 1px solid var(--border-glass); border-radius: 10px; padding: 0.85rem 1.1rem; text-decoration: none; color: inherit; transition: all 0.2s ease; height: 100%; box-sizing: border-box;" onmouseover="this.style.borderColor='var(--accent-1)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 14px rgba(16,185,129,0.08)';" onmouseout="this.style.borderColor='var(--border-glass)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                                        <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(16, 185, 129, 0.12); color: #10b981; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                        </div>
-                                        <div style="flex: 1; min-width: 0;">
-                                            <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Kelola Sensus Warga</div>
-                                            <div style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.15rem;">Saring & verifikasi data lengkap</div>
-                                        </div>
-                                        <span style="font-size: 1rem; color: var(--accent-1); transition: transform 0.2s;">&rarr;</span>
-                                    </a>
-
-                                    <a href="{{ route('areas.index', ['tab' => 'rw_rt']) }}" style="display: flex; align-items: center; gap: 0.85rem; background: var(--bg-body); border: 1px solid var(--border-glass); border-radius: 10px; padding: 0.85rem 1.1rem; text-decoration: none; color: inherit; transition: all 0.2s ease; height: 100%; box-sizing: border-box;" onmouseover="this.style.borderColor='var(--accent-1)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 14px rgba(245,158,11,0.08)';" onmouseout="this.style.borderColor='var(--border-glass)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                                        <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(245, 158, 11, 0.12); color: var(--warning); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M3 2v6h18V2H3zm2 4H4V4h1v2zm3 0H7V4h1v2zm3 0h-1V4h1v2zm9 10a2 2 0 0 1-2 2H6l-4 4V10a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6z"/></svg>
-                                        </div>
-                                        <div style="flex: 1; min-width: 0;">
-                                            <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Kelola Struktur RW & RT</div>
-                                            <div style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.15rem;">Pengurus unit & pemetaan nomor</div>
-                                        </div>
-                                        <span style="font-size: 1rem; color: var(--accent-1); transition: transform 0.2s;">&rarr;</span>
-                                    </a>
                                 </div>
                             </div>
                         </div>

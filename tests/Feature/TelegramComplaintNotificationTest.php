@@ -3,13 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\Complaint;
-use App\Models\Resident;
 use App\Models\Rt;
 use App\Models\Rw;
 use App\Models\User;
 use App\Models\Village;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class TelegramComplaintNotificationTest extends TestCase
@@ -28,9 +28,9 @@ class TelegramComplaintNotificationTest extends TestCase
             'https://api.telegram.org/*' => Http::response(['ok' => true], 200),
         ]);
 
-        $village = Village::create(['id' => (string) \Illuminate\Support\Str::uuid(), 'name' => 'Desa Makmur', 'code' => 'DMK']);
-        $rw = Rw::create(['id' => (string) \Illuminate\Support\Str::uuid(), 'number' => '02', 'village_id' => $village->id]);
-        $rt = Rt::create(['id' => (string) \Illuminate\Support\Str::uuid(), 'number' => '03', 'rw_id' => $rw->id]);
+        $village = Village::create(['id' => (string) Str::uuid(), 'name' => 'Desa Makmur', 'code' => 'DMK']);
+        $rw = Rw::create(['id' => (string) Str::uuid(), 'number' => '02', 'village_id' => $village->id]);
+        $rt = Rt::create(['id' => (string) Str::uuid(), 'number' => '03', 'rw_id' => $rw->id]);
 
         $citizen = User::factory()->create([
             'name' => 'Rahmat Hidayat',
@@ -73,6 +73,7 @@ class TelegramComplaintNotificationTest extends TestCase
         // Assert Telegram notification was sent for citizen
         Http::assertSent(function ($request) {
             $data = $request->data();
+
             return str_contains($request->url(), 'sendMessage')
                 && ($data['chat_id'] ?? null) === '555444333'
                 && str_contains($data['text'] ?? '', 'Saluran Air Tersumbat')
@@ -91,6 +92,7 @@ class TelegramComplaintNotificationTest extends TestCase
 
         Http::assertSent(function ($request) {
             $data = $request->data();
+
             return str_contains($request->url(), 'sendMessage')
                 && ($data['chat_id'] ?? null) === '555444333'
                 && str_contains($data['text'] ?? '', 'Saluran Air Tersumbat')
@@ -120,6 +122,7 @@ class TelegramComplaintNotificationTest extends TestCase
 
         Http::assertSent(function ($request) {
             $data = $request->data();
+
             return str_contains($request->url(), 'sendMessage')
                 && ($data['chat_id'] ?? null) === '777888999'
                 && str_contains($data['text'] ?? '', 'Lampu Jalan Mati')

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\AppNotification;
 use App\Models\AuditLog;
 use App\Models\Budget;
 use App\Models\Complaint;
@@ -827,5 +828,465 @@ class AiChatTest extends TestCase
         $this->assertStringContainsString('Data Diri Warga (Akses Penuh Super Admin)', $dataResident['message']);
         $this->assertStringContainsString('Warga Test', $dataResident['message']);
         $this->assertStringContainsString('3201123456789001', $dataResident['message']);
+    }
+
+    public function test_warga_can_read_whole_dashboard_including_sidebar_menus_and_recent_updates(): void
+    {
+        AppNotification::create([
+            'user_id' => $this->wargaUser->id,
+            'title' => 'Surat SKU Disetujui',
+            'message' => 'Surat pengantar SKU Anda telah diverifikasi oleh Ketua RT.',
+            'is_read' => false,
+        ]);
+
+        $response = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'baca keseluruhan dari dashboard di tiap yang ada di sidebar nya',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+
+        // 1. Dashboard content
+        $this->assertStringContainsString('Ringkasan Data & Informasi Dashboard Warga', $data['message']);
+        $this->assertStringContainsString('Layanan Surat Mandiri Saya', $data['message']);
+        $this->assertStringContainsString('Laporan & Pengaduan Saya', $data['message']);
+
+        // 2. Sidebar menus
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Warga)', $data['message']);
+        $this->assertStringContainsString('Pengajuan Surat', $data['message']);
+        $this->assertStringContainsString('Data Keluarga', $data['message']);
+
+        // 3. Recent updates
+        $this->assertStringContainsString('Pembaruan Terkini dari Dashboard & Database', $data['message']);
+        $this->assertStringContainsString('Surat SKU Disetujui', $data['message']);
+    }
+
+    public function test_warga_can_ask_specifically_about_sidebar_menus(): void
+    {
+        $response = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa saja menu di sidebar',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Warga)', $data['message']);
+        $this->assertStringContainsString('Menu Utama', $data['message']);
+        $this->assertStringContainsString('Pengajuan Surat', $data['message']);
+        $this->assertStringContainsString('Pengaduan', $data['message']);
+        $this->assertStringContainsString('Musyawarah', $data['message']);
+        $this->assertStringContainsString('Data Keluarga', $data['message']);
+    }
+
+    public function test_warga_can_ask_specifically_about_recent_updates_from_dashboard(): void
+    {
+        AppNotification::create([
+            'user_id' => $this->wargaUser->id,
+            'title' => 'Pengumuman Baru',
+            'message' => 'Jadwal kerja bakti minggu pagi.',
+            'is_read' => false,
+        ]);
+
+        $response = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa yang di update di dari dahboard',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $this->assertStringContainsString('Pembaruan Terkini dari Dashboard & Database', $data['message']);
+        $this->assertStringContainsString('Pengumuman Baru', $data['message']);
+    }
+
+    public function test_rt_can_read_dashboard_sidebar_and_recent_updates(): void
+    {
+        AppNotification::create([
+            'user_id' => $this->rtUser->id,
+            'title' => 'Permohonan Surat Baru',
+            'message' => 'Warga mengajukan surat pengantar Domisili.',
+            'is_read' => false,
+        ]);
+
+        $response = $this->actingAs($this->rtUser)->postJson(route('ai.chat'), [
+            'message' => 'baca keseluruhan dari dashboard dan menu sidebar nya',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $this->assertStringContainsString('Dashboard RT 02', $data['message']);
+        $this->assertStringContainsString('Data Warga RT', $data['message']);
+        $this->assertStringContainsString('Layanan Surat', $data['message']);
+        $this->assertStringContainsString('Pembaruan Terkini dari Dashboard & Database', $data['message']);
+    }
+
+    public function test_rw_can_read_dashboard_sidebar_and_recent_updates(): void
+    {
+        $response = $this->actingAs($this->rwUser)->postJson(route('ai.chat'), [
+            'message' => 'baca keseluruhan dari dashboard di tiap menu sidebar',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $this->assertStringContainsString('Dashboard RW 01', $data['message']);
+        $this->assertStringContainsString('Data Warga RW', $data['message']);
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Pengurus RW)', $data['message']);
+        $this->assertStringContainsString('Pembaruan Terkini dari Dashboard & Database', $data['message']);
+    }
+
+    public function test_desa_can_read_dashboard_sidebar_and_recent_updates(): void
+    {
+        $response = $this->actingAs($this->desaUser)->postJson(route('ai.chat'), [
+            'message' => 'baca keseluruhan dari dashboard di tiap yang ada di sidebar',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $this->assertStringContainsString('Dashboard Administrator Desa Sukamaju', $data['message']);
+        $this->assertStringContainsString('Wilayah & Penduduk', $data['message']);
+        $this->assertStringContainsString('Pembangunan & APBDes', $data['message']);
+        $this->assertStringContainsString('Pembaruan Terkini dari Dashboard & Database', $data['message']);
+    }
+
+    public function test_super_admin_can_read_dashboard_sidebar_and_recent_updates(): void
+    {
+        $response = $this->actingAs($this->superAdminUser)->postJson(route('ai.chat'), [
+            'message' => 'baca keseluruhan dari dashboard di tiap yang ada di sidebar nya',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $this->assertStringContainsString('Dashboard Super Admin', $data['message']);
+        $this->assertStringContainsString('Kelola AI Knowledge', $data['message']);
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Super Administrator)', $data['message']);
+        $this->assertStringContainsString('Pembaruan Terkini dari Dashboard & Database', $data['message']);
+    }
+
+    public function test_super_admin_can_read_whole_sidebar_menu_contents_without_passwords(): void
+    {
+        $response = $this->actingAs($this->superAdminUser)->postJson(route('ai.chat'), [
+            'message' => 'keseluruhan isi menu menu yang ada di keseluruhan sidebar tapi tidak dengan katasandi',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        // Menus in Super Admin sidebar
+        $this->assertStringContainsString('Keseluruhan Isi Menu Navigasi Sidebar (Akun Super Administrator)', $msg);
+        $this->assertStringContainsString('Menu Dashboard:', $msg);
+        $this->assertStringContainsString('Menu Wilayah & Penduduk:', $msg);
+        $this->assertStringContainsString('Menu Pengumuman Desa:', $msg);
+        $this->assertStringContainsString('Menu Layanan Surat:', $msg);
+        $this->assertStringContainsString('Menu Pengaduan Warga:', $msg);
+        $this->assertStringContainsString('Menu Musyawarah & Polling:', $msg);
+        $this->assertStringContainsString('Menu Pembangunan & APBDes:', $msg);
+        $this->assertStringContainsString('Menu Laporan & Audit Log:', $msg);
+        $this->assertStringContainsString('Menu Manajemen User:', $msg);
+        $this->assertStringContainsString('Menu Kelola AI Knowledge:', $msg);
+        $this->assertStringContainsString('Menu Pengaturan Akun:', $msg);
+        $this->assertStringContainsString('Menu Koneksi Bot', $msg);
+
+        // Security check: passwords must never be shown, and Bcrypt encryption note must be present
+        $this->assertStringContainsString('Bcrypt', $msg);
+        $this->assertStringContainsString('TIDAK PERNAH ditampilkan', $msg);
+        $this->assertStringNotContainsString('$2y$', $msg); // Never expose hashes
+        $this->assertStringNotContainsString('password123', $msg); // Never expose plain passwords
+    }
+
+    public function test_warga_can_read_whole_sidebar_menu_contents_without_passwords(): void
+    {
+        $response = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa saja isi menu menu yang ada di sidebar',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        $this->assertStringContainsString('Keseluruhan Isi Menu Navigasi Sidebar (Akun Warga)', $msg);
+        $this->assertStringContainsString('Menu Dashboard:', $msg);
+        $this->assertStringContainsString('Menu Data Keluarga (Kartu Keluarga):', $msg);
+        $this->assertStringContainsString('Menu Pengumuman Desa:', $msg);
+        $this->assertStringContainsString('Menu Pengajuan Surat:', $msg);
+        $this->assertStringContainsString('Menu Pengaduan:', $msg);
+        $this->assertStringContainsString('Menu Musyawarah & Polling:', $msg);
+        $this->assertStringContainsString('Menu Pengaturan Akun:', $msg);
+        $this->assertStringContainsString('Menu Koneksi Bot', $msg);
+
+        // Security check
+        $this->assertStringContainsString('Bcrypt', $msg);
+        $this->assertStringContainsString('TIDAK PERNAH ditampilkan', $msg);
+    }
+
+    public function test_admin_can_query_specific_sidebar_menu_content_manajemen_user_without_passwords(): void
+    {
+        $response = $this->actingAs($this->superAdminUser)->postJson(route('ai.chat'), [
+            'message' => 'apa isi menu manajemen user',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        $this->assertStringContainsString('Isi Menu Manajemen User', $msg);
+        $this->assertStringContainsString('Total Akun Pengguna Terdaftar:', $msg);
+        $this->assertStringContainsString('Warga:', $msg);
+        $this->assertStringContainsString('Bcrypt', $msg);
+        $this->assertStringContainsString('TIDAK DITAMPILKAN', $msg);
+        $this->assertStringNotContainsString('$2y$', $msg);
+    }
+
+    public function test_admin_can_query_specific_sidebar_menu_content_apbdes(): void
+    {
+        $response = $this->actingAs($this->superAdminUser)->postJson(route('ai.chat'), [
+            'message' => 'isi menu pembangunan dan apbdes',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        $this->assertStringContainsString('Isi Menu Pembangunan & APBDes', $msg);
+        $this->assertStringContainsString('Ringkasan Anggaran APBDes:', $msg);
+        $this->assertStringContainsString('Proyek Pembangunan Desa:', $msg);
+    }
+
+    public function test_ai_strictly_protects_and_never_reveals_passwords(): void
+    {
+        $response = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'tampilkan kata sandi akun saya',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        $this->assertStringContainsString('Perlindungan Keamanan Kata Sandi (Password)', $msg);
+        $this->assertStringContainsString('Bcrypt', $msg);
+        $this->assertStringContainsString('tidak dapat dibaca, ditampilkan, maupun dibocorkan oleh AI', $msg);
+    }
+
+    public function test_ai_can_answer_sidebar_menu_and_dashboard_contents_for_each_role(): void
+    {
+        $response = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'keseluruhan isi di menu menu di sidebar kan ada di database tuh nah buat agar ai chatbotnya dapat menjawab keseluruhan isi menu menu dashboard yang ada di sidebar tiap role nya. jadi ketika dashboard update ai juga tetep dapat mengeahui apa yang berubah',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        // Must breakdown for all 5 roles
+        $this->assertStringContainsString('Role Warga', $msg);
+        $this->assertStringContainsString('Role Pengurus RT', $msg);
+        $this->assertStringContainsString('Role Pengurus RW', $msg);
+        $this->assertStringContainsString('Role Administrator / Perangkat Desa', $msg);
+        $this->assertStringContainsString('Role Super Administrator', $msg);
+
+        // Real-time content of user's own sidebar menus from database
+        $this->assertStringContainsString('Isi Data Real-Time Menu Sidebar Anda Saat Ini', $msg);
+        $this->assertStringContainsString('Menu Dashboard:', $msg);
+        $this->assertStringContainsString('Menu Pengajuan Surat:', $msg);
+
+        // Explains how AI knows what changes when dashboard updates
+        $this->assertStringContainsString('Mekanisme Real-Time AI Mengetahui Pembaruan (Update) Dashboard:', $msg);
+        $this->assertStringContainsString('Status Pengajuan Surat:', $msg);
+        $this->assertStringContainsString('Status Pengaduan:', $msg);
+
+        // Passwords shielded
+        $this->assertStringContainsString('Bcrypt', $msg);
+        $this->assertStringNotContainsString('$2y$', $msg);
+    }
+
+    public function test_ai_can_answer_specific_role_sidebar_menu_queries(): void
+    {
+        // Query RT sidebar
+        $respRt = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa saja menu sidebar untuk RT',
+        ]);
+        $respRt->assertStatus(200);
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Pengurus RT)', $respRt->json('message'));
+        $this->assertStringContainsString('Data Warga RT', $respRt->json('message'));
+
+        // Query RW sidebar
+        $respRw = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa saja menu sidebar untuk RW',
+        ]);
+        $respRw->assertStatus(200);
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Pengurus RW)', $respRw->json('message'));
+        $this->assertStringContainsString('Data Warga RW', $respRw->json('message'));
+
+        // Query Desa sidebar
+        $respDesa = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa saja menu sidebar untuk perangkat desa',
+        ]);
+        $respDesa->assertStatus(200);
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Administrator / Perangkat Desa)', $respDesa->json('message'));
+        $this->assertStringContainsString('Wilayah & Penduduk', $respDesa->json('message'));
+        $this->assertStringContainsString('Pembangunan & APBDes', $respDesa->json('message'));
+
+        // Query Super Admin sidebar
+        $respSa = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa saja menu sidebar super admin',
+        ]);
+        $respSa->assertStatus(200);
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Super Administrator)', $respSa->json('message'));
+        $this->assertStringContainsString('Kelola AI Knowledge', $respSa->json('message'));
+
+        // Query Warga sidebar
+        $respWarga = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa saja menu sidebar warga',
+        ]);
+        $respWarga->assertStatus(200);
+        $this->assertStringContainsString('Daftar Menu & Modul Sidebar (Akun Warga)', $respWarga->json('message'));
+        $this->assertStringContainsString('Pengajuan Surat', $respWarga->json('message'));
+    }
+
+    public function test_ai_can_answer_sidebar_menu_and_dashboard_contents_for_each_role_short_prompt(): void
+    {
+        $response = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'keseluruhan isi di menu menu di sidebar kan ada di database tuh nah buat agar ai chatbotnya dapat membaca dan menjawab keseluruhan isi menu menu dashboard yang ada di sidebar tiap role nya.',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        $this->assertStringContainsString('Keseluruhan Isi Menu-Menu Dashboard & Sidebar Tiap Role', $msg);
+        $this->assertStringContainsString('Role Warga', $msg);
+        $this->assertStringContainsString('Role Pengurus RT', $msg);
+        $this->assertStringContainsString('Role Pengurus RW', $msg);
+        $this->assertStringContainsString('Role Administrator / Perangkat Desa', $msg);
+        $this->assertStringContainsString('Role Super Administrator', $msg);
+        $this->assertStringContainsString('Isi Data Real-Time Menu Sidebar Anda Saat Ini', $msg);
+        $this->assertStringContainsString('Mekanisme Real-Time AI Mengetahui Pembaruan (Update) Dashboard', $msg);
+    }
+
+    public function test_ai_detects_real_time_dashboard_and_database_updates_when_data_changes(): void
+    {
+        $resident = Resident::where('nik', $this->wargaUser->username)->first();
+
+        // Initial doc request
+        $doc = DocumentRequest::create([
+            'request_number' => 'REQ-TEST-UPD-01',
+            'resident_id' => $resident->id,
+            'type' => 'Surat Pengantar Domisili',
+            'status' => 'PENDING',
+            'notes' => 'Keperluan KTP',
+        ]);
+
+        // AI reads initial update
+        $resp1 = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa update terbaru dari dashboard saya',
+        ]);
+        $resp1->assertStatus(200);
+        $this->assertStringContainsString('Surat Pengantar Domisili', $resp1->json('message'));
+        $this->assertStringContainsString('PENDING', $resp1->json('message'));
+
+        // Dashboard/Database updates: status changed to APPROVED_RT
+        $doc->update(['status' => 'APPROVED_RT']);
+
+        // AI immediately detects the updated state without any cache delay
+        $resp2 = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'apa update terbaru dari dashboard saya',
+        ]);
+        $resp2->assertStatus(200);
+        $this->assertStringContainsString('APPROVED_RT', $resp2->json('message'));
+    }
+
+    public function test_ai_can_read_dashboards_in_entire_sidebar_and_detect_changes_from_database(): void
+    {
+        $response = $this->actingAs($this->superAdminUser)->postJson(route('ai.chat'), [
+            'message' => 'chatbot ai dapat membaca/mengetahui dashboard dashboard sperti ini di seluruh sidebar. ai juga dapat mengetahui perubahan yang terjadi di dashborad dashboard di tiap sidebar. knowledge ai berasal dari dashboard tiap sidebar tiap role yang ada dan terhubung dengan database',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        // Confirms connecting to database and whole sidebar dashboards
+        $this->assertStringContainsString('Keseluruhan Isi Menu-Menu Dashboard & Sidebar Tiap Role', $msg);
+        $this->assertStringContainsString('Terhubung Database SIWIL', $msg);
+
+        // Contains territory & population dashboard cards (matching user screenshot)
+        $this->assertStringContainsString('Statistik Utama (KPI Cards)', $msg);
+        $this->assertStringContainsString('Total Desa', $msg);
+        $this->assertStringContainsString('Total RW & RT', $msg);
+        $this->assertStringContainsString('Total Penduduk', $msg);
+        $this->assertStringContainsString('Kepala Keluarga', $msg);
+        $this->assertStringContainsString('Wilayah Desa Terdaftar', $msg);
+        $this->assertStringContainsString('Hierarki RW & RT', $msg);
+        $this->assertStringContainsString('Data Kependudukan Terpadu Terkini', $msg);
+
+        // Explains knowledge connection and real-time change detection
+        $this->assertStringContainsString('Mekanisme Real-Time AI Mengetahui Pembaruan (Update) Dashboard:', $msg);
+        $this->assertStringContainsString('Basis pengetahuan (knowledge) SIWIL AI berasal langsung dari database sistem', $msg);
+        $this->assertStringContainsString('Wilayah & Kependudukan', $msg);
+    }
+
+    public function test_ai_answers_residents_without_accounts_accurately(): void
+    {
+        // Resident without user account (matching screenshot with Rina Kartika)
+        $noAccResident = Resident::create([
+            'nik' => '3201011111111114',
+            'full_name' => 'Rina Kartika',
+            'gender' => 'PEREMPUAN',
+            'rt_id' => $this->rt->id,
+            'status' => 'AKTIF',
+        ]);
+
+        $response = $this->actingAs($this->superAdminUser)->postJson(route('ai.chat'), [
+            'message' => 'ada berapa warga yang tidak mempunyai akun',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        // Does NOT reply with total registered residents, but accurate without-account count
+        $this->assertStringContainsString('Data Warga yang Belum Mempunyai Akun Login SIWIL', $msg);
+        $this->assertStringContainsString('1 orang warga yang belum memiliki akun login', $msg);
+        $this->assertStringContainsString('Rina Kartika', $msg);
+        $this->assertStringContainsString('3201011111111114', $msg);
+        $this->assertStringContainsString('Belum Ada Akun', $msg);
+        $this->assertStringContainsString('+ Buat Akun', $msg);
+    }
+
+    public function test_ai_answers_baca_dashboard_ga_si_accurately(): void
+    {
+        Resident::create([
+            'nik' => '3201011111111114',
+            'full_name' => 'Rina Kartika',
+            'gender' => 'PEREMPUAN',
+            'rt_id' => $this->rt->id,
+            'status' => 'AKTIF',
+        ]);
+
+        $response = $this->actingAs($this->superAdminUser)->postJson(route('ai.chat'), [
+            'message' => 'baca dashboard ga si',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        // Confirms real-time reading of dashboard
+        $this->assertStringContainsString('Ya, SIWIL AI membaca dan memantau seluruh tampilan dashboard serta data database secara real-time!', $msg);
+        $this->assertStringContainsString('Data Kependudukan Terpadu', $msg);
+        $this->assertStringContainsString('Rina Kartika', $msg);
+        $this->assertStringContainsString('Belum Ada Akun', $msg);
+        $this->assertStringContainsString('+ Buat Akun', $msg);
+    }
+
+    public function test_ai_protects_resident_account_privacy_for_warga_role(): void
+    {
+        $response = $this->actingAs($this->wargaUser)->postJson(route('ai.chat'), [
+            'message' => 'ada berapa warga yang tidak mempunyai akun',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json();
+        $msg = $data['message'];
+
+        $this->assertStringContainsString('UU Perlindungan Data Pribadi', $msg);
+        $this->assertStringContainsString('UU PDP', $msg);
     }
 }

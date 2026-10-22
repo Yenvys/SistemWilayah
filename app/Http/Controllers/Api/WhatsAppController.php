@@ -7,7 +7,6 @@ use App\Models\Complaint;
 use App\Models\DocumentRequest;
 use App\Models\DocumentRequestHistory;
 use App\Models\Poll;
-use App\Models\PollOption;
 use App\Models\Resident;
 use App\Models\User;
 use App\Services\TelegramService;
@@ -19,6 +18,7 @@ use Illuminate\Support\Str;
 class WhatsAppController extends Controller
 {
     protected WhatsAppService $whatsAppService;
+
     protected TelegramService $telegramService;
 
     public function __construct(WhatsAppService $whatsAppService, TelegramService $telegramService)
@@ -32,9 +32,12 @@ class WhatsAppController extends Controller
      */
     private function isLid(?string $number): bool
     {
-        if (! $number) return false;
+        if (! $number) {
+            return false;
+        }
         $clean = preg_replace('/[^0-9]/', '', $number);
-        return strlen($clean) >= 12 && !str_starts_with($clean, '62') && !str_starts_with($clean, '0');
+
+        return strlen($clean) >= 12 && ! str_starts_with($clean, '62') && ! str_starts_with($clean, '0');
     }
 
     /**
@@ -67,7 +70,7 @@ class WhatsAppController extends Controller
             }
 
             // 3. Check match on phone_number (08... or 628...)
-            $altPhone0 = '0' . substr($normalized, 2);
+            $altPhone0 = '0'.substr($normalized, 2);
             $user = User::with(['resident.rt.rw.village', 'resident.family.rt.rw.village'])
                 ->where(function ($q) use ($normalized, $altPhone0) {
                     $q->where('phone_number', $normalized)
@@ -79,6 +82,7 @@ class WhatsAppController extends Controller
                 // Auto-link whatsapp_number
                 $user->whatsapp_number = $normalized;
                 $user->save();
+
                 return $user;
             }
         }
@@ -139,7 +143,7 @@ class WhatsAppController extends Controller
 
         // Normalize if phone format
         $normPhone = WhatsAppService::normalizePhoneNumber($loginInput);
-        $altPhone0 = $normPhone ? ('0' . substr($normPhone, 2)) : null;
+        $altPhone0 = $normPhone ? ('0'.substr($normPhone, 2)) : null;
 
         $user = User::where(function ($q) use ($loginInput, $normPhone, $altPhone0) {
             $q->where('username', $loginInput)
@@ -218,7 +222,6 @@ class WhatsAppController extends Controller
         ]);
     }
 
-
     /**
      * Get available document services list
      */
@@ -263,7 +266,7 @@ class WhatsAppController extends Controller
             return response()->json(['error' => 'Data kependudukan (NIK) Anda belum lengkap di sistem SIWIL. Harap lengkapi profil terlebih dahulu di website.'], 400);
         }
 
-        $requestNumber = 'SRT-' . date('Ymd') . '-' . strtoupper(Str::random(4));
+        $requestNumber = 'SRT-'.date('Ymd').'-'.strtoupper(Str::random(4));
 
         $docReq = DocumentRequest::create([
             'id' => (string) Str::uuid(),

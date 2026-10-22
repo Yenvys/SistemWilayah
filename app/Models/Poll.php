@@ -73,6 +73,7 @@ class Poll extends Model
                         ->orWhereHas('resident', fn ($r) => $r->where('rt_id', $rtId)->orWhereHas('family', fn ($f) => $f->where('rt_id', $rtId)));
                 });
             }
+
             return $query->get();
         }
 
@@ -116,7 +117,7 @@ class Poll extends Model
                 })->orWhere(function ($sub) use ($villageId) {
                     $sub->where('level', 'DESA')->where('village_id', $villageId);
                 })->orWhereNull('level')
-                ->orWhereHas('creator', fn ($cq) => $cq->whereIn('role', ['ADMIN_DESA', 'SUPER_ADMIN', 'RW']));
+                    ->orWhereHas('creator', fn ($cq) => $cq->whereIn('role', ['ADMIN_DESA', 'SUPER_ADMIN', 'RW']));
             });
         } elseif ($user->role === 'RT') {
             $query->where(function ($q) use ($villageId, $rwId, $rtId) {
@@ -127,7 +128,7 @@ class Poll extends Model
                 })->orWhere(function ($sub) use ($villageId) {
                     $sub->where('level', 'DESA')->where('village_id', $villageId);
                 })->orWhereNull('level')
-                ->orWhereHas('creator', fn ($cq) => $cq->whereIn('role', ['ADMIN_DESA', 'SUPER_ADMIN', 'RW']));
+                    ->orWhereHas('creator', fn ($cq) => $cq->whereIn('role', ['ADMIN_DESA', 'SUPER_ADMIN', 'RW']));
             });
         } elseif ($user->role === 'WARGA') {
             $query->where(function ($q) use ($villageId, $rwId, $rtId) {

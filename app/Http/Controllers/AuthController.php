@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterWargaRequest;
 use App\Models\Resident;
 use App\Models\User;
+use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -26,7 +28,7 @@ class AuthController extends Controller
             return redirect('/dashboard');
         }
 
-        return view('auth.register');
+        return view('auth.login', ['initialTab' => 'register']);
     }
 
     public function register(RegisterWargaRequest $request)
@@ -35,10 +37,15 @@ class AuthController extends Controller
 
         // Cari data resident untuk mendapatkan relasi RT/RW/Village
         $resident = Resident::where('nik', $validated['nik'])->first();
+        $phone = ! empty($validated['phone_number']) ? trim($validated['phone_number']) : null;
+        $normalizedWa = $phone ? WhatsAppService::normalizePhoneNumber($phone) : null;
 
         $user = User::create([
+            'name' => $resident?->full_name,
             'username' => $validated['nik'],
             'kk_number' => $validated['kk_number'],
+            'phone_number' => $phone,
+            'whatsapp_number' => $normalizedWa,
             'password' => Hash::make($validated['password']),
             'role' => 'WARGA',
             'status' => 'pending',
@@ -47,7 +54,8 @@ class AuthController extends Controller
             'village_id' => $resident?->rt?->rw?->village_id,
         ]);
 
-        $user->assignRole('warga');
+        $role = Role::firstOrCreate(['name' => 'warga', 'guard_name' => 'web']);
+        $user->assignRole($role);
 
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Akun Anda sedang menunggu verifikasi oleh RT/Admin. Silakan cek kembali nanti.');
     }

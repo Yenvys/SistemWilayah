@@ -9,6 +9,7 @@ use App\Models\Rw;
 use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class AreaController extends Controller
 {
@@ -108,7 +109,7 @@ class AreaController extends Controller
             $rwFilter = $request->rw_filter;
             $residentQuery->where(function ($q) use ($rwFilter) {
                 $q->whereHas('rt', fn ($rtq) => $rtq->where('rw_id', $rwFilter))
-                  ->orWhereHas('family.rt', fn ($rtq) => $rtq->where('rw_id', $rwFilter));
+                    ->orWhereHas('family.rt', fn ($rtq) => $rtq->where('rw_id', $rwFilter));
             });
         }
 
@@ -116,7 +117,7 @@ class AreaController extends Controller
             $rtFilter = $request->rt_filter;
             $residentQuery->where(function ($q) use ($rtFilter) {
                 $q->where('rt_id', $rtFilter)
-                  ->orWhereHas('family', fn ($fq) => $fq->where('rt_id', $rtFilter));
+                    ->orWhereHas('family', fn ($fq) => $fq->where('rt_id', $rtFilter));
             });
         }
 
@@ -206,9 +207,27 @@ class AreaController extends Controller
     // ---- RW CRUD ----
     public function storeRw(Request $request)
     {
+        // Normalisasi nomor: hapus prefiks 'RW' atau 'RW.' jika user mengetiknya, trim, dan pad angka 1 digit menjadi 2 digit
+        $cleanNumber = trim((string) $request->input('number'));
+        $cleanNumber = preg_replace('/^rw\s*[\.\-]?\s*/i', '', $cleanNumber);
+        if (ctype_digit($cleanNumber)) {
+            $cleanNumber = str_pad($cleanNumber, 2, '0', STR_PAD_LEFT);
+        }
+        $request->merge(['number' => $cleanNumber]);
+
         $validated = $request->validate([
-            'number' => 'required|string|max:10',
+            'number' => [
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('rws', 'number')->where(fn ($query) => $query->where('village_id', $request->input('village_id'))),
+            ],
             'village_id' => 'required|exists:villages,id',
+        ], [
+            'number.unique' => 'Nomor RW '.$cleanNumber.' sudah terdaftar pada Desa yang dipilih.',
+            'number.required' => 'Nomor RW wajib diisi.',
+            'village_id.required' => 'Wilayah Desa wajib dipilih.',
+            'village_id.exists' => 'Desa yang dipilih tidak valid.',
         ]);
 
         $rw = Rw::create($validated);
@@ -243,9 +262,27 @@ class AreaController extends Controller
     // ---- RT CRUD ----
     public function storeRt(Request $request)
     {
+        // Normalisasi nomor: hapus prefiks 'RT' atau 'RT.' jika user mengetiknya, trim, dan pad angka 1 digit menjadi 2 digit
+        $cleanNumber = trim((string) $request->input('number'));
+        $cleanNumber = preg_replace('/^rt\s*[\.\-]?\s*/i', '', $cleanNumber);
+        if (ctype_digit($cleanNumber)) {
+            $cleanNumber = str_pad($cleanNumber, 2, '0', STR_PAD_LEFT);
+        }
+        $request->merge(['number' => $cleanNumber]);
+
         $validated = $request->validate([
-            'number' => 'required|string|max:10',
+            'number' => [
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('rts', 'number')->where(fn ($query) => $query->where('rw_id', $request->input('rw_id'))),
+            ],
             'rw_id' => 'required|exists:rws,id',
+        ], [
+            'number.unique' => 'Nomor RT '.$cleanNumber.' sudah terdaftar pada RW yang dipilih.',
+            'number.required' => 'Nomor RT wajib diisi.',
+            'rw_id.required' => 'RW Induk wajib dipilih.',
+            'rw_id.exists' => 'RW yang dipilih tidak valid.',
         ]);
 
         $rt = Rt::create($validated);

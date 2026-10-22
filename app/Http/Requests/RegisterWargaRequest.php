@@ -25,6 +25,7 @@ class RegisterWargaRequest extends FormRequest
         return [
             'nik' => ['required', 'string', 'digits:16', 'exists:residents,nik', 'unique:users,username'],
             'kk_number' => ['required', 'string', 'digits:16', 'exists:families,kk_number'],
+            'phone_number' => ['nullable', 'string', 'max:20'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ];
     }
@@ -44,6 +45,7 @@ class RegisterWargaRequest extends FormRequest
             'kk_number.required' => 'No. Kartu Keluarga (KK) wajib diisi.',
             'kk_number.digits' => 'No. KK harus 16 digit angka.',
             'kk_number.exists' => 'No. KK tidak ditemukan di data kependudukan. Pastikan data keluarga Anda sudah terdaftar.',
+            'phone_number.max' => 'Nomor WhatsApp / HP maksimal 20 karakter.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',

@@ -113,6 +113,26 @@ class TelegramServiceController extends Controller
         return response()->json(['message' => 'Pengajuan surat berhasil dibuat.', 'data' => $docReq]);
     }
 
+    public function getDocumentServices()
+    {
+        $types = [
+            ['code' => 'SURAT_KETERANGAN_USAHA', 'name' => 'Surat Keterangan Usaha (SKU)', 'short' => 'SKU'],
+            ['code' => 'SURAT_KETERANGAN_TIDAK_MAMPU', 'name' => 'Surat Keterangan Tidak Mampu (SKTM)', 'short' => 'SKTM'],
+            ['code' => 'SURAT_PENGANTAR_NIKAH', 'name' => 'Surat Pengantar Nikah (NA)', 'short' => 'NIKAH'],
+            ['code' => 'SURAT_KETERANGAN_DOMISILI', 'name' => 'Surat Keterangan Domisili', 'short' => 'DOMISILI'],
+            ['code' => 'SURAT_KETERANGAN_WARIS', 'name' => 'Surat Keterangan Waris', 'short' => 'WARIS'],
+            ['code' => 'SURAT_IZIN_KERAMAIAN', 'name' => 'Surat Izin Keramaian', 'short' => 'KERAMAIAN'],
+            ['code' => 'SURAT_PENGANTAR_KEHILANGAN', 'name' => 'Surat Pengantar Kehilangan', 'short' => 'HILANG'],
+            ['code' => 'MEDIASI_SENGKETA_WARGA', 'name' => 'Mediasi Sengketa Warga', 'short' => 'MEDIASI'],
+            ['code' => 'IZIN_RENOVASI_RUMAH', 'name' => 'Izin Renovasi Rumah', 'short' => 'RENOVASI'],
+            ['code' => 'PENDATAAN_TAMU_MENGINAP', 'name' => 'Pendataan Tamu Menginap', 'short' => 'TAMU'],
+            ['code' => 'IURAN_KAS_RT', 'name' => 'Iuran Kas RT', 'short' => 'KAS'],
+            ['code' => 'SURAT_REKOMENDASI_INTERNAL', 'name' => 'Surat Rekomendasi RT', 'short' => 'REKOM'],
+        ];
+
+        return response()->json(['data' => $types]);
+    }
+
     public function getDocumentRequests($telegramId)
     {
         $user = $this->getUserByTelegramId($telegramId);
@@ -129,8 +149,58 @@ class TelegramServiceController extends Controller
             ->where('resident_id', $resident->id)
             ->latest()
             ->take(5)
-            ->get();
+            ->get()
+            ->map(function ($doc) {
+                return [
+                    'id' => $doc->id,
+                    'request_number' => $doc->request_number,
+                    'type' => $doc->type,
+                    'type_name' => $this->telegramService->formatDocumentType($doc->type),
+                    'status' => $doc->status,
+                    'notes' => $doc->notes,
+                    'can_download' => in_array($doc->status, ['DISETUJUI', 'SELESAI']),
+                    'date' => $doc->created_at->format('d/m/Y H:i'),
+                    'histories' => $doc->histories,
+                ];
+            });
 
         return response()->json(['data' => $docs]);
+    }
+
+    public function downloadDocumentPdf(Request $request, string $identifier)
+    {
+        $doc = DocumentRequest::where('id', $identifier)
+            ->orWhere('request_number', $identifier)
+            ->first();
+
+        if (! $doc) {
+            return response()->json(['error' => 'Dokumen pengajuan surat tidak ditemukan.'], 404);
+        }
+
+        if (! in_array($doc->status, ['DISETUJUI', 'SELESAI', 'DIAJUKAN_RW', 'DIAJUKAN_DESA'])) {
+            return response()->json(['error' => 'Surat masih dalam proses dan belum disetujui untuk dicetak.'], 400);
+        }
+
+        $pdfBinary = $this->telegramService->generateDocumentPdf($doc);
+        if (! $pdfBinary) {
+            return response()->json(['error' => 'Gagal membuat file PDF surat.'], 500);
+        }
+
+        if ($request->query('base64') === '1' || $request->header('Accept') === 'application/json') {
+            return response()->json([
+                'filename' => "Surat_{$doc->request_number}.pdf",
+                'base64' => base64_encode($pdfBinary),
+                'doc' => [
+                    'request_number' => $doc->request_number,
+                    'type' => $this->telegramService->formatDocumentType($doc->type),
+                    'status' => $doc->status,
+                ],
+            ]);
+        }
+
+        return response($pdfBinary, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "attachment; filename=\"Surat_{$doc->request_number}.pdf\"",
+        ]);
     }
 }

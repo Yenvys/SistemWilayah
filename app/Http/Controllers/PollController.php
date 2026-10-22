@@ -16,7 +16,9 @@ use Illuminate\Http\Request;
 class PollController extends Controller
 {
     protected WhatsAppService $whatsAppService;
+
     protected EmailNotificationService $emailNotificationService;
+
     protected TelegramService $telegramService;
 
     public function __construct(
@@ -230,12 +232,13 @@ class PollController extends Controller
         $voteDetails = $poll->options->map(function ($opt) use ($totalVotes) {
             $vCount = $opt->votes->count();
             $pct = $totalVotes > 0 ? round(($vCount / $totalVotes) * 100) : 0;
+
             return "• {$opt->text}: {$vCount} suara ({$pct}%)";
         })->implode("\n");
 
         Announcement::create([
-            'title' => 'Hasil Musyawarah: ' . $poll->title,
-            'content' => $resultMessage . "\n\nTotal Partisipasi: {$totalVotes} warga berpartisipasi.\n\nRincian Perolehan Suara:\n" . $voteDetails,
+            'title' => 'Hasil Musyawarah: '.$poll->title,
+            'content' => $resultMessage."\n\nTotal Partisipasi: {$totalVotes} warga berpartisipasi.\n\nRincian Perolehan Suara:\n".$voteDetails,
             'author_id' => $user->id,
             'is_active' => true,
             'published_at' => now(),

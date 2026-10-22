@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\AppNotification;
+use App\Models\Poll;
 use App\Models\User;
 use App\Services\EmailNotificationService;
 use Illuminate\Http\Request;
@@ -24,14 +25,14 @@ class AnnouncementController extends Controller
         $isDesa = in_array(auth()->user()->role, ['SUPER_ADMIN', 'ADMIN_DESA']);
 
         $announcements = Announcement::with('author')
-            ->when(!$isDesa, function ($query) {
+            ->when(! $isDesa, function ($query) {
                 $query->where('is_active', true);
             })
             ->latest('published_at')
             ->latest('created_at')
             ->paginate(12);
 
-        $completedPolls = \App\Models\Poll::accessibleBy(auth()->user())
+        $completedPolls = Poll::accessibleBy(auth()->user())
             ->where('status', 'CLOSED')
             ->with(['options.votes', 'creator', 'rt', 'rw'])
             ->latest('updated_at')
@@ -45,7 +46,7 @@ class AnnouncementController extends Controller
     {
         $isDesa = in_array(auth()->user()->role, ['SUPER_ADMIN', 'ADMIN_DESA']);
 
-        if (!$isDesa && !$announcement->is_active) {
+        if (! $isDesa && ! $announcement->is_active) {
             abort(404, 'Pengumuman tidak ditemukan atau belum dipublikasikan.');
         }
 
@@ -87,7 +88,7 @@ class AnnouncementController extends Controller
             $this->broadcastAppNotification($announcement);
         }
 
-        return redirect()->route('announcements.index')->with('success', 'Pengumuman desa berhasil ' . ($isActive ? 'diterbitkan dan disiarkan ke semua warga.' : 'disimpan sebagai draf.'));
+        return redirect()->route('announcements.index')->with('success', 'Pengumuman desa berhasil '.($isActive ? 'diterbitkan dan disiarkan ke semua warga.' : 'disimpan sebagai draf.'));
     }
 
     public function edit(Announcement $announcement)
@@ -110,11 +111,11 @@ class AnnouncementController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'is_active' => $isActive,
-            'published_at' => (!$wasActive && $isActive) ? now() : ($announcement->published_at ?? ($isActive ? now() : null)),
+            'published_at' => (! $wasActive && $isActive) ? now() : ($announcement->published_at ?? ($isActive ? now() : null)),
         ]);
 
         // Jika baru diaktifkan atau dipublikasikan ulang
-        if (!$wasActive && $announcement->is_active) {
+        if (! $wasActive && $announcement->is_active) {
             $this->emailNotificationService->sendAnnouncementNotification($announcement);
             $this->broadcastAppNotification($announcement);
         }
@@ -140,7 +141,7 @@ class AnnouncementController extends Controller
                     'id' => (string) Str::uuid(),
                     'user_id' => $u->id,
                     'type' => 'PENGUMUMAN',
-                    'title' => 'Pengumuman Desa: ' . Str::limit($announcement->title, 40),
+                    'title' => 'Pengumuman Desa: '.Str::limit($announcement->title, 40),
                     'message' => Str::limit(strip_tags($announcement->content), 120),
                     'url' => route('announcements.show', $announcement->id),
                     'is_read' => false,
@@ -148,13 +149,13 @@ class AnnouncementController extends Controller
                     'updated_at' => $now,
                 ];
             }
-            if (!empty($batch)) {
+            if (! empty($batch)) {
                 foreach (array_chunk($batch, 100) as $chunk) {
                     AppNotification::insert($chunk);
                 }
             }
         } catch (\Throwable $e) {
-            Log::warning('Gagal menyiarkan in-app notification pengumuman: ' . $e->getMessage());
+            Log::warning('Gagal menyiarkan in-app notification pengumuman: '.$e->getMessage());
         }
     }
 }

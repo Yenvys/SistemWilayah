@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AiKnowledge;
 use App\Models\Announcement;
+use App\Models\AppNotification;
 use App\Models\AuditLog;
 use App\Models\Budget;
 use App\Models\Complaint;
@@ -22,6 +23,8 @@ use App\Services\DocumentRequestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AiController extends Controller
 {
@@ -78,7 +81,7 @@ class AiController extends Controller
         }
 
         $systemPrompt = $scopedData['system_prompt'];
-        $userPrompt = "Konteks Sistem Wilayah SIWIL (Database Berdasarkan Role Pengguna):\n" . $scopedData['context_text'] . "\n\nPertanyaan Pengguna: " . $message;
+        $userPrompt = "Konteks Sistem Wilayah SIWIL (Database Berdasarkan Role Pengguna):\n".$scopedData['context_text']."\n\nPertanyaan Pengguna: ".$message;
 
         $reply = null;
 
@@ -153,8 +156,8 @@ class AiController extends Controller
             default => 'https://api.groq.com/openai/v1/chat/completions',
         };
 
-        if ($provider === 'custom' && $customBaseUrl && !str_contains($customBaseUrl, '/chat/completions')) {
-            $endpoint = rtrim($customBaseUrl, '/') . '/chat/completions';
+        if ($provider === 'custom' && $customBaseUrl && ! str_contains($customBaseUrl, '/chat/completions')) {
+            $endpoint = rtrim($customBaseUrl, '/').'/chat/completions';
         }
 
         $payload = [
@@ -169,7 +172,7 @@ class AiController extends Controller
         try {
             $response = Http::timeout(15)
                 ->withHeaders([
-                    'Authorization' => 'Bearer ' . trim($apiKey),
+                    'Authorization' => 'Bearer '.trim($apiKey),
                     'Content-Type' => 'application/json',
                 ])
                 ->post($endpoint, $payload);
@@ -182,7 +185,7 @@ class AiController extends Controller
                 }
             }
         } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::warning("AI Provider {$provider} exception: " . $e->getMessage());
+            Log::warning("AI Provider {$provider} exception: ".$e->getMessage());
         }
 
         return null;
@@ -202,6 +205,9 @@ class AiController extends Controller
             return null;
         }
 
+        // Allow inquiries about dashboard, sidebar menus, services, notifications, and recent updates
+        $isAskingDashboardOrSidebar = (bool) preg_match('/(dashboard|sidebar|menu|fitur|layanan|update|pembaruan|terbaru|terkini|notifikasi|kabar|aktivitas)/i', $clean);
+
         if ($role === 'WARGA') {
             $isAskingOfficialContact = (bool) preg_match('/(ketua\s*rt|ketua\s*rw|pengurus|kantor\s*desa|layanan\s*desa|kontak\s*rt|kontak\s*rw|kontak\s*desa|nomor\s*rt|nomor\s*rw|no\s*hp\s*rt|no\s*wa\s*rt|no\s*wa\s*rw|email\s*desa|kepala\s*desa)/i', $clean);
 
@@ -217,9 +223,9 @@ class AiController extends Controller
             // Allow user asking about their own family members in KK
             $isAskingFamily = (bool) preg_match('/(keluarga|anggota\s*(keluarga|kk)|kk\s*(saya|ku)|kartu\s*keluarga(\s*(saya|ku))?)/i', $clean);
 
-            // Prohibit querying other residents' contacts, address, phone number, NIK
-            if (! $isAskingSelf && ! $isAskingFamily && ! $isAskingOfficialContact && preg_match('/(kontak|nomor|no\s*hp|wa|telepon|nohp|alamat|data|biodata|nik)\s+(warga|tetangga|penduduk|orang\s*lain)/i', $clean)) {
-                return "Mohon maaf, demi perlindungan privasi dan kerahasiaan data kependudukan (UU Perlindungan Data Pribadi), akun **Warga** tidak memiliki izin untuk mengakses nomor kontak, NIK, alamat, atau data warga lain.\n\nAnda hanya dapat mengakses informasi kontak resmi pengurus RT/RW, data diri Anda sendiri, dan layanan kantor desa.";
+            // Prohibit querying other residents' contacts, address, phone number, NIK, or account credentials
+            if (! $isAskingSelf && ! $isAskingFamily && ! $isAskingOfficialContact && preg_match('/(?:kontak|nomor|no\s*hp|wa|telepon|nohp|alamat|data|biodata|nik|akun|status\s*akun)\s+(?:warga|tetangga|penduduk|orang\s*lain)|(?:warga|tetangga|penduduk).*(?:tidak|belum|tanpa|sudah)?\s*(?:punya|memiliki|ada|mempunyai)?\s*akun/i', $clean)) {
+                return "Mohon maaf, demi perlindungan privasi dan kerahasiaan data kependudukan (UU Perlindungan Data Pribadi / UU PDP), akun **Warga** tidak memiliki izin untuk mengakses nomor kontak, NIK, alamat, status akun login, atau data warga lain.\n\nAnda hanya dapat mengakses informasi kontak resmi pengurus RT/RW, data diri Anda sendiri, dan layanan kantor desa.";
             }
 
             if (! $isAskingSelf && ! $isAskingFamily && ! $isAskingOfficialContact && preg_match('/(siapa\s+saja\s+warga|daftar\s+warga|nama\s+nama\s+warga|siapa\s+tetangga|nomor\s+tetangga|nik\s+tetangga)/i', $clean)) {
@@ -227,12 +233,12 @@ class AiController extends Controller
             }
 
             // Prohibit querying resident count / census ("berapa warganya", "berapa jumlah warga", etc.)
-            if (preg_match('/(berapa\s+warga|berapa\s+jumlah\s+warga|berapa\s+banyak\s+warga|jumlah\s+penduduk|berapa\s+penduduk|total\s+warga|total\s+penduduk|berapa\s+kk|jumlah\s+kk|berapa\s+jiwa)/i', $clean)) {
+            if (! $isAskingDashboardOrSidebar && preg_match('/(berapa\s+warga|berapa\s+jumlah\s+warga|berapa\s+banyak\s+warga|jumlah\s+penduduk|berapa\s+penduduk|total\s+warga|total\s+penduduk|berapa\s+kk|jumlah\s+kk|berapa\s+jiwa)/i', $clean)) {
                 return 'Mohon maaf, akun **Warga** tidak memiliki hak akses untuk melihat statistik jumlah penduduk maupun sensus kependudukan wilayah. Statistik kependudukan hanya dapat diakses oleh Pengurus RT, RW, dan Desa.';
             }
 
             // Prohibit querying RT/RW/Desa database or budget
-            if (preg_match('/(database\s*(rt|rw|desa)|anggaran\s+desa|apbdes|kas\s+desa|dana\s+desa|laporan\s+keuangan)/i', $clean)) {
+            if (! $isAskingDashboardOrSidebar && preg_match('/(database\s*(rt|rw|desa)|anggaran\s+desa|apbdes|kas\s+desa|dana\s+desa|laporan\s+keuangan)/i', $clean)) {
                 return 'Mohon maaf, akun **Warga** tidak memiliki akses ke database internal RT, RW, maupun Desa. Jika memerlukan informasi anggaran publik, silakan hubungi Kantor Desa atau ikuti Musyawarah Desa terbuka.';
             }
         } elseif ($role === 'RT') {
@@ -241,7 +247,7 @@ class AiController extends Controller
             $isAskingResidentData = (bool) preg_match('/(warga|penduduk|orang|nik|kk|keluarga|sensus|biodata\s*warga|data\s*warga)/i', $clean);
 
             // RT cannot access general database of other RTs, RW wide database, or village database
-            if (preg_match('/(database\s*(rt|rw|desa)|apbdes|anggaran\s+desa|dana\s+desa|total\s+penduduk\s+desa|seluruh\s+warga\s+desa|warga\s+se\s*desa)/i', $clean)) {
+            if (! $isAskingDashboardOrSidebar && preg_match('/(database\s*(rt|rw|desa)|apbdes|anggaran\s+desa|dana\s+desa|total\s+penduduk\s+desa|seluruh\s+warga\s+desa|warga\s+se\s*desa)/i', $clean)) {
                 return 'Mohon maaf, kewenangan akun **Pengurus RT** terbatas hanya untuk wilayah RT Anda sendiri. Anda tidak memiliki otoritas untuk mengakses database RT lain, RW, maupun Desa.';
             }
 
@@ -269,7 +275,7 @@ class AiController extends Controller
             }
         } elseif ($role === 'RW') {
             // RW cannot access village database or other RWs
-            if (preg_match('/(rw\s+lain|database\s+desa|apbdes|anggaran\s+desa|dana\s+desa|seluruh\s+penduduk\s+desa|arsip\s+desa)/i', $clean)) {
+            if (! $isAskingDashboardOrSidebar && preg_match('/(rw\s+lain|database\s+desa|apbdes|anggaran\s+desa|dana\s+desa|seluruh\s+penduduk\s+desa|arsip\s+desa)/i', $clean)) {
                 return 'Mohon maaf, kewenangan akun **Pengurus RW** dibatasi pada wilayah RW Anda beserta RT-RT binaan. Anda tidak memiliki izin untuk mengakses database tingkat Desa secara menyeluruh atau wilayah RW lain.';
             }
 
@@ -374,6 +380,1065 @@ class AiController extends Controller
             'family_status' => $familyStatus,
             'status' => $status,
         ];
+    }
+
+    /**
+     * Get structured sidebar menu navigation list tailored to user role.
+     */
+    private function getSidebarMenuList(string $role): string
+    {
+        return match ($role) {
+            'WARGA' => "📌 **Daftar Menu & Modul Sidebar (Akun Warga):**\n\n".
+                "1. 📂 **Menu Utama:**\n".
+                "   • **Dashboard**: Ringkasan data pengajuan surat Anda, riwayat pengaduan, pengumuman desa, dan tombol darurat SOS.\n".
+                "   • **Pengumuman Desa**: Pengumuman resmi dan surat edaran terkini dari pemerintah desa.\n\n".
+                "2. 🏛️ **Layanan & Warga:**\n".
+                "   • **Pengajuan Surat**: Layanan pembuatan surat pengantar mandiri online (Domisili, SKTM, SKU, dll).\n".
+                "   • **Pengaduan**: Pelaporan keluhan, masalah infrastruktur, kebersihan, atau keamanan lingkungan.\n".
+                "   • **Musyawarah**: Partisipasi aktif dalam musyawarah warga dan pemungutan suara (polling).\n".
+                "   • **Data Keluarga**: Melihat daftar anggota keluarga resmi dalam Kartu Keluarga (KK) Anda.\n\n".
+                "3. ⚙️ **Administrasi & Sistem:**\n".
+                "   • **Pengaturan Akun**: Kelola profil pengguna, nomor kontak/telepon, dan ubah kata sandi.\n\n".
+                "4. 🤖 **Koneksi Bot:**\n".
+                '   • **WhatsApp & Telegram Bot**: Notifikasi otomatis dan layanan mandiri melalui WhatsApp dan Telegram.',
+
+            'RT' => "📌 **Daftar Menu & Modul Sidebar (Akun Pengurus RT):**\n\n".
+                "1. 📂 **Menu Utama:**\n".
+                "   • **Dashboard RT**: Rekapitulasi statistik warga, KK, permohonan surat masuk, dan pengaduan di RT Anda.\n".
+                "   • **Data Warga RT**: Direktori data kependudukan seluruh warga di wilayah RT binaan Anda.\n".
+                "   • **Pengumuman Desa**: Arsip dan edaran resmi dari pemerintah desa.\n\n".
+                "2. 🏛️ **Layanan Desa:**\n".
+                "   • **Layanan Surat**: Verifikasi dan persetujuan pengajuan surat pengantar warga di RT Anda.\n".
+                "   • **Pengaduan Warga**: Pemantauan dan tindak lanjut laporan keluhan dari warga RT.\n".
+                "   • **Musyawarah**: Pengawasan dan pembuatan agenda musyawarah/polling warga.\n\n".
+                "3. 📊 **Pemerintahan & Laporan:**\n".
+                "   • **Laporan & Audit Log**: Rekap laporan kegiatan persuratan, pengaduan, dan riwayat audit wilayah.\n\n".
+                "4. ⚙️ **Administrasi & Sistem:**\n".
+                "   • **Pengaturan Akun**: Pengaturan profil dan keamanan akun pengurus RT.\n\n".
+                "5. 🤖 **Koneksi Bot:**\n".
+                '   • **WhatsApp & Telegram**: Notifikasi real-time persuratan dan panggilan darurat.',
+
+            'RW' => "📌 **Daftar Menu & Modul Sidebar (Akun Pengurus RW):**\n\n".
+                "1. 📂 **Menu Utama:**\n".
+                "   • **Dashboard RW**: Ringkasan data kependudukan dan operasional seluruh RT binaan di RW Anda.\n".
+                "   • **Data Warga RW**: Monitoring sebaran RT, jumlah penduduk, dan data keluarga per RT binaan.\n".
+                "   • **Pengumuman Desa**: Informasi dan edaran resmi tingkat desa.\n\n".
+                "2. 🏛️ **Layanan Desa:**\n".
+                "   • **Layanan Surat**: Verifikasi tahap kedua pengajuan surat warga yang telah disetujui Ketua RT.\n".
+                "   • **Pengaduan Warga**: Pengawasan dan penanganan laporan pengaduan masyarakat se-RW.\n".
+                "   • **Musyawarah**: Pemantauan agenda musyawarah dan pemungutan suara warga se-RW.\n\n".
+                "3. 📊 **Pemerintahan & Laporan:**\n".
+                "   • **Laporan & Audit Log**: Akses laporan rekap kependudukan, arsip surat, dan log audit RW.\n\n".
+                "4. ⚙️ **Administrasi & Sistem:**\n".
+                "   • **Pengaturan Akun**: Kelola profil dan kredensial akun pengurus RW.\n\n".
+                "5. 🤖 **Koneksi Bot:**\n".
+                '   • **WhatsApp & Telegram**: Penerimaan notifikasi verifikasi berkas dan sinyal SOS.',
+
+            'ADMIN_DESA', 'DESA' => "📌 **Daftar Menu & Modul Sidebar (Akun Administrator / Perangkat Desa):**\n\n".
+                "1. 📂 **Menu Utama:**\n".
+                "   • **Dashboard Desa**: Rekapitulasi menyeluruh data kependudukan desa, surat, pengaduan, dan keuangan.\n".
+                "   • **Wilayah & Penduduk**: Manajemen master data RW, RT, kepala keluarga, dan seluruh penduduk desa.\n".
+                "   • **Pengumuman Desa**: Publikasi pengumuman publik, berita kegiatan, dan surat edaran desa.\n\n".
+                "2. 🏛️ **Layanan Desa:**\n".
+                "   • **Layanan Surat**: Verifikasi akhir, penandatanganan elektronik (TTE Desa), dan penerbitan surat resmi.\n".
+                "   • **Pengaduan Desa**: Manajemen penanganan keluhan masyarakat desa terpadu.\n".
+                "   • **Musyawarah**: Penyelenggaraan musyawarah desa terbuka dan polling kebijakan publik.\n\n".
+                "3. 📊 **Pemerintahan & Laporan:**\n".
+                "   • **Pembangunan & APBDes**: Monitoring proyek pembangunan desa, anggaran, dan realisasi APBDes.\n".
+                "   • **Laporan & Audit Log**: Rekapitulasi laporan berkala desa dan rekam jejak audit sistem.\n\n".
+                "4. ⚙️ **Administrasi & Sistem:**\n".
+                "   • **Manajemen User**: Pengelolaan akun login seluruh warga, pengurus RT, RW, dan staf desa.\n".
+                "   • **Pengaturan Akun**: Pengaturan profil desa dan kredensial akun administrator.\n\n".
+                "5. 🤖 **Koneksi Bot:**\n".
+                '   • **WhatsApp & Telegram Gateway**: Integrasi pesan notifikasi dan broadcast desa.',
+
+            'SUPER_ADMIN' => "📌 **Daftar Menu & Modul Sidebar (Akun Super Administrator):**\n\n".
+                "1. 📂 **Menu Utama:**\n".
+                "   • **Dashboard Super Admin**: Monitoring arsitektur sistem, kesehatan database, server, dan statistik global.\n".
+                "   • **Wilayah & Penduduk**: Akses penuh master data hierarki desa, RW, RT, dan seluruh data penduduk.\n".
+                "   • **Pengumuman Desa**: Monitoring dan pengawasan publikasi informasi desa.\n\n".
+                "2. 🏛️ **Layanan Desa:**\n".
+                "   • **Layanan Surat**: Pengawasan alur persuratan digital di seluruh tingkatan wilayah.\n".
+                "   • **Pengaduan Warga**: Monitoring tiket laporan pengaduan se-sistem beserta status solusinya.\n".
+                "   • **Musyawarah**: Pengawasan pelaksanaan polling dan musyawarah warga.\n\n".
+                "3. 📊 **Pemerintahan & Laporan:**\n".
+                "   • **Pembangunan & APBDes**: Monitoring data alokasi dana dan proyek fisik desa.\n".
+                "   • **Laporan & Audit Log**: Audit trail menyeluruh atas seluruh mutasi data dan aktivitas sistem.\n\n".
+                "4. ⚙️ **Administrasi & Sistem:**\n".
+                "   • **Manajemen User**: Manajemen otorisasi pengguna, aktivasi akun, dan reset kata sandi.\n".
+                "   • **Kelola AI Knowledge**: Manajemen basis pengetahuan (knowledge base) SIWIL AI.\n".
+                "   • **Pengaturan Akun**: Pengaturan konfigurasi teknis dan akun super admin.\n\n".
+                "5. 🤖 **Koneksi Bot:**\n".
+                '   • **WhatsApp & Telegram**: Pengawasan integrasi gateway webhook bot.',
+
+            default => '📌 **Menu Sidebar:** Dashboard, Layanan Surat, Pengaduan, Musyawarah, dan Pengaturan Akun.',
+        };
+    }
+
+    /**
+     * Get complete structured sidebar menu navigation list for all roles in SIWIL.
+     */
+    private function getSidebarMenuListForAllRoles(): string
+    {
+        return "📌 **Daftar Struktur Menu Sidebar & Modul Dashboard Tiap Role Beserta Sumber Databasenya:**\n\n".
+            "1. 👤 **Role Warga (WARGA):**\n".
+            "   • **Dashboard Warga:** Rekapitulasi surat, aduan, polling aktif, pengumuman, dan status darurat SOS.\n".
+            "   • **Pengumuman Desa:** Edaran dan berita resmi pemerintah desa _(Tabel: `announcements`)_.\n".
+            "   • **Pengajuan Surat:** Permohonan surat pengantar mandiri online _(Tabel: `document_requests`)_.\n".
+            "   • **Pengaduan:** Pelaporan keluhan dan masalah lingkungan _(Tabel: `complaints`)_.\n".
+            "   • **Musyawarah & Polling:** Partisipasi pemungutan suara warga _(Tabel: `polls`, `poll_votes`)_.\n".
+            "   • **Data Keluarga:** Susunan resmi Kartu Keluarga (KK) Anda _(Tabel: `families`, `residents`)_.\n".
+            "   • **Pengaturan Akun & Koneksi Bot:** Profil diri, nomor kontak, kata sandi (Bcrypt), dan integrasi WA/Telegram.\n".
+            "   • **Fitur Khusus SOS:** Tombol panggilan darurat instan dan lokasi GPS _(Tabel: `emergencies`)_.\n\n".
+            "2. 🛡️ **Role Pengurus RT (RT):**\n".
+            "   • **Dashboard RT:** Rekap statistik kependudukan warga RT, KK, surat masuk, dan aduan.\n".
+            "   • **Data Warga RT:** Direktori lengkap kependudukan dan KK di RT binaan _(Tabel: `residents`, `families`)_.\n".
+            "   • **Layanan Surat RT:** Verifikasi dan persetujuan pengajuan surat pengantar warga RT.\n".
+            "   • **Pengaduan Warga RT:** Monitoring dan tindak lanjut laporan aduan warga RT.\n".
+            "   • **Musyawarah:** Pengawasan agenda musyawarah dan polling warga di lingkup RT.\n".
+            "   • **Laporan & Audit Log:** Rekap data dan riwayat aktivitas wilayah _(Tabel: `audit_logs`)_.\n".
+            "   • **Pengaturan Akun & Koneksi Bot:** Kelola profil pengurus RT dan notifikasi bot.\n\n".
+            "3. 🏛️ **Role Pengurus RW (RW):**\n".
+            "   • **Dashboard RW:** Rekapitulasi agregat seluruh RT binaan di lingkungan RW.\n".
+            "   • **Data Warga RW:** Monitoring hierarki sebaran RT binaan dan jumlah penduduk se-RW.\n".
+            "   • **Layanan Surat RW:** Verifikasi tahap kedua surat pengantar warga yang telah disetujui RT.\n".
+            "   • **Pengaduan Warga RW:** Pengawasan dan koordinasi penanganan laporan aduan se-RW.\n".
+            "   • **Musyawarah:** Monitoring musyawarah dan pemungutan suara warga se-RW.\n".
+            "   • **Laporan & Audit Log:** Rekapitulasi wilayah RW dan rekam jejak audit sistem.\n".
+            "   • **Pengaturan Akun & Koneksi Bot:** Pengaturan akun pengurus RW dan webhook bot.\n\n".
+            "4. 🏢 **Role Administrator / Perangkat Desa (ADMIN_DESA):**\n".
+            "   • **Dashboard Desa:** Matriks kependudukan desa, keuangan APBDes, persuratan, dan aduan.\n".
+            "   • **Wilayah & Penduduk:** Monitoring master data desa, hierarki RW/RT, dan data kependudukan terpadu _(Tabel: `villages`, `rws`, `rts`, `residents`, `families`)_.\n".
+            "   • **Pengumuman Desa:** Publikasi berita, edaran resmi, dan pengumuman desa.\n".
+            "   • **Layanan Surat:** Verifikasi akhir, TTE elektronik desa, dan penerbitan surat resmi.\n".
+            "   • **Pengaduan Desa:** Manajemen respon dan penyelesaian keluhan warga desa.\n".
+            "   • **Musyawarah Desa:** Penyelenggaraan musyawarah desa terbuka dan polling kebijakan.\n".
+            "   • **Pembangunan & APBDes:** Proyek pembangunan fisik dan realisasi anggaran _(Tabel: `budgets`, `developments`)_.\n".
+            "   • **Laporan & Audit Log:** Laporan berkala desa dan rekam jejak audit trail.\n".
+            "   • **Manajemen User:** Otorisasi akun seluruh warga dan aparatur desa _(Tabel: `users`)_.\n".
+            "   • **Pengaturan Akun & Koneksi Bot:** Pengaturan profil desa dan gateway bot.\n\n".
+            "5. ⚡ **Role Super Administrator (SUPER_ADMIN):**\n".
+            "   • **Dashboard Super Admin:** Monitoring arsitektur global, integritas database, dan kesehatan server.\n".
+            "   • **Wilayah & Penduduk:** Akses menyeluruh data desa, hierarki RW/RT, dan direktori kependudukan terpadu.\n".
+            "   • **Layanan Surat & Pengaduan:** Pengawasan alur persuratan dan tiket keluhan warga lintas wilayah.\n".
+            "   • **Pembangunan & APBDes:** Monitoring keuangan dan pembangunan desa se-sistem.\n".
+            "   • **Laporan & Audit Log:** Audit trail global atas seluruh aktivitas dan perubahan data sistem.\n".
+            "   • **Manajemen User:** Manajemen akun, aktivasi hak akses, dan reset kredensial pengguna.\n".
+            "   • **Kelola AI Knowledge:** Manajemen basis pengetahuan mandiri AI SIWIL _(Tabel: `ai_knowledge`)_.\n".
+            '   • **Pengaturan Akun & Koneksi Bot:** Konfigurasi teknis sistem dan bot gateway.';
+    }
+
+    /**
+     * Get real-time data contents for all active menus in the user's sidebar.
+     * Guaranteed never to include passwords, adhering strictly to system security policies.
+     */
+    private function getWholeSidebarMenuContents(User $user): string
+    {
+        $role = $user->role;
+        $sections = [];
+
+        // 1. Dashboard Content
+        $sections[] = "1. 📊 **Menu Dashboard:**\n".$this->getDashboardSummary($user);
+
+        // 2. Wilayah & Penduduk / Data Warga / Data Keluarga
+        if ($role === 'WARGA') {
+            $sections[] = "2. 👨‍👩‍👧‍👦 **Menu Data Keluarga (Kartu Keluarga):**\n".$this->getFamilyMenuContent($user);
+        } else {
+            $secTitle = $role === 'RT' ? 'Data Warga RT' : ($role === 'RW' ? 'Data Warga RW' : 'Wilayah & Penduduk');
+            $sections[] = "2. 👥 **Menu {$secTitle}:**\n".$this->getTerritoryResidentMenuContent($user);
+        }
+
+        // 3. Pengumuman Desa
+        $sections[] = "3. 📢 **Menu Pengumuman Desa:**\n".$this->getAnnouncementMenuContent($user);
+
+        // 4. Layanan Surat
+        $docTitle = $role === 'WARGA' ? 'Pengajuan Surat' : 'Layanan Surat';
+        $sections[] = "4. 📄 **Menu {$docTitle}:**\n".$this->getDocumentMenuContent($user);
+
+        // 5. Pengaduan Warga
+        $compTitle = $role === 'WARGA' ? 'Pengaduan' : 'Pengaduan Warga';
+        $sections[] = "5. 💬 **Menu {$compTitle}:**\n".$this->getComplaintMenuContent($user);
+
+        // 6. Musyawarah & Polling
+        $sections[] = "6. 🗳️ **Menu Musyawarah & Polling:**\n".$this->getPollMenuContent($user);
+
+        $step = 7;
+
+        // 7. Pembangunan & APBDes (Admin Desa & Super Admin)
+        if (in_array($role, ['SUPER_ADMIN', 'ADMIN_DESA', 'DESA'])) {
+            $sections[] = "{$step}. 🏗️ **Menu Pembangunan & APBDes:**\n".$this->getBudgetDevelopmentMenuContent($user);
+            $step++;
+        }
+
+        // 8. Laporan & Audit Log (Non-Warga)
+        if ($role !== 'WARGA') {
+            $sections[] = "{$step}. 📑 **Menu Laporan & Audit Log:**\n".$this->getAuditReportMenuContent($user);
+            $step++;
+        }
+
+        // 9. Manajemen User (Admin Desa & Super Admin)
+        if (in_array($role, ['SUPER_ADMIN', 'ADMIN_DESA', 'DESA'])) {
+            $sections[] = "{$step}. 🛡️ **Menu Manajemen User:**\n".$this->getUserManagementMenuContent($user);
+            $step++;
+        }
+
+        // 10. Kelola AI Knowledge (Super Admin)
+        if ($role === 'SUPER_ADMIN') {
+            $sections[] = "{$step}. 🧠 **Menu Kelola AI Knowledge:**\n".$this->getAiKnowledgeMenuContent($user);
+            $step++;
+        }
+
+        // 11. Pengaturan Akun
+        $sections[] = "{$step}. ⚙️ **Menu Pengaturan Akun:**\n".$this->getAccountSettingsMenuContent($user);
+        $step++;
+
+        // 12. Koneksi Bot
+        $sections[] = "{$step}. 🤖 **Menu Koneksi Bot (WhatsApp & Telegram):**\n".$this->getBotConnectionMenuContent($user);
+        $step++;
+
+        // 13. Tombol Darurat SOS (Khusus Warga)
+        if ($role === 'WARGA') {
+            $isEmergency = Emergency::where('user_id', $user->id)->where('status', '!=', 'RESOLVED')->exists();
+            $sosStatus = $isEmergency ? '🚨 **SOS Sedang Aktif!**' : '✅ **Siaga / Tidak ada darurat aktif**';
+            $sections[] = "{$step}. 🚨 **Fitur Tombol Darurat (SOS Warga):**\n".
+                "• Status SOS Anda: {$sosStatus}\n".
+                '• Fungsi: Mengirimkan sinyal darurat instan beserta koordinat lokasi GPS Anda kepada pengurus RT/RW dan perangkat desa.';
+            $step++;
+        }
+
+        // 14. Pembaruan & Update Terkini dari Dashboard & Database
+        $sections[] = "{$step}. 🔄 **Pembaruan & Update Terkini dari Dashboard & Database:**\n".$this->getRecentUpdatesSummary($user);
+
+        $header = "📋 **Keseluruhan Isi Menu Navigasi Sidebar (Akun {$this->getRoleDisplayName($role)}):**\n\n".
+            "Berikut adalah isi dan ringkasan data real-time dari seluruh modul menu yang aktif di sidebar Anda:\n\n";
+
+        $footer = "\n\n🔒 **Catatan Keamanan & Privasi Data:**\n".
+            '• Sesuai standar keamanan sistem SIWIL dan UU Perlindungan Data Pribadi, seluruh kata sandi (password) dienkripsi satu arah menggunakan hashing kriptografis (**Bcrypt**) dan **TIDAK PERNAH ditampilkan atau dibaca** oleh AI kepada siapa pun demi menjamin kerahasiaan akun.';
+
+        return $header.implode("\n\n---\n\n", $sections).$footer;
+    }
+
+    /**
+     * Get complete sidebar menu breakdown for all roles, along with real-time database contents
+     * and live dashboard updates so AI always knows what has changed.
+     */
+    private function getSidebarAndDashboardForAllRoles(User $user): string
+    {
+        $allRolesList = $this->getSidebarMenuListForAllRoles();
+        $myMenuContent = $this->getWholeSidebarMenuContents($user);
+        $recentUpdates = $this->getRecentUpdatesSummary($user);
+
+        return "📋 **Keseluruhan Isi Menu-Menu Dashboard & Sidebar Tiap Role (Terhubung Database SIWIL):**\n\n".
+            "Ya, SIWIL AI terhubung langsung secara real-time ke database untuk membaca dan menjawab seluruh isi dashboard di tiap menu sidebar pada setiap role (Warga, Pengurus RT, Pengurus RW, Administrator Desa, dan Super Admin).\n\n".
+            $allRolesList."\n\n".
+            "---\n\n".
+            "📊 **Isi Data Real-Time Menu Sidebar Anda Saat Ini ({$this->getRoleDisplayName($user->role)}):**\n".
+            "_(Termasuk modul Wilayah & Kependudukan, Layanan Surat, Pengaduan, Musyawarah, Pembangunan/APBDes, dll)_\n\n".
+            $myMenuContent."\n\n".
+            "---\n\n".
+            "🔄 **Mekanisme Real-Time AI Mengetahui Pembaruan (Update) Dashboard:**\n".
+            "Basis pengetahuan (knowledge) SIWIL AI berasal langsung dari database sistem melalui query Eloquent real-time. Ketika terjadi penambahan atau perubahan data di dashboard mana pun di tiap sidebar, AI langsung mengetahuinya seketika:\n".
+            "• **Wilayah & Kependudukan:** Penambahan desa baru, pemekaran RW/RT, registrasi warga, atau mutasi keluarga langsung tersinkronisasi.\n".
+            "• **Status Pengajuan Surat:** Status baru (misal: verifikasi RT/RW/Desa) langsung terdeteksi.\n".
+            "• **Status Pengaduan:** Tindak lanjut laporan aduan warga langsung tercatat seketika.\n".
+            "• **Pengumuman Baru:** Edaran resmi desa yang baru dipublikasikan langsung masuk basis data AI.\n".
+            "• **Musyawarah & Polling:** Agenda musyawarah aktif dan hasil suara warga langsung terhitung.\n".
+            "• **Pembangunan & APBDes:** Progres fisik proyek dan realisasi anggaran desa selalu mutakhir.\n".
+            "• **Data Kependudukan:** Penambahan warga baru atau mutasi keluarga langsung tersinkronisasi.\n".
+            "• **Notifikasi & Audit Log:** Peringatan sistem dan rekam jejak audit terkini terbaca otomatis.\n\n".
+            $recentUpdates;
+    }
+
+    private function getUserManagementMenuContent(User $user): string
+    {
+        $totalUsers = User::count();
+        $rolesCount = User::selectRaw('role, count(*) as total')->groupBy('role')->pluck('total', 'role');
+        $warga = $rolesCount['WARGA'] ?? 0;
+        $rt = $rolesCount['RT'] ?? 0;
+        $rw = $rolesCount['RW'] ?? 0;
+        $desa = ($rolesCount['ADMIN_DESA'] ?? 0) + ($rolesCount['DESA'] ?? 0);
+        $sa = $rolesCount['SUPER_ADMIN'] ?? 0;
+
+        $recentUsers = User::latest()->take(3)->get();
+        $recentList = [];
+        foreach ($recentUsers as $u) {
+            $roleLabel = match ($u->role) {
+                'WARGA' => 'Warga',
+                'RT' => 'Pengurus RT',
+                'RW' => 'Pengurus RW',
+                'ADMIN_DESA', 'DESA' => 'Admin Desa',
+                'SUPER_ADMIN' => 'Super Admin',
+                default => $u->role,
+            };
+            $contact = $u->email ?: ($u->phone_number ?: $u->username);
+            $recentList[] = "  • **{$u->name}** ({$roleLabel}) — `{$contact}`";
+        }
+
+        return "• **Total Akun Pengguna Terdaftar:** **{$totalUsers} Akun**\n".
+            "• **Rincian Akun per Role:**\n".
+            "  - Warga: **{$warga}** akun\n".
+            "  - Pengurus RT: **{$rt}** akun\n".
+            "  - Pengurus RW: **{$rw}** akun\n".
+            "  - Perangkat / Admin Desa: **{$desa}** akun\n".
+            "  - Super Administrator: **{$sa}** akun\n".
+            "• **Akun Terdaftar Terbaru:**\n".(empty($recentList) ? "  _Belum ada data akun_\n" : implode("\n", $recentList)."\n").
+            '• 🔒 **Proteksi Kata Sandi:** Seluruh kata sandi pengguna dienkripsi satu arah (**Bcrypt**) dan **TIDAK DITAMPILKAN** demi menjaga privasi dan keamanan akun.';
+    }
+
+    private function getAccountSettingsMenuContent(User $user): string
+    {
+        $profile = $this->getUserProfileData($user);
+
+        return "• **Profil Pengguna Login:** **{$profile['name']}**\n".
+            "• **NIK:** `{$profile['nik']}`\n".
+            "• **Peran / Jabatan:** {$profile['role_label']}\n".
+            "• **Nomor Kontak / WhatsApp:** {$profile['phone']}\n".
+            "• **Email Akun:** {$profile['email']}\n".
+            "• **Wilayah:** RT {$profile['rt']} / RW {$profile['rw']}, Desa {$profile['village']}\n".
+            "• **Alamat:** {$profile['address']}\n".
+            '• 🔒 **Status Kata Sandi:** Terenkripsi secara aman (Bcrypt) & terlindungi. Pembaruan kata sandi dapat dilakukan melalui formulir Pengaturan Akun.';
+    }
+
+    private function getBudgetDevelopmentMenuContent(User $user): string
+    {
+        $villageId = $user->village_id ?: Village::value('id');
+        $queryBudget = Budget::query();
+        $queryDev = Development::query();
+        if ($user->role !== 'SUPER_ADMIN' && $villageId) {
+            $queryBudget->where('village_id', $villageId);
+            $queryDev->where('village_id', $villageId);
+        }
+
+        $totalIncomeBudget = (clone $queryBudget)->where('type', 'PENDAPATAN')->sum('amount_budget');
+        $totalIncomeRealized = (clone $queryBudget)->where('type', 'PENDAPATAN')->sum('amount_realized');
+        $totalSpendBudget = (clone $queryBudget)->where('type', 'BELANJA')->sum('amount_budget');
+        $totalSpendRealized = (clone $queryBudget)->where('type', 'BELANJA')->sum('amount_realized');
+
+        $devCount = (clone $queryDev)->count();
+        $ongoingDevs = (clone $queryDev)->where('status', 'ONGOING')->count();
+        $completedDevs = (clone $queryDev)->where('status', 'COMPLETED')->count();
+
+        $recentDevs = (clone $queryDev)->latest()->take(2)->get();
+        $devItems = [];
+        foreach ($recentDevs as $d) {
+            $bud = number_format($d->budget_allocated, 0, ',', '.');
+            $devItems[] = "  • **{$d->title}** — Anggaran: Rp {$bud} | Progres: **{$d->progress_percentage}%** ({$d->status})";
+        }
+
+        return "• 💰 **Ringkasan Anggaran APBDes:**\n".
+            '  - Target Pendapatan: **Rp '.number_format($totalIncomeBudget, 0, ',', '.').'** (Realisasi: Rp '.number_format($totalIncomeRealized, 0, ',', '.').")\n".
+            '  - Alokasi Belanja: **Rp '.number_format($totalSpendBudget, 0, ',', '.').'** (Realisasi: Rp '.number_format($totalSpendRealized, 0, ',', '.').")\n".
+            "• 🏗️ **Proyek Pembangunan Desa:**\n".
+            "  - Total Proyek: **{$devCount} Proyek** ({$ongoingDevs} Berjalan, {$completedDevs} Selesai)\n".
+            (empty($devItems) ? "  - _Belum ada proyek pembangunan terdaftar_\n" : implode("\n", $devItems));
+    }
+
+    private function getAuditReportMenuContent(User $user): string
+    {
+        $totalLogs = AuditLog::count();
+        $recentLogs = AuditLog::with('user')->latest()->take(3)->get();
+        $logItems = [];
+        foreach ($recentLogs as $log) {
+            $actor = $log->user?->name ?? 'Sistem';
+            $time = $log->created_at ? $log->created_at->format('d M Y H:i') : '-';
+            $logItems[] = "  • `{$log->action}` pada **{$log->entity_name}** oleh **{$actor}** _({$time})_";
+        }
+
+        return "• **Total Rekam Audit Log:** **{$totalLogs} aktivitas tercatat**\n".
+            "• **Aktivitas Audit Sistem Terbaru:**\n".
+            (empty($logItems) ? "  _Belum ada riwayat aktivitas audit_\n" : implode("\n", $logItems));
+    }
+
+    private function getAiKnowledgeMenuContent(User $user): string
+    {
+        $count = AiKnowledge::count();
+        $topics = AiKnowledge::latest()->take(4)->pluck('topic')->implode(', ');
+
+        return "• **Total Basis Pengetahuan AI:** **{$count} Dokumen / Topik Pengetahuan**\n".
+            '• **Topik Utama AI Terdaftar:** '.($topics ?: 'Regulasi Desa, SOP Surat, Layanan Pengaduan');
+    }
+
+    private function getBotConnectionMenuContent(User $user): string
+    {
+        $botWa = config('services.whatsapp.bot_number', env('WHATSAPP_BOT_NUMBER', '628981295171'));
+        $botTele = config('services.telegram.bot_username', env('TELEGRAM_BOT_USERNAME', 'cevitBot'));
+
+        $waConnected = ! empty($user->whatsapp_number) || ! empty($user->whatsapp_lid);
+        $teleConnected = ! empty($user->telegram_id);
+
+        $waStatus = $waConnected ? '✅ **Terhubung**' : '⚪ **Belum Ditautkan**';
+        $teleStatus = $teleConnected ? '✅ **Terhubung**' : '⚪ **Belum Ditautkan**';
+
+        return "• 🟢 **WhatsApp Chat Bot:** Nomor Layanan `+{$botWa}`\n".
+            "  - Status Akun Anda: {$waStatus}\n".
+            "• 🔵 **Telegram Bot:** Akun `@{$botTele}`\n".
+            "  - Status Akun Anda: {$teleStatus}\n".
+            '• **Fungsi Bot:** Notifikasi otomatis status surat, peringatan aduan darurat, pengumuman desa, dan interaksi cerdas mandiri melalui chat.';
+    }
+
+    private function getAnnouncementMenuContent(User $user): string
+    {
+        $announcements = Announcement::latest()->take(3)->get();
+        if ($announcements->isEmpty()) {
+            return '• _Belum ada pengumuman desa yang dipublikasikan saat ini._';
+        }
+
+        $items = [];
+        foreach ($announcements as $a) {
+            $date = $a->created_at ? $a->created_at->format('d M Y') : '-';
+            $items[] = "  • **{$a->title}** _({$date})_ — ".Str::limit(strip_tags($a->content ?? ''), 75);
+        }
+
+        return "• **Pengumuman Resmi Terkini:**\n".implode("\n", $items);
+    }
+
+    private function getDocumentMenuContent(User $user): string
+    {
+        $role = $user->role;
+        if ($role === 'WARGA') {
+            $resident = $user->resident ?: Resident::where('nik', $user->username)->first();
+            $myDocs = $resident ? DocumentRequest::where('resident_id', $resident->id)->latest()->take(3)->get() : collect();
+            $totalMyDocs = $resident ? DocumentRequest::where('resident_id', $resident->id)->count() : 0;
+
+            if ($myDocs->isEmpty()) {
+                return "• **Total Pengajuan Surat Saya:** **0 berkas**\n  _Anda belum memiliki riwayat pengajuan surat._";
+            }
+
+            $items = [];
+            foreach ($myDocs as $d) {
+                $time = $d->created_at ? $d->created_at->format('d M Y') : '-';
+                $items[] = "  • **{$d->type}** — Status: `{$d->status}` _({$time})_";
+            }
+
+            return "• **Total Pengajuan Surat Saya:** **{$totalMyDocs} berkas**\n• **Pengajuan Surat Terkini:**\n".implode("\n", $items);
+        }
+
+        // RT / RW / Desa / Super Admin
+        $query = DocumentRequest::query();
+        if ($role === 'RT' && $user->rt_id) {
+            $query->whereHas('resident', fn ($q) => $q->where('rt_id', $user->rt_id));
+        } elseif ($role === 'RW' && $user->rw_id) {
+            $query->whereHas('resident.rt', fn ($q) => $q->where('rw_id', $user->rw_id));
+        } elseif (in_array($role, ['ADMIN_DESA', 'DESA']) && $user->village_id) {
+            $query->whereHas('resident.rt.rw', fn ($q) => $q->where('village_id', $user->village_id));
+        }
+
+        $totalDocs = (clone $query)->count();
+        $pendingDocs = (clone $query)->whereIn('status', ['PENDING', 'SUBMITTED', 'WAITING_RT', 'APPROVED_RT', 'WAITING_RW', 'APPROVED_RW'])->count();
+        $completedDocs = (clone $query)->whereIn('status', ['COMPLETED', 'APPROVED_VILLAGE', 'SIGNED'])->count();
+
+        return "• **Total Permohonan Surat:** **{$totalDocs} permohonan**\n".
+            "• **Menunggu Verifikasi:** **{$pendingDocs} berkas**\n".
+            "• **Selesai / Terbit:** **{$completedDocs} berkas**";
+    }
+
+    private function getComplaintMenuContent(User $user): string
+    {
+        $role = $user->role;
+        if ($role === 'WARGA') {
+            $myComplaints = Complaint::where('user_id', $user->id)->latest()->take(3)->get();
+            $totalMy = Complaint::where('user_id', $user->id)->count();
+
+            if ($myComplaints->isEmpty()) {
+                return "• **Total Pengaduan Saya:** **0 laporan**\n  _Anda belum pernah mengajukan laporan pengaduan._";
+            }
+
+            $items = [];
+            foreach ($myComplaints as $c) {
+                $items[] = "  • **{$c->title}** — Status: `{$c->status}`";
+            }
+
+            return "• **Total Pengaduan Saya:** **{$totalMy} laporan**\n• **Riwayat Aduan Terkini:**\n".implode("\n", $items);
+        }
+
+        $query = Complaint::query();
+        if ($role === 'RT' && $user->rt_id) {
+            $query->where('rt_id', $user->rt_id);
+        } elseif ($role === 'RW' && $user->rw_id) {
+            $query->where('rw_id', $user->rw_id);
+        } elseif (in_array($role, ['ADMIN_DESA', 'DESA']) && $user->village_id) {
+            $query->where('village_id', $user->village_id);
+        }
+
+        $total = (clone $query)->count();
+        $pending = (clone $query)->whereIn('status', ['PENDING', 'OPEN'])->count();
+        $process = (clone $query)->where('status', 'IN_PROGRESS')->count();
+        $resolved = (clone $query)->where('status', 'RESOLVED')->count();
+
+        return "• **Total Pengaduan Masuk:** **{$total} laporan**\n".
+            "• **Status Aduan:** {$pending} Menunggu, {$process} Diproses, {$resolved} Selesai Ditangani";
+    }
+
+    private function getPollMenuContent(User $user): string
+    {
+        $activePolls = Poll::where('status', 'ACTIVE')->with('options')->latest()->take(2)->get();
+        $totalPolls = Poll::count();
+
+        if ($activePolls->isEmpty()) {
+            return "• **Total Agenda Musyawarah / Polling:** **{$totalPolls} agenda**\n".
+                '• _Saat ini tidak ada polling atau musyawarah yang sedang berlangsung._';
+        }
+
+        $items = [];
+        foreach ($activePolls as $p) {
+            $opts = $p->options->pluck('label')->implode(', ');
+            $votes = PollVote::where('poll_id', $p->id)->count();
+            $items[] = "  • **{$p->title}** (Partisipasi: **{$votes} suara**)\n    _Pilihan: {$opts}_";
+        }
+
+        return "• **Total Musyawarah:** **{$totalPolls} agenda**\n• **Polling Warga yang Sedang Aktif:**\n".implode("\n", $items);
+    }
+
+    private function getTerritoryResidentMenuContent(User $user): string
+    {
+        $role = $user->role;
+        if ($role === 'SUPER_ADMIN') {
+            $vCount = Village::count();
+            $rwCount = Rw::count();
+            $rtCount = Rt::count();
+            $resCount = Resident::count();
+            $famCount = Family::count();
+            $pria = Resident::where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
+            $wanita = Resident::where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
+
+            // 1. Wilayah Desa
+            $villages = Village::withCount(['rws', 'users'])->get();
+            $villageList = [];
+            foreach ($villages as $v) {
+                $code = $v->code ?? '-';
+                $villageList[] = "  • **{$v->name}** (Kode: `{$code}`) — **{$v->rws_count} RW**, **{$v->users_count} Akun**";
+            }
+
+            // 2. Hierarki RW & RT
+            $rws = Rw::with('rts')->get();
+            $hierarchyList = [];
+            foreach ($rws as $rw) {
+                $rtNums = $rw->rts->pluck('number')->map(fn ($n) => "RT {$n}")->implode(', ') ?: 'Belum ada RT';
+                $hierarchyList[] = "  • **RW {$rw->number}** ({$rw->rts->count()} RT): {$rtNums}";
+            }
+
+            // 3. Data Kependudukan Terpadu
+            $residents = Resident::with(['user', 'rt.rw'])->latest()->take(10)->get();
+            $totHasAccount = Resident::has('user')->count();
+            $totNoAccount = Resident::doesntHave('user')->count();
+            $noAccountResidents = Resident::doesntHave('user')->with('rt.rw')->get();
+
+            $resList = [];
+            foreach ($residents as $r) {
+                $hp = $r->user?->phone_number ? " | Kontak: `{$r->user->phone_number}`" : '';
+                $accountStatus = $r->user ? 'Akun Aktif' : '⚠️ Belum Ada Akun (+ Buat Akun)';
+                $resList[] = "  • **{$r->full_name}** (NIK: `{$r->nik}`) — {$r->gender}, RT {$r->rt?->number}/RW {$r->rt?->rw?->number}, Status: `{$r->status}`, Akun: [{$accountStatus}]{$hp}";
+            }
+
+            $noAccountText = '';
+            if ($noAccountResidents->isNotEmpty()) {
+                $noNames = $noAccountResidents->map(fn ($nr) => "**{$nr->full_name}** (RT {$nr->rt?->number}/RW {$nr->rt?->rw?->number})")->implode(', ');
+                $noAccountText = "  - Warga Belum Ada Akun: **{$totNoAccount} orang** ({$noNames}) [Tombol: + Buat Akun]\n";
+            } else {
+                $noAccountText = "  - Warga Belum Ada Akun: **0 orang** (Semua warga memiliki akun)\n";
+            }
+
+            return "• 🏢 **Statistik Utama (KPI Cards):**\n".
+                "  - Total Desa: **{$vCount} Desa**\n".
+                "  - Total RW & RT: **{$rwCount} RW | {$rtCount} RT**\n".
+                "  - Total Penduduk: **{$resCount} Jiwa** ({$pria} Laki-laki • {$wanita} Perempuan)\n".
+                "  - Kepala Keluarga: **{$famCount} KK**\n".
+                "  - Status Akun Login Warga: **{$totHasAccount} Memiliki Akun** | **{$totNoAccount} Belum Ada Akun**\n".
+                $noAccountText."\n".
+                "• 🗺️ **Wilayah Desa Terdaftar:**\n".(empty($villageList) ? "  _Belum ada desa_\n" : implode("\n", $villageList)."\n")."\n".
+                "• 📍 **Hierarki RW & RT:**\n".(empty($hierarchyList) ? "  _Belum ada data hierarki_\n" : implode("\n", $hierarchyList)."\n")."\n".
+                "• 👥 **Data Kependudukan Terpadu Terkini:**\n".(empty($resList) ? "  _Belum ada warga terdaftar_\n" : implode("\n", $resList));
+        }
+
+        if (in_array($role, ['ADMIN_DESA', 'DESA'])) {
+            $vId = $user->village_id ?: Village::value('id');
+            $v = Village::with('rws.rts')->find($vId) ?: Village::first();
+            $rwCount = $v?->rws?->count() ?? 0;
+            $rtCount = $v?->rws?->flatMap->rts->count() ?? 0;
+            $resCount = Resident::whereHas('rt.rw', fn ($q) => $q->where('village_id', $vId))->count();
+            $famCount = Family::whereHas('rt.rw', fn ($q) => $q->where('village_id', $vId))->count();
+            $pria = Resident::whereHas('rt.rw', fn ($q) => $q->where('village_id', $vId))->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
+            $wanita = Resident::whereHas('rt.rw', fn ($q) => $q->where('village_id', $vId))->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
+
+            $rws = $v ? $v->rws()->with('rts')->get() : collect();
+            $hierarchyList = [];
+            foreach ($rws as $rw) {
+                $rtNums = $rw->rts->pluck('number')->map(fn ($n) => "RT {$n}")->implode(', ') ?: 'Belum ada RT';
+                $hierarchyList[] = "  • **RW {$rw->number}** ({$rw->rts->count()} RT): {$rtNums}";
+            }
+
+            $residents = Resident::whereHas('rt.rw', fn ($q) => $q->where('village_id', $vId))->with(['user', 'rt.rw'])->latest()->take(5)->get();
+            $resList = [];
+            foreach ($residents as $r) {
+                $hp = $r->user?->phone_number ? " | Kontak: `{$r->user->phone_number}`" : '';
+                $resList[] = "  • **{$r->full_name}** (NIK: `{$r->nik}`) — {$r->gender}, RT {$r->rt?->number}/RW {$r->rt?->rw?->number}, Status: `{$r->status}`{$hp}";
+            }
+
+            $vName = $v?->name ?? 'Desa';
+            $vCode = $v?->code ?? '-';
+            $vUsers = $v ? $v->users()->count() : 0;
+
+            return "• 🏢 **Statistik Utama Wilayah {$vName} (KPI Cards):**\n".
+                "  - Total Desa: **1 Desa** ({$vName}, Kode: `{$vCode}`, **{$vUsers} Akun**)\n".
+                "  - Total RW & RT: **{$rwCount} RW | {$rtCount} RT**\n".
+                "  - Total Penduduk: **{$resCount} Jiwa** ({$pria} Laki-laki • {$wanita} Perempuan)\n".
+                "  - Kepala Keluarga: **{$famCount} KK**\n\n".
+                "• 📍 **Hierarki RW & RT di {$vName}:**\n".(empty($hierarchyList) ? "  _Belum ada data hierarki_\n" : implode("\n", $hierarchyList)."\n")."\n".
+                "• 👥 **Data Kependudukan Terpadu Terkini:**\n".(empty($resList) ? "  _Belum ada warga terdaftar_\n" : implode("\n", $resList));
+        }
+
+        if ($role === 'RW') {
+            $rw = $user->rw_id ? Rw::with('rts')->find($user->rw_id) : null;
+            $rtCount = $rw?->rts?->count() ?? 0;
+            $resCount = Resident::whereHas('rt', fn ($q) => $q->where('rw_id', $user->rw_id))->count();
+            $famCount = Family::whereHas('rt', fn ($q) => $q->where('rw_id', $user->rw_id))->count();
+            $pria = Resident::whereHas('rt', fn ($q) => $q->where('rw_id', $user->rw_id))->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
+            $wanita = Resident::whereHas('rt', fn ($q) => $q->where('rw_id', $user->rw_id))->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
+
+            $rtNums = $rw?->rts->pluck('number')->map(fn ($n) => "RT {$n}")->implode(', ') ?: 'Belum ada RT';
+
+            $residents = Resident::whereHas('rt', fn ($q) => $q->where('rw_id', $user->rw_id))->with(['user', 'rt'])->latest()->take(5)->get();
+            $resList = [];
+            foreach ($residents as $r) {
+                $hp = $r->user?->phone_number ? " | Kontak: `{$r->user->phone_number}`" : '';
+                $resList[] = "  • **{$r->full_name}** (NIK: `{$r->nik}`) — {$r->gender}, RT {$r->rt?->number}, Status: `{$r->status}`{$hp}";
+            }
+
+            return "• 🏢 **Statistik Utama Wilayah RW {$rw?->number} (KPI Cards):**\n".
+                "  - Total RT Binaan: **{$rtCount} RT** ({$rtNums})\n".
+                "  - Total Warga: **{$resCount} Jiwa** ({$pria} Laki-laki • {$wanita} Perempuan)\n".
+                "  - Total Kepala Keluarga: **{$famCount} KK**\n\n".
+                "• 👥 **Daftar Warga Terkini di RW {$rw?->number}:**\n".(empty($resList) ? "  _Belum ada warga terdaftar_\n" : implode("\n", $resList));
+        }
+
+        if ($role === 'RT') {
+            $rt = $user->rt_id ? Rt::find($user->rt_id) : null;
+            $resCount = Resident::where('rt_id', $user->rt_id)->count();
+            $famCount = Family::where('rt_id', $user->rt_id)->count();
+            $pria = Resident::where('rt_id', $user->rt_id)->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
+            $wanita = Resident::where('rt_id', $user->rt_id)->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
+
+            $residents = Resident::where('rt_id', $user->rt_id)->with('user')->latest()->take(5)->get();
+            $resList = [];
+            foreach ($residents as $r) {
+                $hp = $r->user?->phone_number ? " | Kontak: `{$r->user->phone_number}`" : '';
+                $resList[] = "  • **{$r->full_name}** (NIK: `{$r->nik}`) — {$r->gender}, Status: `{$r->status}`{$hp}";
+            }
+
+            return "• 🏢 **Statistik Utama Wilayah RT {$rt?->number} (KPI Cards):**\n".
+                "  - Total Penduduk: **{$resCount} Jiwa** ({$pria} Laki-laki • {$wanita} Perempuan)\n".
+                "  - Total Kepala Keluarga: **{$famCount} KK**\n\n".
+                "• 👥 **Daftar Warga Terkini di RT {$rt?->number}:**\n".(empty($resList) ? "  _Belum ada warga terdaftar_\n" : implode("\n", $resList));
+        }
+
+        return '';
+    }
+
+    private function getFamilyMenuContent(User $user): string
+    {
+        $resident = $user->resident ?: Resident::with(['family.residents'])->where('nik', $user->username)->first();
+        $family = $resident?->family;
+
+        if (! $family) {
+            return '• _Data anggota keluarga belum tertaut pada Kartu Keluarga (KK) Anda._';
+        }
+
+        $members = $family->residents()->get();
+        $memberItems = [];
+        foreach ($members as $m) {
+            $status = $m->family_status ?: 'Anggota';
+            $memberItems[] = "  • **{$m->full_name}** ({$status}) — NIK: `{$m->nik}`";
+        }
+
+        return "• **No. Kartu Keluarga (KK):** `{$family->family_card_number}`\n".
+            "• **Daftar Anggota Keluarga Terdaftar:**\n".implode("\n", $memberItems);
+    }
+
+    private function getRoleDisplayName(string $role): string
+    {
+        return match ($role) {
+            'WARGA' => 'Warga',
+            'RT' => 'Pengurus RT',
+            'RW' => 'Pengurus RW',
+            'ADMIN_DESA', 'DESA' => 'Administrator Desa',
+            'SUPER_ADMIN' => 'Super Administrator',
+            default => $role,
+        };
+    }
+
+    /**
+     * Get real-time dashboard summary matching what the user sees on their role dashboard.
+     */
+    private function getDashboardSummary(User $user): string
+    {
+        $role = $user->role;
+
+        if ($role === 'WARGA') {
+            $resident = Resident::where('nik', $user->username)->first() ?: $user->resident;
+            $totalDocs = DocumentRequest::accessibleBy($user)->count();
+            $pendingDocs = DocumentRequest::accessibleBy($user)->whereIn('status', ['PENDING', 'DIAJUKAN_RT', 'DIAJUKAN_RW', 'DIAJUKAN_DESA'])->count();
+            $completedDocs = DocumentRequest::accessibleBy($user)->whereIn('status', ['SELESAI', 'DISETUJUI', 'COMPLETED'])->count();
+
+            $totalComplaints = Complaint::where('user_id', $user->id)->count();
+            $processingComplaints = Complaint::where('user_id', $user->id)->whereIn('status', ['PENDING', 'PROCESSING', 'DIPROSES'])->count();
+            $resolvedComplaints = Complaint::where('user_id', $user->id)->whereIn('status', ['RESOLVED', 'SELESAI'])->count();
+
+            $activePollsCount = Poll::where('status', 'ACTIVE')->where(fn ($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))->count();
+            $announcementsCount = Announcement::where('is_active', true)->count();
+            $hasActiveEmergency = Emergency::where('user_id', $user->id)->where('status', 'ACTIVE')->exists();
+            $sosText = $hasActiveEmergency ? '🚨 Anda memiliki panggilan darurat (SOS) aktif!' : '✅ Status aman (0 SOS aktif).';
+
+            $kkNum = $resident?->family?->kk_number ?? $user->kk_number ?? '-';
+            $familyCount = $resident?->family_id ? Resident::where('family_id', $resident->family_id)->count() : 1;
+
+            return "📊 **Ringkasan Data & Informasi Dashboard Warga:**\n\n".
+                "1. **Layanan Surat Mandiri Saya:**\n".
+                "   • Total Pengajuan: **{$totalDocs} berkas**\n".
+                "   • Menunggu / Diproses: **{$pendingDocs} berkas**\n".
+                "   • Selesai / Terbit: **{$completedDocs} berkas**\n\n".
+                "2. **Laporan & Pengaduan Saya:**\n".
+                "   • Total Pengaduan: **{$totalComplaints} laporan**\n".
+                "   • Sedang Diproses: **{$processingComplaints} laporan**\n".
+                "   • Selesai Ditangani: **{$resolvedComplaints} laporan**\n\n".
+                "3. **Musyawarah & Polling Warga:**\n".
+                "   • Polling Aktif: **{$activePollsCount} agenda**\n\n".
+                "4. **Pengumuman & Informasi Desa:**\n".
+                "   • Pengumuman Resmi: **{$announcementsCount} pengumuman aktif**\n\n".
+                "5. **Data Keluarga Terdaftar:**\n".
+                "   • No. KK: `{$kkNum}` ({$familyCount} anggota keluarga)\n\n".
+                "6. **Tombol Bantuan Darurat (SOS):**\n".
+                "   • {$sosText}";
+        }
+
+        if ($role === 'RT') {
+            $rt = $user->rt_id ? Rt::find($user->rt_id) : null;
+            $rtNum = $rt?->number ?? '-';
+            $totWarga = $rt ? Resident::where('rt_id', $rt->id)->count() : 0;
+            $totPria = $rt ? Resident::where('rt_id', $rt->id)->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count() : 0;
+            $totWanita = $rt ? Resident::where('rt_id', $rt->id)->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count() : 0;
+            $totKk = $rt ? Family::where('rt_id', $rt->id)->count() : 0;
+
+            $totalDocs = DocumentRequest::accessibleBy($user)->count();
+            $pendingDocs = DocumentRequest::accessibleBy($user)->whereIn('status', ['DIAJUKAN_RT', 'PENDING'])->count();
+
+            $totalComplaints = $rt ? Complaint::where('rt_id', $rt->id)->count() : 0;
+            $pendingComplaints = $rt ? Complaint::where('rt_id', $rt->id)->whereIn('status', ['PENDING', 'PROCESSING'])->count() : 0;
+
+            $activePollsCount = Poll::where('status', 'ACTIVE')->where(fn ($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))->count();
+            $activeEmergencies = Emergency::where('status', 'ACTIVE')->count();
+            $sosText = $activeEmergencies > 0 ? "🚨 Terdapat {$activeEmergencies} panggilan darurat (SOS) aktif!" : '✅ Situasi aman (0 SOS aktif).';
+
+            return "📊 **Ringkasan Data & Informasi Dashboard RT {$rtNum}:**\n\n".
+                "1. **Statistik Kependudukan RT {$rtNum}:**\n".
+                "   • Total Penduduk: **{$totWarga} Jiwa** ({$totPria} Laki-laki, {$totWanita} Perempuan)\n".
+                "   • Total Kartu Keluarga: **{$totKk} KK**\n\n".
+                "2. **Layanan Surat Warga:**\n".
+                "   • Total Permohonan Surat: **{$totalDocs} berkas**\n".
+                "   • Menunggu Verifikasi RT: **{$pendingDocs} berkas**\n\n".
+                "3. **Pengaduan Warga RT:**\n".
+                "   • Total Pengaduan Masuk: **{$totalComplaints} laporan**\n".
+                "   • Pending / Diproses: **{$pendingComplaints} laporan**\n\n".
+                "4. **Musyawarah & Polling:**\n".
+                "   • Polling Aktif: **{$activePollsCount} agenda**\n\n".
+                "5. **Status Panggilan Darurat (SOS):**\n".
+                "   • {$sosText}";
+        }
+
+        if ($role === 'RW') {
+            $rw = $user->rw_id ? Rw::with('rts')->find($user->rw_id) : null;
+            $rwNum = $rw?->number ?? '-';
+            $totalRts = $rw?->rts->count() ?? 0;
+            $totalWargaRw = $rw ? Resident::whereHas('rt', fn ($q) => $q->where('rw_id', $rw->id))->count() : 0;
+            $totalKkRw = $rw ? Family::whereHas('rt', fn ($q) => $q->where('rw_id', $rw->id))->count() : 0;
+
+            $totalDocs = DocumentRequest::accessibleBy($user)->count();
+            $pendingDocs = DocumentRequest::accessibleBy($user)->where('status', 'APPROVED_RT')->count();
+
+            $totalComplaints = $rw ? Complaint::where('rw_id', $rw->id)->count() : 0;
+            $pendingComplaints = $rw ? Complaint::where('rw_id', $rw->id)->whereIn('status', ['PENDING', 'PROCESSING'])->count() : 0;
+
+            $activeEmergencies = Emergency::where('status', 'ACTIVE')->count();
+            $sosText = $activeEmergencies > 0 ? "🚨 Terdapat {$activeEmergencies} panggilan darurat (SOS) aktif!" : '✅ Situasi aman (0 SOS aktif).';
+
+            return "📊 **Ringkasan Data & Informasi Dashboard RW {$rwNum}:**\n\n".
+                "1. **Statistik Wilayah RW {$rwNum}:**\n".
+                "   • Total Penduduk: **{$totalWargaRw} Jiwa** dalam **{$totalKkRw} KK** di **{$totalRts} RT binaan**\n\n".
+                "2. **Layanan Surat RW:**\n".
+                "   • Total Pengajuan Surat Masuk: **{$totalDocs} berkas**\n".
+                "   • Menunggu Verifikasi RW: **{$pendingDocs} berkas**\n\n".
+                "3. **Pengaduan Warga RW:**\n".
+                "   • Total Pengaduan Masuk: **{$totalComplaints} laporan**\n".
+                "   • Pending / Sedang Ditangani: **{$pendingComplaints} laporan**\n\n".
+                "4. **Status Panggilan Darurat (SOS):**\n".
+                "   • {$sosText}";
+        }
+
+        if (in_array($role, ['ADMIN_DESA', 'DESA'])) {
+            $village = $user->village_id ? Village::with('rws.rts')->find($user->village_id) : Village::with('rws.rts')->first();
+            $vLabel = $village ? (str_starts_with(strtolower(trim($village->name)), 'desa ') ? trim($village->name) : 'Desa '.trim($village->name)) : 'Desa';
+            $totalRw = $village?->rws->count() ?? 0;
+            $totalRt = $village?->rws->flatMap->rts->count() ?? 0;
+            $totalWarga = $village ? Resident::whereHas('rt.rw', fn ($q) => $q->where('village_id', $village->id))->count() : 0;
+            $totalKk = $village ? Family::whereHas('rt.rw', fn ($q) => $q->where('village_id', $village->id))->count() : 0;
+            $totalPria = $village ? Resident::whereHas('rt.rw', fn ($q) => $q->where('village_id', $village->id))->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count() : 0;
+            $totalWanita = $village ? Resident::whereHas('rt.rw', fn ($q) => $q->where('village_id', $village->id))->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count() : 0;
+
+            $totalComplaints = $village ? Complaint::where('village_id', $village->id)->count() : 0;
+            $totalDocs = $village ? DocumentRequest::whereHas('resident.rt.rw', fn ($q) => $q->where('village_id', $village->id))->count() : 0;
+            $pendingDesaDocs = $village ? DocumentRequest::whereHas('resident.rt.rw', fn ($q) => $q->where('village_id', $village->id))->where('status', 'APPROVED_RW')->count() : 0;
+
+            $activeEmergencies = Emergency::where('status', 'ACTIVE')->count();
+            $sosText = $activeEmergencies > 0 ? "🚨 Terdapat {$activeEmergencies} panggilan darurat (SOS) aktif di wilayah desa!" : '✅ Situasi aman (0 SOS aktif).';
+
+            return "📊 **Ringkasan Data & Informasi Dashboard Administrator {$vLabel}:**\n\n".
+                "1. **Statistik Demografi Penduduk Desa:**\n".
+                "   • Total Wilayah: **{$totalRw} RW** dan **{$totalRt} RT**\n".
+                "   • Total Penduduk: **{$totalWarga} Jiwa** ({$totalPria} Pria, {$totalWanita} Wanita)\n".
+                "   • Total Kartu Keluarga: **{$totalKk} KK**\n\n".
+                "2. **Layanan Surat Desa:**\n".
+                "   • Total Permohonan Surat: **{$totalDocs} berkas**\n".
+                "   • Menunggu Persetujuan / TTE Desa: **{$pendingDesaDocs} berkas**\n\n".
+                "3. **Pengaduan Masyarakat Desa:**\n".
+                "   • Total Laporan Masuk: **{$totalComplaints} laporan**\n\n".
+                "4. **Status Panggilan Darurat (SOS):**\n".
+                "   • {$sosText}";
+        }
+
+        // SUPER_ADMIN
+        $totalVillages = Village::count();
+        $totalRws = Rw::count();
+        $totalRts = Rt::count();
+        $totalResidents = Resident::count();
+        $totalPria = Resident::where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
+        $totalWanita = Resident::where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
+        $totalFamilies = Family::count();
+        $totalUsers = User::count();
+        $totalComplaints = Complaint::count();
+        $totalDocs = DocumentRequest::count();
+        $totalPolls = Poll::count();
+        $totalAnnouncements = Announcement::count();
+        $totHasAcc = Resident::has('user')->count();
+        $totNoAcc = Resident::doesntHave('user')->count();
+        $activeEmergenciesCount = Emergency::where('status', 'ACTIVE')->count();
+        $sosText = $activeEmergenciesCount > 0 ? "🚨 {$activeEmergenciesCount} Panggilan Darurat SOS Aktif!" : '✅ Aman (0 SOS Aktif).';
+
+        return "📊 **Ringkasan Data & Informasi Dashboard Super Admin:**\n\n".
+            "1. **Statistik Wilayah & Kependudukan Global:**\n".
+            "   • Master Wilayah: **{$totalVillages} Desa/Kelurahan**, **{$totalRws} RW**, **{$totalRts} RT**\n".
+            "   • Total Penduduk: **{$totalResidents} Jiwa** ({$totalPria} Pria, {$totalWanita} Wanita) dalam **{$totalFamilies} KK**\n".
+            "   • Status Akun Login Warga: **{$totHasAcc} memiliki akun**, **{$totNoAcc} belum ada akun**\n\n".
+            "2. **Statistik Pengguna & Keamanan:**\n".
+            "   • Total Pengguna Terdaftar: **{$totalUsers} Akun**\n".
+            "   • Status Darurat (SOS): **{$sosText}**\n\n".
+            "3. **Statistik Layanan Sistem:**\n".
+            "   • Total Pengajuan Surat: **{$totalDocs} permohonan**\n".
+            "   • Total Laporan Pengaduan: **{$totalComplaints} tiket**\n".
+            "   • Musyawarah & Polling: **{$totalPolls} agenda**\n".
+            "   • Pengumuman Resmi: **{$totalAnnouncements} pengumuman**";
+    }
+
+    /**
+     * Get recent updates from the dashboard and database for the user.
+     */
+    private function getRecentUpdatesSummary(User $user): string
+    {
+        $role = $user->role;
+        $updates = [];
+
+        // 1. In-App Notifications
+        $notifs = AppNotification::where('user_id', $user->id)->latest()->take(5)->get();
+        if ($notifs->isNotEmpty()) {
+            $notifItems = [];
+            foreach ($notifs as $n) {
+                $statusRead = $n->is_read ? '✓ Dibaca' : '🔔 Baru';
+                $time = $n->created_at->format('d M Y H:i');
+                $notifItems[] = "• [{$statusRead}] **{$n->title}**: {$n->message} _({$time})_";
+            }
+            $updates[] = "📬 **Notifikasi Sistem Terkini:**\n".implode("\n", $notifItems);
+        }
+
+        // 2. Role-specific recent updates from database
+        if ($role === 'WARGA') {
+            $resident = Resident::where('nik', $user->username)->first() ?: $user->resident;
+            if ($resident) {
+                $recentDocs = DocumentRequest::where('resident_id', $resident->id)->latest('updated_at')->take(3)->get();
+                if ($recentDocs->isNotEmpty()) {
+                    $docItems = [];
+                    foreach ($recentDocs as $d) {
+                        $time = $d->updated_at ? $d->updated_at->format('d M Y H:i') : $d->created_at->format('d M Y H:i');
+                        $docItems[] = "• **{$d->type}** — Status: `{$d->status}` _(Pembaruan: {$time})_";
+                    }
+                    $updates[] = "📄 **Pembaruan Status Pengajuan Surat Anda:**\n".implode("\n", $docItems);
+                }
+            }
+
+            $recentComplaints = Complaint::where('user_id', $user->id)->latest('updated_at')->take(3)->get();
+            if ($recentComplaints->isNotEmpty()) {
+                $compItems = [];
+                foreach ($recentComplaints as $c) {
+                    $time = $c->updated_at ? $c->updated_at->format('d M Y H:i') : $c->created_at->format('d M Y H:i');
+                    $compItems[] = "• **{$c->title}** — Status: `{$c->status}` _(Pembaruan: {$time})_";
+                }
+                $updates[] = "📢 **Pembaruan Status Pengaduan Anda:**\n".implode("\n", $compItems);
+            }
+
+            $recentAnnounce = Announcement::where('is_active', true)->latest('created_at')->take(2)->get();
+            if ($recentAnnounce->isNotEmpty()) {
+                $anItems = [];
+                foreach ($recentAnnounce as $a) {
+                    $time = $a->created_at->format('d M Y');
+                    $anItems[] = "• **{$a->title}** _(Diterbitkan: {$time})_";
+                }
+                $updates[] = "📣 **Pengumuman Baru Desa:**\n".implode("\n", $anItems);
+            }
+
+            $recentPolls = Poll::where('status', 'ACTIVE')->latest('created_at')->take(2)->get();
+            if ($recentPolls->isNotEmpty()) {
+                $pItems = [];
+                foreach ($recentPolls as $p) {
+                    $exp = $p->expires_at ? $p->expires_at->format('d M Y') : 'Tanpa batas waktu';
+                    $pItems[] = "• **{$p->title}** _(Batas: {$exp})_";
+                }
+                $updates[] = "🗳️ **Musyawarah/Polling Baru:**\n".implode("\n", $pItems);
+            }
+        } elseif ($role === 'RT') {
+            $rtId = $user->rt_id;
+            if ($rtId) {
+                $recentDocs = DocumentRequest::whereHas('resident', fn ($q) => $q->where('rt_id', $rtId))->latest('updated_at')->take(3)->get();
+                if ($recentDocs->isNotEmpty()) {
+                    $docItems = [];
+                    foreach ($recentDocs as $d) {
+                        $pName = $d->resident?->full_name ?? 'Warga';
+                        $time = $d->updated_at ? $d->updated_at->format('d M Y H:i') : $d->created_at->format('d M Y H:i');
+                        $docItems[] = "• **{$d->type}** (Pemohon: {$pName}) — Status: `{$d->status}` _(Update: {$time})_";
+                    }
+                    $updates[] = "📄 **Pembaruan Pengajuan Surat Warga RT:**\n".implode("\n", $docItems);
+                }
+
+                $recentComplaints = Complaint::where('rt_id', $rtId)->latest('updated_at')->take(3)->get();
+                if ($recentComplaints->isNotEmpty()) {
+                    $compItems = [];
+                    foreach ($recentComplaints as $c) {
+                        $pelapor = $c->user?->name ?? 'Warga';
+                        $time = $c->updated_at ? $c->updated_at->format('d M Y H:i') : $c->created_at->format('d M Y H:i');
+                        $compItems[] = "• **{$c->title}** (Pelapor: {$pelapor}) — Status: `{$c->status}` _(Update: {$time})_";
+                    }
+                    $updates[] = "📢 **Pembaruan Pengaduan Warga RT:**\n".implode("\n", $compItems);
+                }
+
+                $newResidents = Resident::where('rt_id', $rtId)->latest('created_at')->take(2)->get();
+                if ($newResidents->isNotEmpty()) {
+                    $resItems = [];
+                    foreach ($newResidents as $r) {
+                        $resItems[] = "• **{$r->full_name}** (NIK: {$r->nik}) _(Terdaftar: {$r->created_at->format('d M Y')})_";
+                    }
+                    $updates[] = "👥 **Warga Baru Terdaftar di RT:**\n".implode("\n", $resItems);
+                }
+            }
+        } elseif ($role === 'RW') {
+            $rwId = $user->rw_id;
+            if ($rwId) {
+                $recentDocs = DocumentRequest::whereHas('resident.rt', fn ($q) => $q->where('rw_id', $rwId))->latest('updated_at')->take(3)->get();
+                if ($recentDocs->isNotEmpty()) {
+                    $docItems = [];
+                    foreach ($recentDocs as $d) {
+                        $pName = $d->resident?->full_name ?? 'Warga';
+                        $rtNum = $d->resident?->rt?->number ?? '-';
+                        $time = $d->updated_at ? $d->updated_at->format('d M Y H:i') : $d->created_at->format('d M Y H:i');
+                        $docItems[] = "• **{$d->type}** (Pemohon: {$pName}, RT {$rtNum}) — Status: `{$d->status}` _(Update: {$time})_";
+                    }
+                    $updates[] = "📄 **Pembaruan Surat di Lingkungan RW:**\n".implode("\n", $docItems);
+                }
+
+                $recentComplaints = Complaint::where('rw_id', $rwId)->latest('updated_at')->take(3)->get();
+                if ($recentComplaints->isNotEmpty()) {
+                    $compItems = [];
+                    foreach ($recentComplaints as $c) {
+                        $time = $c->updated_at ? $c->updated_at->format('d M Y H:i') : $c->created_at->format('d M Y H:i');
+                        $compItems[] = "• **{$c->title}** — Status: `{$c->status}` _(Update: {$time})_";
+                    }
+                    $updates[] = "📢 **Pembaruan Pengaduan di Wilayah RW:**\n".implode("\n", $compItems);
+                }
+            }
+        } elseif (in_array($role, ['ADMIN_DESA', 'DESA'])) {
+            $vId = $user->village_id ?: Village::value('id');
+            if ($vId) {
+                $recentDocs = DocumentRequest::whereHas('resident.rt.rw', fn ($q) => $q->where('village_id', $vId))->latest('updated_at')->take(3)->get();
+                if ($recentDocs->isNotEmpty()) {
+                    $docItems = [];
+                    foreach ($recentDocs as $d) {
+                        $time = $d->updated_at ? $d->updated_at->format('d M Y H:i') : $d->created_at->format('d M Y H:i');
+                        $docItems[] = "• **{$d->type}** ({$d->resident?->full_name}) — Status: `{$d->status}` _(Update: {$time})_";
+                    }
+                    $updates[] = "📄 **Pembaruan Surat Tingkat Desa:**\n".implode("\n", $docItems);
+                }
+
+                $recentComplaints = Complaint::where('village_id', $vId)->latest('updated_at')->take(3)->get();
+                if ($recentComplaints->isNotEmpty()) {
+                    $compItems = [];
+                    foreach ($recentComplaints as $c) {
+                        $time = $c->updated_at ? $c->updated_at->format('d M Y H:i') : $c->created_at->format('d M Y H:i');
+                        $compItems[] = "• **{$c->title}** — Status: `{$c->status}` _(Update: {$time})_";
+                    }
+                    $updates[] = "📢 **Pembaruan Pengaduan Desa:**\n".implode("\n", $compItems);
+                }
+
+                $recentDevs = Development::where('village_id', $vId)->latest('updated_at')->take(2)->get();
+                if ($recentDevs->isNotEmpty()) {
+                    $devItems = [];
+                    foreach ($recentDevs as $dev) {
+                        $devItems[] = "• **{$dev->title}** (Status: {$dev->status}, Progres: {$dev->progress_percentage}%)";
+                    }
+                    $updates[] = "🏗️ **Pembaruan Pembangunan Desa:**\n".implode("\n", $devItems);
+                }
+
+                $recentAudit = AuditLog::whereHas('user', fn ($q) => $q->where('village_id', $vId))->latest()->take(3)->get();
+                if ($recentAudit->isNotEmpty()) {
+                    $auditItems = [];
+                    foreach ($recentAudit as $log) {
+                        $auditItems[] = "• [{$log->created_at->format('d/m H:i')}] {$log->action} pada {$log->entity_name}";
+                    }
+                    $updates[] = "📝 **Aktivitas Audit Log Terbaru Desa:**\n".implode("\n", $auditItems);
+                }
+            }
+        } else {
+            // SUPER_ADMIN
+            $recentAudit = AuditLog::with('user')->latest()->take(5)->get();
+            if ($recentAudit->isNotEmpty()) {
+                $auditItems = [];
+                foreach ($recentAudit as $log) {
+                    $actor = $log->user?->name ?? 'Sistem';
+                    $auditItems[] = "• [{$log->created_at->format('d/m/Y H:i')}] **{$actor}**: {$log->action} pada {$log->entity_name}";
+                }
+                $updates[] = "📝 **Log Aktivitas Audit Sistem Terkini:**\n".implode("\n", $auditItems);
+            }
+
+            $recentUsers = User::latest('created_at')->take(3)->get();
+            if ($recentUsers->isNotEmpty()) {
+                $userItems = [];
+                foreach ($recentUsers as $u) {
+                    $userItems[] = "• **{$u->username}** ({$u->name}) — Role: `{$u->role}` _(Daftar: {$u->created_at->format('d M Y')})_";
+                }
+                $updates[] = "👤 **Akun Pengguna Baru Terdaftar:**\n".implode("\n", $userItems);
+            }
+
+            $recentDocs = DocumentRequest::with('resident')->latest('updated_at')->take(3)->get();
+            if ($recentDocs->isNotEmpty()) {
+                $docItems = [];
+                foreach ($recentDocs as $d) {
+                    $time = $d->updated_at ? $d->updated_at->format('d M Y H:i') : $d->created_at->format('d M Y H:i');
+                    $docItems[] = "• **{$d->type}** ({$d->resident?->full_name}) — Status: `{$d->status}` _(Update: {$time})_";
+                }
+                $updates[] = "📄 **Pembaruan Surat Terkini:**\n".implode("\n", $docItems);
+            }
+        }
+
+        if (empty($updates)) {
+            return "📌 **Pembaruan Terkini dari Dashboard & Database:**\n\n".
+                'Belum ada pembaruan aktivitas atau perubahan data baru yang tercatat saat ini. Seluruh data dashboard dalam kondisi mutakhir.';
+        }
+
+        return "🔄 **Pembaruan Terkini dari Dashboard & Database:**\n\n".implode("\n\n", $updates);
     }
 
     /**
@@ -581,11 +1646,11 @@ class AiController extends Controller
 
             $systemPrompt .= "BATASAN AKSES KETAT UNTUK ROLE WARGA:\n".
                 "- Pengguna adalah WARGA biasa.\n".
-                "- HANYA izinkan menjawab: Informasi kontak resmi pengurus (Ketua RT, Ketua RW, Kantor Desa), panduan pembuatan surat pengantar (Domisili, SKTM, SKU), alur pengaduan, status dokumen/pengaduannya sendiri, data diri dan anggota keluarganya sendiri dalam satu KK, pengumuman wilayah, dan musyawarah/polling aktif.\n".
+                "- IZINKAN MENJAWAB: Seluruh informasi dan data dashboard Warga, daftar menu dan fitur di sidebar navigasi, pembaruan / update terkini dari dashboard (notifikasi terbaru, status surat, tindak lanjut pengaduan, pengumuman desa baru, dan polling musyawarah), informasi kontak resmi pengurus (Ketua RT, Ketua RW, Kantor Desa), panduan pembuatan surat pengantar (Domisili, SKTM, SKU), alur pengaduan, status dokumen/pengaduannya sendiri, data diri dan anggota keluarganya sendiri dalam satu KK, pengumuman wilayah, dan musyawarah/polling aktif.\n".
                 "- DILARANG KERAS: Memberikan informasi kontak, nomor telepon, alamat, NIK, atau data warga lain siapapun di luar KK miliknya sendiri.\n".
-                "- DILARANG KERAS: Memberikan statistik jumlah warga ('berapa warganya', total penduduk, sensus KK).\n".
-                "- DILARANG KERAS: Memberikan database internal RT, RW, Desa, atau APBDes.\n".
-                "- Jika ditanya hal-hal yang dilarang di atas, KAMU WAJIB MENOLAK DENGAN RAMAH dan tegaskan bahwa data warga lain dan statistik kependudukan dilindungi privasi (UU PDP) dan tidak dapat diakses akun Warga.\n";
+                "- DILARANG KERAS: Memberikan statistik sensus jumlah warga di luar wilayah dashboard warganya sendiri.\n".
+                "- DILARANG KERAS: Memberikan database internal rahasia RT, RW, Desa, atau APBDes.\n".
+                "- Jika ditanya hal-hal yang dilarang di atas, KAMU WAJIB MENOLAK DENGAN RAMAH dan tegaskan bahwa data warga lain dan direktori kependudukan dilindungi privasi (UU PDP) dan tidak dapat diakses akun Warga.\n";
 
         } elseif ($role === 'RT') {
             $rt = $user->rt_id ? Rt::with('rw.village')->find($user->rt_id) : null;
@@ -873,9 +1938,9 @@ class AiController extends Controller
                 $fKk = $fr->family?->kk_number ?? '-';
                 $bDate = $fr->birth_date ? $fr->birth_date->format('d/m/Y') : '-';
                 $bPlace = $fr->birth_place ?? '-';
-                $accInfo = $fr->user 
-                    ? "Akun SIWIL: {$fr->user->username} (Status: {$fr->user->status})" 
-                    : "Belum Ada Akun SIWIL";
+                $accInfo = $fr->user
+                    ? "Akun SIWIL: {$fr->user->username} (Status: {$fr->user->status})"
+                    : 'Belum Ada Akun SIWIL';
 
                 $residentDirectoryText .= "{$num}. {$fr->full_name} | NIK: {$fr->nik} | KK: {$fKk} | JK: {$fr->gender} | TTL: {$bPlace}, {$bDate} | Agama: {$fr->religion} | Pekerjaan: {$fr->occupation} | Wilayah: RT {$rNum}/RW {$wNum}, Desa {$vNm} | HP: {$uHp} | Email: {$uEm} | Alamat: {$fAddr} | {$accInfo}\n";
             }
@@ -885,7 +1950,7 @@ class AiController extends Controller
             foreach ($extraData['all_users'] as $idx => $au) {
                 $num = $idx + 1;
                 $resName = $au->resident?->full_name ?: ($au->name ?: $au->username);
-                $usersDirectoryText .= "{$num}. Username: {$au->username} | Nama: {$resName} | Role: {$au->role} | Status: {$au->status} | Email: " . ($au->email ?? '-') . " | HP: " . ($au->phone_number ?? '-') . "\n";
+                $usersDirectoryText .= "{$num}. Username: {$au->username} | Nama: {$resName} | Role: {$au->role} | Status: {$au->status} | Email: ".($au->email ?? '-').' | HP: '.($au->phone_number ?? '-')."\n";
             }
 
             // Dynamic resident lookup across entire database for Super Admin
@@ -994,8 +2059,8 @@ class AiController extends Controller
 
             $context .= "DATA DASHBOARD WEBSITE (TAMPILAN DASHBOARD SUPER ADMIN SAAT INI):\n".
                 "- Statistik Kartu Utama: {$totalVillages} Desa/Kelurahan, {$totalRws} RW, {$totalRts} RT, {$totalResidents} Penduduk/Jiwa ({$totalPria} Laki-laki, {$totalWanita} Perempuan), {$totalFamilies} Kepala Keluarga (KK), {$totalUsers} Akun Pengguna, {$totalComplaints} Laporan Pengaduan.\n".
-                "- Status Sinyal Darurat (SOS): ".($activeEmergenciesCount > 0 ? "{$activeEmergenciesCount} Panggilan Darurat SOS Aktif" : "Aman (0 SOS Aktif)")."\n".
-                "- Warga Baru Terdaftar di Dashboard: ".($recentResidentsPreview ?: 'Belum ada')."\n".
+                '- Status Sinyal Darurat (SOS): '.($activeEmergenciesCount > 0 ? "{$activeEmergenciesCount} Panggilan Darurat SOS Aktif" : 'Aman (0 SOS Aktif)')."\n".
+                '- Warga Baru Terdaftar di Dashboard: '.($recentResidentsPreview ?: 'Belum ada')."\n".
                 "- Modul & Menu di Dashboard: Data Kependudukan Terpadu, Layanan Pengajuan Surat, Manajemen Pengaduan, Musyawarah & Polling, Kelola Pengguna, dan Audit Log.\n\n".
                 "KESELURUHAN SISTEM & DATABASE SIWIL (AKSES SUPER ADMIN):\n".
                 "- Status Aplikasi: {$systemInfo['app_name']} (Laravel v{$systemInfo['laravel_version']}, PHP {$systemInfo['php_version']}, Env: {$systemInfo['environment']})\n".
@@ -1004,12 +2069,12 @@ class AiController extends Controller
                 "- Statistik Kependudukan: {$totalResidents} Warga/Jiwa terdaftar dalam {$totalFamilies} Kartu Keluarga (KK)\n".
                 "- Statistik Pengguna: Total {$totalUsers} Akun terdaftar (Rincian per role: Warga: {$wargaCount}, Pengurus RT: {$rtCount}, Pengurus RW: {$rwCount}, Perangkat/Admin Desa: {$desaCount}, Super Admin: {$saCount})\n".
                 "- Layanan Publik: {$totalDocs} Permohonan Surat, {$totalComplaints} Pengaduan, {$totalPolls} Polling, {$totalAnnouncements} Pengumuman\n\n".
-                $residentDirectoryText . "\n" .
-                $usersDirectoryText . "\n" .
-                ($complaintsSummaryText ? $complaintsSummaryText . "\n" : '') .
-                ($docsSummaryText ? $docsSummaryText . "\n" : '') .
-                ($pollsSummaryText ? $pollsSummaryText . "\n" : '') .
-                ($announcementsSummaryText ? $announcementsSummaryText . "\n" : '') .
+                $residentDirectoryText."\n".
+                $usersDirectoryText."\n".
+                ($complaintsSummaryText ? $complaintsSummaryText."\n" : '').
+                ($docsSummaryText ? $docsSummaryText."\n" : '').
+                ($pollsSummaryText ? $pollsSummaryText."\n" : '').
+                ($announcementsSummaryText ? $announcementsSummaryText."\n" : '').
                 ($dynamicSuperSearch ?: '')."\n".
                 "Riwayat Audit Log Terbaru:\n".
                 ($auditText ?: "- Belum ada catatan log aktivitas.\n")."\n";
@@ -1175,11 +2240,253 @@ class AiController extends Controller
             $context .= "\n".$knowledgeText;
         }
 
+        $sidebarMenuText = $this->getSidebarMenuList($role);
+        $sidebarAllRolesText = $this->getSidebarMenuListForAllRoles();
+        $wholeSidebarContentText = $this->getWholeSidebarMenuContents($user);
+        $dashboardSummaryText = $this->getDashboardSummary($user);
+        $recentUpdatesText = $this->getRecentUpdatesSummary($user);
+
+        $context .= "\nDATA & STATISTIK REAL-TIME DASHBOARD (ROLE: {$role}):\n".$dashboardSummaryText."\n\n";
+        $context .= "MENU & MODUL SIDEBAR RESMI PENGGUNA (ROLE: {$role}):\n".$sidebarMenuText."\n\n";
+        $context .= "STRUKTUR MENU SIDEBAR & DASHBOARD UNTUK SELURUH ROLE (WARGA, RT, RW, ADMIN DESA, SUPER ADMIN):\n".$sidebarAllRolesText."\n\n";
+        $context .= "KESELURUHAN ISI LENGKAP REAL-TIME TIAP MENU SIDEBAR PENGGUNA (DARI DATABASE):\n".$wholeSidebarContentText."\n\n";
+        $context .= "PEMBARUAN / UPDATE TERKINI DARI DASHBOARD & DATABASE:\n".$recentUpdatesText."\n\n";
+
+        $systemPrompt .= "\nKEMAMPUAN MEMBACA KESELURUHAN MENU SIDEBAR, DASHBOARD, & PEMBARUAN TERKINI (SEMUA ROLE):\n".
+            "- Kamu memiliki pengetahuan lengkap mengenai struktur menu sidebar dan modul dashboard untuk TIAP ROLE di sistem SIWIL (Warga, Pengurus RT, Pengurus RW, Administrator Desa, dan Super Admin).\n".
+            "- Kamu memiliki akses membaca KESELURUHAN ISI LENGKAP dari setiap menu sidebar pengguna saat ini langsung dari database real-time SIWIL di atas.\n".
+            "- Ketika pengguna menanyakan isi menu-menu di sidebar untuk role tertentu atau untuk TIAP / SEMUA ROLE, jelaskan daftar menu dan fungsinya sesuai kewenangan masing-masing role.\n".
+            "- Ketika pengguna menanyakan apa saja isi menu sidebar mereka, jabarkan seluruh isi modul menu yang aktif dari database secara komprehensif.\n".
+            "- Setiap kali dashboard atau database di-update (perubahan status verifikasi surat, perkembangan laporan aduan, pengumuman baru, partisipasi polling/musyawarah, proyek pembangunan & APBDes, pendaftaran warga baru, atau notifikasi), kamu secara otomatis mengetahui perubahan data tersebut secara real-time langsung dari database dan dapat merincikan apa saja yang berubah.\n".
+            "- KEAMANAN: Seluruh kata sandi dienkripsi kriptografis (Bcrypt) dan TIDAK PERNAH dibocorkan atau ditampilkan oleh AI.\n\n".
+            "AKURASI DATA KEPENDUDUKAN & KEPEMILIKAN AKUN WARGA (DATA KEPENDUDUKAN TERPADU):\n".
+            "- Pada dashboard Data Kependudukan Terpadu, warga terdaftar memiliki status akun login SIWIL (apakah sudah memiliki akun atau belum/tidak memiliki akun).\n".
+            "- Warga yang belum memiliki akun login SIWIL ditandai dengan badge 'Belum Ada Akun' dan tombol aksi '+ Buat Akun' untuk membuatkan akun baru.\n".
+            "- Ketika pengguna menanyakan 'ada berapa warga yang tidak mempunyai akun' / 'belum punya akun' atau mengonfirmasi bacaan dashboard ('baca dashboard ga si'), JANGAN PERNAH menjawab dengan total keseluruhan warga terdaftar! Jawab dengan jumlah pasti warga yang belum memiliki akun beserta nama-nama warganya (misal: Rina Kartika), rincian RT/RW, dan jelaskan tombol '+ Buat Akun' di tabel dashboard.\n\n";
+
+        $extraData['sidebar_menu_text'] = $sidebarMenuText;
+        $extraData['sidebar_all_roles_text'] = $sidebarAllRolesText;
+        $extraData['whole_sidebar_content_text'] = $wholeSidebarContentText;
+        $extraData['dashboard_summary_text'] = $dashboardSummaryText;
+        $extraData['recent_updates_text'] = $recentUpdatesText;
+
         return [
             'context_text' => $context,
             'system_prompt' => $systemPrompt,
             'contacts_text' => $contactsText,
             'extra_data' => $extraData,
+        ];
+    }
+
+    /**
+     * Handle direct query confirming if AI is reading the active dashboard
+     * e.g., "baca dashboard ga si", "baca dashboard gak sih", "apakah baca dashboard", "kok 13 jiwa kan nanya yang tidak punya akun"
+     */
+    private function handleDirectDashboardConfirmationQuery(string $clean, string $lower, User $user): ?array
+    {
+        $isAskingDashboardReading = (bool) (
+            preg_match('/(?:kamu\s+|apakah\s*(?:kamu\s+)?|bisa\s+|apakah\s*bisa\s+)?baca\s+dashboard(?:\s*(?:ga|gak|nggak|kah|ta|si|sih|ya|bro|min|bot|ai\b))*$/i', trim($lower))
+            || preg_match('/baca\s+dashboard\s+(?:ga|gak|nggak|kah|si|sih)/i', $lower)
+            || preg_match('/(?:kok|kenapa)\s*(?:dijawab\s*)?13(?:\s*jiwa)?/i', $lower)
+            || (preg_match('/baca\s+dashboard/i', $lower) && preg_match('/(?:ga|gak|nggak|kah|si|sih)/i', $lower))
+        );
+
+        if (! $isAskingDashboardReading) {
+            return null;
+        }
+
+        $role = $user->role;
+        if ($role === 'WARGA') {
+            return [
+                'message' => "📊 **Ya, SIWIL AI membaca dan memantau seluruh data dashboard serta database secara real-time!**\n\n".
+                    "Pada dashboard akun Warga Anda saat ini:\n".
+                    "• **Layanan Surat:** Memantau status pengajuan surat mandiri Anda secara langsung.\n".
+                    "• **Pengaduan:** Memantau tindak lanjut laporan pengaduan lingkungan Anda.\n".
+                    "• **Musyawarah & Polling:** Mengikuti perkembangan voting warga desa.\n".
+                    "• **Pengumuman Resmi & Kontak:** Menampilkan informasi resmi pengurus RT, RW, dan Desa terkini.\n\n".
+                    '_Catatan: Sesuai UU Perlindungan Data Pribadi (UU PDP), rincian akun login warga lain hanya dapat diakses oleh Administrator Wilayah (RT, RW, Desa, Super Admin)._',
+                'options' => [
+                    ['label' => 'Buat Surat Baru', 'icon' => 'document', 'next_node' => 'surat_pilih_jenis'],
+                    ['label' => 'Lapor Pengaduan', 'icon' => 'alert', 'next_node' => 'lapor_mulai'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // Administrative roles (SUPER_ADMIN, ADMIN_DESA, RW, RT)
+        $resQuery = Resident::accessibleBy($user);
+        $totalResidents = (clone $resQuery)->count();
+        $maleResidents = (clone $resQuery)->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
+        $femaleResidents = (clone $resQuery)->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
+        $hasAccountCount = (clone $resQuery)->has('user')->count();
+        $noAccountResidents = (clone $resQuery)->doesntHave('user')->with('rt.rw.village')->get();
+        $noAccountCount = $noAccountResidents->count();
+
+        $noAccountList = [];
+        foreach ($noAccountResidents as $idx => $r) {
+            $num = $idx + 1;
+            $rtNum = $r->rt?->number ?? '-';
+            $rwNum = $r->rt?->rw?->number ?? '-';
+            $gender = match (strtoupper($r->gender ?? '')) {
+                'PEREMPUAN', 'P', 'FEMALE' => 'Perempuan',
+                'LAKI_LAKI', 'L', 'MALE' => 'Laki-laki',
+                default => $r->gender ?? '-',
+            };
+            $status = $r->status ?? 'Aktif';
+            $noAccountList[] = "  {$num}. **{$r->full_name}**\n".
+                "     • NIK: `{$r->nik}`\n".
+                "     • Jenis Kelamin: {$gender}\n".
+                "     • Wilayah: RT {$rtNum} / RW {$rwNum}\n".
+                "     • Status Warga: {$status}\n".
+                "     • Status Akun di Tabel: ⚠️ Badge **[Belum Ada Akun]**\n".
+                '     • Tombol Aksi Tersedia: **[+ Buat Akun]**';
+        }
+
+        $noAccountDetails = ! empty($noAccountList)
+            ? implode("\n", $noAccountList)
+            : '  _Tidak ada warga tanpa akun. Semua warga terdaftar telah memiliki akun login SIWIL._';
+
+        $message = "📊 **Ya, SIWIL AI membaca dan memantau seluruh tampilan dashboard serta data database secara real-time!**\n\n".
+            "Mohon maaf atas kekurangtepatan jawaban sebelumnya yang menyebutkan total keseluruhan warga ({$totalResidents} jiwa) saat Anda menanyakan warga yang belum mempunyai akun.\n\n".
+            "Berdasarkan halaman dan tabel **Data Kependudukan Terpadu** pada dashboard saat ini:\n".
+            "• **Total Penduduk Terdaftar:** **{$totalResidents} jiwa** ({$maleResidents} Laki-laki, {$femaleResidents} Perempuan)\n".
+            "• **Warga yang SUDAH Memiliki Akun:** **{$hasAccountCount} akun** (aktif dengan No. HP/Email login)\n".
+            "• **Warga yang BELUM Memiliki Akun:** **{$noAccountCount} orang** (bertanda badge **\"Belum Ada Akun\"**)\n\n".
+            "**Rincian Warga yang Belum Memiliki Akun:**\n".
+            $noAccountDetails."\n\n".
+            "💡 **Aksi Tindak Lanjut pada Dashboard:**\n".
+            'Pada tabel **Data Kependudukan Terpadu**, Anda dapat langsung mengklik tombol **[+ Buat Akun]** pada baris warga bersangkutan untuk men-generate akun login SIWIL baru secara instan.';
+
+        return [
+            'message' => trim($message),
+            'options' => [
+                ['label' => 'Data Kependudukan Terpadu', 'icon' => 'document', 'next_node' => 'db_overview'],
+                ['label' => 'Ringkasan Database', 'icon' => 'search', 'next_node' => 'db_overview'],
+                ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+            ],
+        ];
+    }
+
+    /**
+     * Handle specific queries about residents without/with login accounts.
+     * e.g., "ada berapa warga yang tidak mempunyai akun", "berapa warga belum punya akun", "warga tanpa akun", "siapa yang belum punya akun"
+     */
+    private function handleResidentAccountStatusQuery(string $clean, string $lower, User $user): ?array
+    {
+        $isAskingWithoutAccount = (bool) (
+            preg_match('/(?:warga|penduduk|jiwa).*(?:tidak|belum|tanpa|bukan)\s*(?:mempunyai|memiliki|ada|punya)?\s*akun/i', $clean)
+            || preg_match('/(?:tidak|belum|tanpa)\s*(?:mempunyai|memiliki|ada|punya)?\s*akun.*(?:warga|penduduk|jiwa)/i', $clean)
+            || preg_match('/belum\s+ada\s+akun/i', $clean)
+            || preg_match('/tanpa\s+akun/i', $clean)
+            || preg_match('/tidak\s+(?:mempunyai|memiliki|ada|punya)\s+akun/i', $clean)
+            || preg_match('/belum\s+(?:mempunyai|memiliki|ada|punya)\s+akun/i', $clean)
+        );
+
+        $isAskingWithAccount = (bool) (
+            ! $isAskingWithoutAccount && (
+                preg_match('/(?:warga|penduduk|jiwa).*(?:sudah|telah|memiliki|mempunyai)\s*(?:ada\s+)?akun/i', $clean)
+                || preg_match('/(?:sudah|telah)\s*(?:mempunyai|memiliki|ada|punya)\s*akun.*(?:warga|penduduk|jiwa)/i', $clean)
+                || (preg_match('/(?:berapa|jumlah|total)\s+akun\s+(?:warga|penduduk)/i', $clean))
+            )
+        );
+
+        if (! $isAskingWithoutAccount && ! $isAskingWithAccount) {
+            return null;
+        }
+
+        $role = $user->role;
+        if ($role === 'WARGA') {
+            return [
+                'message' => "🔒 **Perlindungan Privasi Data Kependudukan (UU PDP):**\n\n".
+                    "Sesuai ketentuan keamanan sistem SIWIL dan UU Perlindungan Data Pribadi (UU PDP), rincian status kepemilikan akun login warga lain bersifat rahasia dan hanya dapat diakses oleh Administrator Wilayah (RT, RW, Desa, atau Super Admin).\n\n".
+                    'Untuk akun Anda pribadi, Anda telah terdaftar dan login dengan akun aktif di SIWIL.',
+                'options' => [
+                    ['label' => 'Data Diri Saya', 'icon' => 'user', 'next_node' => 'profil_saya'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // Parse scope if specific RT or RW is specified in query
+        $targetRt = null;
+        $targetRw = null;
+        if (preg_match('/(?:di\s*)?rt\s*0?(\d+)/i', $lower, $mRt)) {
+            $targetRt = str_pad(ltrim($mRt[1], '0'), 2, '0', STR_PAD_LEFT);
+        }
+        if (preg_match('/(?:di\s*)?rw\s*0?(\d+)/i', $lower, $mRw)) {
+            $targetRw = str_pad(ltrim($mRw[1], '0'), 2, '0', STR_PAD_LEFT);
+        }
+
+        $resQuery = Resident::accessibleBy($user);
+        $scopeLabel = '';
+        if ($targetRt) {
+            $resQuery->whereHas('rt', fn ($q) => $q->where('number', $targetRt));
+            $scopeLabel = " di RT {$targetRt}";
+        } elseif ($targetRw) {
+            $resQuery->whereHas('rt.rw', fn ($q) => $q->where('number', $targetRw));
+            $scopeLabel = " di RW {$targetRw}";
+        }
+
+        $totalResidents = (clone $resQuery)->count();
+        $noAccountResidents = (clone $resQuery)->doesntHave('user')->with('rt.rw.village')->get();
+        $noAccountCount = $noAccountResidents->count();
+        $hasAccountCount = (clone $resQuery)->has('user')->count();
+
+        if ($isAskingWithoutAccount) {
+            if ($noAccountCount > 0) {
+                $listItems = [];
+                foreach ($noAccountResidents as $idx => $r) {
+                    $num = $idx + 1;
+                    $rtNum = $r->rt?->number ?? '-';
+                    $rwNum = $r->rt?->rw?->number ?? '-';
+                    $gender = match (strtoupper($r->gender ?? '')) {
+                        'PEREMPUAN', 'P', 'FEMALE' => 'Perempuan',
+                        'LAKI_LAKI', 'L', 'MALE' => 'Laki-laki',
+                        default => $r->gender ?? '-',
+                    };
+                    $status = $r->status ?? 'Aktif';
+                    $listItems[] = "{$num}. **{$r->full_name}**\n".
+                        "   • NIK: `{$r->nik}`\n".
+                        "   • Jenis Kelamin: {$gender}\n".
+                        "   • Wilayah: RT {$rtNum} / RW {$rwNum}\n".
+                        "   • Status Warga: {$status}\n".
+                        "   • Status Akun: ⚠️ Badge **[Belum Ada Akun]**\n".
+                        '   • Aksi Dashboard: Tersedia tombol **[+ Buat Akun]**';
+                }
+
+                $msg = "👥 **Data Warga yang Belum Mempunyai Akun Login SIWIL{$scopeLabel}:**\n\n".
+                    "Berdasarkan tabel **Data Kependudukan Terpadu** pada dashboard:\n".
+                    "• Dari total **{$totalResidents} warga terdaftar**{$scopeLabel}, terdapat **{$noAccountCount} orang warga yang belum memiliki akun login**.\n".
+                    "• Sebanyak **{$hasAccountCount} orang warga lainnya sudah memiliki akun login** aktif.\n\n".
+                    "**Daftar Warga Belum Ada Akun:**\n\n".
+                    implode("\n\n", $listItems)."\n\n".
+                    '💡 _Petunjuk: Anda dapat membuatkan akun login SIWIL bagi warga di atas dengan mengklik tombol **[+ Buat Akun]** pada kolom Akun Login di halaman Data Kependudukan Terpadu._';
+            } else {
+                $msg = "✅ **Semua Warga Sudah Memiliki Akun Login{$scopeLabel}:**\n\n".
+                    "Berdasarkan data dashboard **Data Kependudukan Terpadu**, seluruh warga terdaftar (**{$totalResidents} jiwa**{$scopeLabel}) telah memiliki akun login SIWIL aktif (tidak ada warga tanpa akun).";
+            }
+
+            return [
+                'message' => trim($msg),
+                'options' => [
+                    ['label' => 'Data Kependudukan Terpadu', 'icon' => 'document', 'next_node' => 'db_overview'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // Asking with account
+        $msg = "👥 **Data Warga yang Sudah Memiliki Akun Login SIWIL{$scopeLabel}:**\n\n".
+            "Berdasarkan tabel **Data Kependudukan Terpadu** pada dashboard:\n".
+            "• Terdapat **{$hasAccountCount} orang warga yang sudah memiliki akun login** aktif (dari total {$totalResidents} warga terdaftar{$scopeLabel}).\n".
+            "• Terdapat **{$noAccountCount} orang warga yang belum memiliki akun** (berstatus badge **Belum Ada Akun**).";
+
+        return [
+            'message' => trim($msg),
+            'options' => [
+                ['label' => 'Warga Tanpa Akun', 'icon' => 'search', 'next_node' => 'db_overview'],
+                ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+            ],
         ];
     }
 
@@ -1219,7 +2526,7 @@ class AiController extends Controller
                     "• Layanan pelaporan pengaduan dan keluhan warga\n".
                     "• Informasi kontak resmi pengurus RT, RW, dan Kantor Desa\n".
                     "• Pemantauan pengumuman resmi dan musyawarah/polling warga\n\n".
-                    "Ada yang bisa saya bantu terkait layanan SIWIL saat ini?",
+                    'Ada yang bisa saya bantu terkait layanan SIWIL saat ini?',
                 'options' => [
                     ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
                 ],
@@ -1300,47 +2607,249 @@ class AiController extends Controller
             ];
         }
 
+        // 3. Universal Password Shield: protect passwords from ever being leaked or displayed
+        $isAskingWithoutPassword = (bool) preg_match('/(?:tidak\s+(?:dengan|termasuk)|tanpa|kecuali|bukan)\s*(?:kata\s*sandi|password|pin)/i', $clean);
+        $isAskingPassword = ! $isAskingWithoutPassword && (bool) preg_match('/(?:apa\s+(?:saja\s+)?(?:kata\s*sandi|password|pin)|(?:tampilkan|lihat|bocorkan|minta|berikan|cari|cek)\s+(?:.*)?(?:kata\s*sandi|password|pin)|(?:kata\s*sandi|password|pin)\s+(?:saya|dia|warga|user|pengguna|akun|admin|rt|rw|desa)|^(?:kata\s*sandi|password|pin)$)/i', $clean);
+
+        if ($isAskingPassword) {
+            return [
+                'message' => "🔒 **Perlindungan Keamanan Kata Sandi (Password):**\n\n".
+                    "Sesuai standar keamanan sistem SIWIL dan kebijakan privasi data kependudukan:\n".
+                    "• Seluruh kata sandi pengguna di database dienkripsi satu arah menggunakan algoritma hashing kriptografis (**Bcrypt**) dan **tidak pernah disimpan dalam bentuk teks biasa**.\n".
+                    "• Oleh karena itu, kata sandi asli **tidak dapat dibaca, ditampilkan, maupun dibocorkan oleh AI kepada siapa pun** demi menjaga kerahasiaan dan keamanan akun.\n\n".
+                    ($role === 'SUPER_ADMIN'
+                        ? 'Sebagai **Super Administrator**, Anda dapat membantu mereset kata sandi pengguna yang membutuhkan pembaruan akses melalui menu **Manajemen User**.'
+                        : 'Jika Anda membutuhkan pembaruan kata sandi, silakan gunakan fitur ganti kata sandi pada menu **Pengaturan Akun** atau hubungi Administrator wilayah Anda.'),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // Direct confirmation if AI is reading the active dashboard (e.g. "baca dashboard ga si")
+        $dashboardDirectResponse = $this->handleDirectDashboardConfirmationQuery($clean, $lower, $user);
+        if ($dashboardDirectResponse !== null) {
+            return $dashboardDirectResponse;
+        }
+
+        // Specific Resident Account Status Query (e.g. "ada berapa warga yang tidak mempunyai akun", "berapa warga belum punya akun")
+        $accountStatusResponse = $this->handleResidentAccountStatusQuery($clean, $lower, $user);
+        if ($accountStatusResponse !== null) {
+            return $accountStatusResponse;
+        }
+
+        // 4A. User asking for Sidebar menus & dashboard modules for EACH / ALL ROLES or dashboards in entire sidebar
+        $isAskingSidebarForEachRole = (
+            (
+                preg_match('/(?:tiap|semua|masing\s*masing|setiap|antar|per)\s*(?:role|peran|tingkat|tingkatan)(?:nya)?/i', $clean)
+                || preg_match('/(?:dashboard\s*(?:dashboard)?\s*(?:sperti|seperti)\s*ini|seluruh\s*sidebar|tiap\s*sidebar|sidebar\s*tiap\s*role)/i', $clean)
+                || (str_contains($clean, 'dashboard') && str_contains($clean, 'sidebar') && (str_contains($clean, 'knowledge') || str_contains($clean, 'database') || str_contains($clean, 'perubahan')))
+            )
+            && (
+                preg_match('/(?:sidebar|menu|dashboard|modul|isi|fitur|navigasi)/i', $clean)
+                || str_contains($clean, 'apa')
+                || str_contains($clean, 'baca')
+                || str_contains($clean, 'knowledge')
+                || str_contains($clean, 'database')
+            )
+        );
+
+        if ($isAskingSidebarForEachRole) {
+            return [
+                'message' => $this->getSidebarAndDashboardForAllRoles($user),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar Saya', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Pembaruan Terkini', 'icon' => 'search', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // 4B. User asking specifically about a particular role's sidebar menus (e.g. "menu sidebar untuk RT", "menu sidebar RW", etc.)
+        if (preg_match('/(?:menu|sidebar|dashboard).*(?:role\s+|untuk\s+|bagi\s+|akun\s+|pengurus\s+|sidebar\s+)?rt\b|(?:role|untuk|bagi|pengurus|akun)\s*rt\b.*(?:menu|sidebar|dashboard)/i', $clean)) {
+            return [
+                'message' => $this->getSidebarMenuList('RT'),
+                'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
+            ];
+        }
+        if (preg_match('/(?:menu|sidebar|dashboard).*(?:role\s+|untuk\s+|bagi\s+|akun\s+|pengurus\s+|sidebar\s+)?rw\b|(?:role|untuk|bagi|pengurus|akun)\s*rw\b.*(?:menu|sidebar|dashboard)/i', $clean)) {
+            return [
+                'message' => $this->getSidebarMenuList('RW'),
+                'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
+            ];
+        }
+        if (preg_match('/(?:menu|sidebar|dashboard).*(?:role\s+warga|untuk\s+warga|bagi\s+warga|akun\s+warga|sidebar\s+warga)|(?:role\s+warga|untuk\s+warga|bagi\s+warga|akun\s+warga).*(?:menu|sidebar|dashboard)/i', $clean)) {
+            return [
+                'message' => $this->getSidebarMenuList('WARGA'),
+                'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
+            ];
+        }
+        if (preg_match('/(?:menu|sidebar|dashboard).*(?:role\s+(?:admin\s+)?desa|untuk\s+(?:perangkat\s+|admin\s+)?desa|bagi\s+(?:perangkat\s+|admin\s+)?desa|akun\s+desa|admin\s+desa|perangkat\s+desa|sidebar\s+desa)|(?:role\s+(?:admin\s+)?desa|untuk\s+(?:perangkat\s+|admin\s+)?desa|bagi\s+(?:perangkat\s+|admin\s+)?desa|admin\s+desa|perangkat\s+desa).*(?:menu|sidebar|dashboard)/i', $clean)) {
+            return [
+                'message' => $this->getSidebarMenuList('ADMIN_DESA'),
+                'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
+            ];
+        }
+        if (preg_match('/(?:menu|sidebar|dashboard).*(?:role\s+super\s*admin|untuk\s+super\s*admin|super\s*admin|sidebar\s+super\s*admin)|(?:role\s+super\s*admin|super\s*admin).*(?:menu|sidebar|dashboard)/i', $clean)) {
+            return [
+                'message' => $this->getSidebarMenuList('SUPER_ADMIN'),
+                'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
+            ];
+        }
+
+        // 4C. User asking for the ENTIRE REAL CONTENTS of all sidebar menus
+        $isAskingWholeSidebarMenuContent = (
+            preg_match('/(?:keseluruhan|semua|seluruh|lengkap|detail|baca|apa\s+saja)?\s*(?:isi\s+)?menu\s*menu.*sidebar|isi\s+(?:seluruh|semua|keseluruhan|dari\s+setiap|tiap)?\s*menu\s*(?:di\s*)?sidebar|isi\s+(?:dari\s+)?(?:semua\s+)?menu\s*sidebar|keseluruhan\s+isi\s+menu/i', $clean)
+            || (str_contains($clean, 'isi') && str_contains($clean, 'menu') && (str_contains($clean, 'sidebar') || str_contains($clean, 'keseluruhan')))
+        );
+
+        if ($isAskingWholeSidebarMenuContent) {
+            return [
+                'message' => $this->getWholeSidebarMenuContents($user),
+                'options' => [
+                    ['label' => 'Ringkasan Dashboard', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Pembaruan Terkini', 'icon' => 'search', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // 5. Specific Sidebar Menu Inquiries (Manajemen User, APBDes, Audit Log, AI Knowledge, Pengaturan Akun, Koneksi Bot)
+        if (preg_match('/(?:isi\s+menu.*user|menu\s*(?:di\s*)?sidebar.*user|menu\s+manajemen\s+user|menu\s+user)/i', $clean)) {
+            if (! in_array($role, ['SUPER_ADMIN', 'ADMIN_DESA', 'DESA'])) {
+                return [
+                    'message' => "Mohon maaf, menu **Manajemen User** tidak tersedia untuk akun {$this->getRoleDisplayName($role)} (hanya dapat diakses oleh Administrator Desa dan Super Admin).",
+                    'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
+                ];
+            }
+
+            return [
+                'message' => "🛡️ **Isi Menu Manajemen User (Akun {$this->getRoleDisplayName($role)}):**\n\n".$this->getUserManagementMenuContent($user),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        if (preg_match('/(?:isi\s+menu.*(?:apbdes|pembangunan)|menu\s+apbdes|menu\s+pembangunan)/i', $clean) && ! in_array($role, ['WARGA', 'RT', 'RW'])) {
+            return [
+                'message' => "🏗️ **Isi Menu Pembangunan & APBDes (Akun {$this->getRoleDisplayName($role)}):**\n\n".$this->getBudgetDevelopmentMenuContent($user),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        if (preg_match('/(?:isi\s+menu.*audit|menu\s+audit|menu\s+laporan)/i', $clean) && $role !== 'WARGA') {
+            return [
+                'message' => "📑 **Isi Menu Laporan & Audit Log (Akun {$this->getRoleDisplayName($role)}):**\n\n".$this->getAuditReportMenuContent($user),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        if (preg_match('/(?:isi\s+(?:menu\s+)?)?(?:kelola\s+)?ai\s*knowledge|basis\s*pengetahuan/i', $clean) && $role === 'SUPER_ADMIN') {
+            return [
+                'message' => "🧠 **Isi Menu Kelola AI Knowledge (Akun Super Admin):**\n\n".$this->getAiKnowledgeMenuContent($user),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        if (preg_match('/(?:isi\s+(?:menu\s+)?)?pengaturan\s+akun/i', $clean)) {
+            return [
+                'message' => "⚙️ **Isi Menu Pengaturan Akun (Akun {$this->getRoleDisplayName($role)}):**\n\n".$this->getAccountSettingsMenuContent($user),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        if (preg_match('/(?:isi\s+(?:menu\s+)?)?koneksi\s+bot|bot\s*whatsapp|bot\s*telegram/i', $clean)) {
+            return [
+                'message' => "🤖 **Isi Menu Koneksi Bot (Akun {$this->getRoleDisplayName($role)}):**\n\n".$this->getBotConnectionMenuContent($user),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // 6. User asking to read the WHOLE dashboard / dashboard + sidebar / all modules & updates
+        $isAskingWholeDashboard = (
+            preg_match('/(?:keseluruhan|seluruh|semua|lengkap|detail)\s+(?:.*)?dashboard|dashboard\s+(?:.*)?(?:keseluruhan|seluruh|semua|lengkap|detail|sidebar)|baca\s+(?:keseluruhan|semua|seluruh)\s+(?:dari\s+)?dashboard|dashboard\s+(?:dan|beserta|dengan)\s+sidebar|sidebar\s+(?:dan|beserta|dengan)\s+dashboard/i', $clean)
+            || (str_contains($clean, 'dashboard') && (str_contains($clean, 'sidebar') || str_contains($clean, 'keseluruhan')))
+        );
+
+        if ($isAskingWholeDashboard) {
+            $dashMsg = $this->getDashboardSummary($user);
+            $sideMsg = $this->getSidebarMenuList($role);
+            $updateMsg = $this->getRecentUpdatesSummary($user);
+
+            return [
+                'message' => trim($dashMsg."\n\n".$sideMsg."\n\n".$updateMsg),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Pembaruan Terkini', 'icon' => 'search', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // 7. User asking specifically about Sidebar Menus / Modules (without whole dashboard or contents)
+        if (preg_match('/(?:sidebar|menu\s*(?:di\s*)?sidebar|fitur\s*(?:di\s*)?sidebar|daftar\s+menu|ada\s+menu\s+apa|menu\s+(?:apa\s+saja|yang\s+ada)|modul\s+sidebar)/i', $clean)) {
+            return [
+                'message' => $this->getSidebarMenuList($role),
+                'options' => [
+                    ['label' => 'Lihat Ringkasan Dashboard', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Awal', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // 8. User asking about Recent Updates / Perubahan / Pembaruan from Dashboard/Database
+        $isAskingDashboardUpdates = (
+            ! str_contains($lower, 'audit') && (
+                preg_match('/(?:apa\s+(?:saja\s+)?(?:yang\s+)?(?:di\s*)?update|update(?:\s+terbaru|\s+terkini|\s+dari\s+dashboard)?|pembaruan(?:\s+terbaru|\s+terkini|\s+dari\s+dashboard)?|perubahan(?:\s+terbaru|\s+terkini|\s+data|\s+dashboard)?|apa\s+(?:saja\s+)?(?:yang\s+)?(?:baru|berubah)|ada\s+(?:yang\s+)?berubah|kabar\s+terbaru|notifikasi\s+terbaru|aktivitas\s+terbaru|riwayat\s+pembaruan)/i', $clean)
+                || (str_contains($clean, 'dashboard') && (str_contains($clean, 'berubah') || str_contains($clean, 'update') || str_contains($clean, 'pembaruan')))
+            )
+        );
+
+        if ($isAskingDashboardUpdates) {
+            return [
+                'message' => $this->getRecentUpdatesSummary($user),
+                'options' => [
+                    ['label' => 'Lihat Ringkasan Dashboard', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Awal', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
         // ==================== ROLE WARGA HANDLERS ====================
         if ($role === 'WARGA') {
             $rtInfo = $extra['rt_info'] ?? null;
             $rwInfo = $extra['rw_info'] ?? null;
             $desaInfo = $extra['desa_info'] ?? null;
 
-            // 0. Dashboard query for Warga: "apa yang ada di dashboard", "data dashboard", "ada apa saja di dashboard", etc.
-            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi)\s+(?:di\s+|pada\s+|tentang\s+)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa)|^dashboard$/i', $lower)) {
-                $totalDocs = DocumentRequest::accessibleBy($user)->count();
-                $pendingDocs = DocumentRequest::accessibleBy($user)->whereIn('status', ['PENDING', 'DIAJUKAN_RT', 'DIAJUKAN_RW', 'DIAJUKAN_DESA'])->count();
-                $completedDocs = DocumentRequest::accessibleBy($user)->whereIn('status', ['SELESAI', 'DISETUJUI', 'COMPLETED'])->count();
+            // 0. Dashboard query for Warga: "apa yang ada di dashboard", "data dashboard", "baca dashboard", etc.
+            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi|status|baca|lihat|tampilkan|cek|keseluruhan|semua|detail)\s+(?:.*)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa|itu\s+apa)|^dashboard$|baca\s+(?:keseluruhan|semua)\s+(?:dari\s+)?dashboard/i', $clean)) {
+                $dashMsg = $this->getDashboardSummary($user);
+                $sideMsg = $this->getSidebarMenuList($role);
+                $updateMsg = $this->getRecentUpdatesSummary($user);
 
-                $totalComplaints = Complaint::where('user_id', $user->id)->count();
-                $processingComplaints = Complaint::where('user_id', $user->id)->whereIn('status', ['PENDING', 'PROCESSING', 'DIPROSES'])->count();
-                $resolvedComplaints = Complaint::where('user_id', $user->id)->whereIn('status', ['RESOLVED', 'SELESAI'])->count();
-
-                $activePollsCount = Poll::where('status', 'ACTIVE')->where(fn ($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))->count();
-                $announcementsCount = Announcement::where('is_active', true)->count();
-                $hasActiveEmergency = Emergency::where('user_id', $user->id)->where('status', 'ACTIVE')->exists();
-
-                $sosText = $hasActiveEmergency ? "🚨 Anda memiliki **panggilan darurat (SOS) aktif**." : "✅ Status aman, tidak ada sinyal darurat aktif.";
-
-                $msg = "📊 **Data & Layanan pada Dashboard Warga:**\n\n".
-                    "Halaman Dashboard akun Warga Anda menampilkan ringkasan informasi dan layanan terkini:\n\n".
-                    "1. **Layanan Surat Mandiri Saya:**\n".
-                    "• Total Pengajuan: **{$totalDocs} berkas**\n".
-                    "• Sedang Diproses / Menunggu: **{$pendingDocs} berkas**\n".
-                    "• Selesai / Terbit: **{$completedDocs} berkas**\n\n".
-                    "2. **Laporan & Pengaduan Saya:**\n".
-                    "• Total Pengaduan: **{$totalComplaints} laporan**\n".
-                    "• Sedang Diproses: **{$processingComplaints} laporan**\n".
-                    "• Selesai Ditangani: **{$resolvedComplaints} laporan**\n\n".
-                    "3. **Musyawarah & Polling Warga:**\n".
-                    "• Polling Aktif: **{$activePollsCount} agenda** yang dapat Anda ikuti\n\n".
-                    "4. **Pengumuman & Informasi Wilayah:**\n".
-                    "• Pengumuman Resmi: **{$announcementsCount} pengumuman aktif**\n\n".
-                    "5. **Tombol Bantuan Darurat (SOS):**\n".
-                    "• {$sosText}";
+                $fullMsg = $dashMsg."\n\n".$sideMsg."\n\n".$updateMsg;
 
                 return [
-                    'message' => trim($msg),
+                    'message' => trim($fullMsg),
                     'options' => [
                         ['label' => 'Buat Surat Baru', 'icon' => 'document', 'next_node' => 'surat_pilih_jenis'],
                         ['label' => 'Lapor Pengaduan', 'icon' => 'alert', 'next_node' => 'lapor_mulai'],
@@ -1561,46 +3070,34 @@ class AiController extends Controller
             $rtResidentsList = $extra['rt_residents_list'] ?? '';
             $rtResidents = $extra['rt_residents'] ?? collect();
 
-            // 0. Dashboard query for RT: "apa yang ada di dashboard", "data dashboard", "ada apa saja di dashboard", etc.
-            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi)\s+(?:di\s+|pada\s+|tentang\s+)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa)|^dashboard$/i', $lower)) {
-                $rtId = $user->rt_id;
-                $totWarga = Resident::where('rt_id', $rtId)->count();
-                $totPria = Resident::where('rt_id', $rtId)->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
-                $totWanita = Resident::where('rt_id', $rtId)->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
-                $totKk = Family::where('rt_id', $rtId)->count();
+            // 0. Dashboard query for RT: "apa yang ada di dashboard", "data dashboard", "baca dashboard", etc.
+            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi|status|baca|lihat|tampilkan|cek|keseluruhan|semua|detail)\s+(?:.*)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa|itu\s+apa)|^dashboard$|baca\s+(?:keseluruhan|semua)\s+(?:dari\s+)?dashboard/i', $clean)) {
+                $dashMsg = $this->getDashboardSummary($user);
+                $sideMsg = $this->getSidebarMenuList($role);
+                $updateMsg = $this->getRecentUpdatesSummary($user);
 
-                $totalDocs = DocumentRequest::accessibleBy($user)->count();
-                $pendingDocs = DocumentRequest::accessibleBy($user)->whereIn('status', ['DIAJUKAN_RT', 'PENDING'])->count();
-
-                $totalComplaints = Complaint::where('rt_id', $rtId)->count();
-                $pendingComplaints = Complaint::where('rt_id', $rtId)->whereIn('status', ['PENDING', 'PROCESSING'])->count();
-
-                $activePollsCount = Poll::where('status', 'ACTIVE')->where(fn ($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))->count();
-                $activeEmergencies = Emergency::where('status', 'ACTIVE')->count();
-
-                $sosText = $activeEmergencies > 0 ? "🚨 Terdapat **{$activeEmergencies} panggilan darurat (SOS) aktif**!" : "✅ Situasi aman, tidak ada panggilan darurat aktif.";
-
-                $msg = "📊 **Data & Layanan pada Dashboard RT {$rtNum}:**\n\n".
-                    "Halaman Dashboard RT menampilkan ringkasan data kependudukan dan operasional RT Anda:\n\n".
-                    "1. **Statistik Kependudukan RT {$rtNum}:**\n".
-                    "• Total Penduduk: **{$totWarga} Jiwa** ({$totPria} Laki-laki, {$totWanita} Perempuan)\n".
-                    "• Total Kartu Keluarga: **{$totKk} KK**\n\n".
-                    "2. **Layanan Surat Warga:**\n".
-                    "• Total Permohonan Surat: **{$totalDocs} berkas**\n".
-                    "• Menunggu Verifikasi RT: **{$pendingDocs} berkas**\n\n".
-                    "3. **Pengaduan Warga RT:**\n".
-                    "• Total Pengaduan Masuk: **{$totalComplaints} laporan**\n".
-                    "• Pending / Sedang Diproses: **{$pendingComplaints} laporan**\n\n".
-                    "4. **Musyawarah & Polling:**\n".
-                    "• Polling / Musyawarah Aktif: **{$activePollsCount} kegiatan**\n\n".
-                    "5. **Status Panggilan Darurat (SOS):**\n".
-                    "• {$sosText}";
+                $fullMsg = $dashMsg."\n\n".$sideMsg."\n\n".$updateMsg;
 
                 return [
-                    'message' => trim($msg),
+                    'message' => trim($fullMsg),
                     'options' => [
                         ['label' => 'Daftar Pengajuan Surat', 'icon' => 'document', 'next_node' => 'start'],
                         ['label' => 'Daftar Pengaduan', 'icon' => 'alert', 'next_node' => 'start'],
+                        ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                    ],
+                ];
+            }
+
+            // Demographics breakdown (only when explicitly asked: demografi, statistik, sebaran, or both pria and wanita)
+            if (preg_match('/(demografi|statistik|sebaran\s*penduduk|(?:pria|laki[\s\-]*laki).*(?:wanita|perempuan)|(?:wanita|perempuan).*(?:pria|laki[\s\-]*laki))/i', $clean)) {
+                return [
+                    'message' => "👥 **Statistik Demografi Warga di RT {$rtNum} Anda:**\n\n".
+                        "• **Total Penduduk:** {$totalWarga} jiwa\n".
+                        "• **Laki-laki:** {$totalPria} jiwa\n".
+                        "• **Perempuan:** {$totalWanita} jiwa\n".
+                        "• **Total Kartu Keluarga (KK):** {$totalKk} KK",
+                    'options' => [
+                        ['label' => 'Lihat Daftar Warga', 'icon' => 'search', 'next_node' => 'start'],
                         ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
                     ],
                 ];
@@ -1636,23 +3133,8 @@ class AiController extends Controller
 
             if (preg_match('/(?:ada\s+)?(?:berapa|jumlah|total)\s+(?:warga|penduduk|jiwa)/i', $lower)) {
                 return [
-                    'message' => "Di wilayah **RT {$rtNum}** Anda terdapat **{$totalWarga} orang warga/jiwa**.",
+                    'message' => "Di wilayah **RT {$rtNum}** Anda terdapat **{$totalWarga} jiwa** ({$totalWarga} orang warga).",
                     'options' => [
-                        ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
-                    ],
-                ];
-            }
-
-            // Demographics breakdown (only when explicitly asked: demografi, statistik, sebaran)
-            if (preg_match('/(demografi|statistik|sebaran\s*penduduk)/i', $lower)) {
-                return [
-                    'message' => "👥 **Statistik Demografi Warga di RT {$rtNum} Anda:**\n\n".
-                        "• **Total Penduduk:** {$totalWarga} jiwa\n".
-                        "• **Laki-laki:** {$totalPria} jiwa\n".
-                        "• **Perempuan:** {$totalWanita} jiwa\n".
-                        "• **Total Kartu Keluarga (KK):** {$totalKk} KK",
-                    'options' => [
-                        ['label' => 'Lihat Daftar Warga', 'icon' => 'search', 'next_node' => 'start'],
                         ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
                     ],
                 ];
@@ -1712,7 +3194,7 @@ class AiController extends Controller
                     $famStatus = $matched->is_head_of_family ? 'Kepala Keluarga' : ($matched->status ?? 'Anggota Keluarga');
                     $accStatus = $matched->user ? "{$matched->user->username} ({$matched->user->status})" : 'Belum Ada Akun';
 
-                    $msg = "👤 **Data Lengkap Warga - {$matched->full_name} (RT {$rtNum}):**\n\n".
+                    $msg = "🔍 **Hasil Pencarian Warga di RT {$rtNum}: Data Lengkap {$matched->full_name}**\n\n".
                         "• **Nama Lengkap:** {$matched->full_name}\n".
                         "• **NIK:** `{$matched->nik}`\n".
                         "• **No. KK:** {$kkNum}\n".
@@ -1742,6 +3224,7 @@ class AiController extends Controller
 
                 if ($outsideRes) {
                     $outRtNum = $outsideRes->rt?->number ?? '-';
+
                     return [
                         'message' => "Warga **{$outsideRes->full_name}** terdaftar di RT {$outRtNum} (di luar RT {$rtNum} Anda). Sesuai regulasi privasi UU PDP dan batas kewenangan wilayah, akun RT hanya dapat mengakses data kependudukan warga di RT Anda sendiri.",
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -1776,6 +3259,7 @@ class AiController extends Controller
                 $vName = $user->rt?->rw?->village?->name ?? 'Desa';
                 $name = $desaAdmin ? $desaAdmin->name : 'Kantor Desa';
                 $phone = $desaAdmin?->phone_number ? " (No. WA/HP: {$desaAdmin->phone_number})" : '';
+
                 return [
                     'message' => "Kepala / Admin {$vName} adalah **{$name}**{$phone}.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -1851,22 +3335,23 @@ class AiController extends Controller
             // Asking about RT heads in general: "siapa nama rt nya", "daftar rt", "pengurus rt lain", etc.
             if (preg_match('/(?:siapa|daftar|sebutkan)\s*(?:saja\s+)?(?:nama\s+)?(?:ketua\s*)?rt(?:\s*nya)?/i', $lower) ||
                 preg_match('/nama\s*(?:ketua\s*)?rt(?:\s*nya)?/i', $lower) ||
-                preg_match('/(pengurus|ketua|kontak|daftar)\s*rt\s*(lain|selain)/i', $lower) || 
+                preg_match('/(pengurus|ketua|kontak|daftar)\s*rt\s*(lain|selain)/i', $lower) ||
                 preg_match('/rt\s*(lain|selain)/i', $lower)) {
                 $rwId = $user->rt?->rw_id;
                 $rts = $rwId ? Rt::where('rw_id', $rwId)->orderBy('number')->get() : collect();
                 if ($rts->isNotEmpty()) {
                     $rwNum = $user->rt?->rw?->number ?? '-';
-                    $msg = "Berikut daftar Ketua RT di lingkungan **RW {$rwNum}**:\n\n";
+                    $msg = "Berikut Daftar Pengurus RT Lain di lingkungan **RW {$rwNum}**:\n\n";
                     foreach ($rts as $idx => $rt) {
                         $num = $idx + 1;
                         $head = User::with('resident')->where('role', 'RT')->where('rt_id', $rt->id)->first();
                         $headName = $head ? ($head->resident?->full_name ?: ($head->name ?: $head->username)) : 'Belum terdaftar';
                         $phone = $head?->phone_number ? " — {$head->phone_number}" : '';
-                        $isYou = ($rt->id === $user->rt_id) ? " *(Anda)*" : "";
+                        $isYou = ($rt->id === $user->rt_id) ? ' *(Anda)*' : '';
                         $msg .= "{$num}. **RT {$rt->number}**: **{$headName}**{$isYou}{$phone}\n";
                     }
                     $msg .= "\n_Catatan: Akses ini ditujukan untuk koordinasi antar-pengurus RT. Data warga di RT lain tetap dilindungi privasi._";
+
                     return [
                         'message' => trim($msg),
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -1915,45 +3400,16 @@ class AiController extends Controller
             $rtsBreakdown = $extra['rts_breakdown'] ?? '';
             $rtHeadsList = $extra['rt_heads_list'] ?? '';
 
-            // 0. Dashboard query for RW: "apa yang ada di dashboard", "data dashboard", "ada apa saja di dashboard", etc.
-            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi)\s+(?:di\s+|pada\s+|tentang\s+)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa)|^dashboard$/i', $lower)) {
-                $rwId = $user->rw_id;
-                $totWarga = Resident::whereHas('rt', fn ($q) => $q->where('rw_id', $rwId))->count();
-                $totPria = Resident::whereHas('rt', fn ($q) => $q->where('rw_id', $rwId))->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
-                $totWanita = Resident::whereHas('rt', fn ($q) => $q->where('rw_id', $rwId))->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
-                $totKk = Family::whereHas('rt', fn ($q) => $q->where('rw_id', $rwId))->count();
-                $totRts = Rt::where('rw_id', $rwId)->count();
+            // 0. Dashboard query for RW: "apa yang ada di dashboard", "data dashboard", "baca dashboard", etc.
+            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi|status|baca|lihat|tampilkan|cek|keseluruhan|semua|detail)\s+(?:.*)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa|itu\s+apa)|^dashboard$|baca\s+(?:keseluruhan|semua)\s+(?:dari\s+)?dashboard/i', $clean)) {
+                $dashMsg = $this->getDashboardSummary($user);
+                $sideMsg = $this->getSidebarMenuList($role);
+                $updateMsg = $this->getRecentUpdatesSummary($user);
 
-                $totalDocs = DocumentRequest::accessibleBy($user)->count();
-                $pendingDocs = DocumentRequest::accessibleBy($user)->whereIn('status', ['DIAJUKAN_RW', 'APPROVED_RT'])->count();
-
-                $totalComplaints = Complaint::where('rw_id', $rwId)->count();
-                $pendingComplaints = Complaint::where('rw_id', $rwId)->whereIn('status', ['PENDING', 'PROCESSING'])->count();
-
-                $activePollsCount = Poll::where('status', 'ACTIVE')->where(fn ($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))->count();
-                $activeEmergencies = Emergency::where('status', 'ACTIVE')->count();
-
-                $sosText = $activeEmergencies > 0 ? "🚨 Terdapat **{$activeEmergencies} panggilan darurat (SOS) aktif**!" : "✅ Situasi aman, tidak ada panggilan darurat aktif.";
-
-                $msg = "📊 **Data & Layanan pada Dashboard RW {$rwNum}:**\n\n".
-                    "Halaman Dashboard RW menampilkan ringkasan data kependudukan dan layanan di seluruh RT binaan RW Anda:\n\n".
-                    "1. **Statistik Kependudukan RW {$rwNum}:**\n".
-                    "• Total RT Binaan: **{$totRts} RT**\n".
-                    "• Total Penduduk: **{$totWarga} Jiwa** ({$totPria} Laki-laki, {$totWanita} Perempuan)\n".
-                    "• Total Kartu Keluarga: **{$totKk} KK**\n\n".
-                    "2. **Layanan Surat Masuk:**\n".
-                    "• Total Permohonan Surat: **{$totalDocs} berkas**\n".
-                    "• Menunggu Verifikasi RW: **{$pendingDocs} berkas**\n\n".
-                    "3. **Laporan Pengaduan Warga:**\n".
-                    "• Total Pengaduan Masuk: **{$totalComplaints} laporan**\n".
-                    "• Pending / Sedang Diproses: **{$pendingComplaints} laporan**\n\n".
-                    "4. **Musyawarah & Polling:**\n".
-                    "• Polling / Musyawarah Aktif: **{$activePollsCount} kegiatan**\n\n".
-                    "5. **Status Panggilan Darurat (SOS):**\n".
-                    "• {$sosText}";
+                $fullMsg = $dashMsg."\n\n".$sideMsg."\n\n".$updateMsg;
 
                 return [
-                    'message' => trim($msg),
+                    'message' => trim($fullMsg),
                     'options' => [
                         ['label' => 'Rincian per RT Binaan', 'icon' => 'search', 'next_node' => 'start'],
                         ['label' => 'Verifikasi Surat Masuk', 'icon' => 'document', 'next_node' => 'start'],
@@ -2007,6 +3463,7 @@ class AiController extends Controller
             if (preg_match('/(?:ada\s+)?(?:berapa|jumlah|total)\s+(laki[\s\-]*laki|pria)/i', $lower)) {
                 $rtIds = Rt::where('rw_id', $user->rw_id)->pluck('id');
                 $totPria = Resident::whereIn('rt_id', $rtIds)->where(fn ($q) => $q->where('gender', 'LAKI_LAKI')->orWhere('gender', 'Laki-laki')->orWhere('gender', 'L'))->count();
+
                 return [
                     'message' => "Di lingkungan **RW {$rwNum}** Anda terdapat **{$totPria} orang laki-laki**.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2016,6 +3473,7 @@ class AiController extends Controller
             if (preg_match('/(?:ada\s+)?(?:berapa|jumlah|total)\s+(perempuan|wanita)/i', $lower)) {
                 $rtIds = Rt::where('rw_id', $user->rw_id)->pluck('id');
                 $totWanita = Resident::whereIn('rt_id', $rtIds)->where(fn ($q) => $q->where('gender', 'PEREMPUAN')->orWhere('gender', 'Perempuan')->orWhere('gender', 'P'))->count();
+
                 return [
                     'message' => "Di lingkungan **RW {$rwNum}** Anda terdapat **{$totWanita} orang perempuan**.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2031,7 +3489,7 @@ class AiController extends Controller
 
             if (preg_match('/(?:ada\s+)?(?:berapa|jumlah|total)\s+(?:warga|penduduk|jiwa)/i', $lower)) {
                 return [
-                    'message' => "Total warga di lingkungan **RW {$rwNum}** Anda saat ini adalah **{$totalWargaRw} jiwa**.",
+                    'message' => "Total warga di lingkungan **RW {$rwNum}** Anda saat ini adalah **{$totalWargaRw} jiwa**.\n\nRincian per RT Binaan:\n".($rtsBreakdown ?: "• Belum ada data RT binaan.\n"),
                     'options' => [
                         ['label' => 'Rincian per RT Binaan', 'icon' => 'search', 'next_node' => 'start'],
                         ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
@@ -2061,11 +3519,13 @@ class AiController extends Controller
                     $head = User::with('resident')->where('role', 'RT')->where('rt_id', $targetRt->id)->first();
                     $headName = $head ? ($head->resident?->full_name ?: ($head->name ?: $head->username)) : 'Belum terdaftar';
                     $phone = $head?->phone_number ? " (No. WA/HP: {$head->phone_number})" : '';
+
                     return [
                         'message' => "Ketua **RT {$targetRt->number}** di lingkungan RW {$rwNum} Anda adalah **{$headName}**{$phone}.",
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                     ];
                 }
+
                 return [
                     'message' => "Data RT {$rtNumTarget} tidak ditemukan dalam binaan RW {$rwNum} Anda.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2085,11 +3545,13 @@ class AiController extends Controller
                         $phone = $head?->phone_number ? " — {$head->phone_number}" : '';
                         $msg .= "{$num}. **RT {$rt->number}**: **{$headName}**{$phone}\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                     ];
                 }
+
                 return [
                     'message' => "Belum ada data RT terdaftar di lingkungan RW {$rwNum} Anda.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2145,10 +3607,11 @@ class AiController extends Controller
                 } else {
                     foreach ($residents as $idx => $r) {
                         $num = $idx + 1;
-                        $rtStr = "RT " . ($r->rt?->number ?? '-');
+                        $rtStr = 'RT '.($r->rt?->number ?? '-');
                         $msg .= "{$num}. **{$r->full_name}** ({$rtStr})\n";
                     }
                 }
+
                 return [
                     'message' => trim($msg),
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2204,6 +3667,7 @@ class AiController extends Controller
 
                 if ($outsideRes) {
                     $outRwNum = $outsideRes->rt?->rw?->number ?? '-';
+
                     return [
                         'message' => "Warga **{$outsideRes->full_name}** terdaftar di RW {$outRwNum} (di luar RW {$rwNum} Anda). Sesuai batas kewenangan wilayah dan UU PDP, akun RW hanya dapat mengakses data warga binaan RW Anda sendiri.",
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2222,6 +3686,7 @@ class AiController extends Controller
                 $vName = $user->rw?->village?->name ?? 'Desa';
                 $name = $desaAdmin ? $desaAdmin->name : 'Kantor Desa';
                 $phone = $desaAdmin?->phone_number ? " (No. WA/HP: {$desaAdmin->phone_number})" : '';
+
                 return [
                     'message' => "Kepala / Admin {$vName} adalah **{$name}**{$phone}.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2244,7 +3709,7 @@ class AiController extends Controller
             $auditText = $extra['audit_text'] ?? '';
 
             // 0. Dashboard overview query: "apa yang ada di dashboard", "ada apa saja di dashboard", "data dashboard", "isi dashboard", etc.
-            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi)\s+(?:di\s+|pada\s+|tentang\s+)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa)|^dashboard$/i', $lower)) {
+            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi|status|baca|lihat|tampilkan|cek|keseluruhan|semua|detail)\s+(?:.*)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa|itu\s+apa)|^dashboard$|baca\s+(?:keseluruhan|semua)\s+(?:dari\s+)?dashboard/i', $clean)) {
                 $totVillages = $extra['total_villages'] ?? Village::count();
                 $totRws = $extra['total_rws'] ?? Rw::count();
                 $totRts = $extra['total_rts'] ?? Rt::count();
@@ -2270,9 +3735,9 @@ class AiController extends Controller
                     $recentResidentsText = "  _Belum ada data warga terdaftar._\n";
                 }
 
-                $sosStatus = $activeEmergencies > 0 
-                    ? "🚨 Terdapat **{$activeEmergencies} panggilan darurat (SOS) aktif** yang memerlukan perhatian!" 
-                    : "✅ Situasi aman, tidak ada sinyal darurat (SOS) aktif.";
+                $sosStatus = $activeEmergencies > 0
+                    ? "🚨 Terdapat **{$activeEmergencies} panggilan darurat (SOS) aktif** yang memerlukan perhatian!"
+                    : '✅ Situasi aman, tidak ada sinyal darurat (SOS) aktif.';
 
                 $msg = "📊 **Data & Informasi pada Dashboard Super Admin:**\n\n".
                     "Halaman Dashboard Super Admin menampilkan ringkasan data real-time dari database sebagai berikut:\n\n".
@@ -2290,10 +3755,17 @@ class AiController extends Controller
                     $recentResidentsText."\n".
                     "4. **Struktur Wilayah & Modul Layanan:**\n".
                     "• Pohon struktur kewilayahan (Desa Sukamaju ➔ RW ➔ RT beserta total warga & KK)\n".
-                    "• Akses cepat: Data Kependudukan Terpadu, Layanan Pengajuan Surat, Manajemen Pengaduan, Musyawarah & Polling, Kelola Pengguna, dan Audit Log.";
+                    '• Akses cepat: Data Kependudukan Terpadu, Layanan Pengajuan Surat, Manajemen Pengaduan, Musyawarah & Polling, Kelola Pengguna, dan Audit Log.';
+
+                $dashMsg = trim($msg);
+                if (preg_match('/(?:sidebar|keseluruhan|semua|update|pembaruan)/i', $clean)) {
+                    $sideMsg = $this->getSidebarMenuList($role);
+                    $updateMsg = $this->getRecentUpdatesSummary($user);
+                    $dashMsg .= "\n\n".$sideMsg."\n\n".$updateMsg;
+                }
 
                 return [
-                    'message' => trim($msg),
+                    'message' => $dashMsg,
                     'options' => [
                         ['label' => 'Ringkasan Database', 'icon' => 'document', 'next_node' => 'db_overview'],
                         ['label' => 'Status Sistem & Server', 'icon' => 'search', 'next_node' => 'system_info'],
@@ -2496,7 +3968,22 @@ class AiController extends Controller
             }
 
             // 6. Specific system-wide counts: "ada berapa warga", "berapa kk", "berapa desa", "berapa rw", "berapa rt" (without RT/RW specified)
-            if (!preg_match('/(?:di\s*)?(?:rt|rw)\s*0?\d+/i', $lower)) {
+            if (! preg_match('/(?:di\s*)?(?:rt|rw)\s*0?\d+/i', $lower)) {
+                if (preg_match('/(?:rekap|rekapitulasi|ringkasan|ikhtisar)\s+(?:wilayah|kependudukan|data)/i', $lower) || (preg_match('/(?:berapa|jumlah)\s+desa/i', $lower) && preg_match('/(?:berapa|jumlah)\s+(?:rw|rt|warga)/i', $lower))) {
+                    return [
+                        'message' => "📊 **Rekap Data Wilayah & Kependudukan SIWIL:**\n\n".
+                            "• **Total Desa/Kelurahan:** {$totalVillages} desa\n".
+                            "• **Total RW:** {$totalRws} RW\n".
+                            "• **Total RT:** {$totalRts} RT\n".
+                            "• **Total Warga:** {$totalResidents} jiwa terdaftar\n".
+                            "• **Total Kartu Keluarga (KK):** {$totalFamilies} KK",
+                        'options' => [
+                            ['label' => 'Ringkasan Database', 'icon' => 'document', 'next_node' => 'db_overview'],
+                            ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                        ],
+                    ];
+                }
+
                 if (preg_match('/(?:ada\s+)?(?:berapa|jumlah|total)\s+(?:total\s+)?(?:desa|kelurahan)/i', $lower)) {
                     return [
                         'message' => "Total desa/kelurahan di sistem SIWIL adalah **{$totalVillages} desa**.",
@@ -2515,7 +4002,7 @@ class AiController extends Controller
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                     ];
                 }
-                if (preg_match('/(?:ada\s+)?(?:berapa|jumlah|total)\s+(?:total\s+)?(?:warga|penduduk|jiwa)/i', $lower)) {
+                if ((preg_match('/(?:ada\s+)?(?:berapa|jumlah|total)\s+(?:total\s+)?(?:warga|penduduk|jiwa)(?:\s+(?:terdaftar|di\s+sistem|keseluruhan|semua))?$/i', trim($lower)) || preg_match('/(?:ada\s+)?(?:berapa|jumlah|total)\s+(?:total\s+)?(?:warga|penduduk|jiwa)/i', $lower)) && ! preg_match('/(?:akun|user|pengguna|tidak|belum|tanpa)/i', $lower)) {
                     return [
                         'message' => "Total warga terdaftar di sistem SIWIL adalah **{$totalResidents} jiwa**.",
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2525,20 +4012,6 @@ class AiController extends Controller
                     return [
                         'message' => "Total Kartu Keluarga (KK) terdaftar di sistem SIWIL adalah **{$totalFamilies} KK**.",
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
-                    ];
-                }
-                if (preg_match('/(?:rekap|rekapitulasi|ringkasan|ikhtisar)\s+(?:wilayah|kependudukan|data)/i', $lower)) {
-                    return [
-                        'message' => "📊 **Rekap Data Wilayah & Kependudukan SIWIL:**\n\n".
-                            "• **Total Desa/Kelurahan:** {$totalVillages} desa\n".
-                            "• **Total RW:** {$totalRws} RW\n".
-                            "• **Total RT:** {$totalRts} RT\n".
-                            "• **Total Warga:** {$totalResidents} jiwa terdaftar\n".
-                            "• **Total Kartu Keluarga (KK):** {$totalFamilies} KK",
-                        'options' => [
-                            ['label' => 'Ringkasan Database', 'icon' => 'document', 'next_node' => 'db_overview'],
-                            ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
-                        ],
                     ];
                 }
             }
@@ -2559,6 +4032,7 @@ class AiController extends Controller
                         $headName = $head ? ($head->resident?->full_name ?: ($head->name ?: $head->username)) : 'Belum terdaftar';
                         $responses[] = "Ketua {$locLabel} adalah **{$headName}**.";
                     }
+
                     return [
                         'message' => implode("\n", $responses),
                         'options' => [
@@ -2566,6 +4040,7 @@ class AiController extends Controller
                         ],
                     ];
                 }
+
                 return [
                     'message' => "Data RT {$rtNum} tidak ditemukan di database.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2586,6 +4061,7 @@ class AiController extends Controller
                         $vName = $rt->rw?->village?->name ?? '-';
                         $msg .= "{$num}. **RT {$rt->number}** (RW {$rwNum}, Desa {$vName}): **{$headName}**\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [
@@ -2593,8 +4069,9 @@ class AiController extends Controller
                         ],
                     ];
                 }
+
                 return [
-                    'message' => "Belum ada data RT yang terdaftar di database.",
+                    'message' => 'Belum ada data RT yang terdaftar di database.',
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                 ];
             }
@@ -2614,6 +4091,7 @@ class AiController extends Controller
                         $headName = $head ? ($head->resident?->full_name ?: ($head->name ?: $head->username)) : 'Belum terdaftar';
                         $responses[] = "Ketua {$locLabel} adalah **{$headName}**.";
                     }
+
                     return [
                         'message' => implode("\n", $responses),
                         'options' => [
@@ -2621,6 +4099,7 @@ class AiController extends Controller
                         ],
                     ];
                 }
+
                 return [
                     'message' => "Data RW {$rwNum} tidak ditemukan di database.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2640,6 +4119,7 @@ class AiController extends Controller
                         $vName = $rw->village?->name ?? '-';
                         $msg .= "{$num}. **RW {$rw->number}** (Desa {$vName}): **{$headName}**\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [
@@ -2647,8 +4127,9 @@ class AiController extends Controller
                         ],
                     ];
                 }
+
                 return [
-                    'message' => "Belum ada data RW yang terdaftar di database.",
+                    'message' => 'Belum ada data RW yang terdaftar di database.',
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                 ];
             }
@@ -2661,6 +4142,7 @@ class AiController extends Controller
                         $vName = $da->village?->name ?? 'Desa';
                         $responses[] = "Kepala / Admin {$vName} adalah **{$da->name}**.";
                     }
+
                     return [
                         'message' => implode("\n", $responses),
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -2671,7 +4153,7 @@ class AiController extends Controller
             // 7. Resident personal data lookup across all database: "data lengkap [nama/nik]", "biodata [nama/nik]", "data warga [nama/nik]"
             if (preg_match('/(?:data\s*(?:lengkap|diri)?|biodata|profil|cari\s*warga)\s*(?:warga)?\s*(?:bernama|nama|nik|dengan\s*nik)?\s+([a-zA-Z0-9\s]+)/i', $lower, $m)) {
                 $searchQuery = trim($m[1]);
-                if (!in_array(strtolower($searchQuery), ['saya', 'ku', 'pribadi', 'akun', 'warga', 'dashboard', 'sistem', 'database', 'wilayah', 'kependudukan', 'desa', 'rt', 'rw'])) {
+                if (! in_array(strtolower($searchQuery), ['saya', 'ku', 'pribadi', 'akun', 'warga', 'dashboard', 'sistem', 'database', 'wilayah', 'kependudukan', 'desa', 'rt', 'rw'])) {
                     $matchedResident = Resident::with(['user', 'family', 'rt.rw.village'])
                         ->where('nik', $searchQuery)
                         ->orWhere('full_name', 'like', "%{$searchQuery}%")
@@ -2701,7 +4183,7 @@ class AiController extends Controller
                         $accStatus = $matchedResident->user ? "{$matchedResident->user->username} ({$matchedResident->user->status})" : 'Belum Ada Akun';
 
                         return [
-                            'message' => "👤 **Data Lengkap Warga - {$matchedResident->full_name}:**\n\n".
+                            'message' => "👤 **Data Diri Warga (Akses Penuh Super Admin) - {$matchedResident->full_name}:**\n\n".
                                 "• **Nama Lengkap:** {$matchedResident->full_name}\n".
                                 "• **NIK:** `{$matchedResident->nik}`\n".
                                 "• **No. Kartu Keluarga (KK):** {$kkNum}\n".
@@ -2739,7 +4221,7 @@ class AiController extends Controller
                         "Sesuai standar keamanan sistem dan perlindungan data:\n".
                         "• Seluruh kata sandi pengguna di database dienkripsi satu arah menggunakan algoritma hashing kriptografis (**Bcrypt**) dan **tidak pernah disimpan dalam bentuk teks biasa**.\n".
                         "• Oleh karena itu, kata sandi asli tidak dapat dibaca oleh sistem AI maupun ditampilkan di layar demi menjaga keamanan akun pengguna.\n\n".
-                        "Sebagai **Super Administrator**, Anda dapat membantu mereset kata sandi pengguna atau warga yang membutuhkan pembaruan login secara langsung melalui menu **Kelola Pengguna**.",
+                        'Sebagai **Super Administrator**, Anda dapat membantu mereset kata sandi pengguna atau warga yang membutuhkan pembaruan login secara langsung melalui menu **Kelola Pengguna**.',
                     'options' => [
                         ['label' => 'Daftar Akun Warga', 'icon' => 'user', 'next_node' => 'start'],
                         ['label' => 'Ringkasan Database', 'icon' => 'document', 'next_node' => 'db_overview'],
@@ -2756,7 +4238,7 @@ class AiController extends Controller
                     "Total Akun Warga: **{$totalCitizenUsers} akun**\n\n";
 
                 if ($citizenUsers->isEmpty()) {
-                    $msg .= "Belum ada akun warga yang terdaftar di aplikasi.";
+                    $msg .= 'Belum ada akun warga yang terdaftar di aplikasi.';
                 } else {
                     foreach ($citizenUsers as $idx => $cu) {
                         $num = $idx + 1;
@@ -2776,7 +4258,7 @@ class AiController extends Controller
                             "   • Kontak: {$phone} | {$email}\n\n";
                     }
                     if ($totalCitizenUsers > 20) {
-                        $msg .= "_Menampilkan 20 akun pertama. Anda dapat melihat dan mengelola seluruh akun secara lengkap di menu **Kelola Pengguna**._";
+                        $msg .= '_Menampilkan 20 akun pertama. Anda dapat melihat dan mengelola seluruh akun secara lengkap di menu **Kelola Pengguna**._';
                     }
                 }
 
@@ -2797,11 +4279,11 @@ class AiController extends Controller
                 $msg = "📋 **Daftar Nama Warga Terdaftar:**\n\n";
 
                 if ($residentsList->isEmpty()) {
-                    $msg .= "Belum ada data warga yang terdaftar di database.";
+                    $msg .= 'Belum ada data warga yang terdaftar di database.';
                 } else {
                     foreach ($residentsList as $idx => $res) {
                         $num = $idx + 1;
-                        $rtRw = "RT " . ($res->rt?->number ?? '-') . " / RW " . ($res->rt?->rw?->number ?? '-');
+                        $rtRw = 'RT '.($res->rt?->number ?? '-').' / RW '.($res->rt?->rw?->number ?? '-');
                         $msg .= "{$num}. **{$res->full_name}** ({$rtRw})\n";
                     }
                     if ($totWarga > 20) {
@@ -2901,6 +4383,7 @@ class AiController extends Controller
                         $uName = $c->user?->resident?->full_name ?: ($c->user?->name ?? 'Warga');
                         $msg .= "{$num}. **{$c->title}**\n   • Status: `{$c->status}` | Pelapor: {$uName}\n   • Tanggal: {$c->created_at->format('d M Y H:i')}\n\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [
@@ -2909,8 +4392,9 @@ class AiController extends Controller
                         ],
                     ];
                 }
+
                 return [
-                    'message' => "Belum ada laporan pengaduan warga di database.",
+                    'message' => 'Belum ada laporan pengaduan warga di database.',
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                 ];
             }
@@ -2934,6 +4418,7 @@ class AiController extends Controller
                         $rName = $d->resident?->full_name ?? 'Warga';
                         $msg .= "{$num}. **{$d->type}**\n   • Pemohon: {$rName} | Status: `{$d->status}`\n   • Tanggal: {$d->created_at->format('d M Y')}\n\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [
@@ -2942,8 +4427,9 @@ class AiController extends Controller
                         ],
                     ];
                 }
+
                 return [
-                    'message' => "Belum ada permohonan surat di database.",
+                    'message' => 'Belum ada permohonan surat di database.',
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                 ];
             }
@@ -2963,6 +4449,7 @@ class AiController extends Controller
                         $num = $idx + 1;
                         $msg .= "{$num}. **{$p->title}** (Status: `{$p->status}`)\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [
@@ -2971,8 +4458,9 @@ class AiController extends Controller
                         ],
                     ];
                 }
+
                 return [
-                    'message' => "Belum ada agenda polling atau musyawarah di database.",
+                    'message' => 'Belum ada agenda polling atau musyawarah di database.',
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                 ];
             }
@@ -2992,6 +4480,7 @@ class AiController extends Controller
                         $num = $idx + 1;
                         $msg .= "{$num}. **{$a->title}**\n   {$a->content}\n\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [
@@ -2999,8 +4488,9 @@ class AiController extends Controller
                         ],
                     ];
                 }
+
                 return [
-                    'message' => "Saat ini belum ada pengumuman resmi yang aktif di sistem SIWIL.",
+                    'message' => 'Saat ini belum ada pengumuman resmi yang aktif di sistem SIWIL.',
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                 ];
             }
@@ -3018,12 +4508,12 @@ class AiController extends Controller
             $totalWanitaDesa = $extra['total_wanita_desa'] ?? 0;
             $directory = $extra['village_directory'] ?? '';
 
-            // 0. Dashboard query for Desa: "apa yang ada di dashboard", "data dashboard", "ada apa saja di dashboard", etc.
-            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi)\s+(?:di\s+|pada\s+|tentang\s+)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa)|^dashboard$/i', $lower)) {
+            // 0. Dashboard query for Desa: "apa yang ada di dashboard", "data dashboard", "baca dashboard", etc.
+            if (preg_match('/(?:apa\s+(?:yang\s+ada|saja\s+ada|ada|isi)|ada\s+apa(?:\s+saja)?|isi|data|ringkasan|statistik|rekap|tampilan|menu|informasi|status|baca|lihat|tampilkan|cek|keseluruhan|semua|detail)\s+(?:.*)?dashboard|dashboard\s+(?:ada\s+apa|isinya\s+apa|menampilkan\s+apa|itu\s+apa)|^dashboard$|baca\s+(?:keseluruhan|semua)\s+(?:dari\s+)?dashboard/i', $clean)) {
                 $activeEmergencies = Emergency::where('status', 'ACTIVE')->count();
-                $sosStatus = $activeEmergencies > 0 
-                    ? "🚨 Terdapat **{$activeEmergencies} panggilan darurat (SOS) aktif**!" 
-                    : "✅ Situasi aman, tidak ada sinyal darurat aktif.";
+                $sosStatus = $activeEmergencies > 0
+                    ? "🚨 Terdapat **{$activeEmergencies} panggilan darurat (SOS) aktif**!"
+                    : '✅ Situasi aman, tidak ada sinyal darurat aktif.';
 
                 $msg = "📊 **Data & Informasi pada Dashboard Administrator Desa ({$desaLabel}):**\n\n".
                     "Halaman Dashboard Desa menampilkan ringkasan data kependudukan dan operasional seluruh desa:\n\n".
@@ -3032,16 +4522,23 @@ class AiController extends Controller
                     "• Total RT: **{$totalRt} RT**\n".
                     "• Total Penduduk: **{$totalWargaDesa} Jiwa** ({$totalPriaDesa} Laki-laki, {$totalWanitaDesa} Perempuan)\n".
                     "• Total Kepala Keluarga: **{$totalKkDesa} KK**\n".
-                    "• Total Pengajuan Surat Masuk: **".($extra['total_docs_desa'] ?? 0)." berkas**\n".
-                    "• Total Laporan Pengaduan: **".($extra['total_complaints_desa'] ?? 0)." laporan**\n\n".
+                    '• Total Pengajuan Surat Masuk: **'.($extra['total_docs_desa'] ?? 0)." berkas**\n".
+                    '• Total Laporan Pengaduan: **'.($extra['total_complaints_desa'] ?? 0)." laporan**\n\n".
                     "2. **Status Panggilan Darurat (SOS):**\n".
                     "• {$sosStatus}\n\n".
                     "3. **Struktur Wilayah & Modul Desa:**\n".
                     "• Pohon struktur kewilayahan RW dan RT binaan desa\n".
-                    "• Layanan persuratan TTE, musyawarah desa, APBDes, dan proyek pembangunan.";
+                    '• Layanan persuratan TTE, musyawarah desa, APBDes, dan proyek pembangunan.';
+
+                $dashMsg = trim($msg);
+                if (preg_match('/(?:sidebar|keseluruhan|semua|update|pembaruan)/i', $clean)) {
+                    $sideMsg = $this->getSidebarMenuList($role);
+                    $updateMsg = $this->getRecentUpdatesSummary($user);
+                    $dashMsg .= "\n\n".$sideMsg."\n\n".$updateMsg;
+                }
 
                 return [
-                    'message' => trim($msg),
+                    'message' => $dashMsg,
                     'options' => [
                         ['label' => 'Sebaran per RW', 'icon' => 'search', 'next_node' => 'start'],
                         ['label' => 'Direktori Pengurus', 'icon' => 'phone', 'next_node' => 'start'],
@@ -3123,13 +4620,14 @@ class AiController extends Controller
                 } else {
                     foreach ($residents as $idx => $r) {
                         $num = $idx + 1;
-                        $rtRw = "RT " . ($r->rt?->number ?? '-') . " / RW " . ($r->rt?->rw?->number ?? '-');
+                        $rtRw = 'RT '.($r->rt?->number ?? '-').' / RW '.($r->rt?->rw?->number ?? '-');
                         $msg .= "{$num}. **{$r->full_name}** ({$rtRw})\n";
                     }
                     if ($totDesa > 20) {
                         $msg .= "\n_Menampilkan 20 warga pertama dari total {$totDesa} warga di {$desaLabel}._";
                     }
                 }
+
                 return [
                     'message' => trim($msg),
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -3258,11 +4756,13 @@ class AiController extends Controller
                     $headName = $head ? ($head->resident?->full_name ?: ($head->name ?: $head->username)) : 'Belum terdaftar';
                     $phone = $head?->phone_number ? " (No. WA/HP: {$head->phone_number})" : '';
                     $rwNum = $targetRt->rw?->number ?? '-';
+
                     return [
                         'message' => "Ketua **RT {$targetRt->number}** (RW {$rwNum}) di {$desaLabel} adalah **{$headName}**{$phone}.",
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                     ];
                 }
+
                 return [
                     'message' => "Data RT {$rtNumTarget} tidak ditemukan di {$desaLabel}.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -3280,11 +4780,13 @@ class AiController extends Controller
                     $head = User::with('resident')->where('role', 'RW')->where('rw_id', $targetRw->id)->first();
                     $headName = $head ? ($head->resident?->full_name ?: ($head->name ?: $head->username)) : 'Belum terdaftar';
                     $phone = $head?->phone_number ? " (No. WA/HP: {$head->phone_number})" : '';
+
                     return [
                         'message' => "Ketua **RW {$targetRw->number}** di {$desaLabel} adalah **{$headName}**{$phone}.",
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                     ];
                 }
+
                 return [
                     'message' => "Data RW {$rwNumTarget} tidak ditemukan di {$desaLabel}.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -3306,6 +4808,7 @@ class AiController extends Controller
                         $phone = $head?->phone_number ? " — {$head->phone_number}" : '';
                         $msg .= "{$num}. **RT {$rt->number}** (RW {$rwNum}): **{$headName}**{$phone}\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
@@ -3327,14 +4830,13 @@ class AiController extends Controller
                         $phone = $head?->phone_number ? " — {$head->phone_number}" : '';
                         $msg .= "{$num}. **RW {$rw->number}**: **{$headName}**{$phone}\n";
                     }
+
                     return [
                         'message' => trim($msg),
                         'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],
                     ];
                 }
             }
-
-
 
             // Specific resident personal data lookup in village: "cari warga [nama]", "data lengkap [nama]", "biodata [nama]"
             if (preg_match('/(?:cari\s+warga(?:\s+bernama|\s+nama)?|data\s+(?:lengkap\s+|diri\s+)?warga(?:\s+bernama|\s+nama)?|biodata\s+warga(?:\s+bernama|\s+nama)?|warga\s+(?:bernama|nama))\s+([a-zA-Z0-9\s]+)/i', $lower, $m)) {
@@ -3390,6 +4892,7 @@ class AiController extends Controller
                 $desaAdmin = User::whereIn('role', ['ADMIN_DESA', 'DESA'])->first();
                 $name = $desaAdmin ? $desaAdmin->name : 'Administrator Desa';
                 $phone = $desaAdmin?->phone_number ? " (No. WA/HP: {$desaAdmin->phone_number})" : '';
+
                 return [
                     'message' => "Kepala / Administrator {$desaLabel} adalah **{$name}**{$phone}.",
                     'options' => [['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start']],

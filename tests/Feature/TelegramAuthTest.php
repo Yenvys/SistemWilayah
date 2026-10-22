@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Resident;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class TelegramAuthTest extends TestCase
@@ -19,7 +20,7 @@ class TelegramAuthTest extends TestCase
         ]);
 
         Resident::create([
-            'id' => (string) \Illuminate\Support\Str::uuid(),
+            'id' => (string) Str::uuid(),
             'nik' => $user->username,
             'full_name' => 'Budi Santoso',
         ]);
