@@ -142,7 +142,7 @@
                                         <input type="hidden" name="status" value="active">
                                         <button type="submit" class="btn btn-primary btn-sm" style="background-color: var(--success); border-color: var(--success);">Terima</button>
                                     </form>
-                                    <form action="{{ route('users.verify', $u->id) }}" method="POST" onsubmit="return confirm('Tolak pendaftaran user ini?');" style="margin: 0;">
+                                    <form action="{{ route('users.verify', $u->id) }}" method="POST" data-confirm="Tolak pendaftaran user ini?" style="margin: 0;">
                                         @csrf
                                         @method('PATCH')
                                         <input type="hidden" name="status" value="rejected">
@@ -172,7 +172,7 @@
                                 </button>
                                 
                                 @if($u->id !== Auth::id())
-                                    <form action="{{ route('users.destroy', $u->id) }}" method="POST" onsubmit="return confirm('Hapus user ini?');" style="margin: 0;">
+                                    <form action="{{ route('users.destroy', $u->id) }}" method="POST" data-confirm="Hapus user ini?" style="margin: 0;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-icon btn-icon-danger" title="Hapus Pengguna" aria-label="Hapus Pengguna">

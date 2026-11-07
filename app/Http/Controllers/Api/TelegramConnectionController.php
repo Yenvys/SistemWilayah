@@ -29,10 +29,12 @@ class TelegramConnectionController extends Controller
         // Store in cache for 15 minutes, mapping token -> user ID
         Cache::put('telegram_connect_token_'.$token, $user->id, now()->addMinutes(15));
 
+        $botUsername = config('services.telegram.bot_username', env('TELEGRAM_BOT_USERNAME', 'cevltBot'));
+
         return response()->json([
             'token' => $token,
-            'bot_username' => env('TELEGRAM_BOT_USERNAME', 'YourBotUsername'),
-            'deep_link' => 'https://t.me/'.env('TELEGRAM_BOT_USERNAME', 'YourBotUsername').'?start='.$token,
+            'bot_username' => $botUsername,
+            'deep_link' => 'https://t.me/'.$botUsername.'?start='.$token,
         ]);
     }
 

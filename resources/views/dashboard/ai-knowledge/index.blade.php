@@ -210,7 +210,7 @@
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                         </svg>
                                     </a>
-                                    <form action="{{ route('ai-knowledge.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus referensi ini? AI tidak akan bisa lagi menjawab menggunakan data ini.');" style="margin: 0; display: inline;">
+                                    <form action="{{ route('ai-knowledge.destroy', $item->id) }}" method="POST" data-confirm="Apakah Anda yakin ingin menghapus referensi ini? AI tidak akan bisa lagi menjawab menggunakan data ini." style="margin: 0; display: inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-icon btn-icon-danger" title="Hapus Referensi AI" style="background: none; border: none; cursor: pointer;">

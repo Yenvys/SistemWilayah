@@ -1,374 +1,899 @@
 <mxfile host="app.diagrams.net">
-  <diagram name="Page-1" id="Nb6fWYYnuWObLYL9RBst">
-    <mxGraphModel dx="2020" dy="1176" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1600" math="0" shadow="0">
+  <diagram name="SIWIL Comprehensive Use Case Diagram" id="siwil-complete-use-case">
+    <mxGraphModel dx="2800" dy="1900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2850" pageHeight="1950" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#0D47A1;" value="USE CASE DIAGRAM — SIWIL (Sistem Informasi Wilayah &amp; Pemerintahan)" vertex="1">
-          <mxGeometry height="40" width="1000" x="400" y="10" as="geometry" />
+        <!-- HEADER TITLE -->
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#0F172A;" value="USE CASE DIAGRAM â€” SIWIL (SISTEM INFORMASI WILAYAH &amp; PEMERINTAHAN TERPADU)" vertex="1">
+          <mxGeometry height="45" width="1600" x="625" y="15" as="geometry" />
         </mxCell>
-        <mxCell id="lblMain" parent="1" style="text;html=1;strokeColor=none;fillColor=#FFEBEE;align=center;verticalAlign=middle;rounded=1;fontSize=11;fontStyle=1;fontColor=#B71C1C;spacingLeft=6;" value="◀ ACTORS (Pengguna Sistem)" vertex="1">
-          <mxGeometry height="26" width="220" x="40" y="60" as="geometry" />
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#475569;" value="Arsitektur Fungsional Terpadu: Multi-Role (Warga, RT, RW, Desa, Superadmin) â€¢ Multi-Tier Approval â€¢ Omnichannel Bot (WhatsApp &amp; Telegram) â€¢ SIWIL AI Engine (12 Tools &amp; UU PDP)" vertex="1">
+          <mxGeometry height="25" width="1600" x="625" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="lblSup" parent="1" style="text;html=1;strokeColor=none;fillColor=#E8F5E9;align=center;verticalAlign=middle;rounded=1;fontSize=11;fontStyle=1;fontColor=#1B5E20;spacingLeft=6;" value="SUPPORT / SYSTEM ▶" vertex="1">
-          <mxGeometry height="26" width="220" x="1580" y="60" as="geometry" />
+        <!-- COLUMN LABELS -->
+        <mxCell id="lblMain" parent="1" style="text;html=1;strokeColor=#CBD5E1;fillColor=#F8FAFC;align=center;verticalAlign=middle;rounded=1;fontSize=12;fontStyle=1;fontColor=#0F172A;spacingLeft=6;" value="â—€ HUMAN ACTORS (Pengguna &amp; Pemangku Kepentingan)" vertex="1">
+          <mxGeometry height="30" width="230" x="20" y="80" as="geometry" />
         </mxCell>
-        <mxCell id="sys" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#424242;verticalAlign=top;fontSize=13;fontStyle=1;spacingTop=8;strokeWidth=2;dashed=0;" value="SIWIL — Sistem Informasi Wilayah &amp; Pemerintahan" vertex="1">
-          <mxGeometry height="1320" width="1220" x="320" y="60" as="geometry" />
+        <mxCell id="lblSup" parent="1" style="text;html=1;strokeColor=#CBD5E1;fillColor=#F8FAFC;align=center;verticalAlign=middle;rounded=1;fontSize=12;fontStyle=1;fontColor=#0F172A;spacingLeft=6;" value="SUPPORTING &amp; EXTERNAL ENGINES â–¶" vertex="1">
+          <mxGeometry height="30" width="240" x="2570" y="80" as="geometry" />
         </mxCell>
-        <mxCell id="act_warga" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#FFCDD2;strokeColor=#B71C1C;fontStyle=1;fontSize=13;fontColor=#B71C1C;" value="WARGA&#xa;(Main Actor)" vertex="1">
-          <mxGeometry height="90" width="60" x="110" y="450" as="geometry" />
+        <!-- SYSTEM BOUNDARY -->
+        <mxCell id="sys" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFC;strokeColor=#334155;verticalAlign=top;fontSize=14;fontStyle=1;spacingTop=10;strokeWidth=2;dashed=0;arcSize=1;" value="BATAS SISTEM: SIWIL (Sistem Informasi Wilayah Terpadu)" vertex="1">
+          <mxGeometry height="1720" width="2280" x="260" y="80" as="geometry" />
         </mxCell>
-        <mxCell id="pkg1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#9E9E9E;verticalAlign=top;fontStyle=2;fontSize=11;spacingTop=4;" value="A. Autentikasi &amp; Profil" vertex="1">
-          <mxGeometry height="230" width="1180" x="340" y="90" as="geometry" />
+        <!-- ========================================== -->
+        <!-- LEFT ACTORS (HUMAN USERS)                 -->
+        <!-- ========================================== -->
+        <mxCell id="act_sa" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#EDE9FE;strokeColor=#6D28D9;fontStyle=1;fontSize=11;fontColor=#4C1D95;" value="SUPERADMIN&#xA;(System Owner)" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="150" as="geometry" />
         </mxCell>
-        <mxCell id="W01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W01&#xa;Registrasi Akun Warga&#xa;(&lt;&lt;extend&gt;&gt; verifikasi NIK/KK)" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="130" as="geometry" />
+        <mxCell id="act_publik" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#F1F5F9;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#1E293B;" value="MASYARAKAT / PUBLIK&#xA;(Guest Tanpa Login)" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="320" as="geometry" />
         </mxCell>
-        <mxCell id="W02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W02&#xa;Login / Autentikasi&#xa;(Multi-role: warga &amp; admin)" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="130" as="geometry" />
+        <mxCell id="act_warga" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#DBEAFE;strokeColor=#1D4ED8;fontStyle=1;fontSize=12;fontColor=#1E3A8A;" value="WARGA&#xA;(Main Citizen Actor)" vertex="1">
+          <mxGeometry height="95" width="60" x="85" y="560" as="geometry" />
         </mxCell>
-        <mxCell id="W03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W03&#xa;Update Profil Pribadi&#xa;&amp; Foto KTP" vertex="1">
-          <mxGeometry height="70" width="230" x="900" y="130" as="geometry" />
+        <mxCell id="act_rt" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=11;fontColor=#14532D;" value="KETUA RT&#xA;(Verifikator Tingkat 1)" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="980" as="geometry" />
         </mxCell>
-        <mxCell id="W04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W04&#xa;Kelola Data Keluarga (KK)&#xa;&amp; Anggota Keluarga" vertex="1">
-          <mxGeometry height="70" width="230" x="1160" y="130" as="geometry" />
+        <mxCell id="act_rw" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=11;fontColor=#14532D;" value="KETUA RW&#xA;(Verifikator Tingkat 2)" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="1260" as="geometry" />
         </mxCell>
-        <mxCell id="W04b" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W04b&#xa;Lapor Perubahan Data&#xa;(Lahir/Mati/Pindah)" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="220" as="geometry" />
+        <mxCell id="act_desa" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=11;fontColor=#14532D;" value="ADMIN DESA / KADES&#xA;(Penerbit Surat &amp; APBDes)" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="1540" as="geometry" />
         </mxCell>
-        <mxCell id="W04c" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W04c&#xa;Lihat Riwayat Aktivitas&#xa;&amp; Notifikasi" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="220" as="geometry" />
+        <!-- ========================================== -->
+        <!-- RIGHT ACTORS (SUPPORTING & ENGINES)       -->
+        <!-- ========================================== -->
+        <mxCell id="act_ai" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#FEF9C3;strokeColor=#CA8A04;fontStyle=1;fontSize=11;fontColor=#854D0E;" value="SIWIL AI ENGINE&#xA;(LLM &amp; 12 Tools)&#xA;Â«Secondary ActorÂ»" vertex="1">
+          <mxGeometry height="80" width="50" x="2640" y="270" as="geometry" />
         </mxCell>
-        <mxCell id="pkg2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#9E9E9E;verticalAlign=top;fontStyle=2;fontSize=11;spacingTop=4;" value="B. Administrasi &amp; Persuratan" vertex="1">
-          <mxGeometry height="390" width="1180" x="340" y="340" as="geometry" />
+        <mxCell id="act_wa" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#DCFCE7;strokeColor=#16A34A;fontStyle=1;fontSize=11;fontColor=#15803D;" value="WHATSAPP BOT&#xA;(Microservice :3000)&#xA;Â«Gateway EngineÂ»" vertex="1">
+          <mxGeometry height="80" width="50" x="2640" y="700" as="geometry" />
         </mxCell>
-        <mxCell id="W05" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W05&#xa;Ajukan Surat Pengantar RT&#xa;(Domisili, SKTM dasar, dll)" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="380" as="geometry" />
+        <mxCell id="act_tele" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=11;fontColor=#0369A1;" value="TELEGRAM BOT&#xA;(Official Bot API)&#xA;Â«Gateway EngineÂ»" vertex="1">
+          <mxGeometry height="80" width="50" x="2640" y="980" as="geometry" />
         </mxCell>
-        <mxCell id="W06" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W06&#xa;Ajukan Surat Keterangan Desa&#xa;(SKTM, SKU, Ahli Waris, dll)" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="380" as="geometry" />
+        <mxCell id="act_mail" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#F1F5F9;strokeColor=#64748B;fontStyle=1;fontSize=11;fontColor=#334155;" value="SMTP MAIL SYSTEM&#xA;(Mailable Hub)&#xA;Â«Notification EngineÂ»" vertex="1">
+          <mxGeometry height="80" width="50" x="2640" y="1450" as="geometry" />
         </mxCell>
-        <mxCell id="W07" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W07&#xa;Ajukan Surat Pengantar Nikah&#xa;(ke KUA)" vertex="1">
-          <mxGeometry height="70" width="230" x="900" y="380" as="geometry" />
+        <!-- ================================================================= -->
+        <!-- COLUMN 1: PACKAGES 1, 2, 3, 10 (x=280..960)                       -->
+        <!-- ================================================================= -->
+        <!-- PAKET 1: PORTAL TRANSPARANSI PUBLIK -->
+        <mxCell id="pkg1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="1. Portal Transparansi Publik (Tanpa Login)" vertex="1">
+          <mxGeometry height="260" width="670" x="280" y="110" as="geometry" />
         </mxCell>
-        <mxCell id="W08" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W08&#xa;Upload Dokumen&#xa;Persyaratan" vertex="1">
-          <mxGeometry height="70" width="230" x="1160" y="380" as="geometry" />
+        <mxCell id="UC_PUB01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=10;fontColor=#1E3A8A;" value="UC-PUB01&#xA;Lihat Profil Desa &amp; Beranda Publik" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="145" as="geometry" />
         </mxCell>
-        <mxCell id="W09" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W09&#xa;Lacak Status Pengajuan&#xa;(RT → RW → Desa)" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="470" as="geometry" />
+        <mxCell id="UC_PUB02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=10;fontColor=#1E3A8A;" value="UC-PUB02&#xA;Lihat Transparansi APBDes per Tahun" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="145" as="geometry" />
         </mxCell>
-        <mxCell id="W10" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W10&#xa;Terima Notifikasi&#xa;Perubahan Status" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="470" as="geometry" />
+        <mxCell id="UC_PUB03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=10;fontColor=#1E3A8A;" value="UC-PUB03&#xA;Lihat Statistik Demografi (Pendidikan &amp; Usia)" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="210" as="geometry" />
         </mxCell>
-        <mxCell id="W11" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W11&#xa;Unduh Surat PDF&#xa;(TTE / Barcode)" vertex="1">
-          <mxGeometry height="70" width="230" x="900" y="470" as="geometry" />
+        <mxCell id="UC_PUB04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=10;fontColor=#1E3A8A;" value="UC-PUB04&#xA;Lihat Progres Proyek Pembangunan Fisik" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="210" as="geometry" />
         </mxCell>
-        <mxCell id="W12" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W12&#xa;Beri Rating &amp; Feedback&#xa;atas Layanan" vertex="1">
-          <mxGeometry height="70" width="230" x="1160" y="470" as="geometry" />
+        <mxCell id="UC_DOC08" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=10;fontColor=#1E3A8A;" value="UC-DOC08&#xA;Validasi Keaslian Surat via QR Code TTE" vertex="1">
+          <mxGeometry height="45" width="310" x="460" y="315" as="geometry" />
         </mxCell>
-        <mxCell id="W06b" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W06b&#xa;Ajukan Surat Pindah /&#xa;Datang" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="560" as="geometry" />
+        <!-- PAKET 2: AUTENTIKASI, AKUN & KEAMANAN (IAM) -->
+        <mxCell id="pkg2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="2. Autentikasi, Akun &amp; Manajemen Pengguna (IAM)" vertex="1">
+          <mxGeometry height="480" width="670" x="280" y="390" as="geometry" />
         </mxCell>
-        <mxCell id="W06c" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W06c&#xa;Ajukan Izin Keramaian&#xa;/ Rekomendasi" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="560" as="geometry" />
+        <mxCell id="UC_AUTH01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-AUTH01&#xA;Registrasi Warga (Validasi NIK &amp; KK)" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="430" as="geometry" />
         </mxCell>
-        <mxCell id="W06d" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W06d&#xa;Ajukan Surat Kehilangan&#xa;/ Legalitas" vertex="1">
-          <mxGeometry height="70" width="230" x="900" y="560" as="geometry" />
+        <mxCell id="UC_AUTH02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-AUTH02&#xA;Verifikasi &amp; Aktivasi Akun (RT / Desa)" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="430" as="geometry" />
         </mxCell>
-        <mxCell id="W06e" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W06e&#xa;Booking Antrian&#xa;Pelayanan Tatap Muka" vertex="1">
-          <mxGeometry height="70" width="230" x="1160" y="560" as="geometry" />
+        <mxCell id="UC_AUTH03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-AUTH03&#xA;Login Multi-Identitas (NIK / Email / HP)" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="505" as="geometry" />
         </mxCell>
-        <mxCell id="pkg3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#9E9E9E;verticalAlign=top;fontStyle=2;fontSize=11;spacingTop=4;" value="C. Pengaduan &amp; Partisipasi Warga" vertex="1">
-          <mxGeometry height="230" width="1180" x="340" y="740" as="geometry" />
+        <mxCell id="UC_AUTH04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=10;fontColor=#15803D;fontStyle=1;" value="UC-AUTH04&#xA;Reset Password via WhatsApp OTP" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="505" as="geometry" />
         </mxCell>
-        <mxCell id="W13" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W13&#xa;Kirim Pengaduan&#xa;(Foto + Geotag)" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="780" as="geometry" />
+        <mxCell id="UC_AUTH05" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-AUTH05&#xA;Lengkapi Profil &amp; Kontak (profile.complete)" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="580" as="geometry" />
         </mxCell>
-        <mxCell id="W14" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W14&#xa;Lacak &amp; Diskusi&#xa;Pengaduan" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="780" as="geometry" />
+        <mxCell id="UC_AUTH06" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-AUTH06&#xA;Kelola Tanda Tangan &amp; Stempel Resmi" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="580" as="geometry" />
         </mxCell>
-        <mxCell id="W15" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W15&#xa;Ikut Polling /&#xa;Musyawarah Digital" vertex="1">
-          <mxGeometry height="70" width="230" x="900" y="780" as="geometry" />
+        <mxCell id="UC_AUTH07" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=10;fontColor=#0369A1;" value="UC-AUTH07&#xA;Hubungkan Bot Telegram (Deep Link)" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="655" as="geometry" />
         </mxCell>
-        <mxCell id="W16" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W16&#xa;Usulkan Program&#xa;Pembangunan" vertex="1">
-          <mxGeometry height="70" width="230" x="1160" y="780" as="geometry" />
+        <mxCell id="UC_AUTH08" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=10;fontColor=#15803D;" value="UC-AUTH08&#xA;Tautkan Nomor WhatsApp ke Akun" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="655" as="geometry" />
         </mxCell>
-        <mxCell id="W13b" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#C62828;fontSize=10;fontStyle=1;" value="UC-W13b&#xa;Lapor Darurat&#xa;(Kebakaran, Medis, Bencana)" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="870" as="geometry" />
+        <mxCell id="UC_AUTH09" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;fontSize=10;fontColor=#4C1D95;" value="UC-AUTH09&#xA;Manajemen Direktori Pengguna (User CRUD)" vertex="1">
+          <mxGeometry height="50" width="310" x="460" y="730" as="geometry" />
         </mxCell>
-        <mxCell id="W13c" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W13c&#xa;Lihat Peta Laporan&#xa;Warga (Real-time)" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="870" as="geometry" />
+        <!-- PAKET 3: MASTER DATA KEPENDUDUKAN & WILAYAH -->
+        <mxCell id="pkg3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="3. Master Data Kependudukan &amp; Kewilayahan" vertex="1">
+          <mxGeometry height="390" width="670" x="280" y="890" as="geometry" />
         </mxCell>
-        <mxCell id="pkg4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#9E9E9E;verticalAlign=top;fontStyle=2;fontSize=11;spacingTop=4;" value="D. Informasi &amp; Transparansi Publik" vertex="1">
-          <mxGeometry height="230" width="1180" x="340" y="990" as="geometry" />
+        <mxCell id="UC_DATA01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-DATA01&#xA;Kelola Hirarki Wilayah (Desa, RW, RT)" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="930" as="geometry" />
         </mxCell>
-        <mxCell id="W17" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W17&#xa;Lihat Profil Desa&#xa;&amp; Peta Wilayah" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="1030" as="geometry" />
+        <mxCell id="UC_DATA02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-DATA02&#xA;Kelola Data Kartu Keluarga (KK)" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="930" as="geometry" />
         </mxCell>
-        <mxCell id="W18" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W18&#xa;Lihat Statistik Penduduk&#xa;&amp; Demografi" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="1030" as="geometry" />
+        <mxCell id="UC_DATA03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-DATA03&#xA;Kelola Data Penduduk &amp; Foto e-KTP" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="1005" as="geometry" />
         </mxCell>
-        <mxCell id="W19" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W19&#xa;Lihat APBDes &amp;&#xa;Realisasi Anggaran" vertex="1">
-          <mxGeometry height="70" width="230" x="900" y="1030" as="geometry" />
+        <mxCell id="UC_DATA04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=10;fontColor=#1E3A8A;fontStyle=1;" value="UC-DATA04&#xA;Lihat Data Keluarga Saya (my-family)" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="1005" as="geometry" />
         </mxCell>
-        <mxCell id="W20" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W20&#xa;Lihat Pengumuman &amp;&#xa;Agenda Kegiatan" vertex="1">
-          <mxGeometry height="70" width="230" x="1160" y="1030" as="geometry" />
+        <mxCell id="UC_DATA05" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-DATA05&#xA;Mutasi Data Warga (Lahir, Pindah, Wafat)" vertex="1">
+          <mxGeometry height="50" width="310" x="460" y="1080" as="geometry" />
         </mxCell>
-        <mxCell id="W19b" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W19b&#xa;Lihat Peta Pembangunan&#xa;/ Proyek Desa" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="1120" as="geometry" />
+        <!-- PAKET 10: PENGATURAN TERPUSAT & AUDIT SISTEM -->
+        <mxCell id="pkg10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="10. Pengaturan Terpusat &amp; Audit Sistem" vertex="1">
+          <mxGeometry height="370" width="670" x="280" y="1300" as="geometry" />
         </mxCell>
-        <mxCell id="W19c" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=10;" value="UC-W19c&#xa;Cek Titik Rawan&#xa;(Banjir, Kriminal)" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="1120" as="geometry" />
+        <mxCell id="UC_SYS01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;fontSize=10;fontColor=#4C1D95;fontStyle=1;" value="UC-SYS01&#xA;Pusat Konfigurasi (AI, WA, Tele, Mail)" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="1340" as="geometry" />
         </mxCell>
-        <mxCell id="pkg5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDE7;strokeColor=#F9A825;verticalAlign=top;fontStyle=2;fontSize=11;spacingTop=4;" value="E. Layanan Cerdas berbasis AI" vertex="1">
-          <mxGeometry height="130" width="1180" x="340" y="1240" as="geometry" />
+        <mxCell id="UC_SYS02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;fontSize=10;fontColor=#4C1D95;" value="UC-SYS02&#xA;Uji Diagnostik Koneksi (Test Integration)" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="1340" as="geometry" />
         </mxCell>
-        <mxCell id="W21" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;fontSize=10;" value="UC-W21&#xa;Konsultasi Chatbot AI&#xa;(24/7 Bahasa Indonesia)" vertex="1">
-          <mxGeometry height="70" width="230" x="380" y="1280" as="geometry" />
+        <mxCell id="UC_SYS03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-SYS03&#xA;Audit Log Mutasi &amp; Aktivitas Sistem" vertex="1">
+          <mxGeometry height="50" width="290" x="300" y="1415" as="geometry" />
         </mxCell>
-        <mxCell id="W22" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;fontSize=10;" value="UC-W22&#xa;Terima Rekomendasi&#xa;Layanan Personal" vertex="1">
-          <mxGeometry height="70" width="230" x="640" y="1280" as="geometry" />
+        <mxCell id="UC_SYS04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-SYS04&#xA;Laporan Statistik Eksekutif Wilayah" vertex="1">
+          <mxGeometry height="50" width="290" x="640" y="1415" as="geometry" />
         </mxCell>
-        <mxCell id="W23" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;fontSize=10;" value="UC-W23&#xa;Terima Peringatan Dini&#xa;(Bencana / Kesehatan)" vertex="1">
-          <mxGeometry height="70" width="230" x="900" y="1280" as="geometry" />
+        <!-- ================================================================= -->
+        <!-- COLUMN 2: PACKAGES 4, 5, 6 (x=980..1720)                          -->
+        <!-- ================================================================= -->
+        <!-- PAKET 4: ADMINISTRASI PERSURATAN & DIGITAL SIGNATURE -->
+        <mxCell id="pkg4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="4. Administrasi Persuratan &amp; Digital Signature (TTE)" vertex="1">
+          <mxGeometry height="620" width="730" x="980" y="110" as="geometry" />
         </mxCell>
-        <mxCell id="W24" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;fontSize=10;" value="UC-W24&#xa;Ajukan Pertanyaan&#xa;via Suara / Voice AI" vertex="1">
-          <mxGeometry height="70" width="230" x="1160" y="1280" as="geometry" />
+        <mxCell id="UC_DOC01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;fontStyle=1;" value="UC-DOC01&#xA;Ajukan Permohonan Surat Online" vertex="1">
+          <mxGeometry height="50" width="310" x="1010" y="150" as="geometry" />
         </mxCell>
-        <mxCell id="act_sa" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#C8E6C9;strokeColor=#1B5E20;fontStyle=1;fontSize=11;fontColor=#1B5E20;" value="SUPERADMIN&#xa;(System Owner)" vertex="1">
-          <mxGeometry height="80" width="50" x="110" y="150" as="geometry" />
+        <mxCell id="UC_DOC02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;" value="UC-DOC02&#xA;Unggah Berkas Persyaratan Surat" vertex="1">
+          <mxGeometry height="50" width="310" x="1370" y="150" as="geometry" />
         </mxCell>
-        <mxCell id="act_rt" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#C8E6C9;strokeColor=#1B5E20;fontStyle=1;fontSize=11;fontColor=#1B5E20;" value="KETUA RT&#xa;(Verifikator Tingkat 1)" vertex="1">
-          <mxGeometry height="80" width="50" x="110" y="650" as="geometry" />
+        <mxCell id="UC_DOC03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;" value="UC-DOC03&#xA;Verifikasi Permohonan Tingkat 1 (RT)" vertex="1">
+          <mxGeometry height="50" width="310" x="1010" y="225" as="geometry" />
         </mxCell>
-        <mxCell id="act_rw" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#C8E6C9;strokeColor=#1B5E20;fontStyle=1;fontSize=11;fontColor=#1B5E20;" value="KETUA RW&#xa;(Verifikator Tingkat 2)" vertex="1">
-          <mxGeometry height="80" width="50" x="110" y="850" as="geometry" />
+        <mxCell id="UC_DOC04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;" value="UC-DOC04&#xA;Verifikasi Permohonan Tingkat 2 (RW)" vertex="1">
+          <mxGeometry height="50" width="310" x="1370" y="225" as="geometry" />
         </mxCell>
-        <mxCell id="act_desa" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#C8E6C9;strokeColor=#1B5E20;fontStyle=1;fontSize=11;fontColor=#1B5E20;" value="DESA / KELURAHAN&#xa;(Penerbit Surat Resmi)" vertex="1">
-          <mxGeometry height="80" width="50" x="110" y="1050" as="geometry" />
+        <mxCell id="UC_DOC05" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;fontStyle=1;" value="UC-DOC05&#xA;Verifikasi Akhir &amp; Terbitkan Surat (Desa)" vertex="1">
+          <mxGeometry height="50" width="310" x="1010" y="300" as="geometry" />
         </mxCell>
-        <mxCell id="act_ai" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#FFF9C4;strokeColor=#F9A825;fontStyle=1;fontSize=11;fontColor=#F57F17;" value="AI ENGINE&#xa;(Chatbot + Analytics)&#xa;«secondary actor»" vertex="1">
-          <mxGeometry height="80" width="50" x="1680" y="650" as="geometry" />
+        <mxCell id="UC_DOC06" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;" value="UC-DOC06&#xA;Lacak Status Surat (Real-time Tracking)" vertex="1">
+          <mxGeometry height="50" width="310" x="1370" y="300" as="geometry" />
         </mxCell>
-        <mxCell id="e1" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W01">
+        <mxCell id="UC_DOC07" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;fontStyle=1;" value="UC-DOC07&#xA;Unduh Surat PDF Resmi Ber-Barcode TTE" vertex="1">
+          <mxGeometry height="50" width="310" x="1010" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_DOC09" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;" value="UC-DOC09&#xA;Surat Final RT (Renovasi, Tamu Menginap)" vertex="1">
+          <mxGeometry height="50" width="310" x="1370" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_DOC10" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;" value="UC-DOC10&#xA;Surat Final RW (Izin Keramaian, Kehilangan)" vertex="1">
+          <mxGeometry height="50" width="310" x="1190" y="450" as="geometry" />
+        </mxCell>
+        <!-- PAKET 5: PENGADUAN & TANGGAP DARURAT -->
+        <mxCell id="pkg5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="5. Pengaduan Warga &amp; Tanggap Darurat (Emergency)" vertex="1">
+          <mxGeometry height="470" width="730" x="980" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_COMP01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=10;fontColor=#991B1B;fontStyle=1;" value="UC-COMP01&#xA;Lapor Pengaduan Warga (Foto &amp; GPS)" vertex="1">
+          <mxGeometry height="50" width="310" x="1010" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_COMP02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=10;fontColor=#991B1B;" value="UC-COMP02&#xA;Tindak Lanjut &amp; Tangani Aduan Wilayah" vertex="1">
+          <mxGeometry height="50" width="310" x="1370" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_COMP03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=10;fontColor=#991B1B;" value="UC-COMP03&#xA;Pantau Riwayat Status Aduan (Pendingâ†’Resolved)" vertex="1">
+          <mxGeometry height="50" width="310" x="1010" y="865" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_EMG01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#B91C1C;fontSize=10;fontColor=#7F1D1D;fontStyle=1;" value="UC-EMG01&#xA;Pemicu Tombol Darurat SOS (GPS Real-time)" vertex="1">
+          <mxGeometry height="55" width="310" x="1370" y="865" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_EMG02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#B91C1C;fontSize=10;fontColor=#7F1D1D;fontStyle=1;" value="UC-EMG02&#xA;Respons &amp; Selesaikan Insiden Darurat (Pengurus)" vertex="1">
+          <mxGeometry height="55" width="310" x="1010" y="945" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_COMP04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=10;fontColor=#991B1B;" value="UC-COMP04&#xA;Analisis Titik Rawan Keluhan Lingkungan" vertex="1">
+          <mxGeometry height="50" width="310" x="1370" y="945" as="geometry" />
+        </mxCell>
+        <!-- PAKET 6: MUSYAWARAH & POLLING DIGITAL -->
+        <mxCell id="pkg6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="6. Musyawarah &amp; Polling Digital (E-Democracy)" vertex="1">
+          <mxGeometry height="430" width="730" x="980" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_POLL01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#7E22CE;fontSize=10;fontColor=#581C87;fontStyle=1;" value="UC-POLL01&#xA;Buat Musyawarah / Polling (RT/RW/Desa)" vertex="1">
+          <mxGeometry height="50" width="310" x="1010" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_POLL02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#7E22CE;fontSize=10;fontColor=#581C87;fontStyle=1;" value="UC-POLL02&#xA;Berikan Suara / Voting (1 Warga 1 Suara)" vertex="1">
+          <mxGeometry height="50" width="310" x="1370" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_POLL03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#7E22CE;fontSize=10;fontColor=#581C87;" value="UC-POLL03&#xA;Tutup Polling &amp; Penetapan Pemenang Otomatis" vertex="1">
+          <mxGeometry height="50" width="310" x="1010" y="1355" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_POLL04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#7E22CE;fontSize=10;fontColor=#581C87;" value="UC-POLL04&#xA;Distribusi Hasil Musyawarah ke Warga" vertex="1">
+          <mxGeometry height="50" width="310" x="1370" y="1355" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_POLL05" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#7E22CE;fontSize=10;fontColor=#581C87;" value="UC-POLL05&#xA;Notifikasi Tertarget Sesuai Lingkup Wilayah" vertex="1">
+          <mxGeometry height="50" width="310" x="1190" y="1430" as="geometry" />
+        </mxCell>
+        <!-- ================================================================= -->
+        <!-- COLUMN 3: PACKAGES 8, 9, 7 (x=1740..2500)                         -->
+        <!-- ================================================================= -->
+        <!-- PAKET 8: LAYANAN CERDAS AI (SIWIL AI) -->
+        <mxCell id="pkg8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="8. Layanan Cerdas AI &amp; Function Calling (SIWIL AI)" vertex="1">
+          <mxGeometry height="420" width="750" x="1740" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_AI01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#CA8A04;fontSize=10;fontColor=#854D0E;fontStyle=1;" value="UC-AI01&#xA;Konsultasi Chatbot AI (24/7 Bahasa Indonesia)" vertex="1">
+          <mxGeometry height="50" width="320" x="1770" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_AI02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#CA8A04;fontSize=10;fontColor=#854D0E;fontStyle=1;" value="UC-AI02&#xA;Eksekusi 12 Function Calling Tools Live Data" vertex="1">
+          <mxGeometry height="50" width="330" x="2130" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_AI03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#CA8A04;fontSize=10;fontColor=#854D0E;" value="UC-AI03&#xA;Penegakan Privasi &amp; Guardrail UU PDP" vertex="1">
+          <mxGeometry height="50" width="320" x="1770" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_AI04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#CA8A04;fontSize=10;fontColor=#854D0E;" value="UC-AI04&#xA;Kelola Basis Pengetahuan AI (AI Knowledge)" vertex="1">
+          <mxGeometry height="50" width="330" x="2130" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_AI05" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#CA8A04;fontSize=10;fontColor=#854D0E;" value="UC-AI05&#xA;Rotasi Multi-API Key &amp; Smart Rule Fallback" vertex="1">
+          <mxGeometry height="50" width="330" x="1950" y="300" as="geometry" />
+        </mxCell>
+        <!-- PAKET 9: INTEGRASI OMNICHANNEL BOT -->
+        <mxCell id="pkg9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="9. Integrasi Omnichannel Bot (WhatsApp &amp; Telegram)" vertex="1">
+          <mxGeometry height="540" width="750" x="1740" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_BOT01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=10;fontColor=#15803D;fontStyle=1;" value="UC-BOT01&#xA;Layanan Persuratan Mandiri via WhatsApp" vertex="1">
+          <mxGeometry height="50" width="320" x="1770" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_BOT02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=10;fontColor=#0369A1;fontStyle=1;" value="UC-BOT02&#xA;Layanan Persuratan Mandiri via Telegram" vertex="1">
+          <mxGeometry height="50" width="330" x="2130" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_BOT03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=10;fontColor=#15803D;" value="UC-BOT03&#xA;Lapor Aduan &amp; Voting Polling via WhatsApp" vertex="1">
+          <mxGeometry height="50" width="320" x="1770" y="665" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_BOT04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#15803D;fontSize=10;fontColor=#14532D;fontStyle=1;" value="UC-BOT04&#xA;Kirim PDF Surat Otomatis di WhatsApp/Tele" vertex="1">
+          <mxGeometry height="50" width="330" x="2130" y="665" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_BOT05" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-BOT05&#xA;Autentikasi Mandiri di WhatsApp &amp; Telegram" vertex="1">
+          <mxGeometry height="50" width="330" x="1770" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_NOTIF01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#334155;fontSize=10;fontColor=#0F172A;fontStyle=1;" value="UC-NOTIF01&#xA;Distribusi Notifikasi Serentak (Tri-Channel)" vertex="1">
+          <mxGeometry height="50" width="330" x="2130" y="740" as="geometry" />
+        </mxCell>
+        <!-- PAKET 7: INFORMASI, PEMBANGUNAN & APBDES -->
+        <mxCell id="pkg7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;verticalAlign=top;fontStyle=1;fontSize=11;spacingTop=6;dashed=0;" value="7. Informasi Wilayah, Pembangunan &amp; APBDes" vertex="1">
+          <mxGeometry height="560" width="750" x="1740" y="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_INFO01" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-INFO01&#xA;Kelola &amp; Publikasi Pengumuman Resmi Desa" vertex="1">
+          <mxGeometry height="50" width="320" x="1770" y="1150" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_INFO02" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-INFO02&#xA;Kelola Pagu &amp; Realisasi APBDes (3 Pilar)" vertex="1">
+          <mxGeometry height="50" width="330" x="2130" y="1150" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_INFO03" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-INFO03&#xA;Kelola Proyek Pembangunan Fisik Desa" vertex="1">
+          <mxGeometry height="50" width="320" x="1770" y="1225" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_INFO04" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=10;fontColor=#1E3A8A;fontStyle=1;" value="UC-INFO04&#xA;Analisis Spasial GIS Desa (Leaflet Map)" vertex="1">
+          <mxGeometry height="50" width="330" x="2130" y="1225" as="geometry" />
+        </mxCell>
+        <mxCell id="UC_INFO05" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=10;fontColor=#0F172A;" value="UC-INFO05&#xA;Broadcast Pengumuman ke WA, Tele, &amp; Email" vertex="1">
+          <mxGeometry height="50" width="330" x="1950" y="1300" as="geometry" />
+        </mxCell>
+        <!-- ================================================================= -->
+        <!-- ACTOR TO USE CASE EDGES (SOLID LINES)                             -->
+        <!-- ================================================================= -->
+        <!-- PUBLIC GUEST -->
+        <mxCell id="e_pub1" edge="1" parent="1" source="act_publik" target="UC_PUB01" style="endArrow=none;html=1;strokeColor=#64748B;strokeWidth=1.2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pub2" edge="1" parent="1" source="act_publik" target="UC_PUB02" style="endArrow=none;html=1;strokeColor=#64748B;strokeWidth=1.2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pub3" edge="1" parent="1" source="act_publik" target="UC_PUB03" style="endArrow=none;html=1;strokeColor=#64748B;strokeWidth=1.2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pub4" edge="1" parent="1" source="act_publik" target="UC_PUB04" style="endArrow=none;html=1;strokeColor=#64748B;strokeWidth=1.2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pub5" edge="1" parent="1" source="act_publik" target="UC_DOC08" style="endArrow=none;html=1;strokeColor=#64748B;strokeWidth=1.2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- WARGA (MAIN ACTOR) -->
+        <mxCell id="e_w1" edge="1" parent="1" source="act_warga" target="UC_AUTH01" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w2" edge="1" parent="1" source="act_warga" target="UC_AUTH03" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w3" edge="1" parent="1" source="act_warga" target="UC_AUTH05" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w4" edge="1" parent="1" source="act_warga" target="UC_AUTH07" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w5" edge="1" parent="1" source="act_warga" target="UC_AUTH08" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w6" edge="1" parent="1" source="act_warga" target="UC_DATA04" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w7" edge="1" parent="1" source="act_warga" target="UC_DOC01" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w8" edge="1" parent="1" source="act_warga" target="UC_DOC06" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w9" edge="1" parent="1" source="act_warga" target="UC_DOC07" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w10" edge="1" parent="1" source="act_warga" target="UC_COMP01" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w11" edge="1" parent="1" source="act_warga" target="UC_COMP03" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w12" edge="1" parent="1" source="act_warga" target="UC_EMG01" style="endArrow=none;html=1;strokeColor=#B91C1C;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w13" edge="1" parent="1" source="act_warga" target="UC_POLL02" style="endArrow=none;html=1;strokeColor=#1D4ED8;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_w14" edge="1" parent="1" source="act_warga" target="UC_AI01" style="endArrow=none;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- KETUA RT -->
+        <mxCell id="e_rt1" edge="1" parent="1" source="act_rt" target="UC_AUTH02" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt2" edge="1" parent="1" source="act_rt" target="UC_AUTH06" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt3" edge="1" parent="1" source="act_rt" target="UC_DATA02" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt4" edge="1" parent="1" source="act_rt" target="UC_DATA03" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt5" edge="1" parent="1" source="act_rt" target="UC_DOC03" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt6" edge="1" parent="1" source="act_rt" target="UC_DOC09" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt7" edge="1" parent="1" source="act_rt" target="UC_COMP02" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt8" edge="1" parent="1" source="act_rt" target="UC_EMG02" style="endArrow=none;html=1;strokeColor=#B91C1C;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt9" edge="1" parent="1" source="act_rt" target="UC_POLL01" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rt10" edge="1" parent="1" source="act_rt" target="UC_SYS03" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- KETUA RW -->
+        <mxCell id="e_rw1" edge="1" parent="1" source="act_rw" target="UC_AUTH06" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rw2" edge="1" parent="1" source="act_rw" target="UC_DATA02" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rw3" edge="1" parent="1" source="act_rw" target="UC_DATA03" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rw4" edge="1" parent="1" source="act_rw" target="UC_DOC04" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rw5" edge="1" parent="1" source="act_rw" target="UC_DOC10" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rw6" edge="1" parent="1" source="act_rw" target="UC_COMP02" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rw7" edge="1" parent="1" source="act_rw" target="UC_EMG02" style="endArrow=none;html=1;strokeColor=#B91C1C;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rw8" edge="1" parent="1" source="act_rw" target="UC_POLL01" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rw9" edge="1" parent="1" source="act_rw" target="UC_SYS03" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- ADMIN DESA / KEPALA DESA -->
+        <mxCell id="e_desa1" edge="1" parent="1" source="act_desa" target="UC_AUTH02" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_desa2" edge="1" parent="1" source="act_desa" target="UC_AUTH06" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_desa3" edge="1" parent="1" source="act_desa" target="UC_AUTH09" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e2" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W02">
+        <mxCell id="e_desa4" edge="1" parent="1" source="act_desa" target="UC_DATA01" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e3" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W03">
+        <mxCell id="e_desa5" edge="1" parent="1" source="act_desa" target="UC_DOC05" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e4" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W04">
+        <mxCell id="e_desa6" edge="1" parent="1" source="act_desa" target="UC_COMP02" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e5" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W04b">
+        <mxCell id="e_desa7" edge="1" parent="1" source="act_desa" target="UC_EMG02" style="endArrow=none;html=1;strokeColor=#B91C1C;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e6" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W04c">
+        <mxCell id="e_desa8" edge="1" parent="1" source="act_desa" target="UC_POLL01" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e7" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W05">
+        <mxCell id="e_desa9" edge="1" parent="1" source="act_desa" target="UC_INFO01" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e8" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W06">
+        <mxCell id="e_desa10" edge="1" parent="1" source="act_desa" target="UC_INFO02" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e9" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W07">
+        <mxCell id="e_desa11" edge="1" parent="1" source="act_desa" target="UC_INFO03" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e10" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W08">
+        <mxCell id="e_desa12" edge="1" parent="1" source="act_desa" target="UC_INFO04" style="endArrow=none;html=1;strokeColor=#15803D;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e11" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W09">
+        <!-- SUPERADMIN -->
+        <mxCell id="e_sa1" edge="1" parent="1" source="act_sa" target="UC_AUTH09" style="endArrow=none;html=1;strokeColor=#6D28D9;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e12" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W10">
+        <mxCell id="e_sa2" edge="1" parent="1" source="act_sa" target="UC_DATA01" style="endArrow=none;html=1;strokeColor=#6D28D9;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e13" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W11">
+        <mxCell id="e_sa3" edge="1" parent="1" source="act_sa" target="UC_SYS01" style="endArrow=none;html=1;strokeColor=#6D28D9;strokeWidth=1.4;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e14" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W12">
+        <mxCell id="e_sa4" edge="1" parent="1" source="act_sa" target="UC_SYS02" style="endArrow=none;html=1;strokeColor=#6D28D9;strokeWidth=1.4;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e15" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W06b">
+        <mxCell id="e_sa5" edge="1" parent="1" source="act_sa" target="UC_SYS03" style="endArrow=none;html=1;strokeColor=#6D28D9;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e16" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W06c">
+        <mxCell id="e_sa6" edge="1" parent="1" source="act_sa" target="UC_AI04" style="endArrow=none;html=1;strokeColor=#6D28D9;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e17" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W06d">
+        <!-- SIWIL AI ENGINE -->
+        <mxCell id="e_ai1" edge="1" parent="1" source="act_ai" target="UC_AI01" style="endArrow=none;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e18" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W06e">
+        <mxCell id="e_ai2" edge="1" parent="1" source="act_ai" target="UC_AI02" style="endArrow=none;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e19" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W13">
+        <mxCell id="e_ai3" edge="1" parent="1" source="act_ai" target="UC_AI03" style="endArrow=none;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e20" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W14">
+        <mxCell id="e_ai4" edge="1" parent="1" source="act_ai" target="UC_AI05" style="endArrow=none;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e21" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W15">
+        <!-- WHATSAPP BOT GATEWAY -->
+        <mxCell id="e_wa1" edge="1" parent="1" source="act_wa" target="UC_BOT01" style="endArrow=none;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e22" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W16">
+        <mxCell id="e_wa2" edge="1" parent="1" source="act_wa" target="UC_BOT03" style="endArrow=none;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e23" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#C62828;strokeWidth=2;" target="W13b">
+        <mxCell id="e_wa3" edge="1" parent="1" source="act_wa" target="UC_BOT04" style="endArrow=none;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e24" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W13c">
+        <mxCell id="e_wa4" edge="1" parent="1" source="act_wa" target="UC_AUTH04" style="endArrow=none;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e25" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W17">
+        <mxCell id="e_wa5" edge="1" parent="1" source="act_wa" target="UC_NOTIF01" style="endArrow=none;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e26" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W18">
+        <!-- TELEGRAM BOT GATEWAY -->
+        <mxCell id="e_tele1" edge="1" parent="1" source="act_tele" target="UC_BOT02" style="endArrow=none;html=1;strokeColor=#0284C7;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e27" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W19">
+        <mxCell id="e_tele2" edge="1" parent="1" source="act_tele" target="UC_BOT04" style="endArrow=none;html=1;strokeColor=#0284C7;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e28" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W20">
+        <mxCell id="e_tele3" edge="1" parent="1" source="act_tele" target="UC_AUTH07" style="endArrow=none;html=1;strokeColor=#0284C7;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e29" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W19b">
+        <mxCell id="e_tele4" edge="1" parent="1" source="act_tele" target="UC_NOTIF01" style="endArrow=none;html=1;strokeColor=#0284C7;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e30" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W19c">
+        <!-- SMTP MAIL SYSTEM -->
+        <mxCell id="e_mail1" edge="1" parent="1" source="act_mail" target="UC_NOTIF01" style="endArrow=none;html=1;strokeColor=#64748B;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e31" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W21">
+        <mxCell id="e_mail2" edge="1" parent="1" source="act_mail" target="UC_INFO05" style="endArrow=none;html=1;strokeColor=#64748B;strokeWidth=1.3;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e32" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W22">
+        <!-- ================================================================= -->
+        <!-- <<INCLUDE>> AND <<EXTEND>> RELATIONSHIPS (DASHED ARROWS)          -->
+        <!-- ================================================================= -->
+        <!-- UC-DOC01 include UC-DOC02 -->
+        <mxCell id="inc_doc1" edge="1" parent="1" source="UC_DOC01" target="UC_DOC02" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0284C7;fontSize=9;fontColor=#0369A1;" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e33" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W23">
+        <!-- UC-DOC05 include UC-DOC07 -->
+        <mxCell id="inc_doc2" edge="1" parent="1" source="UC_DOC05" target="UC_DOC07" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0284C7;fontSize=9;fontColor=#0369A1;" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e34" edge="1" parent="1" source="act_warga" style="endArrow=none;html=1;strokeColor=#B71C1C;strokeWidth=1.5;" target="W24">
+        <!-- UC-DOC07 include UC-DOC08 -->
+        <mxCell id="inc_doc3" edge="1" parent="1" source="UC_DOC07" target="UC_DOC08" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0284C7;fontSize=9;fontColor=#0369A1;" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="s1" edge="1" parent="1" source="act_sa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;dashed=0;fontSize=9;fontColor=#1B5E20;" target="W01" value="verifikasi">
+        <!-- UC-AUTH01 include UC-AUTH02 -->
+        <mxCell id="inc_auth1" edge="1" parent="1" source="UC_AUTH01" target="UC_AUTH02" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0284C7;fontSize=9;fontColor=#0369A1;" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="s2" edge="1" parent="1" source="act_sa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W02" value="kelola akun">
+        <!-- UC-AI01 include UC-AI03 -->
+        <mxCell id="inc_ai1" edge="1" parent="1" source="UC_AI01" target="UC_AI03" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0284C7;fontSize=9;fontColor=#0369A1;" value="&lt;&lt;include&gt;&gt;">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- UC-POLL03 include UC-POLL04 -->
+        <mxCell id="inc_poll1" edge="1" parent="1" source="UC_POLL03" target="UC_POLL04" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0284C7;fontSize=9;fontColor=#0369A1;" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- UC-POLL01 include UC-POLL05 -->
+        <mxCell id="inc_poll2" edge="1" parent="1" source="UC_POLL01" target="UC_POLL05" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0284C7;fontSize=9;fontColor=#0369A1;" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- UC-INFO01 include UC-INFO05 -->
+        <mxCell id="inc_info1" edge="1" parent="1" source="UC_INFO01" target="UC_INFO05" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0284C7;fontSize=9;fontColor=#0369A1;" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- EXTEND RELATIONSHIPS -->
+        <!-- UC-AI02 extend UC-AI01 -->
+        <mxCell id="ext_ai1" edge="1" parent="1" source="UC_AI02" target="UC_AI01" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#D97706;fontSize=9;fontColor=#B45309;" value="&lt;&lt;extend&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- UC-AUTH04 extend UC-AUTH03 -->
+        <mxCell id="ext_auth1" edge="1" parent="1" source="UC_AUTH04" target="UC_AUTH03" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#D97706;fontSize=9;fontColor=#B45309;" value="&lt;&lt;extend&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- UC-BOT01 extend UC-DOC01 -->
+        <mxCell id="ext_bot1" edge="1" parent="1" source="UC_BOT01" target="UC_DOC01" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#D97706;fontSize=9;fontColor=#B45309;" value="&lt;&lt;extend&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- UC-BOT02 extend UC-DOC01 -->
+        <mxCell id="ext_bot2" edge="1" parent="1" source="UC_BOT02" target="UC_DOC01" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#D97706;fontSize=9;fontColor=#B45309;" value="&lt;&lt;extend&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- UC-BOT03 extend UC-COMP01 -->
+        <mxCell id="ext_bot3" edge="1" parent="1" source="UC_BOT03" target="UC_COMP01" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#D97706;fontSize=9;fontColor=#B45309;" value="&lt;&lt;extend&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- UC-BOT03 extend UC-POLL02 -->
+        <mxCell id="ext_bot4" edge="1" parent="1" source="UC_BOT03" target="UC_POLL02" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#D97706;fontSize=9;fontColor=#B45309;" value="&lt;&lt;extend&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- ================================================================= -->
+        <!-- LEGEND / KETERANGAN WARNA & RELASI                                -->
+        <!-- ================================================================= -->
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#64748B;align=left;verticalAlign=middle;fontSize=10;spacingLeft=12;strokeWidth=1.5;" value="LEGENDA STANDAR UML &amp; KATEGORI USE CASE:&#xA;â€¢ â€”â€”â€” Garis Solid Biru   : Relasi Aktor Utama (Warga) â†” Use Case&#xA;â€¢ â€”â€”â€” Garis Solid Hijau  : Relasi Pemangku Wilayah (RT / RW / Desa) â†” Use Case&#xA;â€¢ â€”â€”â€” Garis Solid Ungu   : Relasi Superadmin â†” Konfigurasi Sistem&#xA;â€¢ â€”â€”â€” Garis Solid Merah  : Panggilan Darurat SOS (Keandalan Tinggi)&#xA;â€¢ â€”â€”â€” Garis Solid Kuning : Relasi SIWIL AI Engine &amp; 12 Function Calling Tools&#xA;â€¢ - - - &gt; Garis Putus Biru : Relasi &lt;&lt;include&gt;&gt; (Use case prasyarat/wajib dijalankan)&#xA;â€¢ - - - &gt; Garis Putus Oranye: Relasi &lt;&lt;extend&gt;&gt; (Use case perluasan/kondisional opsional)&#xA;â€¢ Warna Kotak: [Hijau: Persuratan] â€¢ [Merah: Pengaduan/SOS] â€¢ [Ungu: Musyawarah] â€¢ [Kuning: AI &amp; Tools] â€¢ [Biru: Publik &amp; Warga] â€¢ [Abu-abu: Master &amp; Sistem]" vertex="1">
+          <mxGeometry height="95" width="2280" x="260" y="1820" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Activity Diagram - Pelayanan Persuratan &amp; TTE" id="siwil-activity-persuratan">
+    <mxGraphModel dx="2800" dy="2100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2700" pageHeight="2100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- HEADER TITLE -->
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#0F172A;" value="UML ACTIVITY DIAGRAM â€” ALUR PELAYANAN PERSURATAN BERJENJANG &amp; PENERBITAN TTE DIGITAL (SIWIL)" vertex="1">
+          <mxGeometry height="45" width="2200" x="250" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#475569;" value="Pemetaan Alur Kerja Terpadu: Warga â€¢ Ketua RT (Verifikator 1) â€¢ Ketua RW (Verifikator 2) â€¢ Pemerintah Desa (Penerbit) â€¢ Sistem SIWIL &amp; Omnichannel Bot" vertex="1">
+          <mxGeometry height="25" width="2200" x="250" y="50" as="geometry" />
+        </mxCell>
+        <!-- ================================================================= -->
+        <!-- SWIMLANES CONTAINER (POOLS & LANES)                               -->
+        <!-- ================================================================= -->
+        <mxCell id="pool" parent="1" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=0;horizontal=1;horizontalStack=1;fillColor=#FFFFFF;strokeColor=#475569;strokeWidth=2;arcSize=2;" vertex="1">
+          <mxGeometry height="1900" width="2540" x="80" y="85" as="geometry" />
+        </mxCell>
+        <!-- LANE 1: WARGA -->
+        <mxCell id="lane_warga" parent="pool" style="swimlane;html=1;startSize=40;fillColor=#F8FAFC;strokeColor=#2563EB;strokeWidth=1.5;fontStyle=1;fontSize=12;fontColor=#1E3A8A;swimlaneFillColor=#FFFFFF;" value="WARGA (Pemohon Layanan Mandiri)" vertex="1">
+          <mxGeometry height="1900" width="480" x="0" y="0" as="geometry" />
         </mxCell>
-        <mxCell id="s3" edge="1" parent="1" source="act_sa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;" target="W08">
+        <!-- LANE 2: KETUA RT -->
+        <mxCell id="lane_rt" parent="pool" style="swimlane;html=1;startSize=40;fillColor=#F8FAFC;strokeColor=#16A34A;strokeWidth=1.5;fontStyle=1;fontSize=12;fontColor=#15803D;swimlaneFillColor=#FFFFFF;" value="KETUA RT (Verifikator Tingkat 1)" vertex="1">
+          <mxGeometry height="1900" width="490" x="480" y="0" as="geometry" />
+        </mxCell>
+        <!-- LANE 3: KETUA RW -->
+        <mxCell id="lane_rw" parent="pool" style="swimlane;html=1;startSize=40;fillColor=#F8FAFC;strokeColor=#16A34A;strokeWidth=1.5;fontStyle=1;fontSize=12;fontColor=#15803D;swimlaneFillColor=#FFFFFF;" value="KETUA RW (Verifikator Tingkat 2)" vertex="1">
+          <mxGeometry height="1900" width="490" x="970" y="0" as="geometry" />
+        </mxCell>
+        <!-- LANE 4: PEMERINTAH DESA -->
+        <mxCell id="lane_desa" parent="pool" style="swimlane;html=1;startSize=40;fillColor=#F8FAFC;strokeColor=#CA8A04;strokeWidth=1.5;fontStyle=1;fontSize=12;fontColor=#854D0E;swimlaneFillColor=#FFFFFF;" value="PEMERINTAH DESA (Penerbit Surat &amp; TTE)" vertex="1">
+          <mxGeometry height="1900" width="500" x="1460" y="0" as="geometry" />
+        </mxCell>
+        <!-- LANE 5: SISTEM SIWIL & BOT -->
+        <mxCell id="lane_sys" parent="pool" style="swimlane;html=1;startSize=40;fillColor=#F8FAFC;strokeColor=#6D28D9;strokeWidth=1.5;fontStyle=1;fontSize=12;fontColor=#4C1D95;swimlaneFillColor=#FFFFFF;" value="SISTEM SIWIL &amp; BOT GATEWAY (Automasi)" vertex="1">
+          <mxGeometry height="1900" width="580" x="1960" y="0" as="geometry" />
+        </mxCell>
+        <!-- ================================================================= -->
+        <!-- ACTIVITY NODES                                                    -->
+        <!-- ================================================================= -->
+        <!-- LANE 1: WARGA ACTIONS -->
+        <mxCell id="start_node" parent="lane_warga" style="ellipse;html=1;fillColor=#0F172A;strokeColor=none;" vertex="1">
+          <mxGeometry height="30" width="30" x="225" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="act_w_open" parent="lane_warga" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=11;fontColor=#1E3A8A;arcSize=14;" value="Buka Layanan Persuratan&#xA;(Dashboard Web / Bot WA / Bot Telegram)" vertex="1">
+          <mxGeometry height="50" width="320" x="80" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="act_w_type" parent="lane_warga" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=11;fontColor=#1E3A8A;arcSize=14;" value="Pilih Jenis Surat yang Diajukan&#xA;(Domisili, SKTM, SKU, Nikah, Renovasi, dll.)" vertex="1">
+          <mxGeometry height="50" width="320" x="80" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="act_w_form" parent="lane_warga" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=11;fontColor=#1E3A8A;arcSize=14;" value="Isi Formulir Keperluan &amp; Unggah Berkas Persyaratan&#xA;(Foto e-KTP, Kartu Keluarga, Bukti Pendukung)" vertex="1">
+          <mxGeometry height="55" width="320" x="80" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="act_w_submit" parent="lane_warga" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#1D4ED8;fontSize=11;fontStyle=1;fontColor=#1E3A8A;arcSize=14;" value="Kirimkan Permohonan Surat Online" vertex="1">
+          <mxGeometry height="45" width="320" x="80" y="370" as="geometry" />
+        </mxCell>
+        <!-- LANE 5: SISTEM INITIAL VALIDATION -->
+        <mxCell id="act_sys_validate" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;fontSize=11;fontColor=#4C1D95;arcSize=14;" value="Validasi Kelengkapan Berkas &amp; Enforce RBAC&#xA;Generate No. Surat: SRT-YYYYMMDD-XXXX" vertex="1">
+          <mxGeometry height="50" width="360" x="110" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="act_sys_save_rt" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;fontSize=11;fontColor=#4C1D95;arcSize=14;" value="Rekam Data Permohonan (Status: DIAJUKAN_RT)&#xA;&amp; Buat Riwayat Audit (DocumentRequestHistory)" vertex="1">
+          <mxGeometry height="50" width="360" x="110" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="act_sys_notif_rt" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;fontSize=11;fontStyle=1;fontColor=#4C1D95;arcSize=14;" value="Dispatch Notifikasi Otomatis ke Ketua RT Terkait&#xA;(In-App Notification, WhatsApp Gateway, &amp; Email)" vertex="1">
+          <mxGeometry height="50" width="360" x="110" y="525" as="geometry" />
+        </mxCell>
+        <!-- LANE 2: KETUA RT WORKFLOW -->
+        <mxCell id="act_rt_receive" parent="lane_rt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=11;fontColor=#15803D;arcSize=14;" value="Terima Notifikasi &amp; Buka Rincian Permohonan&#xA;Surat Warga di Dashboard RT" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rt_review" parent="lane_rt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=11;fontColor=#15803D;arcSize=14;" value="Verifikasi Kesesuaian Data Kependudukan,&#xA;Domisili Fisik, &amp; Lampiran Persyaratan" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="605" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_rt_valid" parent="lane_rt" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;fontStyle=1;fontSize=11;fontColor=#854D0E;" value="Memenuhi&#xA;Syarat?" vertex="1">
+          <mxGeometry height="80" width="100" x="195" y="685" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rt_reject" parent="lane_rt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=11;fontColor=#991B1B;arcSize=14;" value="Tolak Permohonan Surat:&#xA;Input Catatan Alasan Penolakan (Status: DITOLAK)" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="795" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rt_approve" parent="lane_rt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=11;fontStyle=1;fontColor=#15803D;arcSize=14;" value="Setujui Permohonan di Tingkat RT&#xA;(rt_approved_by_id = User ID RT)" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_rt_level" parent="lane_rt" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;fontStyle=1;fontSize=10;fontColor=#854D0E;" value="Kategori Final&#xA;Tingkat RT?&#xA;(Renovasi/Tamu)" vertex="1">
+          <mxGeometry height="90" width="110" x="190" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rt_final" parent="lane_rt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBF7D0;strokeColor=#15803D;fontSize=11;fontStyle=1;fontColor=#14532D;arcSize=14;" value="Bubuhkan Tanda Tangan Digital RT&#xA;&amp; Terbitkan Surat Selesai (DISETUJUI)" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="1090" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rt_forward" parent="lane_rt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=11;fontColor=#15803D;arcSize=14;" value="Teruskan ke Tingkat RW&#xA;(Status: DIAJUKAN_RW)" vertex="1">
+          <mxGeometry height="45" width="220" x="250" y="1030" as="geometry" />
+        </mxCell>
+        <!-- LANE 5: NOTIFIKASI PENOLAKAN -->
+        <mxCell id="act_sys_notify_reject" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=11;fontStyle=1;fontColor=#991B1B;arcSize=14;" value="Broadcast Notifikasi Penolakan Surat ke Warga&#xA;(Sertakan Catatan Perbaikan via In-App, WA, &amp; Email)" vertex="1">
+          <mxGeometry height="50" width="360" x="110" y="795" as="geometry" />
+        </mxCell>
+        <!-- LANE 1: WARGA REJECT RECEIVE -->
+        <mxCell id="act_w_receive_reject" parent="lane_warga" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=11;fontColor=#991B1B;arcSize=14;" value="Terima Pemberitahuan Penolakan Surat&#xA;&amp; Pelajari Alasan untuk Perbaikan Berkas" vertex="1">
+          <mxGeometry height="50" width="320" x="80" y="795" as="geometry" />
+        </mxCell>
+        <mxCell id="end_node_reject" parent="lane_warga" style="ellipse;html=1;fillColor=#0F172A;strokeColor=#DC2626;strokeWidth=3;" vertex="1">
+          <mxGeometry height="30" width="30" x="225" y="875" as="geometry" />
+        </mxCell>
+        <!-- LANE 3: KETUA RW WORKFLOW -->
+        <mxCell id="act_sys_notif_rw" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;fontSize=11;fontColor=#4C1D95;arcSize=14;" value="Dispatch Notifikasi Permohonan ke Ketua RW Terkait&#xA;(WhatsApp &amp; Dashboard Notification)" vertex="1">
+          <mxGeometry height="50" width="360" x="110" y="1025" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rw_receive" parent="lane_rw" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=11;fontColor=#15803D;arcSize=14;" value="Buka Berkas Surat Terusan dari RT&#xA;di Dashboard RW" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="1025" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_rw_valid" parent="lane_rw" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;fontStyle=1;fontSize=11;fontColor=#854D0E;" value="Disetujui&#xA;RW?" vertex="1">
+          <mxGeometry height="80" width="100" x="195" y="1105" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rw_reject" parent="lane_rw" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=11;fontColor=#991B1B;arcSize=14;" value="Tolak Permohonan Surat di Tingkat RW&#xA;(Set Status: DITOLAK disertai Alasan)" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="1215" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rw_approve" parent="lane_rw" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=11;fontStyle=1;fontColor=#15803D;arcSize=14;" value="Setujui Permohonan di Tingkat RW&#xA;(rw_approved_by_id = User ID RW)" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="1295" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_rw_level" parent="lane_rw" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;fontStyle=1;fontSize=10;fontColor=#854D0E;" value="Kategori Final&#xA;Tingkat RW?&#xA;(Keramaian/Hilang)" vertex="1">
+          <mxGeometry height="90" width="110" x="190" y="1375" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rw_final" parent="lane_rw" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBF7D0;strokeColor=#15803D;fontSize=11;fontStyle=1;fontColor=#14532D;arcSize=14;" value="Bubuhkan Tanda Tangan Digital RW&#xA;&amp; Terbitkan Surat Selesai (DISETUJUI)" vertex="1">
+          <mxGeometry height="50" width="330" x="80" y="1495" as="geometry" />
+        </mxCell>
+        <mxCell id="act_rw_forward" parent="lane_rw" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=11;fontColor=#15803D;arcSize=14;" value="Teruskan ke Kantor Desa&#xA;(Status: DIAJUKAN_DESA)" vertex="1">
+          <mxGeometry height="45" width="220" x="250" y="1435" as="geometry" />
+        </mxCell>
+        <!-- LANE 4: PEMERINTAH DESA WORKFLOW -->
+        <mxCell id="act_sys_notif_desa" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;fontSize=11;fontColor=#4C1D95;arcSize=14;" value="Dispatch Notifikasi Surat Siap Terbit ke Admin Desa&#xA;(Email &amp; Dashboard Notification)" vertex="1">
+          <mxGeometry height="50" width="360" x="110" y="1430" as="geometry" />
+        </mxCell>
+        <mxCell id="act_desa_receive" parent="lane_desa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#CA8A04;fontSize=11;fontColor=#854D0E;arcSize=14;" value="Buka Permohonan Surat Terusan RW&#xA;di Panel Pelayanan Desa" vertex="1">
+          <mxGeometry height="50" width="340" x="80" y="1430" as="geometry" />
+        </mxCell>
+        <mxCell id="dec_desa_valid" parent="lane_desa" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;fontStyle=1;fontSize=11;fontColor=#854D0E;" value="Disetujui&#xA;Desa?" vertex="1">
+          <mxGeometry height="80" width="100" x="200" y="1510" as="geometry" />
+        </mxCell>
+        <mxCell id="act_desa_reject" parent="lane_desa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=11;fontColor=#991B1B;arcSize=14;" value="Tolak Pengajuan Surat di Tingkat Desa&#xA;(Set Status: DITOLAK disertai Catatan Resmi)" vertex="1">
+          <mxGeometry height="50" width="340" x="80" y="1615" as="geometry" />
+        </mxCell>
+        <mxCell id="act_desa_approve" parent="lane_desa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF08A;strokeColor=#A16207;fontSize=11;fontStyle=1;fontColor=#713F12;arcSize=14;" value="Setujui Surat &amp; Sematkan Tanda Tangan Kades&#xA;serta Stempel Resmi Desa (TTE)" vertex="1">
+          <mxGeometry height="55" width="340" x="80" y="1705" as="geometry" />
+        </mxCell>
+        <!-- LANE 5: GENERATE PDF & BROADCAST SELESAI -->
+        <mxCell id="act_sys_pdf" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontSize=11;fontStyle=1;fontColor=#14532D;arcSize=14;" value="Generate QR Code Validator (TTE Digital Keaslian)&#xA;&amp; Kompilasi File Dokumen PDF Resmi via DomPDF" vertex="1">
+          <mxGeometry height="55" width="360" x="110" y="1705" as="geometry" />
+        </mxCell>
+        <mxCell id="act_sys_dispatch_done" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontSize=11;fontStyle=1;fontColor=#14532D;arcSize=14;" value="Broadcast Notifikasi &amp; Dokumen Serentak:&#xA;â€¢ WhatsApp: Kirim File PDF Otomatis Langsung di Chat&#xA;â€¢ Telegram: Kirim Link Unduh Dokumen PDF&#xA;â€¢ In-App: Notifikasi Surat Siap Diambil/Dicetak&#xA;â€¢ Email: Kirim Dokumen PDF via SMTP Attachment" vertex="1">
+          <mxGeometry height="80" width="360" x="110" y="1785" as="geometry" />
+        </mxCell>
+        <!-- LANE 1: WARGA SELESAI -->
+        <mxCell id="act_w_receive_done" parent="lane_warga" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=11;fontStyle=1;fontColor=#15803D;arcSize=14;" value="Terima Berkas Surat PDF Resmi Langsung di Chat WA /&#xA;Unduh dari Dashboard Web SIWIL" vertex="1">
+          <mxGeometry height="55" width="320" x="80" y="1710" as="geometry" />
+        </mxCell>
+        <mxCell id="act_w_print" parent="lane_warga" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=11;fontColor=#1E3A8A;arcSize=14;" value="Simpan File Digital atau Cetak Fisik Ber-Barcode TTE" vertex="1">
+          <mxGeometry height="45" width="320" x="80" y="1795" as="geometry" />
+        </mxCell>
+        <mxCell id="act_ext_scan" parent="lane_warga" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#475569;fontSize=10;fontColor=#1E293B;arcSize=14;" value="Pihak Ketiga (Instansi / Bank / KUA) Pindai&#xA;QR Code untuk Validasi Integritas Surat Asli" vertex="1">
+          <mxGeometry height="45" width="320" x="80" y="1865" as="geometry" />
+        </mxCell>
+        <mxCell id="end_node_success" parent="lane_warga" style="ellipse;html=1;fillColor=#0F172A;strokeColor=#16A34A;strokeWidth=3;" vertex="1">
+          <mxGeometry height="30" width="30" x="225" y="1935" as="geometry" />
+        </mxCell>
+        <!-- ================================================================= -->
+        <!-- ACTIVITY FLOW CONNECTORS (TRANSITIONS)                            -->
+        <!-- ================================================================= -->
+        <!-- Warga Submit Flow -->
+        <mxCell id="tr1" edge="1" parent="1" source="start_node" target="act_w_open" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="r1" edge="1" parent="1" source="act_rt" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W04" value="verifikasi">
+        <mxCell id="tr2" edge="1" parent="1" source="act_w_open" target="act_w_type" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="r2" edge="1" parent="1" source="act_rt" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W04b" value="verifikasi">
+        <mxCell id="tr3" edge="1" parent="1" source="act_w_type" target="act_w_form" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="r3" edge="1" parent="1" source="act_rt" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W05" value="proses">
+        <mxCell id="tr4" edge="1" parent="1" source="act_w_form" target="act_w_submit" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="r4" edge="1" parent="1" source="act_rt" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W06" value="verifikasi">
+        <mxCell id="tr5" edge="1" parent="1" source="act_w_submit" target="act_sys_validate" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="r5" edge="1" parent="1" source="act_rt" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W13" value="tindak lanjut">
+        <!-- Sistem Initial Flow -->
+        <mxCell id="tr6" edge="1" parent="1" source="act_sys_validate" target="act_sys_save_rt" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="r6" edge="1" parent="1" source="act_rt" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W20" value="publikasi">
+        <mxCell id="tr7" edge="1" parent="1" source="act_sys_save_rt" target="act_sys_notif_rt" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="r7" edge="1" parent="1" source="act_rt" style="endArrow=open;html=1;strokeColor=#C62828;strokeWidth=1.5;fontSize=9;fontColor=#C62828;" target="W13b" value="respons darurat">
+        <mxCell id="tr8" edge="1" parent="1" source="act_sys_notif_rt" target="act_rt_receive" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="w1" edge="1" parent="1" source="act_rw" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W06" value="verifikasi lanjutan">
+        <!-- RT Review Flow -->
+        <mxCell id="tr9" edge="1" parent="1" source="act_rt_receive" target="act_rt_review" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="w2" edge="1" parent="1" source="act_rw" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W07" value="approve">
+        <mxCell id="tr10" edge="1" parent="1" source="act_rt_review" target="dec_rt_valid" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="w3" edge="1" parent="1" source="act_rw" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W09" value="monitoring">
+        <!-- RT Reject Flow -->
+        <mxCell id="tr11" edge="1" parent="1" source="dec_rt_valid" target="act_rt_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak Valid]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="w4" edge="1" parent="1" source="act_rw" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W13" value="tindak lanjut lintas RT">
+        <mxCell id="tr12" edge="1" parent="1" source="act_rt_reject" target="act_sys_notify_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="w5" edge="1" parent="1" source="act_rw" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W15" value="fasilitasi">
+        <mxCell id="tr13" edge="1" parent="1" source="act_sys_notify_reject" target="act_w_receive_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="w6" edge="1" parent="1" source="act_rw" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W16" value="kaji usulan">
+        <mxCell id="tr14" edge="1" parent="1" source="act_w_receive_reject" target="end_node_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="d1" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.4;fontSize=9;fontColor=#1B5E20;" target="W06" value="terbitkan surat">
+        <!-- RT Approve Flow -->
+        <mxCell id="tr15" edge="1" parent="1" source="dec_rt_valid" target="act_rt_approve" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;" value="[Memenuhi Syarat]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="d2" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.4;fontSize=9;fontColor=#1B5E20;" target="W11" value="TTE">
+        <mxCell id="tr16" edge="1" parent="1" source="act_rt_approve" target="dec_rt_level" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="d3" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W13" value="kelola laporan">
+        <!-- RT Final vs Forward RW -->
+        <mxCell id="tr17" edge="1" parent="1" source="dec_rt_level" target="act_rt_final" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;" value="[Ya - Final RT]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="d4" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W17" value="data master">
+        <mxCell id="tr18" edge="1" parent="1" source="act_rt_final" target="act_sys_pdf" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="725" y="1730" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tr19" edge="1" parent="1" source="dec_rt_level" target="act_rt_forward" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;" value="[Tidak - Lanjut RW]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="d5" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W18" value="publikasi data">
+        <mxCell id="tr20" edge="1" parent="1" source="act_rt_forward" target="act_sys_notif_rw" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="d6" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W19" value="transparansi">
+        <mxCell id="tr21" edge="1" parent="1" source="act_sys_notif_rw" target="act_rw_receive" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="d7" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#1B5E20;strokeWidth=1.2;fontSize=9;fontColor=#1B5E20;" target="W19b" value="publikasi proyek">
+        <!-- RW Review Flow -->
+        <mxCell id="tr22" edge="1" parent="1" source="act_rw_receive" target="dec_rw_valid" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="d8" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#F9A825;strokeWidth=1.4;fontSize=9;fontColor=#F57F17;" target="W23" value="early warning">
+        <mxCell id="tr23" edge="1" parent="1" source="dec_rw_valid" target="act_rw_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak]">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tr24" edge="1" parent="1" source="act_rw_reject" target="act_sys_notify_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1215" y="820" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="d9" edge="1" parent="1" source="act_desa" style="endArrow=open;html=1;strokeColor=#C62828;strokeWidth=1.5;fontSize=9;fontColor=#C62828;" target="W13b" value="tindak darurat">
+        <mxCell id="tr25" edge="1" parent="1" source="dec_rw_valid" target="act_rw_approve" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;" value="[Disetujui]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a1" edge="1" parent="1" source="act_ai" style="endArrow=open;html=1;strokeColor=#F9A825;strokeWidth=1.5;fontSize=9;fontColor=#F57F17;" target="W21" value="NLP engine">
+        <mxCell id="tr26" edge="1" parent="1" source="act_rw_approve" target="dec_rw_level" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a2" edge="1" parent="1" source="act_ai" style="endArrow=open;html=1;strokeColor=#F9A825;strokeWidth=1.5;fontSize=9;fontColor=#F57F17;" target="W22" value="ML personalisasi">
+        <!-- RW Final vs Forward Desa -->
+        <mxCell id="tr27" edge="1" parent="1" source="dec_rw_level" target="act_rw_final" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;" value="[Ya - Final RW]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a3" edge="1" parent="1" source="act_ai" style="endArrow=open;html=1;strokeColor=#F9A825;strokeWidth=1.5;fontSize=9;fontColor=#F57F17;" target="W23" value="prediksi bencana">
+        <mxCell id="tr28" edge="1" parent="1" source="act_rw_final" target="act_sys_pdf" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1215" y="1730" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tr29" edge="1" parent="1" source="dec_rw_level" target="act_rw_forward" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;" value="[Tidak - Lanjut Desa]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a4" edge="1" parent="1" source="act_ai" style="endArrow=open;html=1;strokeColor=#F9A825;strokeWidth=1.5;fontSize=9;fontColor=#F57F17;" target="W24" value="speech-to-text">
+        <mxCell id="tr30" edge="1" parent="1" source="act_rw_forward" target="act_sys_notif_desa" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a5" edge="1" parent="1" source="act_ai" style="endArrow=open;html=1;strokeColor=#F9A825;strokeWidth=1.2;fontSize=9;fontColor=#F57F17;" target="W19c" value="analitik spasial">
+        <mxCell id="tr31" edge="1" parent="1" source="act_sys_notif_desa" target="act_desa_receive" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a6" edge="1" parent="1" source="act_ai" style="endArrow=open;html=1;strokeColor=#F9A825;strokeWidth=1.2;fontSize=9;fontColor=#F57F17;" target="W13" value="klasifikasi laporan">
+        <!-- Desa Review Flow -->
+        <mxCell id="tr32" edge="1" parent="1" source="act_desa_receive" target="dec_desa_valid" style="endArrow=classic;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a7" edge="1" parent="1" source="act_ai" style="endArrow=open;html=1;strokeColor=#F9A825;strokeWidth=1.2;fontSize=9;fontColor=#F57F17;" target="W13c" value="geo-clustering">
+        <mxCell id="tr33" edge="1" parent="1" source="dec_desa_valid" target="act_desa_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="inc1" edge="1" parent="1" source="W02" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0D47A1;fontSize=9;fontColor=#0D47A1;" target="W01" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="tr34" edge="1" parent="1" source="act_desa_reject" target="act_sys_notify_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1710" y="820" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tr35" edge="1" parent="1" source="dec_desa_valid" target="act_desa_approve" style="endArrow=classic;html=1;strokeColor=#CA8A04;strokeWidth=1.5;" value="[Disetujui]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="inc2" edge="1" parent="1" source="W06" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0D47A1;fontSize=9;fontColor=#0D47A1;" target="W05" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="tr36" edge="1" parent="1" source="act_desa_approve" target="act_sys_pdf" style="endArrow=classic;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="inc3" edge="1" parent="1" source="W07" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0D47A1;fontSize=9;fontColor=#0D47A1;" target="W05" value="&lt;&lt;include&gt;&gt;">
+        <!-- PDF & Dispatch Finish Flow -->
+        <mxCell id="tr37" edge="1" parent="1" source="act_sys_pdf" target="act_sys_dispatch_done" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="inc4" edge="1" parent="1" source="W06b" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0D47A1;fontSize=9;fontColor=#0D47A1;" target="W05" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="tr38" edge="1" parent="1" source="act_sys_dispatch_done" target="act_w_receive_done" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="inc5" edge="1" parent="1" source="W06" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0D47A1;fontSize=9;fontColor=#0D47A1;" target="W08" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="tr39" edge="1" parent="1" source="act_w_receive_done" target="act_w_print" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="inc6" edge="1" parent="1" source="W09" style="endArrow=open;html=1;dashed=1;endSize=8;strokeColor=#0D47A1;fontSize=9;fontColor=#0D47A1;" target="W10" value="&lt;&lt;include&gt;&gt;">
+        <mxCell id="tr40" edge="1" parent="1" source="act_w_print" target="act_ext_scan" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#424242;align=left;verticalAlign=top;fontSize=11;spacingLeft=10;spacingTop=8;" value="LEGENDA:&#xa;● ——— Garis Solid Merah : Main Actor (Warga) ↔ Use Case&#xa;● ——— Garis Solid Hijau : Supporting Actor ↔ Use Case&#xa;● - - - Garis Putus Biru : &lt;&lt;include&gt;&gt; / &lt;&lt;extend&gt;&gt; antar Use Case&#xa;● ——— Garis Solid Kuning: Peran AI Engine&#xa;● Use Case merah  : Layanan Darurat (Prioritas Tinggi)&#xa;● Use Case kuning : Layanan AI (Cross-cutting)" vertex="1">
-          <mxGeometry height="160" width="460" x="40" y="1400" as="geometry" />
+        <mxCell id="tr41" edge="1" parent="1" source="act_ext_scan" target="end_node_success" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

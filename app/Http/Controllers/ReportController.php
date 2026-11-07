@@ -62,12 +62,20 @@ class ReportController extends Controller
             ->pluck('total', 'status')
             ->toArray();
 
-        // Document status distribution
-        $documentStats = DocumentRequest::accessibleBy($user)
+        // Document status distribution (clean categorized counts)
+        $rawDocStats = DocumentRequest::accessibleBy($user)
             ->select('status', DB::raw('count(*) as total'))
             ->groupBy('status')
             ->pluck('total', 'status')
             ->toArray();
+
+        $documentStats = [
+            'PENDING' => ($rawDocStats['DIAJUKAN_RT'] ?? 0) + ($rawDocStats['PENDING'] ?? 0) + ($rawDocStats['DRAFT'] ?? 0),
+            'PROCESSED' => ($rawDocStats['DIAJUKAN_RW'] ?? 0) + ($rawDocStats['DIAJUKAN_DESA'] ?? 0) + ($rawDocStats['DIPROSES'] ?? 0) + ($rawDocStats['PROCESSED'] ?? 0),
+            'APPROVED' => ($rawDocStats['DISETUJUI'] ?? 0) + ($rawDocStats['APPROVED'] ?? 0),
+            'DONE' => ($rawDocStats['SELESAI'] ?? 0) + ($rawDocStats['DONE'] ?? 0),
+            'REJECTED' => ($rawDocStats['DITOLAK'] ?? 0) + ($rawDocStats['REJECTED'] ?? 0),
+        ];
 
         // Recent documents
         $recentDocuments = DocumentRequest::accessibleBy($user)

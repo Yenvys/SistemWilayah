@@ -338,7 +338,7 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                 </svg>
                                             </button>
-                                            <form action="{{ route('budgets.destroy', $budget->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pos anggaran ini?');" style="display:inline;">
+                                            <form action="{{ route('budgets.destroy', $budget->id) }}" method="POST" data-confirm="Apakah Anda yakin ingin menghapus pos anggaran ini?" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-icon btn-icon-danger" title="Hapus Anggaran">
@@ -461,7 +461,7 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                 </svg>
                                             </button>
-                                            <form action="{{ route('developments.destroy', $dev->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus proyek ini?');" style="display:inline;">
+                                            <form action="{{ route('developments.destroy', $dev->id) }}" method="POST" data-confirm="Apakah Anda yakin ingin menghapus proyek ini?" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-icon btn-icon-danger" title="Hapus Proyek">

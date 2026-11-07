@@ -98,6 +98,29 @@
         margin-bottom: 1rem;
     }
 
+    .filter-dropdown-col {
+        width: 160px;
+        flex: 0 0 160px;
+        box-sizing: border-box;
+    }
+    .filter-dropdown-col .custom-dropdown-container {
+        width: 100% !important;
+    }
+    @media (max-width: 991px) {
+        .filter-dropdown-col {
+            flex: 1 1 calc(50% - 0.5rem);
+            min-width: 140px;
+            max-width: 100%;
+        }
+    }
+    @media (max-width: 576px) {
+        .filter-dropdown-col {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+            max-width: 100% !important;
+        }
+    }
+
     /* Modal System */
     .siwil-modal-overlay {
         position: fixed;
@@ -432,7 +455,7 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                 </svg>
                                             </a>
-                                            <form method="POST" action="{{ route('villages.destroy', $village) }}" onsubmit="return confirm('Yakin ingin menghapus desa ini?')" style="display:inline;">
+                                            <form method="POST" action="{{ route('villages.destroy', $village) }}" data-confirm="Yakin ingin menghapus desa ini?" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-icon btn-icon-danger" title="Hapus Desa" aria-label="Hapus Desa">
@@ -526,7 +549,7 @@
                                         <td><span class="badge badge-green" style="font-size: 0.68rem; padding: 1px 6px;">{{ $rw->rts_count }} RT</span></td>
                                         @if(in_array(Auth::user()->role, ['SUPER_ADMIN', 'ADMIN_DESA']))
                                         <td style="text-align: right;">
-                                            <form method="POST" action="{{ route('areas.rw.destroy', $rw) }}" onsubmit="return confirm('Hapus RW ini beserta RT di dalamnya?')" style="display:inline;">
+                                            <form method="POST" action="{{ route('areas.rw.destroy', $rw) }}" data-confirm="Hapus RW ini beserta RT di dalamnya?" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-icon btn-icon-danger" title="Hapus RW" aria-label="Hapus RW">
@@ -574,7 +597,7 @@
                                         <td style="font-size: 0.8rem; color: var(--text-secondary);">RW {{ $rt->rw->number ?? '-' }}</td>
                                         @if(in_array(Auth::user()->role, ['SUPER_ADMIN', 'ADMIN_DESA']))
                                         <td style="text-align: right;">
-                                            <form method="POST" action="{{ route('areas.rt.destroy', $rt) }}" onsubmit="return confirm('Hapus RT ini?')" style="display:inline;">
+                                            <form method="POST" action="{{ route('areas.rt.destroy', $rt) }}" data-confirm="Hapus RT ini?" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-icon btn-icon-danger" title="Hapus RT" aria-label="Hapus RT">
@@ -640,12 +663,12 @@
             {{-- Filter Bar Kependudukan --}}
             <div class="filter-bar" style="margin-bottom: 1.25rem;">
                 <form method="GET" action="{{ route('areas.index') }}" data-ajax-filter="true" data-ajax-target="#residentTableContainer" data-count-badge="#residentCountBadge" style="display: flex; gap: 0.75rem; align-items: center; width: 100%; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 200px; max-width: 280px;">
-                        <input type="text" name="search_resident" class="form-input" placeholder="Cari NIK, Nama, atau No HP..." value="{{ request('search_resident') }}" style="width: 100%; font-size: 0.85rem; padding: 0.5rem 0.85rem;">
+                    <div style="flex: 1 1 200px; min-width: 180px; max-width: 280px;">
+                        <input type="text" name="search_resident" class="form-input" placeholder="Cari NIK, Nama, atau No HP..." value="{{ request('search_resident') }}" style="width: 100%; font-size: 0.85rem; padding: 0.5rem 0.85rem; height: 38px; border-radius: 8px; box-sizing: border-box;">
                     </div>
 
                     @if(!in_array(Auth::user()->role, ['RT', 'RW']))
-                    <div style="width: 135px; flex-shrink: 0;">
+                    <div class="filter-dropdown-col">
                         <select name="rw_filter" id="kependudukanRwFilter" class="form-select" style="width: 100%; font-size: 0.85rem;">
                             <option value="">Semua RW</option>
                             @foreach($filterRws as $rw)
@@ -656,7 +679,7 @@
                     @endif
 
                     @if(Auth::user()->role !== 'RT')
-                    <div style="width: 145px; flex-shrink: 0;">
+                    <div class="filter-dropdown-col">
                         <select name="rt_filter" id="kependudukanRtFilter" class="form-select" style="width: 100%; font-size: 0.85rem;">
                             <option value="">Semua RT</option>
                             @foreach($filterRts as $rt)
@@ -666,7 +689,7 @@
                     </div>
                     @endif
                     
-                    <div style="width: 140px; flex-shrink: 0;">
+                    <div class="filter-dropdown-col">
                         <select name="gender_filter" class="form-select" style="width: 100%; font-size: 0.85rem;">
                             <option value="">Semua Gender</option>
                             <option value="LAKI_LAKI" {{ request('gender_filter') === 'LAKI_LAKI' ? 'selected' : '' }}>Laki-laki</option>
@@ -674,18 +697,18 @@
                         </select>
                     </div>
 
-                    <div style="width: 150px; flex-shrink: 0;">
+                    <div class="filter-dropdown-col">
                         <select name="status_filter" class="form-select" style="width: 100%; font-size: 0.85rem;">
-                            <option value="">Semua Status Warga</option>
+                            <option value="">Semua Status</option>
                             <option value="AKTIF" {{ request('status_filter') === 'AKTIF' ? 'selected' : '' }}>Warga Aktif</option>
                             <option value="PINDAH" {{ request('status_filter') === 'PINDAH' ? 'selected' : '' }}>Pindah</option>
                             <option value="MENINGGAL" {{ request('status_filter') === 'MENINGGAL' ? 'selected' : '' }}>Meninggal</option>
                         </select>
                     </div>
 
-                    <div style="width: 175px; flex-shrink: 0;">
+                    <div class="filter-dropdown-col">
                         <select name="account_filter" class="form-select" style="width: 100%; font-size: 0.85rem;">
-                            <option value="">Semua Akun / Login</option>
+                            <option value="">Semua Akun</option>
                             <option value="HAS_ACCOUNT" {{ request('account_filter') === 'HAS_ACCOUNT' ? 'selected' : '' }}>Sudah Punya Akun</option>
                             <option value="NO_ACCOUNT" {{ request('account_filter') === 'NO_ACCOUNT' ? 'selected' : '' }}>Belum Ada Akun</option>
                             <option value="pending" {{ request('account_filter') === 'pending' ? 'selected' : '' }}>Pending</option>
@@ -695,12 +718,12 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem;">
+                    <button type="submit" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1.1rem; height: 38px; border-radius: 8px; font-weight: 600; box-sizing: border-box;">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         Filter
                     </button>
                     @if(request('search_resident') || request('rw_filter') || request('rt_filter') || request('gender_filter') || request('status_filter') || request('account_filter'))
-                        <a href="{{ route('areas.index') }}" class="btn btn-outline btn-sm reset-filter-btn" style="padding: 0.5rem 0.85rem;">Reset</a>
+                        <a href="{{ route('areas.index') }}" class="btn btn-outline btn-sm reset-filter-btn" style="padding: 0.5rem 0.85rem; height: 38px; display: inline-flex; align-items: center; border-radius: 8px; box-sizing: border-box;">Reset</a>
                     @endif
                 </form>
             </div>
@@ -811,7 +834,7 @@
                                                             ✓ Setujui
                                                         </button>
                                                     </form>
-                                                    <form action="{{ route('users.verify', $u->id) }}" method="POST" onsubmit="return confirm('Tolak pendaftaran akun warga ini?');" style="margin: 0;">
+                                                    <form action="{{ route('users.verify', $u->id) }}" method="POST" data-confirm="Tolak pendaftaran akun warga ini?" style="margin: 0;">
                                                         @csrf
                                                         @method('PATCH')
                                                         <input type="hidden" name="status" value="rejected">

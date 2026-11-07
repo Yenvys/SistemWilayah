@@ -279,7 +279,14 @@ window.submitConnectWa = async function(inputId) {
 };
 
 window.disconnectWhatsApp = async function() {
-    if (!confirm('Apakah Anda yakin ingin memutuskan koneksi akun WhatsApp?')) return;
+    const confirmed = await window.siwilConfirm({
+        title: 'Putuskan Koneksi WhatsApp',
+        message: 'Apakah Anda yakin ingin memutuskan koneksi akun WhatsApp? Notifikasi pesan tidak akan dikirim lagi ke nomor ini.',
+        confirmText: 'Ya, Putuskan',
+        cancelText: 'Batal',
+        type: 'danger'
+    });
+    if (!confirmed) return;
     try {
         const res = await fetch('{{ route("settings.whatsapp.disconnect") }}', {
             method: 'POST',
@@ -340,7 +347,14 @@ window.startTelegramConnect = async function() {
 };
 
 window.disconnectTelegram = async function() {
-    if (!confirm('Apakah Anda yakin ingin memutuskan akun Telegram dari SIWIL?')) return;
+    const confirmed = await window.siwilConfirm({
+        title: 'Putuskan Akun Telegram',
+        message: 'Apakah Anda yakin ingin memutuskan akun Telegram dari SIWIL? Bot tidak akan dapat mengirim pembaruan informasi ke akun Telegram Anda.',
+        confirmText: 'Ya, Putuskan',
+        cancelText: 'Batal',
+        type: 'danger'
+    });
+    if (!confirmed) return;
     try {
         const res = await fetch('{{ route("settings.telegram.disconnect") }}', {
             method: 'POST',

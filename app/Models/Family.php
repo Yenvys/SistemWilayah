@@ -21,4 +21,9 @@ class Family extends Model
     {
         return $this->hasMany(Resident::class);
     }
+
+    public function residents()
+    {
+        return $this->hasMany(Resident::class);
+    }
 }
