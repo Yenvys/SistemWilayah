@@ -19,6 +19,41 @@
         </button>
 
 <style>
+    .notif-dropdown-menu,
+    .user-dropdown-menu {
+        background: #ffffff !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+        z-index: 99999 !important;
+    }
+
+    [data-theme="dark"] .notif-dropdown-menu,
+    [data-theme="dark"] .user-dropdown-menu {
+        background: #1e293b !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border: 1px solid #334155 !important;
+        box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .user-dropdown-item {
+        color: var(--text-primary);
+        background: transparent;
+        transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .user-dropdown-item:hover {
+        background: #f1f5f9 !important;
+        color: var(--accent-1);
+    }
+
+    [data-theme="dark"] .user-dropdown-item:hover {
+        background: #334155 !important;
+        color: #38bdf8;
+    }
+
     @media (max-width: 640px) {
         .notif-dropdown-menu {
             position: fixed !important;
@@ -28,9 +63,8 @@
             width: auto !important;
             max-width: calc(100vw - 24px) !important;
             margin-top: 0 !important;
-            z-index: 10002 !important;
+            z-index: 99999 !important;
             border-radius: 14px !important;
-            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.4) !important;
         }
 
         .user-dropdown-menu {
@@ -38,14 +72,11 @@
             top: 62px !important;
             right: 12px !important;
             width: 220px !important;
-            z-index: 10002 !important;
-            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.4) !important;
+            z-index: 99999 !important;
+            border-radius: 12px !important;
         }
     }
 </style>
-
-{{-- Mobile Dropdown Dimming Backdrop --}}
-<div id="topnavDropdownBackdrop" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.35); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); z-index: 10001;" onclick="closeAllTopnavDropdowns()"></div>
 
         {{-- Notification Bell --}}
         @php
@@ -65,8 +96,8 @@
                 @endif
             </button>
 
-            <div id="notifDropdown" class="notif-dropdown-menu" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 12px; box-shadow: var(--shadow-hover); width: 340px; max-width: 90vw; z-index: 10002; overflow: hidden;">
-                <div style="padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center;">
+            <div id="notifDropdown" class="notif-dropdown-menu" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; width: 340px; max-width: 90vw; border-radius: 12px;">
+                <div style="padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary);">Notifikasi</span>
                     @if($unreadNotifCount > 0)
                         <form action="{{ route('notifications.read-all') }}" method="POST" style="margin: 0;" id="topnavMarkAllReadForm">
@@ -80,7 +111,7 @@
                     @forelse($recentNotifications as $notif)
                         <form action="{{ route('notifications.read', $notif->id) }}" method="POST" style="margin: 0;">
                             @csrf
-                            <button type="submit" style="width: 100%; text-align: left; padding: 0.85rem 1rem; border: none; border-bottom: 1px solid var(--border-glass); background: {{ $notif->is_read ? 'transparent' : 'rgba(37, 99, 235, 0.05)' }}; cursor: pointer; display: flex; gap: 0.75rem; align-items: flex-start; transition: background 0.15s; font-family: inherit;">
+                            <button type="submit" style="width: 100%; text-align: left; padding: 0.85rem 1rem; border: none; border-bottom: 1px solid var(--border-subtle); background: {{ $notif->is_read ? 'transparent' : 'rgba(37, 99, 235, 0.08)' }}; cursor: pointer; display: flex; gap: 0.75rem; align-items: flex-start; transition: background 0.15s; font-family: inherit;">
                                 <div style="margin-top: 5px; width: 8px; height: 8px; border-radius: 50%; background: {{ $notif->is_read ? 'transparent' : 'var(--accent-1)' }}; flex-shrink: 0;"></div>
                                 <div style="flex: 1;">
                                     <div style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.2rem;">
@@ -104,7 +135,7 @@
                 </div>
 
                 @if($recentNotifications->count() > 0)
-                    <div style="padding: 0.6rem; text-align: center; border-top: 1px solid var(--border-glass); background: var(--bg-body);">
+                    <div style="padding: 0.6rem; text-align: center; border-top: 1px solid var(--border-subtle); background: var(--bg-body);">
                         <a href="{{ route('notifications.index') }}" style="font-size: 0.8rem; font-weight: 600; color: var(--accent-1); text-decoration: none;">Lihat Semua Notifikasi</a>
                     </div>
                 @endif
@@ -126,14 +157,14 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-left: 5px; color: var(--text-muted);"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
             
-            <div id="userDropdown" class="user-dropdown-menu" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-base); box-shadow: var(--shadow-hover); width: 220px; z-index: 10002; padding: 0.5rem 0; overflow: hidden;">
-                <a href="{{ route('settings.index') }}" style="display: flex; align-items: center; padding: 0.75rem 1rem; color: var(--text-primary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s;">
+            <div id="userDropdown" class="user-dropdown-menu" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; width: 220px; border-radius: 12px; padding: 0.4rem;">
+                <a href="{{ route('settings.index') }}" class="user-dropdown-item" style="display: flex; align-items: center; padding: 0.65rem 0.85rem; color: var(--text-primary); text-decoration: none; font-size: 0.9rem; font-weight: 500; border-radius: 6px; transition: background 0.2s;">
                     <svg style="width:16px;height:16px;margin-right:12px;color:var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 
                     Pengaturan Profil
                 </a>
-                <form action="{{ url('/logout') }}" method="POST" style="margin: 0; border-top: 1px solid var(--border-glass);">
+                <form action="{{ url('/logout') }}" method="POST" style="margin: 0; border: none;">
                     @csrf
-                    <button type="submit" style="display: flex; align-items: center; width: 100%; text-align: left; background: none; border: none; padding: 0.75rem 1rem; color: var(--danger); cursor: pointer; font-size: 0.9rem; font-weight: 600; font-family: inherit; transition: background 0.2s;">
+                    <button type="submit" class="user-dropdown-item" style="display: flex; align-items: center; width: 100%; text-align: left; background: none; border: none; padding: 0.65rem 0.85rem; color: var(--danger); cursor: pointer; font-size: 0.9rem; font-weight: 600; font-family: inherit; border-radius: 6px; transition: background 0.2s;">
                         <svg style="width:16px;height:16px;margin-right:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> 
                         Keluar
                     </button>
@@ -147,22 +178,17 @@
 function closeAllTopnavDropdowns() {
     const notifDropdown = document.getElementById('notifDropdown');
     const userDropdown = document.getElementById('userDropdown');
-    const backdrop = document.getElementById('topnavDropdownBackdrop');
     if (notifDropdown) notifDropdown.style.display = 'none';
     if (userDropdown) userDropdown.style.display = 'none';
-    if (backdrop) backdrop.style.display = 'none';
 }
 
 function toggleNotifDropdown(event) {
     event.stopPropagation();
     const dropdown = document.getElementById('notifDropdown');
     const userDropdown = document.getElementById('userDropdown');
-    const backdrop = document.getElementById('topnavDropdownBackdrop');
     if (userDropdown) userDropdown.style.display = 'none';
     if (dropdown) {
-        const isOpening = dropdown.style.display !== 'block';
-        dropdown.style.display = isOpening ? 'block' : 'none';
-        if (backdrop) backdrop.style.display = isOpening ? 'block' : 'none';
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
 }
 
@@ -170,12 +196,9 @@ function toggleUserDropdown(event) {
     if (event) event.stopPropagation();
     const dropdown = document.getElementById('userDropdown');
     const notifDropdown = document.getElementById('notifDropdown');
-    const backdrop = document.getElementById('topnavDropdownBackdrop');
     if (notifDropdown) notifDropdown.style.display = 'none';
     if (dropdown) {
-        const isOpening = dropdown.style.display !== 'block';
-        dropdown.style.display = isOpening ? 'block' : 'none';
-        if (backdrop) backdrop.style.display = isOpening ? 'block' : 'none';
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
 }
 

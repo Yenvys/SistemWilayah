@@ -62,7 +62,7 @@
                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                     </svg>
                                 </a>
-                                <form method="POST" action="{{ route('villages.destroy', $village) }}" onsubmit="return confirm('Yakin ingin menghapus desa ini?')">
+                                <form method="POST" action="{{ route('villages.destroy', $village) }}" data-confirm="Yakin ingin menghapus desa ini?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn-icon btn-icon-danger" title="Hapus Desa" aria-label="Hapus Desa">

@@ -17,8 +17,10 @@ use App\Models\PollVote;
 use App\Models\Resident;
 use App\Models\Rt;
 use App\Models\Rw;
+use App\Models\SystemConfiguration;
 use App\Models\User;
 use App\Models\Village;
+use App\Services\AiToolService;
 use App\Services\DocumentRequestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +30,12 @@ use Illuminate\Support\Str;
 
 class AiController extends Controller
 {
+    public function __construct(
+        protected ?AiToolService $aiToolService = null
+    ) {
+        $this->aiToolService = $this->aiToolService ?? app(AiToolService::class);
+    }
+
     public function index()
     {
         return redirect()->route('dashboard', ['open_chat' => 1]);
@@ -71,24 +79,43 @@ class AiController extends Controller
 
         $scopedData = $this->buildScopedContext($user, $message);
 
-        $provider = config('services.ai.provider') ?? env('AI_PROVIDER', 'gemini');
-        $apiKey = config('services.ai.api_key') ?? env('AI_API_KEY') ?? config('services.gemini.api_key') ?? env('GEMINI_API_KEY');
-        $model = config('services.ai.model') ?? env('AI_MODEL') ?? config('services.gemini.model') ?? env('GEMINI_MODEL', 'gemini-2.5-flash');
-        $customBaseUrl = config('services.ai.base_url') ?? env('AI_BASE_URL');
+        // Inject dynamic system prompt with user identity, RBAC boundaries, and function calling tools
+        $systemPrompt = $this->aiToolService->buildDynamicSystemPrompt($user, $scopedData['context_text'] ?? null);
 
-        if (! $apiKey) {
+        $systemConfig = SystemConfiguration::current();
+        $provider = $systemConfig?->ai_provider ?: (config('services.ai.provider') ?? env('AI_PROVIDER', 'gemini'));
+        $apiKeys = SystemConfiguration::getAiApiKeys();
+        $model = $systemConfig?->ai_model ?: (config('services.ai.model') ?? env('AI_MODEL') ?? config('services.gemini.model') ?? env('GEMINI_MODEL', 'gemini-2.5-flash'));
+        $customBaseUrl = $systemConfig?->ai_base_url ?: (config('services.ai.base_url') ?? env('AI_BASE_URL'));
+
+        if (empty($apiKeys)) {
             return $this->handleSmartFallback($message, $user, $scopedData);
         }
 
-        $systemPrompt = $scopedData['system_prompt'];
-        $userPrompt = "Konteks Sistem Wilayah SIWIL (Database Berdasarkan Role Pengguna):\n".$scopedData['context_text']."\n\nPertanyaan Pengguna: ".$message;
+        $userPrompt = "Konteks Sistem Wilayah SIWIL (Database Berdasarkan Role Pengguna):\n".($scopedData['context_text'] ?? '')."\n\nPertanyaan Pengguna: ".$message;
 
         $reply = null;
+        foreach ($apiKeys as $index => $apiKey) {
+            $apiKey = trim((string) $apiKey);
+            if ($apiKey === '') {
+                continue;
+            }
 
-        if ($provider === 'gemini') {
-            $reply = $this->callGeminiApi($apiKey, $model, $systemPrompt, $userPrompt);
-        } else {
-            $reply = $this->callOpenAiCompatibleApi($provider, $apiKey, $model, $systemPrompt, $userPrompt, $customBaseUrl);
+            try {
+                if ($provider === 'gemini') {
+                    $reply = $this->callGeminiApi($apiKey, $model, $systemPrompt, $userPrompt, $user);
+                } else {
+                    $reply = $this->callOpenAiCompatibleApi($provider, $apiKey, $model, $systemPrompt, $userPrompt, $user, $customBaseUrl);
+                }
+
+                if ($reply) {
+                    break;
+                }
+
+                Log::warning('AI key #'.($index + 1).' did not yield an answer. Retrying next key...');
+            } catch (\Throwable $e) {
+                Log::warning('AI key #'.($index + 1).' encountered error: '.$e->getMessage().'. Retrying fallback key...');
+            }
         }
 
         if ($reply) {
@@ -101,7 +128,7 @@ class AiController extends Controller
         return $this->handleSmartFallback($message, $user, $scopedData);
     }
 
-    private function callGeminiApi(string $apiKey, string $model, string $systemPrompt, string $userPrompt): ?string
+    private function callGeminiApi(string $apiKey, string $model, string $systemPrompt, string $userPrompt, User $user): ?string
     {
         $candidateModels = array_values(array_unique([
             $model,
@@ -109,6 +136,12 @@ class AiController extends Controller
             'gemini-2.0-flash',
             'gemini-1.5-flash',
         ]));
+
+        $tools = [
+            [
+                'functionDeclarations' => $this->aiToolService->getGeminiTools($user),
+            ],
+        ];
 
         $payload = [
             'contents' => [
@@ -124,20 +157,81 @@ class AiController extends Controller
                     ['text' => $systemPrompt],
                 ],
             ],
+            'tools' => $tools,
         ];
 
         foreach ($candidateModels as $candidateModel) {
             try {
                 $url = "https://generativelanguage.googleapis.com/v1beta/models/{$candidateModel}:generateContent?key={$apiKey}";
-                $response = Http::timeout(12)->post($url, $payload);
+                $response = Http::timeout(15)->post($url, $payload);
                 if ($response->successful()) {
                     $data = $response->json();
-                    $reply = $data['candidates'][0]['content']['parts'][0]['text'] ?? null;
-                    if ($reply) {
-                        return trim($reply);
+                    $candidate = $data['candidates'][0] ?? null;
+                    $content = $candidate['content'] ?? null;
+                    $parts = $content['parts'] ?? [];
+
+                    // Check for functionCall execution
+                    $hasFunctionCall = false;
+                    foreach ($parts as $part) {
+                        if (isset($part['functionCall'])) {
+                            $hasFunctionCall = true;
+                            $fnName = $part['functionCall']['name'];
+                            $fnArgs = $part['functionCall']['args'] ?? [];
+                            $toolResult = $this->aiToolService->executeTool($fnName, $fnArgs, $user);
+
+                            // Append model's functionCall turn
+                            $payload['contents'][] = $content;
+
+                            // Append function response turn
+                            $payload['contents'][] = [
+                                'role' => 'function',
+                                'parts' => [
+                                    [
+                                        'functionResponse' => [
+                                            'name' => $fnName,
+                                            'response' => [
+                                                'name' => $fnName,
+                                                'content' => $toolResult,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ];
+
+                            // Follow-up request to get final conversational answer
+                            $followUp = Http::timeout(15)->post($url, $payload);
+                            if ($followUp->successful()) {
+                                $followUpData = $followUp->json();
+                                $finalText = $followUpData['candidates'][0]['content']['parts'][0]['text'] ?? null;
+                                if ($finalText) {
+                                    return trim($finalText);
+                                }
+                            }
+                            break;
+                        }
+                    }
+
+                    if (! $hasFunctionCall) {
+                        $reply = $parts[0]['text'] ?? null;
+                        if ($reply) {
+                            return trim($reply);
+                        }
+                    }
+                } else {
+                    $status = $response->status();
+                    $body = $response->body();
+                    Log::warning("Gemini API call failed with model {$candidateModel}: HTTP {$status} - {$body}");
+
+                    // Rate limit or quota exhausted or auth issue - break immediately to trigger fallback key
+                    if ($status === 429 || $status === 401 || $status === 403 || str_contains($body, 'RESOURCE_EXHAUSTED') || str_contains($body, 'quota')) {
+                        throw new \RuntimeException("Gemini rate limit or quota exceeded (HTTP {$status})");
                     }
                 }
+            } catch (\RuntimeException $re) {
+                throw $re;
             } catch (\Throwable $e) {
+                Log::warning("Gemini API call failed with model {$candidateModel}: ".$e->getMessage());
+
                 continue;
             }
         }
@@ -145,7 +239,7 @@ class AiController extends Controller
         return null;
     }
 
-    private function callOpenAiCompatibleApi(string $provider, string $apiKey, string $model, string $systemPrompt, string $userPrompt, ?string $customBaseUrl = null): ?string
+    private function callOpenAiCompatibleApi(string $provider, string $apiKey, string $model, string $systemPrompt, string $userPrompt, User $user, ?string $customBaseUrl = null): ?string
     {
         $endpoint = match ($provider) {
             'deepseek' => 'https://api.deepseek.com/chat/completions',
@@ -160,17 +254,23 @@ class AiController extends Controller
             $endpoint = rtrim($customBaseUrl, '/').'/chat/completions';
         }
 
+        $messages = [
+            ['role' => 'system', 'content' => $systemPrompt],
+            ['role' => 'user', 'content' => $userPrompt],
+        ];
+
+        $tools = $this->aiToolService->getOpenAiTools($user);
+
         $payload = [
             'model' => $model,
-            'messages' => [
-                ['role' => 'system', 'content' => $systemPrompt],
-                ['role' => 'user', 'content' => $userPrompt],
-            ],
+            'messages' => $messages,
+            'tools' => $tools,
+            'tool_choice' => 'auto',
             'temperature' => 0.5,
         ];
 
         try {
-            $response = Http::timeout(15)
+            $response = Http::timeout(18)
                 ->withHeaders([
                     'Authorization' => 'Bearer '.trim($apiKey),
                     'Content-Type' => 'application/json',
@@ -179,13 +279,60 @@ class AiController extends Controller
 
             if ($response->successful()) {
                 $data = $response->json();
-                $reply = $data['choices'][0]['message']['content'] ?? null;
-                if ($reply) {
-                    return trim($reply);
+                $choice = $data['choices'][0] ?? null;
+                $msg = $choice['message'] ?? null;
+
+                if (! empty($msg['tool_calls'])) {
+                    $messages[] = $msg;
+                    foreach ($msg['tool_calls'] as $toolCall) {
+                        $callId = $toolCall['id'] ?? 'call_'.uniqid();
+                        $fnName = $toolCall['function']['name'] ?? '';
+                        $fnArgs = json_decode($toolCall['function']['arguments'] ?? '{}', true) ?: [];
+
+                        $toolResult = $this->aiToolService->executeTool($fnName, $fnArgs, $user);
+
+                        $messages[] = [
+                            'role' => 'tool',
+                            'tool_call_id' => $callId,
+                            'name' => $fnName,
+                            'content' => json_encode($toolResult, JSON_UNESCAPED_UNICODE),
+                        ];
+                    }
+
+                    $followUp = Http::timeout(18)->withHeaders([
+                        'Authorization' => 'Bearer '.trim($apiKey),
+                        'Content-Type' => 'application/json',
+                    ])->post($endpoint, [
+                        'model' => $model,
+                        'messages' => $messages,
+                        'temperature' => 0.5,
+                    ]);
+
+                    if ($followUp->successful()) {
+                        $followUpData = $followUp->json();
+                        $reply = $followUpData['choices'][0]['message']['content'] ?? null;
+                        if ($reply) {
+                            return trim($reply);
+                        }
+                    }
+                }
+
+                if (! empty($msg['content'])) {
+                    return trim($msg['content']);
+                }
+            } else {
+                $status = $response->status();
+                $body = $response->body();
+                Log::warning("OpenAI API call failed ({$provider}) HTTP {$status}: {$body}");
+                if ($status === 429 || $status === 401 || $status === 403 || str_contains($body, 'rate_limit') || str_contains($body, 'quota')) {
+                    throw new \RuntimeException("{$provider} rate limit or auth error (HTTP {$status})");
                 }
             }
+        } catch (\RuntimeException $re) {
+            throw $re;
         } catch (\Throwable $e) {
             Log::warning("AI Provider {$provider} exception: ".$e->getMessage());
+            throw $e;
         }
 
         return null;
@@ -1036,21 +1183,21 @@ class AiController extends Controller
 
     private function getFamilyMenuContent(User $user): string
     {
-        $resident = $user->resident ?: Resident::with(['family.residents'])->where('nik', $user->username)->first();
+        $resident = $user->resident ?: Resident::with(['family.members'])->where('nik', $user->username)->first();
         $family = $resident?->family;
 
         if (! $family) {
             return '• _Data anggota keluarga belum tertaut pada Kartu Keluarga (KK) Anda._';
         }
 
-        $members = $family->residents()->get();
+        $members = $family->members()->get();
         $memberItems = [];
         foreach ($members as $m) {
-            $status = $m->family_status ?: 'Anggota';
+            $status = $m->status ?: 'Anggota';
             $memberItems[] = "  • **{$m->full_name}** ({$status}) — NIK: `{$m->nik}`";
         }
 
-        return "• **No. Kartu Keluarga (KK):** `{$family->family_card_number}`\n".
+        return "• **No. Kartu Keluarga (KK):** `{$family->kk_number}`\n".
             "• **Daftar Anggota Keluarga Terdaftar:**\n".implode("\n", $memberItems);
     }
 

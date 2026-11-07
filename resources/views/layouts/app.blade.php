@@ -87,6 +87,8 @@
             --btn-lg-px: calc(0.75rem * var(--ratio));                             /* ~20px */
 
             --sidebar-width: 16.18rem;
+            --sidebar-margin: 0.75rem;
+            --sidebar-radius: 18px;
             --topnav-height: calc(3rem * var(--ratio) * 0.95);                     /* ~4.61rem ~ 74px */
             
             --shadow-soft: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
@@ -156,63 +158,217 @@
         .form-select {
             display: none !important; /* Hide original select */
         }
-        .custom-dropdown-container { position: relative; width: 100%; min-width: 140px; }
+        /* Global Custom Dropdown System */
+        .custom-dropdown-container { 
+            position: relative; 
+            width: 100%; 
+            min-width: 140px; 
+            box-sizing: border-box;
+        }
         .filter-bar .custom-dropdown-container,
         .filter-bar form .custom-dropdown-container,
-        form.filter-form .custom-dropdown-container {
-            width: auto;
-            flex: 0 0 auto;
+        form[data-ajax-filter="true"] .custom-dropdown-container,
+        form.filter-form .custom-dropdown-container,
+        .filter-dropdown-col,
+        .filter-dropdown-col .custom-dropdown-container {
+            width: 160px !important;
+            min-width: 150px !important;
+            flex: 0 0 160px !important;
+            box-sizing: border-box !important;
         }
-        .custom-dropdown-container.open { z-index: 9999; }
+        .custom-dropdown-container.open { z-index: 99999; }
+        
+        /* Universal Dropdown Trigger: Standard 42px height for modal & regular forms */
         .custom-dropdown-trigger {
             width: 100%; 
-            padding: var(--space-md) var(--space-lg); padding-right: 2.5rem;
+            height: 42px;
+            min-height: 42px;
+            padding: 0.55rem 0.95rem; 
+            padding-right: 2.2rem;
             background: #ffffff; 
-            border: 1px solid #d4d4d8;
-            border-radius: var(--radius-golden); 
+            border: 1px solid #cbd5e1;
+            border-radius: 8px; 
             color: var(--text-primary); 
-            font-size: var(--font-sm);
+            font-size: 0.88rem;
             font-weight: 500;
             font-family: inherit;
-            transition: all 0.25s var(--animation-timing); 
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            transition: all 0.2s ease; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            box-sizing: border-box;
+            line-height: 1.3;
         }
+        
+        /* Uniform Filter Bar Trigger: 38px height to align perfectly with search input and filter buttons */
+        .filter-bar .custom-dropdown-trigger,
+        form.filter-form .custom-dropdown-trigger,
+        form[data-ajax-filter="true"] .custom-dropdown-trigger,
+        .filter-dropdown-col .custom-dropdown-trigger {
+            padding: 0.45rem 0.75rem !important;
+            padding-right: 1.85rem !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            font-size: 0.85rem !important;
+            border-radius: 8px !important;
+            line-height: 1.2 !important;
+        }
+
+        /* Standardize input & button height inside all filter bars */
+        .filter-bar .form-input,
+        form[data-ajax-filter="true"] .form-input {
+            height: 38px !important;
+            min-height: 38px !important;
+            border-radius: 8px !important;
+            font-size: 0.85rem !important;
+            box-sizing: border-box !important;
+        }
+        .filter-bar .btn,
+        form[data-ajax-filter="true"] .btn {
+            height: 38px !important;
+            min-height: 38px !important;
+            border-radius: 8px !important;
+            box-sizing: border-box !important;
+            display: inline-flex !important;
+            align-items: center !important;
+        }
+
         .custom-dropdown-trigger:hover {
-            border-color: #a1a1aa;
+            border-color: #94a3b8;
         }
         .custom-dropdown-trigger svg {
-            flex-shrink: 0; margin-left: 8px; opacity: 0.7;
+            flex-shrink: 0; 
+            margin-left: 6px; 
+            opacity: 0.7;
         }
         .custom-dropdown-container.open .custom-dropdown-trigger {
             border-color: var(--accent-1); 
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
             background: #ffffff;
         }
+        
+        /* Dropdown Popup Menu with generous width so options never get cut */
         .custom-dropdown-menu {
-            position: absolute; top: calc(100% + 8px); left: 0; right: 0; bottom: auto;
-            background: var(--bg-card); border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255,255,255,0.1);
-            z-index: 9999; opacity: 0; visibility: hidden; transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); padding: 4px;
-            max-height: 250px; overflow-y: auto;
+            position: absolute; 
+            top: calc(100% + 6px); 
+            left: 0; 
+            min-width: 100%;
+            width: max-content;
+            max-width: 320px;
+            bottom: auto;
+            background: #ffffff !important; 
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.18), 0 5px 15px rgba(0, 0, 0, 0.08) !important;
+            z-index: 99999 !important; 
+            opacity: 0; 
+            visibility: hidden; 
+            transform: translateY(-8px);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1); 
+            padding: 5px;
+            max-height: 280px; 
+            overflow-y: auto;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-sizing: border-box;
         }
         .custom-dropdown-container.open .custom-dropdown-menu {
-            opacity: 1; visibility: visible; transform: translateY(0);
+            opacity: 1; 
+            visibility: visible; 
+            transform: translateY(0);
         }
         .custom-dropdown-item {
-            padding: 0.8rem 1rem; color: var(--text-primary); cursor: pointer;
-            transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;
-            border-radius: 8px; margin-bottom: 2px;
+            padding: 0.65rem 0.85rem; 
+            color: var(--text-primary); 
+            cursor: pointer;
+            transition: all 0.15s ease; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            border-radius: 6px; 
+            margin-bottom: 2px;
+            background: transparent;
+            font-size: 0.85rem;
+            line-height: 1.35;
+            word-break: break-word;
         }
         .custom-dropdown-item:last-child { margin-bottom: 0; }
-        .custom-dropdown-item:hover { background: rgba(99, 102, 241, 0.1); }
-        .custom-dropdown-item.selected { background: rgba(99, 102, 241, 0.15); font-weight: 600; color: var(--accent-1); }
-        .custom-dropdown-item.selected::before { content: '✓'; font-weight: bold; margin-right: 4px; }
-        [data-theme="dark"] .custom-dropdown-menu {
-            background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4);
+        .custom-dropdown-item:hover { 
+            background: #f1f5f9 !important; 
+            color: var(--accent-1); 
         }
+        .custom-dropdown-item.selected { 
+            background: #eff6ff !important; 
+            font-weight: 600; 
+            color: #2563eb !important; 
+        }
+        .custom-dropdown-item.selected::before { 
+            content: '✓'; 
+            font-weight: bold; 
+            margin-right: 4px; 
+        }
+        
+        [data-theme="dark"] .custom-dropdown-trigger {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .custom-dropdown-trigger:hover {
+            border-color: #475569 !important;
+        }
+        [data-theme="dark"] .custom-dropdown-container.open .custom-dropdown-trigger {
+            background-color: #1e293b !important;
+            border-color: #60a5fa !important;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25) !important;
+        }
+        [data-theme="dark"] .custom-dropdown-menu {
+            background: #1e293b !important; 
+            border: 1px solid #334155 !important; 
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        [data-theme="dark"] .custom-dropdown-item {
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .custom-dropdown-item:hover { 
+            background: #334155 !important; 
+            color: #38bdf8 !important; 
+        }
+        [data-theme="dark"] .custom-dropdown-item.selected { 
+            background: rgba(37, 99, 235, 0.22) !important; 
+            color: #93c5fd !important; 
+        }
+
+        /* Responsive filter bar dropdowns */
+        @media (max-width: 991px) {
+            .filter-bar .custom-dropdown-container,
+            .filter-bar form .custom-dropdown-container,
+            form[data-ajax-filter="true"] .custom-dropdown-container,
+            .filter-dropdown-col,
+            .filter-dropdown-col .custom-dropdown-container {
+                flex: 1 1 calc(50% - 0.5rem) !important;
+                min-width: 140px !important;
+                max-width: 100% !important;
+                width: auto !important;
+            }
+        }
+        @media (max-width: 576px) {
+            .filter-bar .custom-dropdown-container,
+            .filter-bar form .custom-dropdown-container,
+            form[data-ajax-filter="true"] .custom-dropdown-container,
+            .filter-dropdown-col,
+            .filter-dropdown-col .custom-dropdown-container {
+                width: 100% !important;
+                flex: 1 1 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
         /* Custom scrollbar for menu */
         .custom-dropdown-menu::-webkit-scrollbar { width: 6px; }
         .custom-dropdown-menu::-webkit-scrollbar-track { background: transparent; }
@@ -260,28 +416,31 @@
         /* ===== SIDEBAR ===== */
         .sidebar {
             width: var(--sidebar-width);
-            background: rgba(255, 255, 255, 0.78);
+            background: var(--bg-card);
             backdrop-filter: blur(20px); 
             -webkit-backdrop-filter: blur(20px);
-            border-right: 1px solid var(--border-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--sidebar-radius);
             position: fixed; 
-            top: 0; 
-            left: 0; 
-            bottom: 0;
-            height: 100vh;
-            height: 100dvh;
+            top: var(--sidebar-margin); 
+            left: var(--sidebar-margin); 
+            bottom: var(--sidebar-margin);
+            height: calc(100vh - (var(--sidebar-margin) * 2));
+            height: calc(100dvh - (var(--sidebar-margin) * 2));
             display: flex; 
             flex-direction: column;
             z-index: 50;
             transition: transform 0.35s var(--ease-spring), width 0.35s var(--ease-spring), background 0.3s ease, box-shadow 0.35s ease;
-            box-shadow: 2px 0 16px rgba(15, 23, 42, 0.03);
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
             will-change: transform;
             overscroll-behavior-y: contain;
+            overflow: hidden;
         }
 
         [data-theme="dark"] .sidebar {
-            background: rgba(15, 23, 42, 0.88);
-            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
+            background: rgba(21, 30, 50, 0.95);
+            border-color: rgba(255, 255, 255, 0.09);
+            box-shadow: 0 16px 35px -5px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
         }
 
         .sidebar-logo {
@@ -737,29 +896,30 @@
         /* ===== MAIN CONTENT ===== */
         .main-wrapper {
             flex: 1; 
-            margin-left: var(--sidebar-width);
+            margin-left: calc(var(--sidebar-width) + (var(--sidebar-margin) * 2));
             display: flex; 
             flex-direction: column;
             position: relative;
             min-width: 0;
-            width: calc(100% - var(--sidebar-width));
+            width: calc(100% - var(--sidebar-width) - (var(--sidebar-margin) * 2));
             transition: margin-left 0.35s var(--ease-spring), width 0.35s var(--ease-spring);
         }
 
         .topnav {
             height: var(--topnav-height);
             min-height: 64px;
-            background: var(--bg-glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-glass);
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border-bottom: none;
+            box-shadow: none;
             display: flex; 
             align-items: center; 
             justify-content: space-between;
             padding: 0 var(--space-xl);
             position: sticky; 
             top: 0; 
-            z-index: 30;
+            z-index: 1000;
             transition: padding 0.3s ease;
         }
 
@@ -1014,7 +1174,7 @@
             box-shadow: var(--shadow-soft);
             margin-bottom: var(--space-xl);
             transition: box-shadow 0.28s ease, border-color 0.28s ease, transform 0.28s var(--ease-spring);
-            overflow: hidden;
+            overflow: visible;
         }
         .data-card:hover { 
             box-shadow: 0 10px 28px -4px rgba(15, 23, 42, 0.08); 
@@ -1560,7 +1720,7 @@
         /* ===== DESKTOP SIDEBAR TOGGLE (>= 993px) ===== */
         @media (min-width: 993px) {
             .sidebar.sidebar-closed {
-                transform: translateX(-100%);
+                transform: translateX(calc(-100% - var(--sidebar-margin) - 16px));
             }
             .main-wrapper.sidebar-closed {
                 margin-left: 0 !important;
@@ -1572,19 +1732,22 @@
         @media (max-width: 992px) {
             .sidebar { 
                 position: fixed;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                width: min(300px, 84vw);
-                height: 100vh;
-                height: 100dvh;
-                transform: translateX(-100%);
+                top: 0.65rem;
+                left: 0.65rem;
+                bottom: 0.65rem;
+                width: min(300px, calc(100vw - 1.3rem));
+                height: calc(100vh - 1.3rem);
+                height: calc(100dvh - 1.3rem);
+                border-radius: var(--sidebar-radius);
+                border: 1px solid var(--border-glass);
+                transform: translateX(calc(-100% - 1.5rem));
                 z-index: 100;
                 box-shadow: none;
+                overflow: hidden;
             }
             .sidebar.open { 
                 transform: translateX(0); 
-                box-shadow: 12px 0 35px rgba(0, 0, 0, 0.25);
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             }
             .sidebar-close-btn {
                 display: flex;
@@ -1681,7 +1844,7 @@
         .siwil-confirm-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.45);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             display: flex;
@@ -1693,15 +1856,18 @@
             visibility: hidden;
             transition: opacity 0.22s ease, visibility 0.22s ease;
         }
+        [data-theme="dark"] .siwil-confirm-overlay {
+            background: rgba(11, 17, 32, 0.78);
+        }
         .siwil-confirm-overlay.active {
             opacity: 1;
             visibility: visible;
         }
         .siwil-confirm-dialog {
             background: var(--bg-card);
-            border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.12));
+            border: 1px solid var(--border-glass, rgba(148, 163, 184, 0.25));
             border-radius: 20px;
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.2), 0 0 0 1px rgba(15, 23, 42, 0.05);
             max-width: 440px;
             width: 100%;
             padding: 2rem 1.75rem 1.75rem;
@@ -1711,6 +1877,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: var(--text-primary);
+        }
+        [data-theme="dark"] .siwil-confirm-dialog {
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
         .siwil-confirm-overlay.active .siwil-confirm-dialog {
             transform: scale(1) translateY(0);
@@ -1723,6 +1893,7 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 1.25rem;
+            transition: all 0.2s ease;
         }
         .siwil-confirm-icon-wrapper.info {
             background: rgba(59, 130, 246, 0.12);
@@ -1742,7 +1913,7 @@
         .siwil-confirm-icon-wrapper.danger {
             background: rgba(239, 68, 68, 0.12);
             color: #ef4444;
-            box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.06);
+            box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.08);
         }
         .siwil-confirm-title {
             font-size: 1.25rem;
@@ -1756,6 +1927,7 @@
             color: var(--text-secondary);
             line-height: 1.55;
             margin: 0 0 1.75rem 0;
+            word-break: break-word;
         }
         .siwil-confirm-actions {
             display: flex;
@@ -1773,6 +1945,56 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .siwil-confirm-actions .btn-danger {
+            background: #ef4444;
+            border: 1px solid #ef4444;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+        }
+        .siwil-confirm-actions .btn-danger:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+            transform: translateY(-1px);
+        }
+        .siwil-confirm-actions .btn-primary {
+            background: var(--accent-1);
+            border: 1px solid var(--accent-1);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+        .siwil-confirm-actions .btn-primary:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+            transform: translateY(-1px);
+        }
+        .siwil-confirm-actions .btn-outline {
+            background: var(--bg-body);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+        .siwil-confirm-actions .btn-outline:hover {
+            background: var(--border-subtle);
+            color: var(--text-primary);
+        }
+        @media (max-width: 480px) {
+            .siwil-confirm-dialog {
+                max-width: 92vw;
+                padding: 1.5rem 1.25rem 1.25rem;
+                border-radius: 16px;
+            }
+            .siwil-confirm-title {
+                font-size: 1.15rem;
+            }
+            .siwil-confirm-message {
+                font-size: 0.88rem;
+                margin-bottom: 1.35rem;
+            }
+            .siwil-confirm-actions {
+                flex-direction: column-reverse;
+                gap: 0.5rem;
+            }
         }
     </style>
     @yield('styles')
@@ -1900,11 +2122,13 @@
                 if (minWidthMatch) container.style.minWidth = minWidthMatch[1].trim();
                 if (widthMatch) {
                     container.style.width = widthMatch[1].trim();
-                } else if (select.closest('.filter-bar') || select.closest('form')) {
+                } else if (select.closest('.filter-dropdown-col') || select.closest('.filter-bar')) {
+                    container.style.width = '100%';
+                } else if (select.closest('form')) {
                     const parentForm = select.closest('form');
                     const formDisplay = parentForm ? window.getComputedStyle(parentForm).display : '';
-                    if (formDisplay.includes('flex') || select.closest('.filter-bar')) {
-                        container.style.width = 'auto';
+                    if (formDisplay.includes('flex')) {
+                        container.style.width = '100%';
                     }
                 }
                 container.style.display = 'inline-block';
@@ -2219,7 +2443,7 @@
                 const type = options.type || 'info';
                 const title = options.title || 'Konfirmasi Tindakan';
                 const message = options.message || 'Apakah Anda yakin ingin melanjutkan tindakan ini?';
-                const confirmText = options.confirmText || 'Lanjutkan';
+                const confirmText = options.confirmText || (type === 'danger' ? 'Ya, Hapus' : 'Lanjutkan');
                 const cancelText = options.cancelText || 'Batal';
 
                 titleEl.textContent = title;
@@ -2235,7 +2459,7 @@
                     info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:28px;height:28px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
                     success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:28px;height:28px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
                     warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:28px;height:28px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-                    danger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:28px;height:28px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+                    danger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:28px;height:28px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>'
                 };
                 iconWrapper.innerHTML = icons[type] || icons.info;
 
@@ -2285,6 +2509,78 @@
                 document.addEventListener('keydown', onKey);
             });
         };
+
+        // GLOBAL CONFIRMATION INTERCEPTOR (FORMS & BUTTONS)
+        // Automatically upgrades any inline onsubmit="return confirm(...)" or data-confirm to themed SIWIL modal
+        document.addEventListener('DOMContentLoaded', () => {
+            const upgradeForms = () => {
+                document.querySelectorAll('form').forEach(form => {
+                    const onsubmitAttr = form.getAttribute('onsubmit');
+                    if (onsubmitAttr && onsubmitAttr.includes('confirm(')) {
+                        const match = onsubmitAttr.match(/confirm\(\s*['"`](.*?)['"`]\s*\)/);
+                        if (match && match[1]) {
+                            form.setAttribute('data-confirm', match[1]);
+                        } else {
+                            form.setAttribute('data-confirm', 'Apakah Anda yakin ingin melanjutkan tindakan ini?');
+                        }
+                        form.removeAttribute('onsubmit');
+                    }
+                });
+            };
+            upgradeForms();
+
+            // Handle dynamically rendered content/AJAX
+            const observer = new MutationObserver(upgradeForms);
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+
+        // Intercept submit in Capture Phase to ensure native alert is suppressed 100%
+        document.addEventListener('submit', async function(e) {
+            const form = e.target;
+            if (!form || form.tagName !== 'FORM') return;
+
+            // If already confirmed by user, proceed to native submission
+            if (form.dataset.siwilConfirmed === 'true') {
+                delete form.dataset.siwilConfirmed;
+                return;
+            }
+
+            const onsubmitAttr = form.getAttribute('onsubmit');
+            let confirmMessage = form.getAttribute('data-confirm');
+
+            if (!confirmMessage && onsubmitAttr && onsubmitAttr.includes('confirm(')) {
+                const match = onsubmitAttr.match(/confirm\(\s*['"`](.*?)['"`]\s*\)/);
+                confirmMessage = (match && match[1]) ? match[1] : 'Apakah Anda yakin ingin melanjutkan tindakan ini?';
+                form.removeAttribute('onsubmit');
+            }
+
+            const isDeleteMethod = form.querySelector('input[name="_method"][value="DELETE"]') !== null;
+
+            if (confirmMessage || isDeleteMethod) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                const message = confirmMessage || 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.';
+                const isDanger = isDeleteMethod || /hapus|delete|tolak|batalkan|buang/i.test(message);
+
+                const confirmed = await window.siwilConfirm({
+                    title: isDanger ? 'Konfirmasi Hapus Data' : 'Konfirmasi Tindakan',
+                    message: message,
+                    confirmText: isDanger ? 'Ya, Hapus' : 'Lanjutkan',
+                    cancelText: 'Batal',
+                    type: isDanger ? 'danger' : 'warning'
+                });
+
+                if (confirmed) {
+                    form.dataset.siwilConfirmed = 'true';
+                    if (typeof form.requestSubmit === 'function') {
+                        form.requestSubmit();
+                    } else {
+                        form.submit();
+                    }
+                }
+            }
+        }, true);
     </script>
 
     {{-- Global Custom SIWIL Confirmation Modal DOM --}}

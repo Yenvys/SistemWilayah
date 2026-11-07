@@ -17,6 +17,7 @@ use App\Http\Controllers\PollController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SystemConfigurationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VillageController;
 use Illuminate\Support\Facades\Route;
@@ -154,8 +155,15 @@ Route::middleware(['auth', 'profile.complete'])->group(function () {
     });
     Route::get('/dashboard/announcements/{announcement}', [AnnouncementController::class, 'show'])->name('announcements.show');
 
-    // AI Knowledge & Config
+    // Pusat Konfigurasi & AI Knowledge (Super Admin)
     Route::middleware(['role:SUPER_ADMIN'])->group(function () {
+        Route::get('/dashboard/configuration', [SystemConfigurationController::class, 'index'])->name('configuration.index');
+        Route::post('/dashboard/configuration', [SystemConfigurationController::class, 'update'])->name('configuration.update');
+        Route::post('/dashboard/configuration/test-ai', [SystemConfigurationController::class, 'testAi'])->name('configuration.test-ai');
+        Route::post('/dashboard/configuration/test-telegram', [SystemConfigurationController::class, 'testTelegram'])->name('configuration.test-telegram');
+        Route::post('/dashboard/configuration/test-whatsapp', [SystemConfigurationController::class, 'testWhatsapp'])->name('configuration.test-whatsapp');
+        Route::post('/dashboard/configuration/test-email', [SystemConfigurationController::class, 'testEmail'])->name('configuration.test-email');
+
         Route::post('/dashboard/ai-knowledge/config', [AiKnowledgeController::class, 'updateConfig'])->name('ai-knowledge.config');
         Route::post('/dashboard/ai-knowledge/test-connection', [AiKnowledgeController::class, 'testConnection'])->name('ai-knowledge.test');
         Route::resource('/dashboard/ai-knowledge', AiKnowledgeController::class)->except(['show']);

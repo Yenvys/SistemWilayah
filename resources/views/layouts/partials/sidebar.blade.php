@@ -131,9 +131,9 @@
         @endif
 
         @if($role === 'SUPER_ADMIN')
-        <a href="{{ url('/dashboard/ai-knowledge') }}" class="nav-item {{ request()->is('dashboard/ai-knowledge*') ? 'active' : '' }}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 14 10-10 10 10"/><path d="M4 12v8h16v-8"/><path d="M10 12v5h4v-5"/></svg>
-            <span>Kelola AI Knowledge</span>
+        <a href="{{ route('configuration.index') }}" class="nav-item {{ request()->is('dashboard/configuration*') || request()->is('dashboard/ai-knowledge*') ? 'active' : '' }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></svg>
+            <span>Pusat Konfigurasi</span>
         </a>
         @endif
 

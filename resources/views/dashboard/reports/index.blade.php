@@ -261,16 +261,25 @@
                 <div class="report-card-section" style="margin-bottom: 0;">
                     <div class="report-section-title">Status Pengajuan Surat</div>
                     @php
-                        $totalDoc = array_sum($documentStats) ?: 1;
-                        $docColors = ['PENDING' => '#f59e0b', 'APPROVED' => '#10b981', 'REJECTED' => '#ef4444', 'PROCESSED' => '#3b82f6', 'DONE' => '#8b5cf6'];
-                        $docLabels = ['PENDING' => 'Menunggu', 'APPROVED' => 'Disetujui', 'REJECTED' => 'Ditolak', 'PROCESSED' => 'Diproses', 'DONE' => 'Selesai'];
+                        $pendingCnt = $documentStats['PENDING'] ?? (($documentStats['DIAJUKAN_RT'] ?? 0) + ($documentStats['DRAFT'] ?? 0));
+                        $approvedCnt = $documentStats['APPROVED'] ?? ($documentStats['DISETUJUI'] ?? 0);
+                        $rejectedCnt = $documentStats['REJECTED'] ?? ($documentStats['DITOLAK'] ?? 0);
+                        $processedCnt = $documentStats['PROCESSED'] ?? (($documentStats['DIAJUKAN_RW'] ?? 0) + ($documentStats['DIAJUKAN_DESA'] ?? 0) + ($documentStats['DIPROSES'] ?? 0));
+                        $doneCnt = $documentStats['DONE'] ?? ($documentStats['SELESAI'] ?? 0);
+
+                        $docSummaryItems = [
+                            ['label' => 'Menunggu', 'count' => $pendingCnt, 'color' => '#f59e0b'],
+                            ['label' => 'Disetujui', 'count' => $approvedCnt, 'color' => '#10b981'],
+                            ['label' => 'Ditolak', 'count' => $rejectedCnt, 'color' => '#ef4444'],
+                            ['label' => 'Diproses', 'count' => $processedCnt, 'color' => '#3b82f6'],
+                            ['label' => 'Selesai', 'count' => $doneCnt, 'color' => '#8b5cf6'],
+                        ];
                     @endphp
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.5rem;">
-                        @foreach($docLabels as $key => $label)
-                        @php $cnt = $documentStats[$key] ?? 0; @endphp
+                        @foreach($docSummaryItems as $item)
                         <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 8px; padding: 0.5rem 0.65rem; text-align: center;">
-                            <div style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 500;">{{ $label }}</div>
-                            <div style="font-size: 1.05rem; font-weight: 700; color: {{ $docColors[$key] ?? '#94a3b8' }}; margin-top: 2px;">{{ $cnt }}</div>
+                            <div style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 500;">{{ $item['label'] }}</div>
+                            <div style="font-size: 1.15rem; font-weight: 700; color: {{ $item['color'] }}; margin-top: 2px;">{{ $item['count'] }}</div>
                         </div>
                         @endforeach
                     </div>
@@ -295,12 +304,38 @@
                                 @forelse($recentDocuments as $doc)
                                 <tr>
                                     <td style="font-weight: 600; color: var(--text-primary); font-size: 0.88rem;">{{ $doc->resident->full_name ?? '-' }}</td>
-                                    <td style="font-size: 0.82rem;">{{ $doc->type ?? '-' }}</td>
+                                    <td style="font-size: 0.82rem; font-weight: 500;">{{ ucwords(str_replace('_', ' ', strtolower($doc->type ?? '-'))) }}</td>
                                     <td>
                                         @php
-                                            $badgeMap = ['PENDING' => 'badge-yellow', 'APPROVED' => 'badge-green', 'REJECTED' => 'badge-red', 'PROCESSED' => 'badge-blue', 'DONE' => 'badge-gray'];
+                                            $badgeMap = [
+                                                'DIAJUKAN_RT' => 'badge-yellow',
+                                                'PENDING' => 'badge-yellow',
+                                                'DRAFT' => 'badge-gray',
+                                                'DIAJUKAN_RW' => 'badge-blue',
+                                                'DIAJUKAN_DESA' => 'badge-blue',
+                                                'DIPROSES' => 'badge-blue',
+                                                'PROCESSED' => 'badge-blue',
+                                                'DISETUJUI' => 'badge-green',
+                                                'APPROVED' => 'badge-green',
+                                                'SELESAI' => 'badge-green',
+                                                'DONE' => 'badge-green',
+                                                'DITOLAK' => 'badge-red',
+                                                'REJECTED' => 'badge-red',
+                                            ];
+                                            $readableStatus = [
+                                                'DIAJUKAN_RT' => 'Menunggu RT',
+                                                'DIAJUKAN_RW' => 'Menunggu RW',
+                                                'DIAJUKAN_DESA' => 'Menunggu Desa',
+                                                'PENDING' => 'Menunggu',
+                                                'DIPROSES' => 'Diproses',
+                                                'DISETUJUI' => 'Disetujui',
+                                                'SELESAI' => 'Selesai',
+                                                'DITOLAK' => 'Ditolak',
+                                                'APPROVED' => 'Disetujui',
+                                                'REJECTED' => 'Ditolak',
+                                            ];
                                         @endphp
-                                        <span class="badge {{ $badgeMap[$doc->status] ?? 'badge-gray' }}" style="font-size: 0.7rem; padding: 1px 6px;">{{ $doc->status }}</span>
+                                        <span class="badge {{ $badgeMap[$doc->status] ?? 'badge-gray' }}" style="font-size: 0.72rem; padding: 2px 7px; font-weight: 600;">{{ $readableStatus[$doc->status] ?? $doc->status }}</span>
                                     </td>
                                     <td style="font-size: 0.78rem; color: var(--text-secondary);">{{ $doc->created_at->format('d/m/Y H:i') }}</td>
                                 </tr>
