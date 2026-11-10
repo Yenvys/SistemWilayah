@@ -131,3 +131,4 @@
 
 ---
 *Naskah ini dirancang tepat untuk durasi 5–7 menit, menyajikan penjelasan UML, arsitektur SOLID, ERD, dan antarmuka UI/UX secara profesional, sistematis, dan meyakinkan.*
+
