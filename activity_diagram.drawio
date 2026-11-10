@@ -224,161 +224,161 @@
         <!-- ================================================================= -->
 
         <!-- Warga Submit Flow -->
-        <mxCell id="tr1" edge="1" parent="1" source="start_node" target="act_w_open" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
+        <mxCell id="tr1" edge="1" parent="1" source="start_node" target="act_w_open" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr2" edge="1" parent="1" source="act_w_open" target="act_w_type" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
+        <mxCell id="tr2" edge="1" parent="1" source="act_w_open" target="act_w_type" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr3" edge="1" parent="1" source="act_w_type" target="act_w_form" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
+        <mxCell id="tr3" edge="1" parent="1" source="act_w_type" target="act_w_form" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr4" edge="1" parent="1" source="act_w_form" target="act_w_submit" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
+        <mxCell id="tr4" edge="1" parent="1" source="act_w_form" target="act_w_submit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr5" edge="1" parent="1" source="act_w_submit" target="act_sys_validate" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
+        <mxCell id="tr5" edge="1" parent="1" source="act_w_submit" target="act_sys_validate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- Sistem Initial Flow -->
-        <mxCell id="tr6" edge="1" parent="1" source="act_sys_validate" target="act_sys_save_rt" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
+        <mxCell id="tr6" edge="1" parent="1" source="act_sys_validate" target="act_sys_save_rt" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr7" edge="1" parent="1" source="act_sys_save_rt" target="act_sys_notif_rt" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
+        <mxCell id="tr7" edge="1" parent="1" source="act_sys_save_rt" target="act_sys_notif_rt" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr8" edge="1" parent="1" source="act_sys_notif_rt" target="act_rt_receive" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
+        <mxCell id="tr8" edge="1" parent="1" source="act_sys_notif_rt" target="act_rt_receive" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- RT Review Flow -->
-        <mxCell id="tr9" edge="1" parent="1" source="act_rt_receive" target="act_rt_review" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+        <mxCell id="tr9" edge="1" parent="1" source="act_rt_receive" target="act_rt_review" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr10" edge="1" parent="1" source="act_rt_review" target="dec_rt_valid" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+        <mxCell id="tr10" edge="1" parent="1" source="act_rt_review" target="dec_rt_valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- RT Reject Flow -->
-        <mxCell id="tr11" edge="1" parent="1" source="dec_rt_valid" target="act_rt_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak Valid]">
+        <mxCell id="tr11" edge="1" parent="1" source="dec_rt_valid" target="act_rt_reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak Valid]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr12" edge="1" parent="1" source="act_rt_reject" target="act_sys_notify_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
+        <mxCell id="tr12" edge="1" parent="1" source="act_rt_reject" target="act_sys_notify_reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#DC2626;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr13" edge="1" parent="1" source="act_sys_notify_reject" target="act_w_receive_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
+        <mxCell id="tr13" edge="1" parent="1" source="act_sys_notify_reject" target="act_w_receive_reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#DC2626;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr14" edge="1" parent="1" source="act_w_receive_reject" target="end_node_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
+        <mxCell id="tr14" edge="1" parent="1" source="act_w_receive_reject" target="end_node_reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#DC2626;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- RT Approve Flow -->
-        <mxCell id="tr15" edge="1" parent="1" source="dec_rt_valid" target="act_rt_approve" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;" value="[Memenuhi Syarat]">
+        <mxCell id="tr15" edge="1" parent="1" source="dec_rt_valid" target="act_rt_approve" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;" value="[Memenuhi Syarat]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr16" edge="1" parent="1" source="act_rt_approve" target="dec_rt_level" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+        <mxCell id="tr16" edge="1" parent="1" source="act_rt_approve" target="dec_rt_level" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- RT Final vs Forward RW -->
-        <mxCell id="tr17" edge="1" parent="1" source="dec_rt_level" target="act_rt_final" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;" value="[Ya - Final RT]">
+        <mxCell id="tr17" edge="1" parent="1" source="dec_rt_level" target="act_rt_final" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#15803D;strokeWidth=1.5;" value="[Ya - Final RT]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr18" edge="1" parent="1" source="act_rt_final" target="act_sys_pdf" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;">
+        <mxCell id="tr18" edge="1" parent="1" source="act_rt_final" target="act_sys_pdf" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#15803D;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="725" y="1730" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="tr19" edge="1" parent="1" source="dec_rt_level" target="act_rt_forward" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;" value="[Tidak - Lanjut RW]">
+        <mxCell id="tr19" edge="1" parent="1" source="dec_rt_level" target="act_rt_forward" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;" value="[Tidak - Lanjut RW]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr20" edge="1" parent="1" source="act_rt_forward" target="act_sys_notif_rw" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+        <mxCell id="tr20" edge="1" parent="1" source="act_rt_forward" target="act_sys_notif_rw" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr21" edge="1" parent="1" source="act_sys_notif_rw" target="act_rw_receive" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
+        <mxCell id="tr21" edge="1" parent="1" source="act_sys_notif_rw" target="act_rw_receive" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- RW Review Flow -->
-        <mxCell id="tr22" edge="1" parent="1" source="act_rw_receive" target="dec_rw_valid" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+        <mxCell id="tr22" edge="1" parent="1" source="act_rw_receive" target="dec_rw_valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr23" edge="1" parent="1" source="dec_rw_valid" target="act_rw_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak]">
+        <mxCell id="tr23" edge="1" parent="1" source="dec_rw_valid" target="act_rw_reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr24" edge="1" parent="1" source="act_rw_reject" target="act_sys_notify_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
+        <mxCell id="tr24" edge="1" parent="1" source="act_rw_reject" target="act_sys_notify_reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#DC2626;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1215" y="820" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="tr25" edge="1" parent="1" source="dec_rw_valid" target="act_rw_approve" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;" value="[Disetujui]">
+        <mxCell id="tr25" edge="1" parent="1" source="dec_rw_valid" target="act_rw_approve" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;" value="[Disetujui]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr26" edge="1" parent="1" source="act_rw_approve" target="dec_rw_level" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+        <mxCell id="tr26" edge="1" parent="1" source="act_rw_approve" target="dec_rw_level" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- RW Final vs Forward Desa -->
-        <mxCell id="tr27" edge="1" parent="1" source="dec_rw_level" target="act_rw_final" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;" value="[Ya - Final RW]">
+        <mxCell id="tr27" edge="1" parent="1" source="dec_rw_level" target="act_rw_final" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#15803D;strokeWidth=1.5;" value="[Ya - Final RW]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr28" edge="1" parent="1" source="act_rw_final" target="act_sys_pdf" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;">
+        <mxCell id="tr28" edge="1" parent="1" source="act_rw_final" target="act_sys_pdf" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#15803D;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1215" y="1730" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="tr29" edge="1" parent="1" source="dec_rw_level" target="act_rw_forward" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;" value="[Tidak - Lanjut Desa]">
+        <mxCell id="tr29" edge="1" parent="1" source="dec_rw_level" target="act_rw_forward" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;" value="[Tidak - Lanjut Desa]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr30" edge="1" parent="1" source="act_rw_forward" target="act_sys_notif_desa" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+        <mxCell id="tr30" edge="1" parent="1" source="act_rw_forward" target="act_sys_notif_desa" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr31" edge="1" parent="1" source="act_sys_notif_desa" target="act_desa_receive" style="endArrow=classic;html=1;strokeColor=#6D28D9;strokeWidth=1.5;">
+        <mxCell id="tr31" edge="1" parent="1" source="act_sys_notif_desa" target="act_desa_receive" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#6D28D9;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- Desa Review Flow -->
-        <mxCell id="tr32" edge="1" parent="1" source="act_desa_receive" target="dec_desa_valid" style="endArrow=classic;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
+        <mxCell id="tr32" edge="1" parent="1" source="act_desa_receive" target="dec_desa_valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#CA8A04;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr33" edge="1" parent="1" source="dec_desa_valid" target="act_desa_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak]">
+        <mxCell id="tr33" edge="1" parent="1" source="dec_desa_valid" target="act_desa_reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#DC2626;strokeWidth=1.5;" value="[Tidak]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr34" edge="1" parent="1" source="act_desa_reject" target="act_sys_notify_reject" style="endArrow=classic;html=1;strokeColor=#DC2626;strokeWidth=1.5;">
+        <mxCell id="tr34" edge="1" parent="1" source="act_desa_reject" target="act_sys_notify_reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#DC2626;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1710" y="820" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="tr35" edge="1" parent="1" source="dec_desa_valid" target="act_desa_approve" style="endArrow=classic;html=1;strokeColor=#CA8A04;strokeWidth=1.5;" value="[Disetujui]">
+        <mxCell id="tr35" edge="1" parent="1" source="dec_desa_valid" target="act_desa_approve" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#CA8A04;strokeWidth=1.5;" value="[Disetujui]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr36" edge="1" parent="1" source="act_desa_approve" target="act_sys_pdf" style="endArrow=classic;html=1;strokeColor=#CA8A04;strokeWidth=1.5;">
+        <mxCell id="tr36" edge="1" parent="1" source="act_desa_approve" target="act_sys_pdf" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#CA8A04;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- PDF & Dispatch Finish Flow -->
-        <mxCell id="tr37" edge="1" parent="1" source="act_sys_pdf" target="act_sys_dispatch_done" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;">
+        <mxCell id="tr37" edge="1" parent="1" source="act_sys_pdf" target="act_sys_dispatch_done" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#15803D;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr38" edge="1" parent="1" source="act_sys_dispatch_done" target="act_w_receive_done" style="endArrow=classic;html=1;strokeColor=#15803D;strokeWidth=1.5;">
+        <mxCell id="tr38" edge="1" parent="1" source="act_sys_dispatch_done" target="act_w_receive_done" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#15803D;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr39" edge="1" parent="1" source="act_w_receive_done" target="act_w_print" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
+        <mxCell id="tr39" edge="1" parent="1" source="act_w_receive_done" target="act_w_print" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr40" edge="1" parent="1" source="act_w_print" target="act_ext_scan" style="endArrow=classic;html=1;strokeColor=#2563EB;strokeWidth=1.5;">
+        <mxCell id="tr40" edge="1" parent="1" source="act_w_print" target="act_ext_scan" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#2563EB;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tr41" edge="1" parent="1" source="act_ext_scan" target="end_node_success" style="endArrow=classic;html=1;strokeColor=#16A34A;strokeWidth=1.5;">
+        <mxCell id="tr41" edge="1" parent="1" source="act_ext_scan" target="end_node_success" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#16A34A;strokeWidth=1.5;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
