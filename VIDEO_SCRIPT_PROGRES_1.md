@@ -111,3 +111,4 @@
 
 ---
 *Naskah ini dirancang khusus untuk memenuhi rubrik penilaian Tahap 1 RPL: waktu tepat 3–5 menit, isi komprehensif, berbasis standar IEEE 830 / ISO 29148, dan berfokus pada keunggulan teknis serta kepatuhan UU PDP.*
+
