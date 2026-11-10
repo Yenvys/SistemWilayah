@@ -24,29 +24,32 @@
 
 | Atribut | Keterangan |
 | :--- | :--- |
-| **Nama Pengembang** | **Alfarel** *(dan Anggota Kelompok)* |
-| **NIM** | *[Masukkan NIM Ketua / Anggota di sini]* |
-| **Kelompok** | **Kelompok SIWIL** |
-| **Tema / Topik Kelompok** | **Sistem Informasi Wilayah & Pemerintahan Cerdas (*Smart Governance* / *E-Government* Desa, RW, dan RT Terpadu Berbasis AI & Omnichannel Bot)** |
-| **Mata Kuliah / Institusi** | *[Nama Mata Kuliah / Program Studi / Universitas]* |
-| **Tahun Akademik** | 2026 |
+| **Nama Pengembang** | **Muhammad Al Farel** |
+| **NIM** | **41257124** |
+| **Kelas** | **TI 1B 2025** |
+| **Kelompok** | **Mandiri / Proyek SIWIL (Muhammad Al Farel)** |
+| **Tema / Topik Kelompok** | **Smart Governance & E-Government Wilayah Desa, RW, dan RT Terpadu Berbasis AI & Omnichannel Bot** |
+| **Mata Kuliah** | **Rekayasa Perangkat Lunak (RPL)** |
+| **Dosen Pengampu** | **Yudhistira** |
+| **Program Studi / Institusi**| **Teknik Informatika (TI)** |
+| **Tahun Akademik** | **2025 / 2026** |
 
 > [!NOTE]
-> Proyek ini dikembangkan untuk mendigitalkan birokrasi pemerintahan desa dan rukun warga/tetangga secara *end-to-end* dengan penegakan tata kelola privasi data (UU PDP), otomasi persuratan, dan asisten cerdas AI.
+> Proyek SIWIL dikembangkan sebagai pemenuhan tugas proyek mata kuliah **Rekayasa Perangkat Lunak (RPL)** yang mencakup 4 tahapan utuh: Inisiasi PRD/SRS (IEEE 830 / ISO 29148), Perancangan SDD & UML/UI-UX (IEEE 1016), Konstruksi Kode & CI/CD Pipeline, serta Pelaporan Final & Live Demo.
 
 ---
 
 ## 🎥 Tautan Video Progres & Demo
 
-Berikut adalah tautan rekaman video dokumentasi perkembangan dan demonstrasi aplikasi:
+Berikut adalah tautan rekaman video dokumentasi perkembangan dan demonstrasi aplikasi (beserta naskah skrip presentasi terlampir):
 
-| Tahapan Video | Tautan Video | Deskripsi Singkat Konten |
-| :--- | :--- | :--- |
-| **Video Progres 1** | [![Tonton Video Progres 1](https://img.shields.io/badge/YouTube-Video_Progres_1-red?style=for-the-badge&logo=youtube)](https://youtu.be/PROGRES_1_LINK_HERE) | Presentasi konsep dasar, perancangan basis data kependudukan, use case diagram, dan prototipe antarmuka awal. |
-| **Video Progres 2** | [![Tonton Video Progres 2](https://img.shields.io/badge/YouTube-Video_Progres_2-red?style=for-the-badge&logo=youtube)](https://youtu.be/PROGRES_2_LINK_HERE) | Demonstrasi alur kerja pengajuan surat 3-tier (RT $\rightarrow$ RW $\rightarrow$ Desa), pengaduan foto & GPS, serta integrasi floating chatbot AI awal. |
-| **Video Final Demo** | [![Tonton Video Final Demo](https://img.shields.io/badge/YouTube-Video_Final_Demo-green?style=for-the-badge&logo=youtube)](https://youtu.be/FINAL_DEMO_LINK_HERE) | Demonstrasi menyeluruh (*end-to-end*): Portal publik, reset password via WhatsApp OTP, 12 Function Calling AI Tools, Bot WhatsApp, Bot Telegram, dan TTE digital QR Code. |
+| Tahapan Video | Tautan Video Presentasi | Dokumen Naskah Skrip Terkait | Deskripsi Singkat Konten |
+| :--- | :--- | :--- | :--- |
+| **Video Progres 1** | [![Tonton Video Progres 1](https://img.shields.io/badge/YouTube-Video_Progres_1-red?style=for-the-badge&logo=youtube)](https://youtu.be/PROGRES_1_LINK_HERE) | [`VIDEO_SCRIPT_PROGRES_1.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_PROGRES_1.md) | Presentasi Tahap 1: Latar belakang masalah, User Stories & Acceptance Criteria Gherkin, kepatuhan UU PDP, dan spesifikasi AI Gemini dengan 12 Function Calling Tools (Durasi 3–5 Menit). |
+| **Video Progres 2** | [![Tonton Video Progres 2](https://img.shields.io/badge/YouTube-Video_Progres_2-red?style=for-the-badge&logo=youtube)](https://youtu.be/PROGRES_2_LINK_HERE) | [`VIDEO_SCRIPT_PROGRES_2.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_PROGRES_2.md) | Presentasi Tahap 2: Penjelasan 4 Diagram UML (Use Case, Activity, Class SOLID, Sequence), ERD 20 Entitas, dan Prototipe Antarmuka UI/UX (Durasi 5–7 Menit). |
+| **Video Final Demo** | [![Tonton Video Final Demo](https://img.shields.io/badge/YouTube-Video_Final_Demo-green?style=for-the-badge&logo=youtube)](https://youtu.be/FINAL_DEMO_LINK_HERE) | [`VIDEO_SCRIPT_FINAL_DEMO.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_FINAL_DEMO.md) | Demonstrasi Final Sistem Utuh: Live demo seluruh fitur dari Warga -> Chatbot AI -> Persuratan 3-Tier -> Barcode TTE & Cetak PDF -> Pengaduan Geotagging & SOS (Durasi 8–12 Menit). |
 
-*(Silakan perbarui URL tautan di atas sesuai dengan link YouTube / Google Drive presentasi kelompok Anda).*
+*(Perbarui URL YouTube di atas dengan tautan rekaman video final Anda).*
 
 ---
 
