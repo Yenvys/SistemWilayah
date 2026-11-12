@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+<mxfile host="app.diagrams.net" version="22.1.16">
+  <diagram name="3. Class Diagram (SOLID Principles)" id="page-class">
+    <mxGraphModel dx="2000" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="cls_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#0F172A;" value="CLASS DIAGRAM — SIWIL ARCHITECTURE (COMPLIANT TO 5 SOLID PRINCIPLES)" vertex="1">
+          <mxGeometry x="250" y="15" width="1500" height="35" as_="geometry"/>
+        </mxCell>
+        <mxCell id="lay_ctrl" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;strokeWidth=1.5;verticalAlign=top;spacingTop=6;fontStyle=1;fontSize=11;fontColor=#64748B;dashed=1;" value="PRESENTATION &amp; CONTROLLER LAYER (Single Responsibility Principle)" vertex="1">
+          <mxGeometry x="40" y="60" width="1920" height="240" as_="geometry"/>
+        </mxCell>
+        <mxCell id="lay_srv" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#16A34A;strokeWidth=1.5;verticalAlign=top;spacingTop=6;fontStyle=1;fontSize=11;fontColor=#16A34A;dashed=1;" value="SERVICE &amp; ABSTRACTION LAYER (Dependency Inversion &amp; Open/Closed Principle)" vertex="1">
+          <mxGeometry x="40" y="330" width="1920" height="310" as_="geometry"/>
+        </mxCell>
+        <mxCell id="lay_mod" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=1.5;verticalAlign=top;spacingTop=6;fontStyle=1;fontSize=11;fontColor=#2563EB;dashed=1;" value="DOMAIN &amp; ELOQUENT MODEL LAYER (Liskov Substitution Principle)" vertex="1">
+          <mxGeometry x="40" y="670" width="1920" height="360" as_="geometry"/>
+        </mxCell>
+        <mxCell id="lay_val" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#7C3AED;strokeWidth=1.5;verticalAlign=top;spacingTop=6;fontStyle=1;fontSize=11;fontColor=#7C3AED;dashed=1;" value="VALUE OBJECTS, ENUMS &amp; REPOSITORIES (Interface Segregation Principle)" vertex="1">
+          <mxGeometry x="40" y="1060" width="1920" height="280" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_user_ctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#334155;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="UserController" vertex="1">
+          <mxGeometry x="70" y="100" width="260" height="160" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_user_ctrl_attrs" parent="c_user_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- userService: UserServiceInterface&amp;#10;- logger: LoggerInterface" vertex="1">
+          <mxGeometry y="30" width="260" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_user_ctrl_meths" parent="c_user_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ register(Request): JsonResponse&amp;#10;+ login(Request): Response&amp;#10;+ verifyOtp(Request): Response" vertex="1">
+          <mxGeometry y="70" width="260" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_doc_ctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#334155;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="DocumentRequestController" vertex="1">
+          <mxGeometry x="370" y="100" width="280" height="175" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_doc_ctrl_attrs" parent="c_doc_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- docService: DocumentApprovalInterface&amp;#10;- notifService: NotificationInterface" vertex="1">
+          <mxGeometry y="30" width="280" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_doc_ctrl_meths" parent="c_doc_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ store(StoreDocRequest): Redirect&amp;#10;+ approveRt(Request, id): Json&amp;#10;+ approveRw(Request, id): Json&amp;#10;+ approveDesa(Request, id): Json&amp;#10;+ downloadPdf(id): BinaryFile" vertex="1">
+          <mxGeometry y="70" width="280" height="85" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_ai_ctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#334155;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="AiChatController" vertex="1">
+          <mxGeometry x="690" y="100" width="290" height="160" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_ai_ctrl_attrs" parent="c_ai_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- aiService: AiProviderInterface&amp;#10;- guardrail: UuPdpGuardrailService" vertex="1">
+          <mxGeometry y="30" width="290" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_ai_ctrl_meths" parent="c_ai_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ sendMessage(AiPromptRequest): StreamedResponse&amp;#10;+ getHistory(userId): JsonResponse&amp;#10;+ switchModel(Request): JsonResponse" vertex="1">
+          <mxGeometry y="70" width="290" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_sos_ctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#334155;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="EmergencyController" vertex="1">
+          <mxGeometry x="1020" y="100" width="270" height="160" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_sos_ctrl_attrs" parent="c_sos_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- sosService: EmergencyServiceInterface" vertex="1">
+          <mxGeometry y="30" width="270" height="25" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_sos_ctrl_meths" parent="c_sos_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ triggerSos(SosRequest): JsonResponse&amp;#10;+ resolveIncident(id): JsonResponse&amp;#10;+ liveCoordinates(): JsonResponse" vertex="1">
+          <mxGeometry y="55" width="270" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_comp_ctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#334155;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="ComplaintController" vertex="1">
+          <mxGeometry x="1330" y="100" width="270" height="160" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_comp_ctrl_attrs" parent="c_comp_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- compService: ComplaintServiceInterface" vertex="1">
+          <mxGeometry y="30" width="270" height="25" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_comp_ctrl_meths" parent="c_comp_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ store(ComplaintRequest): Redirect&amp;#10;+ updateStatus(id, Request): Json&amp;#10;+ getGisGeoJson(): JsonResponse" vertex="1">
+          <mxGeometry y="55" width="270" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_adm_ctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#334155;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="SystemConfigController" vertex="1">
+          <mxGeometry x="1640" y="100" width="270" height="160" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_adm_ctrl_attrs" parent="c_adm_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- configService: ConfigServiceInterface" vertex="1">
+          <mxGeometry y="30" width="270" height="25" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_adm_ctrl_meths" parent="c_adm_ctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ updateAiKeys(Request): Redirect&amp;#10;+ inspectAuditLogs(): View" vertex="1">
+          <mxGeometry y="55" width="270" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_doc_srv" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#15803D;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="&lt;&lt;interface&gt;&gt;\nDocumentApprovalInterface" vertex="1">
+          <mxGeometry x="370" y="360" width="280" height="110" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_doc_srv_attrs" parent="i_doc_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="(no attributes)" vertex="1">
+          <mxGeometry y="30" width="280" height="25" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_doc_srv_meths" parent="i_doc_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ submit(dto: DocSubmitDTO): DocumentRequest&amp;#10;+ approveTier(docId, actorId, tier): bool&amp;#10;+ generateTteAndPdf(docId): string" vertex="1">
+          <mxGeometry y="55" width="280" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_doc_srv" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="DocumentApprovalService" vertex="1">
+          <mxGeometry x="370" y="500" width="280" height="120" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_doc_srv_attrs" parent="c_doc_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- docRepo: DocumentRepoInterface&amp;#10;- pdfEngine: DomPdfEngine&amp;#10;- tteGenerator: QrTteGenerator" vertex="1">
+          <mxGeometry y="30" width="280" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_doc_srv_meths" parent="c_doc_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ submit(dto): DocumentRequest&amp;#10;+ approveTier(docId, actor, tier): bool&amp;#10;+ generateTteAndPdf(docId): string" vertex="1">
+          <mxGeometry y="85" width="280" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_ai_srv" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="&lt;&lt;interface&gt;&gt;\nAiProviderInterface" vertex="1">
+          <mxGeometry x="690" y="360" width="290" height="110" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_ai_srv_attrs" parent="i_ai_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="(no attributes)" vertex="1">
+          <mxGeometry y="30" width="290" height="25" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_ai_srv_meths" parent="i_ai_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ generateResponse(prompt: string, context: array): string&amp;#10;+ executeToolCall(toolName: string, args: array): array" vertex="1">
+          <mxGeometry y="55" width="290" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_gemini_srv" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#0284C7;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="GeminiAiService" vertex="1">
+          <mxGeometry x="690" y="500" width="290" height="125" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_gemini_srv_attrs" parent="c_gemini_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- apiKeyRotator: KeyRotationManager&amp;#10;- toolDispatcher: ToolDispatcherService&amp;#10;- client: HttpGuzzleClient" vertex="1">
+          <mxGeometry y="30" width="290" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_gemini_srv_meths" parent="c_gemini_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ generateResponse(prompt, ctx): string&amp;#10;+ executeToolCall(tool, args): array&amp;#10;+ fallbackLocal(prompt): string" vertex="1">
+          <mxGeometry y="85" width="290" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_notif_srv" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#0D9488;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="&lt;&lt;interface&gt;&gt;\nNotificationInterface" vertex="1">
+          <mxGeometry x="1020" y="360" width="270" height="110" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_notif_srv_attrs" parent="i_notif_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="(no attributes)" vertex="1">
+          <mxGeometry y="30" width="270" height="25" as_="geometry"/>
+        </mxCell>
+        <mxCell id="i_notif_srv_meths" parent="i_notif_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ sendInApp(userId, msg): void&amp;#10;+ sendWhatsApp(phone, msg): bool&amp;#10;+ sendTelegram(chatId, msg): bool" vertex="1">
+          <mxGeometry y="55" width="270" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_notif_srv" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#0D9488;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="MultiChannelNotificationService" vertex="1">
+          <mxGeometry x="1020" y="500" width="270" height="120" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_notif_srv_attrs" parent="c_notif_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- waGateway: FonnteClient&amp;#10;- tgClient: TelegramBotClient" vertex="1">
+          <mxGeometry y="30" width="270" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_notif_srv_meths" parent="c_notif_srv" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ sendInApp(userId, msg): void&amp;#10;+ sendWhatsApp(phone, msg): bool&amp;#10;+ sendTelegram(chatId, msg): bool" vertex="1">
+          <mxGeometry y="70" width="270" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_user" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="User (Model)" vertex="1">
+          <mxGeometry x="70" y="710" width="250" height="170" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_user_attrs" parent="m_user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ id: bigint&amp;#10;+ nik: string [encrypted]&amp;#10;+ name: string&amp;#10;+ role: UserRoleEnum&amp;#10;+ rt_id: int&amp;#10;+ rw_id: int&amp;#10;+ password: string [hash]" vertex="1">
+          <mxGeometry y="30" width="250" height="115" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_user_meths" parent="m_user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ resident(): HasOne&amp;#10;+ documentRequests(): HasMany&amp;#10;+ complaints(): HasMany&amp;#10;+ auditLogs(): HasMany" vertex="1">
+          <mxGeometry y="145" width="250" height="70" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_res" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="Resident (Model)" vertex="1">
+          <mxGeometry x="360" y="710" width="240" height="170" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_res_attrs" parent="m_res" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ id: bigint&amp;#10;+ nik: string [unique]&amp;#10;+ family_id: bigint&amp;#10;+ full_name: string&amp;#10;+ birth_date: date&amp;#10;+ gender: enum" vertex="1">
+          <mxGeometry y="30" width="240" height="100" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_res_meths" parent="m_res" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ user(): BelongsTo&amp;#10;+ family(): BelongsTo&amp;#10;+ mutations(): HasMany" vertex="1">
+          <mxGeometry y="130" width="240" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_fam" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="Family (Model)" vertex="1">
+          <mxGeometry x="640" y="710" width="240" height="170" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_fam_attrs" parent="m_fam" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ id: bigint&amp;#10;+ no_kk: string [unique]&amp;#10;+ head_of_family: string&amp;#10;+ address: text&amp;#10;+ rt_id: int&amp;#10;+ rw_id: int" vertex="1">
+          <mxGeometry y="30" width="240" height="100" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_fam_meths" parent="m_fam" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ members(): HasMany&amp;#10;+ rt(): BelongsTo" vertex="1">
+          <mxGeometry y="130" width="240" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_doc" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="DocumentRequest (Model)" vertex="1">
+          <mxGeometry x="920" y="710" width="260" height="170" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_doc_attrs" parent="m_doc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ id: bigint&amp;#10;+ user_id: bigint&amp;#10;+ type: string&amp;#10;+ status: DocumentStatusEnum&amp;#10;+ qr_hash: string&amp;#10;+ official_pdf: string" vertex="1">
+          <mxGeometry y="30" width="260" height="100" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_doc_meths" parent="m_doc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ user(): BelongsTo&amp;#10;+ histories(): HasMany&amp;#10;+ scopeFilterByJurisdiction()" vertex="1">
+          <mxGeometry y="130" width="260" height="55" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_dochist" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="DocumentRequestHistory" vertex="1">
+          <mxGeometry x="1220" y="710" width="240" height="150" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_dochist_attrs" parent="m_dochist" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ id: bigint&amp;#10;+ request_id: bigint&amp;#10;+ actor_id: bigint&amp;#10;+ prev_status: string&amp;#10;+ new_status: string&amp;#10;+ notes: text" vertex="1">
+          <mxGeometry y="30" width="240" height="100" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_dochist_meths" parent="m_dochist" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ request(): BelongsTo&amp;#10;+ actor(): BelongsTo" vertex="1">
+          <mxGeometry y="130" width="240" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_sos" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="Emergency (Model)" vertex="1">
+          <mxGeometry x="1500" y="710" width="250" height="160" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_sos_attrs" parent="m_sos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ id: bigint&amp;#10;+ user_id: bigint&amp;#10;+ category: SosCategoryEnum&amp;#10;+ latitude: decimal&amp;#10;+ longitude: decimal&amp;#10;+ status: string" vertex="1">
+          <mxGeometry y="30" width="250" height="100" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_sos_meths" parent="m_sos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ user(): BelongsTo&amp;#10;+ responder(): BelongsTo" vertex="1">
+          <mxGeometry y="130" width="250" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_audit" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#1E40AF;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="AuditLog (Model)" vertex="1">
+          <mxGeometry x="1780" y="710" width="170" height="150" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_audit_attrs" parent="m_audit" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ id: bigint&amp;#10;+ user_id: bigint&amp;#10;+ action: string&amp;#10;+ entity_type: string&amp;#10;+ payload: json&amp;#10;+ ip_address: string" vertex="1">
+          <mxGeometry y="30" width="170" height="100" as_="geometry"/>
+        </mxCell>
+        <mxCell id="m_audit_meths" parent="m_audit" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ user(): BelongsTo&amp;#10;+ scopeDateRange()" vertex="1">
+          <mxGeometry y="130" width="170" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_role" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#6D28D9;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="&lt;&lt;enum&gt;&gt;\nUserRoleEnum" vertex="1">
+          <mxGeometry x="70" y="1100" width="230" height="140" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_role_attrs" parent="e_role" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ WARGA&amp;#10;+ KETUA_RT&amp;#10;+ KETUA_RW&amp;#10;+ ADMIN_DESA&amp;#10;+ SUPER_ADMIN" vertex="1">
+          <mxGeometry y="30" width="230" height="85" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_role_meths" parent="e_role" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ label(): string&amp;#10;+ permissions(): array" vertex="1">
+          <mxGeometry y="115" width="230" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_status" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#6D28D9;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="&lt;&lt;enum&gt;&gt;\nDocumentStatusEnum" vertex="1">
+          <mxGeometry x="340" y="1100" width="230" height="150" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_status_attrs" parent="e_status" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ DRAFT&amp;#10;+ DIAJUKAN_RT&amp;#10;+ DIAJUKAN_RW&amp;#10;+ DIAJUKAN_DESA&amp;#10;+ DISETUJUI&amp;#10;+ DITOLAK" vertex="1">
+          <mxGeometry y="30" width="230" height="100" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_status_meths" parent="e_status" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ badgeColor(): string&amp;#10;+ isFinal(): bool" vertex="1">
+          <mxGeometry y="130" width="230" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_sos" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#6D28D9;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="&lt;&lt;enum&gt;&gt;\nSosCategoryEnum" vertex="1">
+          <mxGeometry x="610" y="1100" width="210" height="120" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_sos_attrs" parent="e_sos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="+ MEDIS&amp;#10;+ KEBAKARAN&amp;#10;+ KRIMINALITAS&amp;#10;+ BENCANA_ALAM" vertex="1">
+          <mxGeometry y="30" width="210" height="70" as_="geometry"/>
+        </mxCell>
+        <mxCell id="e_sos_meths" parent="e_sos" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ priorityLevel(): int" vertex="1">
+          <mxGeometry y="100" width="210" height="25" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_guardrail" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#6D28D9;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="UuPdpGuardrailService" vertex="1">
+          <mxGeometry x="860" y="1100" width="290" height="120" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_guardrail_attrs" parent="c_guardrail" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- forbiddenTokens: array&amp;#10;- privacyRegex: array" vertex="1">
+          <mxGeometry y="30" width="290" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_guardrail_meths" parent="c_guardrail" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ sanitizePrompt(prompt: string): string&amp;#10;+ checkPrivilegedAccess(actor, targetData): bool" vertex="1">
+          <mxGeometry y="70" width="290" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_tools" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#FFFFFF;strokeColor=#6D28D9;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="GeminiToolDispatcher" vertex="1">
+          <mxGeometry x="1190" y="1100" width="280" height="120" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_tools_attrs" parent="c_tools" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=attributes;html=1;fontSize=9;fontColor=#334155;" value="- toolsRegistry: 12_Tools_Map" vertex="1">
+          <mxGeometry y="30" width="280" height="25" as_="geometry"/>
+        </mxCell>
+        <mxCell id="c_tools_meths" parent="c_tools" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;componentName=methods;html=1;fontSize=9;fontColor=#0F172A;borderBottom=none;" value="+ dispatch(toolName: string, args: array): array&amp;#10;+ registerTool(name, callable): void" vertex="1">
+          <mxGeometry y="55" width="280" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_0" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=block;endFill=0;" source="c_doc_srv" target="i_doc_srv" value="" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=block;endFill=0;" source="c_gemini_srv" target="i_ai_srv" value="" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=block;endFill=0;" source="c_notif_srv" target="i_notif_srv" value="" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_3" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=8;fontColor=#475569;" source="c_doc_ctrl" target="i_doc_srv" value="uses DIP" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_4" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=8;fontColor=#475569;" source="c_ai_ctrl" target="i_ai_srv" value="uses DIP" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_5" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=8;fontColor=#475569;" source="c_doc_ctrl" target="i_notif_srv" value="uses DIP" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_6" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2563EB;strokeWidth=1.2;endArrow=open;endFill=0;fontSize=8;fontColor=#1E40AF;" source="c_doc_srv" target="m_doc" value="manages" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_7" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2563EB;strokeWidth=1.2;endArrow=open;endFill=0;fontSize=8;fontColor=#1E40AF;" source="c_gemini_srv" target="c_guardrail" value="enforces UU PDP" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_8" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2563EB;strokeWidth=1.2;endArrow=open;endFill=0;fontSize=8;fontColor=#1E40AF;" source="c_gemini_srv" target="c_tools" value="executes 12 tools" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_9" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2563EB;strokeWidth=1.2;endArrow=open;endFill=0;fontSize=8;fontColor=#1E40AF;" source="m_user" target="m_res" value="1..1" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_10" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2563EB;strokeWidth=1.2;endArrow=open;endFill=0;fontSize=8;fontColor=#1E40AF;" source="m_res" target="m_fam" value="*..1" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_11" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2563EB;strokeWidth=1.2;endArrow=open;endFill=0;fontSize=8;fontColor=#1E40AF;" source="m_doc" target="m_user" value="*..1" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_12" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2563EB;strokeWidth=1.2;endArrow=open;endFill=0;fontSize=8;fontColor=#1E40AF;" source="m_doc" target="m_dochist" value="1..*" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_13" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2563EB;strokeWidth=1.2;endArrow=open;endFill=0;fontSize=8;fontColor=#1E40AF;" source="m_sos" target="m_user" value="*..1" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_14" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=8;fontColor=#475569;" source="m_user" target="e_role" value="type of" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_15" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=8;fontColor=#475569;" source="m_doc" target="e_status" value="state of" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+        <mxCell id="edge_cls_16" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=8;fontColor=#475569;" source="m_sos" target="e_sos" value="category" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
