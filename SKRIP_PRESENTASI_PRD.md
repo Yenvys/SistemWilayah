@@ -1,148 +1,116 @@
-# NASKAH SKRIP PRESENTASI PRD & SRS MANDIRI (DURASI <= 5 MENIT)
+# NASKAH SKRIP PRESENTASI PRD & SRS MANDIRI (7 SLIDE RINGKAS)
 ## SIWIL AI — Sistem Informasi Wilayah Terpadu Berbasis Kecerdasan Buatan
 **Standar Acuan:** IEEE Std 830-1998 & ISO/IEC/IEEE 29148:2018  
 **Mata Kuliah:** Rekayasa Perangkat Lunak (TIKB2503021) — STMIK IKMI Cirebon  
 **Dosen Pengampu:** Yudhistira Arie Wijaya, M.Kom., CDS.  
 **Nama Mahasiswa:** Muhammad Al Farel  
 **NIM:** 41257124 | **Kelas:** TI 1B 2025  
-**Target Durasi:** 4 Menit 00 Detik – 4 Menit 30 Detik (**Batas Maksimal: 5 Menit**)  
-**Total Kata:** ~564 Kata (Kecepatan Bicara Standar: 125–135 kata/menit)  
+**Target Durasi:** 4 Menit 00 Detik – 4 Menit 25 Detik (**Batas Maksimal: 5 Menit**)  
+**Total Slide:** 7 Slide Ringkas & Padat Visual  
+**Total Kata:** ~570 Kata (Kecepatan Bicara: 125–135 kata/menit)  
 **Dokumen Acuan:** `PRESENTASI_PRD_SIWIL.pptx` / `PRESENTASI_PRD_SIWIL.pdf`
 
 ---
 
 ### PANDUAN CEPAT PEREKAMAN VIDEO (MAHASISWA)
-1. **Target Waktu:** Naskah ini telah dikalibrasi ketat untuk selesai pada menit ke **04:15 – 04:30**, sehingga dijamin aman di bawah batas 5 menit.
-2. **Gaya Penyampaian:** Tenang, lugas, artikulasi jelas, tatap kamera secara berkala.
-3. **Sinkronisasi Visual:** Pindahkan slide tepat saat narasi berpindah sesuai penanda `[TAMPILKAN SLIDE X]`.
+1. **Jumlah Slide Ringkas:** Hanya 7 slide, sehingga Anda tidak perlu terburu-buru memencet tombol *next slide*. Tiap slide bertahan 30–45 detik di layar.
+2. **Target Waktu:** Naskah ini telah dikalibrasi ketat untuk selesai pada menit ke **04:15 – 04:25**, memberikan ruang aman 35–45 detik sebelum batas 5 menit.
+3. **Gaya Penyampaian:** Tenang, percaya diri, intonasi jelas, tatap kamera secara berkala.
 
 ---
 
-## NASKAH LENGKAP KATA-DEMI-KATA (SLIDE-BY-SLIDE)
+## NASKAH LENGKAP KATA-DEMI-KATA (7 SLIDE)
 
 ### SLIDE 1: JUDUL & IDENTITAS DIRI (00:00 – 00:25)
-**Estimasi Durasi:** 25 Detik | **Jumlah Kata:** 61 kata  
-**Tampilan Layar:** `[TAMPILKAN SLIDE 1 — Judul SIWIL AI, Nama: Muhammad Al Farel, NIM: 41257124, Kelas: TI 1B 2025]`
+**Estimasi Waktu:** 25 Detik  
+**Tampilan Layar:** `[TAMPILKAN SLIDE 1 — Cover SIWIL AI, Nama: Muhammad Al Farel, NIM: 41257124, Kelas: TI 1B 2025]`
 
 > *"Assalamu’alaikum Warahmatullahi Wabarakatuh.*  
-> *Selamat pagi/siang kepada Bapak Yudhistira dan rekan-rekan sekalian.*  
-> *Perkenalkan, saya **Muhammad Al Farel**, NIM **41257124**, kelas **TI 1B angkatan 2025**.*  
+> *Selamat pagi/siang kepada Bapak Yudhistira Arie Wijaya dan rekan-rekan sekalian.*  
+> *Perkenalkan, nama saya **Muhammad Al Farel**, NIM **41257124**, dari kelas **TI 1B angkatan 2025**, Program Studi S1 Teknik Informatika, STMIK IKMI Cirebon.*  
 > 
-> *Hari ini saya mempresentasikan luaran **Tahap 1: Product Requirements Document (PRD)** untuk proyek **SIWIL AI: Sistem Informasi Wilayah Terpadu Berbasis Kecerdasan Buatan**, yang disusun mengacu pada standar formal **IEEE Std 830** dan kepatuhan **Undang-Undang Perlindungan Data Pribadi**."*
+> *Hari ini saya mempresentasikan luaran **Tahap 1: Product Requirements Document (PRD)** untuk proyek **SIWIL AI: Sistem Informasi Wilayah Terpadu Berbasis Kecerdasan Buatan**, yang disusun berstandar formal internasional **IEEE Std 830** dan patuh pada amanat **Undang-Undang Nomor 27 Tahun 2022 tentang Perlindungan Data Pribadi**."*
 
 ---
 
-### SLIDE 2: LATAR BELAKANG MASALAH (00:25 – 00:45)
-**Estimasi Durasi:** 20 Detik | **Jumlah Kata:** 45 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 2 — 4 Kartu Masalah Birokrasi Wilayah]`
+### SLIDE 2: MASALAH BIROKRASI WILAYAH & VISI SOLUSI (00:25 – 01:00)
+**Estimasi Waktu:** 35 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 2 — 4 Masalah Birokrasi & Visi 3 Pilar SIWIL]`
 
-> *"Pengembangan SIWIL dilatarbelakangi empat masalah utama birokrasi wilayah:*  
-> *Pertama, **rantai birokrasi persuratan fisik** yang lambat 2 hingga 5 hari kerja.*  
-> *Kedua, **keterbatasan jam pelayanan** pengurus RT dan RW.*  
-> *Ketiga, **kerentanan kebocoran berkas kependudukan manual** yang melanggar amanat UU PDP.*  
-> *Serta keempat, **minimnya transparansi realisasi anggaran** APBDes dan pembangunan desa kepada masyarakat."*
-
----
-
-### SLIDE 3: VISI & TUJUAN PRODUK (00:45 – 01:05)
-**Estimasi Durasi:** 20 Detik | **Jumlah Kata:** 43 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 3 — Visi, Misi & 3 Pilar Sasaran Strategis]`
-
-> *"SIWIL mengusung prinsip: **'Satu Data Wilayah, Satu Sistem Pemerintahan, Didukung AI'**.*  
-> *Tiga sasaran utamanya adalah:*  
-> *1. **Sentralisasi master data** kependudukan sebagai single source of truth.*  
-> *2. **Transformasi layanan persuratan nirkertas 24 jam** dengan validasi Tanda Tangan Elektronik dan QR Code resmi.*  
-> *3. Serta penyediaan **civic intelligence** melalui asisten kecerdasan artifisial."*
+> *"Pengembangan SIWIL AI dilatarbelakangi empat permasalahan nyata pada birokrasi tingkat RT, RW, dan kantor Desa:*  
+> *1. **Rantai birokrasi persuratan fisik yang lambat**, memakan waktu 2 hingga 5 hari kerja.*  
+> *2. **Keterbatasan jam pelayanan pengurus RT/RW** yang memiliki profesi utama di luar perannya.*  
+> *3. **Kerentanan kebocoran data kependudukan manual**, di mana buku register fisik rentan tercecer dan melanggar prinsip privasi UU PDP.*  
+> *Serta 4. **Minimnya transparansi anggaran APBDes** kepada warga.*  
+> 
+> *Menjawab tantangan tersebut, SIWIL mengusung visi: **'Satu Data Wilayah, Satu Sistem Pemerintahan, Didukung AI'**, dengan tiga pilar: sentralisasi master data, layanan nirkertas 24 jam, dan kecerdasan buatan untuk analisis wilayah."*
 
 ---
 
-### SLIDE 4: PROFIL PENGGUNA & RBAC (01:05 – 01:30)
-**Estimasi Durasi:** 25 Detik | **Jumlah Kata:** 48 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 4 — Matriks 5 Aktor Sistem & Partisi Hak Akses RBAC]`
+### SLIDE 3: STRUKTUR PENGGUNA (RBAC) & KEPENDUDUKAN (01:00 – 01:40)
+**Estimasi Waktu:** 40 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 3 — Matriks 5 Aktor RBAC & Panel Zero Fake Account]`
 
-> *"Sistem menerapkan **Role-Based Access Control** ketat pada 5 aktor utama:*  
-> *1. **Publik**, untuk portal terbuka APBDes tanpa login.*  
-> *2. **Warga Terverifikasi**, untuk layanan mandiri dan tombol darurat SOS.*  
-> *3. **Ketua RT**, sebagai verifikator tahap 1.*  
-> *4. **Ketua RW**, sebagai verifikator tahap 2.*  
-> *Serta **Admin Desa**, untuk pengesahan surat ber-TTE resmi dan konfigurasi sistem terpusat."*
-
----
-
-### SLIDE 5: KEPENDUDUKAN & ZERO FAKE ACCOUNT (01:30 – 01:50)
-**Estimasi Durasi:** 20 Detik | **Jumlah Kata:** 45 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 5 — Pre-Enrollment NIK & Struktur Kartu Keluarga Digital]`
-
-> *"Pada modul kependudukan, SIWIL menjamin **Zero Fake Account**.*  
-> *Calon warga wajib menginput 16-digit NIK dan Nomor KK yang tervalidasi silang ke master database desa, lalu diverifikasi faktual oleh Ketua RT.*  
-> *Sistem juga menyajikan **silsilah Kartu Keluarga digital** dan mencatat riwayat mutasi warga—baik kelahiran, kematian, maupun kepindahan—secara otomatis."*
+> *"Untuk menjaga akuntabilitas, sistem menerapkan **Role-Based Access Control (RBAC)** ketat pada 5 aktor:*  
+> *1. **Publik**, untuk portal statistik terbuka tanpa login.*  
+> *2. **Warga Terverifikasi**, untuk permohonan surat mandiri, aduan GPS, dan tombol darurat.*  
+> *3. **Ketua RT**, sebagai verifikator tahap 1 dan pengelola data warga RT.*  
+> *4. **Ketua RW**, sebagai verifikator tahap 2 dan koordinator wilayah.*  
+> *Serta **Admin Desa**, untuk pengesahan surat resmi dan pengelolaan sistem.*  
+> 
+> *Pada modul kependudukan, SIWIL menjamin prinsip **Zero Fake Account**:*  
+> *Registrasi warga mewajibkan validasi silang 16-digit NIK dan Nomor KK langsung ke master database desa, lalu diverifikasi faktual oleh Ketua RT setempat. Sistem juga menyajikan silsilah Kartu Keluarga digital dan mencatat mutasi penduduk secara real-time."*
 
 ---
 
-### SLIDE 6: PERSURATAN 3-TIER & DIGITAL SIGNATURE (01:50 – 02:15)
-**Estimasi Durasi:** 25 Detik | **Jumlah Kata:** 47 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 6 — Alur 4 Langkah Persuratan Berjenjang & Kotak Verifikasi QR Code]`
+### SLIDE 4: PERSURATAN 3-TIER & DIGITAL SIGNATURE (01:40 – 02:20)
+**Estimasi Waktu:** 40 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 4 — Alur 4 Langkah Persuratan Berjenjang & Verifikasi QR Code]`
 
-> *"Alur persuratan digital berjalan efisien dalam 4 langkah:*  
-> *Pengajuan mandiri oleh warga, verifikasi Ketua RT, validasi Ketua RW, hingga pengesahan Kantor Desa.*  
-> *Dokumen terbit otomatis dalam format **Vector PDF resmi ber-QR Code** dengan tanda tangan elektronik, yang dapat divalidasi keasliannya langsung oleh pihak eksternal tanpa perlu login ke sistem."*
-
----
-
-### SLIDE 7: PARTISIPASI WARGA, GIS & TOMBOL SOS (02:15 – 02:40)
-**Estimasi Durasi:** 25 Detik | **Jumlah Kata:** 47 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 7 — 3 Kolom: Aduan GIS, SOS Panic Button, dan Musyawarah E-Voting]`
-
-> *"Untuk keselamatan dan partisipasi warga, SIWIL menyediakan 3 fitur unggulan:*  
-> *Pertama, **Pengaduan warga berbasis peta GIS** disertai foto bukti dan titik koordinat GPS.*  
-> *Kedua, **Tombol Darurat SOS** satu ketukan yang memancarkan sinyal darurat instan ke pengurus RT dan tetangga sekitar.*  
-> *Serta fasilitas **E-Voting musyawarah warga** yang berasaskan 1 NIK 1 suara bebas manipulasi."*
+> *"Fitur persuratan digital dirancang nirkertas atau **zero paperwork** melalui 4 tahapan efisien:*  
+> *Warga mengajukan permohonan dari smartphone, Ketua RT menerima notifikasi instan dan menyetujui berkas, diteruskan ke Ketua RW untuk validasi silang, hingga akhirnya disahkan oleh Kantor Desa.*  
+> 
+> *Setelah disahkan, sistem otomatis membubuhkan **Tanda Tangan Elektronik dinas** dan menerbitkan dokumen **Vector PDF resmi ber-QR Code unik** berstandar enkripsi SHA-256.*  
+> *QR Code ini dapat dipindai oleh pihak luar—seperti perbankan, universitas, atau dinas sosial—untuk memverifikasi keaslian surat secara instan tanpa perlu akun login."*
 
 ---
 
-### SLIDE 8: INOVASI UTAMA — SIWIL AI ENGINE (02:40 – 03:10)
-**Estimasi Durasi:** 30 Detik | **Jumlah Kata:** 49 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 8 — 3 Pilar Arsitektur SIWIL AI & Guardrails UU PDP]`
+### SLIDE 5: CIVIC ENGAGEMENT, GIS & TRANSPARANSI (02:20 – 03:00)
+**Estimasi Waktu:** 40 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 5 — 3 Kartu: Aduan GIS, SOS Panic Button, dan APBDes Terbuka]`
 
-> *"Pembeda utama sistem ini adalah **SIWIL AI Assistant** berbasis **Google Gemini**.*  
-> *AI dibekali **12 native backend function tools** agar menjawab berdasarkan data nyata tanpa halusinasi, diproteksi **guardrails deterministik** yang menolak membocorkan data pribadi warga lain sesuai amanat **UU PDP No. 27 Tahun 2022**, serta didukung auto-rotation API key dan smart fallback."*
-
----
-
-### SLIDE 9: TRANSPARANSI APBDES & OMNICHANNEL BOT (03:10 – 03:30)
-**Estimasi Durasi:** 20 Detik | **Jumlah Kata:** 40 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 9 — Visualisasi APBDes & Layanan WhatsApp Bot]`
-
-> *"SIWIL menyajikan portal grafik realisasi APBDes dan peta progres proyek pembangunan fisik secara terbuka kepada publik.*  
-> *Selain itu, hadir integrasi **Omnichannel Bot via WhatsApp dan Telegram** untuk memudahkan warga lansia mengecek status berkas dan menerima pengumuman penting tanpa harus mengakses browser web."*
+> *"Untuk meningkatkan partisipasi dan keselamatan warga, SIWIL menghadirkan tiga inovasi:*  
+> *Pertama, **Pengaduan Warga Berbasis GIS**. Warga dapat melaporkan infrastruktur rusak lengkap dengan foto bukti dan titik koordinat GPS presisi.*  
+> 
+> *Kedua, **Tombol Darurat (SOS Panic Button)** satu ketukan. Dalam kondisi kritis, sinyal darurat seketika memancar disertai lokasi peta ke Ketua RT, RW, satgas, dan tetangga terdekat.*  
+> 
+> *Dan ketiga, **Portal Transparansi APBDes dan Proyek Pembangunan** berbasis peta spasial, didukung fitur musyawarah **E-Voting** berasaskan 1 NIK 1 suara, serta layanan chatbot WhatsApp untuk memudahkan warga senior."*
 
 ---
 
-### SLIDE 10: NON-FUNCTIONAL REQUIREMENTS (ISO 25010) (03:30 – 03:50)
-**Estimasi Durasi:** 20 Detik | **Jumlah Kata:** 44 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 10 — 4 Metrik Kualitas ISO/IEC 25010]`
+### SLIDE 6: INOVASI AI ENGINE & STANDAR KUALITAS ISO 25010 (03:00 – 03:45)
+**Estimasi Waktu:** 45 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 6 — Arsitektur SIWIL AI & 4 Dimensi Non-Fungsional ISO 25010]`
 
-> *"Mengacu standar kualitas **ISO/IEC 25010**, sistem dirancang dengan:*  
-> *Respons halaman di bawah 1,5 detik, keamanan kriptografi password Argon2id dan hashing SHA-256 pada berkas resmi, jaminan ketersediaan uptime 99,5% dengan backup harian otomatis, serta antarmuka responsif mobile-first berstandar aksesibilitas WCAG 2.1 AA."*
-
----
-
-### SLIDE 11: ROADMAP PENGEMBANGAN & TARGET KPI (03:50 – 04:10)
-**Estimasi Durasi:** 20 Detik | **Jumlah Kata:** 49 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 11 — Fase P0, P1, P2 dan Indikator Kinerja Utama]`
-
-> *"Pengembangan dibagi 3 fase: **P0** untuk MVP kependudukan dan persuratan, **P1** untuk ekspansi AI dan pemetaan GIS, serta **P2** untuk integrasi PWA offline-first dan sinkronisasi API Dukcapil nasional.*  
-> *Target KPI utama adalah memangkas waktu pengurusan surat dari 3 hari menjadi **di bawah 15 menit**, dengan digitalisasi arsip di atas 90%."*
+> *"Keunggulan pembeda utama sistem ini adalah **SIWIL AI Assistant** berbasis **Google Gemini**.*  
+> *AI dibekali **12 native backend function tools** agar menjawab pertanyaan warga secara faktual berdasarkan data riil tanpa halusinasi.*  
+> *Untuk mematuhi UU PDP, AI diperkuat **guardrails deterministik** yang menolak tegas membocorkan NIK atau data pribadi warga lain. Sistem juga mendukung multi-key auto-rotation dan smart fallback lokal jika jaringan terputus.*  
+> 
+> *Dari sisi kualitas perangkat lunak mengacu standar **ISO/IEC 25010**, sistem menjamin: waktu respons halaman di bawah 1,5 detik, enkripsi password Argon2id, ketersediaan uptime 99,5%, serta antarmuka responsif mobile-first berstandar aksesibilitas WCAG AA."*
 
 ---
 
-### SLIDE 12: PENUTUP & KESIAPAN TAHAP 2 (04:10 – 04:30)
-**Estimasi Durasi:** 20 Detik | **Jumlah Kata:** 46 kata  
-**Tampilan Layar:** `[PINDAH KE SLIDE 12 — Kesimpulan, Kesiapan Tahap 2 SDD/UML, dan Sesi Q&A]`
+### SLIDE 7: ROADMAP, KPI & KESIAPAN TAHAP 2 (03:45 – 04:20)
+**Estimasi Waktu:** 35 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 7 — Roadmap Rilis, Target KPI, Kesiapan SDD Tahap 2, dan Sesi Q&A]`
 
-> *"Kesimpulannya, dokumen PRD SIWIL telah tuntas disusun dan siap menjadi landasan kokoh bagi **Tahap 2**, yaitu perancangan arsitektur perangkat lunak (SDD), 4 diagram UML Draw.io, ERD basis data, dan prototipe Figma.*  
-> *Terima kasih atas perhatian Bapak Yudhistira dan rekan-rekan semua.*  
+> *"Pengembangan SIWIL terbagi dalam 3 fase: **P0 untuk MVP inti**, **P1 untuk ekspansi AI dan GIS**, serta **P2 untuk aplikasi PWA offline-first dan integrasi Dukcapil nasional**.*  
+> *Target KPI kami adalah memangkas waktu pemrosesan surat dari 3 hari menjadi **kurang dari 15 menit**, dengan digitalisasi arsip di atas 90%.*  
+> 
+> *Sebagai kesimpulan, dokumen PRD ini telah selesai disusun secara matang dan siap menjadi acuan eksekusi **Tahap 2**, yaitu perancangan arsitektur perangkat lunak (SDD) yang mencakup 4 diagram UML Draw.io, ERD basis data, dan prototipe Figma.*  
+> 
+> *Terima kasih atas perhatian Bapak Yudhistira dan rekan-rekan semua. Sesi tanya jawab dipersilakan.*  
 > *Wabillahi taufiq wal hidayah, Wassalamu’alaikum Warahmatullahi Wabarakatuh."*
 
 ---
-*Naskah ini dijamin tuntas dalam rentang waktu **04:15 hingga 04:30 menit**, memberikan ruang aman 30–45 detik sebelum batas waktu maksimal 5 menit.*
+*Naskah 7 slide ringkas ini dijamin tuntas dalam rentang waktu **04:15 hingga 04:25 menit**, sangat ideal dan aman di bawah batas maksimal 5 menit.*
