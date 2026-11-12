@@ -1,375 +1,444 @@
-# Product Requirements Document (PRD)
-## SIWIL — Sistem Informasi Wilayah & Pemerintahan Berbasis Web + AI
+# SOFTWARE REQUIREMENTS SPECIFICATION (SRS) & PRODUCT REQUIREMENT DOCUMENT (PRD)
+## SIWIL AI: Sistem Informasi Wilayah Terpadu Berbasis Kecerdasan Buatan
+### Standar Dokumentasi: IEEE Std 830-1998 / ISO/IEC/IEEE 29148:2018
 
 ---
 
-### Informasi Dokumen
-| Atribut | Keterangan Dokumen |
+| Informasi Dokumen | Rincian Spesifikasi |
 | :--- | :--- |
-| **Nama Produk** | **SIWIL** (*Sistem Informasi Wilayah & Pemerintahan Terpadu*) |
-| **Versi Dokumen** | **v2.5.0 (Final - Production Ready / As-Built)** |
-| **Penulis / Product Owner** | **Muhammad Al Farel** (NIM: 41257124) |
-| **Kelas / Angkatan** | **TI 1B 2025** |
-| **Program Studi / Institusi** | **S1 Teknik Informatika — STMIK IKMI Cirebon** |
-| **Mata Kuliah / Kode** | **Rekayasa Perangkat Lunak (TIKB2503021)** |
-| **Dosen Pengampu** | **Yudhistira Arie Wijaya, M.Kom., CDS.** |
-| **Tema Topik Kelompok** | **Smart Governance & Public Service AI** |
-| **Standar Acuan Rekayasa** | **IEEE Std 830 / ISO/IEC/IEEE 29148 & ISO/IEC 25010** |
-| **Status Dokumen** | **Approved / Production-Ready** |
+| **Nama Proyek** | **SIWIL AI** (*Sistem Informasi Wilayah Terpadu*) |
+| **Nomor Dokumen** | SRS-SIWIL-2026-V1.0 |
+| **Mata Kuliah** | Rekayasa Perangkat Lunak (TIKB2503021) — Semester 3 |
+| **Institusi** | Program Studi S1 Teknik Informatika, STMIK IKMI Cirebon |
+| **Model Pengembangan** | Agile / Software Development Life Cycle (SDLC) Berbasis Standar OBE |
+| **Status Dokumen** | *Baseline Approved & Production-Ready Specification* |
+| **Versi Dokumen** | 1.1 (IEEE 830 & ISO 29148 Standard Edition) |
 
 ---
 
-## 1. Ringkasan Produk
-**Nama Produk:** SIWIL (Sistem Informasi Wilayah & Pemerintahan Terpadu)
+## DAFTAR ISI
 
-**SIWIL** adalah aplikasi berbasis web cerdas untuk membantu **Warga, Ketua RT, Ketua RW, Admin Desa/Kelurahan, dan Super Administrator** dalam mengelola data wilayah, kependudukan, administrasi pemerintahan, pelayanan persuratan mandiri, pelaporan masalah lingkungan, serta memperoleh wawasan (*insight*) analitik melalui **Artificial Intelligence (AI)** berbasis Large Language Model.
-
-Sistem dirancang untuk menggantikan proses birokrasi manual yang lambat dan pencatatan berbasis kertas/spreadsheet menjadi ekosistem digital yang terpusat, transparan, terstruktur, aman sesuai regulasi privasi data, dan mudah dipantau secara *real-time*.
-
-### Masalah yang Diselesaikan:
-1. **Rantai Birokrasi Berjenjang yang Lambat:** Memangkas waktu pengurusan surat pengantar fisik yang biasanya memakan 2–5 hari kerja menjadi kurang dari 4 jam melalui alur persetujuan digital 3-tier (*RT $ightarrow$ RW $ightarrow$ Desa*) berkekuatan hukum dengan Tanda Tangan Elektronik (TTE) ber-QR Code.
-2. **Keterbatasan Waktu Temu Pengurus Wilayah:** Menyediakan akses layanan mandiri 24/7 melalui web browser serta saluran pesan instan (WhatsApp dan Telegram Bot) sehingga warga tidak perlu mendatangi rumah pengurus berkali-kali.
-3. **Penyimpanan Terfragmentasi & Kerentanan Privasi (UU PDP):** Menghilangkan risiko tercecer atau bocornya buku register manual kependudukan dengan basis data relasional terenkripsi dan penegakan ketat **Undang-Undang No. 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP)**.
-4. **Minimnya Transparansi Fiskal APBDes & Partisipasi Warga:** Membuka data pagu anggaran dan realisasi APBDes serta proyek pembangunan desa kepada masyarakat luas, serta memfasilitasi musyawarah warga digital (*One Citizen One Vote*).
+1. [PENDAHULUAN (INTRODUCTION)](#1-pendahuluan-introduction)
+   - 1.1 [Tujuan Pembuatan Dokumen](#11-tujuan-pembuatan-dokumen)
+   - 1.2 [Ruang Lingkup Produk (Product Scope)](#12-ruang-lingkup-produk-product-scope)
+   - 1.3 [Definisi, Akronim, dan Singkatan](#13-definisi-akronim-dan-singkatan)
+   - 1.4 [Referensi Normatif](#14-referensi-normatif)
+   - 1.5 [Gambaran Umum Dokumen](#15-gambaran-umum-dokumen)
+2. [DESKRIPSI KESELURUHAN (OVERALL DESCRIPTION)](#2-deskripsi-keseluruhan-overall-description)
+   - 2.1 [Perspektif Produk](#21-perspektif-produk)
+   - 2.2 [Karakteristik & Profil Aktor (User Personas)](#22-karakteristik--profil-aktor-user-personas)
+   - 2.3 [Batasan Perancangan & Implementasi (Design Constraints)](#23-batasan-perancangan--implementasi-design-constraints)
+   - 2.4 [Asumsi dan Ketergantungan (Assumptions & Dependencies)](#24-asumsi-dan-ketergantungan-assumptions--dependencies)
+3. [SPESIFIKASI KEBUTUHAN FUNGSIONAL (USER STORIES & ACCEPTANCE CRITERIA)](#3-spesifikasi-kebutuhan-fungsional-user-stories--acceptance-criteria)
+   - 3.1 [FR-01: Autentikasi & Pre-Enrollment NIK Terverifikasi](#31-fr-01-autentikasi--pre-enrollment-nik-terverifikasi)
+   - 3.2 [FR-02: Pemulihan Akun via OTP WhatsApp](#32-fr-02-pemulihan-akun-via-otp-whatsapp)
+   - 3.3 [FR-03: Hierarki Wilayah & Administrasi Kependudukan](#33-fr-03-hierarki-wilayah--administrasi-kependudukan)
+   - 3.4 [FR-04: Layanan Persuratan Berjenjang & Digital Signature](#34-fr-04-layanan-persuratan-berjenjang--digital-signature)
+   - 3.5 [FR-05: Penerbitan Vector PDF & Verifikasi QR Code](#35-fr-05-penerbitan-vector-pdf--verifikasi-qr-code)
+   - 3.6 [FR-06: Pengaduan Warga Berbasis Spasial (GIS)](#36-fr-06-pengaduan-warga-berbasis-spasial-gis)
+   - 3.7 [FR-07: Tombol Darurat Satu Ketukan (SOS Panic Button)](#37-fr-07-tombol-darurat-satu-ketukan-sos-panic-button)
+   - 3.8 [FR-08: Musyawarah Digital & Polling Warga (E-Voting Scoped)](#38-fr-08-musyawarah-digital--polling-warga-e-voting-scoped)
+   - 3.9 [FR-09: Transparansi Anggaran Desa (APBDes Digital)](#39-fr-09-transparansi-anggaran-desa-apbdes-digital)
+   - 3.10 [FR-10: Monitoring Proyek Pembangunan Fisik Berbasis GIS](#310-fr-10-monitoring-proyek-pembangunan-fisik-berbasis-gis)
+   - 3.11 [FR-11: Portal Informasi Publik & Pengumuman Warga](#311-fr-11-portal-informasi-publik--pengumuman-warga)
+   - 3.12 [FR-12: Layanan Omnichannel Bot (WhatsApp & Telegram)](#312-fr-12-layanan-omnichannel-bot-whatsapp--telegram)
+4. [SPESIFIKASI FITUR KECERDASAN BUATAN UTAMA (AI SPECIFICATION)](#4-spesifikasi-fitur-kecerdasan-buatan-utama-ai-specification)
+   - 4.1 [Arsitektur Agen Cerdas SIWIL AI](#41-arsitektur-agen-cerdas-siwil-ai)
+   - 4.2 [Dynamic System Prompt & Session Context Injection](#42-dynamic-system-prompt--session-context-injection)
+   - 4.3 [Deterministic UU PDP Guardrails (Anti-Scraping Data Pribadi)](#43-deterministic-uu-pdp-guardrails-anti-scraping-data-pribadi)
+   - 4.4 [12 Native Tool Function Declarations](#44-12-native-tool-function-declarations)
+   - 4.5 [Mekanisme Multi-Key API Rotation & Smart Fallback](#45-mekanisme-multi-key-api-rotation--smart-fallback)
+5. [SPESIFIKASI KEBUTUHAN NON-FUNGSIONAL (NFR)](#5-spesifikasi-kebutuhan-non-fungsional-nfr)
+   - 5.1 [Performance & Response Latency](#51-performance--response-latency)
+   - 5.2 [Security & Cryptography](#52-security--cryptography)
+   - 5.3 [Reliability & High Availability](#53-reliability--high-availability)
+   - 5.4 [Usability & Mobile-First Accessibility](#54-usability--mobile-first-accessibility)
+   - 5.5 [Maintainability & Clean Architecture](#55-maintainability--clean-architecture)
+6. [MATRIKS KETERTELUSURAN KEBUTUHAN (TRACEABILITY MATRIX)](#6-matriks-ketertelusuran-kebutuhan-traceability-matrix)
 
 ---
 
-## 2. Tujuan Produk
-1. **Memusatkan data wilayah dan pemerintahan** dalam satu basis data terstruktur dari tingkat desa hingga RT.
-2. **Mempermudah RT dan RW** dalam mengelola data kependudukan, mutasi warga, dan verifikasi permohonan surat administratif tanpa berkas fotokopi manual.
-3. **Membantu Pemerintah Desa/Kelurahan** memonitor kondisi seluruh RT/RW, memvalidasi persuratan berkekuatan hukum, mengelola proyek fisik, dan mempublikasikan APBDes secara akuntabel.
-4. **Mempercepat proses pelayanan masyarakat (Zero Paperwork)** dengan layanan mandiri warga berbasis web, WhatsApp Bot, dan Telegram Bot.
-5. **Menyediakan dashboard analitik dan laporan *real-time*** mengenai kependudukan, persuratan, pengaduan sarana, dan serapan anggaran.
-6. **Memanfaatkan Kecerdasan Buatan (Google Gemini AI Engine)** dengan 12 *function calling tools* untuk menjawab pertanyaan prosedural, menarik data wilayah secara aman, dan menyajikan *insight* analitik bagi pimpinan wilayah tanpa melanggar privasi data kependudukan.
-7. **Menjamin keaslian akun warga (Zero Fake Account)** melalui validasi silang NIK 16 digit dan Nomor KK terhadap basis data kependudukan desa saat registrasi.
+## 1. PENDAHULUAN (INTRODUCTION)
+
+### 1.1 Tujuan Pembuatan Dokumen
+Dokumen *Software Requirements Specification* (SRS) dan *Product Requirement Document* (PRD) ini disusun sebagai pedoman formal berstandar **IEEE 830-1998** dan **ISO/IEC/IEEE 29148:2018** untuk merancang, membangun, menguji, dan memvalidasi aplikasi web utuh **SIWIL AI (Sistem Informasi Wilayah Terpadu)**. Dokumen ini menjadi acuan mutlak bagi perancangan diagram UML, konstruksi basis kode, integrasi agen kecerdasan buatan, verifikasi pengujian otomatis, serta pengoperasian sistem.
+
+### 1.2 Ruang Lingkup Produk (Product Scope)
+SIWIL AI adalah perangkat lunak tata kelola pemerintahan mikro (*Smart Governance & Civic Micro-Services Platform*) yang mengotomasi seluruh rantai proses administrasi kependudukan dari tingkat Rukun Tetangga (RT), Rukun Warga (RW), hingga Kantor Desa/Kelurahan.
+
+Ruang lingkup sistem mencakup:
+1. **Administrasi Kependudukan Berjenjang:** Pendataan penduduk, Kartu Keluarga (KK), dan relasi kewilayahan hierarkis.
+2. **Layanan Persuratan Digital:** Pengajuan mandiri, verifikasi berjenjang (RT $\to$ RW $\to$ Desa), pembubuhan tanda tangan/stempel dinas digital otomatis, dan penerbitan vector PDF resmi ber-QR Code.
+3. **Partisipasi Warga & Respons Cepat:** Pelaporan aduan terkoordinat GPS, tombol darurat (*SOS Panic Button*), dan jajak pendapat digital (*E-Voting*).
+4. **Transparansi Tata Kelola:** Publikasi terbuka APBDes dan progres pembangunan fisik berbasis Sistem Informasi Geografis (GIS).
+5. **Aksesibilitas Multikanal (Omnichannel):** Layanan mandiri via WhatsApp Bot dan Telegram Bot.
+6. **Kecerdasan Artifisial (SIWIL AI):** Agen interaktif berbasis *Large Language Model* (Google Gemini) yang dilengkapi 12 *native function calling tools* dan filter keamanan privasi sesuai UU No. 27 Tahun 2022 tentang Perlindungan Data Pribadi (UU PDP).
+
+### 1.3 Definisi, Akronim, dan Singkatan
+* **SRS:** *Software Requirements Specification* (Dokumen Spesifikasi Kebutuhan Perangkat Lunak).
+* **PRD:** *Product Requirement Document* (Dokumen Kebutuhan Produk).
+* **RBAC:** *Role-Based Access Control* (Pembatasan hak akses berbasis peran).
+* **NIK:** Nomor Induk Kependudukan (16 digit angka identitas penduduk Indonesia).
+* **KK:** Kartu Keluarga (16 digit angka identitas keluarga Indonesia).
+* **UU PDP:** Undang-Undang No. 27 Tahun 2022 tentang Perlindungan Data Pribadi.
+* **LLM:** *Large Language Model* (Model bahasa besar kecerdasan artifisial, contoh: Google Gemini).
+* **RAG:** *Retrieval-Augmented Generation* (Teknik augmentasi konteks AI dari basis data pengetahuan lokal).
+* **OTP:** *One-Time Password* (Kode sandi sekali pakai untuk otentikasi).
+* **GIS:** *Geographic Information System* (Sistem informasi berbasis pemetaan geografis).
+* **SKTM / SKU / SKW:** Surat Keterangan Tidak Mampu / Usaha / Waris.
+
+### 1.4 Referensi Normatif
+1. **IEEE Std 830-1998:** *IEEE Recommended Practice for Software Requirements Specifications*.
+2. **ISO/IEC/IEEE 29148:2018:** *Systems and software engineering — Life cycle processes — Requirements engineering*.
+3. **UU Republik Indonesia No. 27 Tahun 2022:** *Tentang Perlindungan Data Pribadi (UU PDP)*.
+4. **Panduan Tugas Proyek Akhir Mandiri & Rubrik Penilaian OBE:** *Mata Kuliah Rekayasa Perangkat Lunak (TIKB2503021), STMIK IKMI Cirebon, 2026*.
 
 ---
 
-## 3. Pengguna & Hak Akses (Role-Based Access Control)
+## 2. DESKRIPSI KESELURUHAN (OVERALL DESCRIPTION)
 
-Sistem menerapkan pembatasan hak akses berbasis peran (RBAC) yang ketat menggunakan Spatie Laravel Permission dan *Eloquent Scoped Queries*:
+### 2.1 Perspektif Produk
+SIWIL AI berposisi sebagai aplikasi web terdistribusi yang berdiri mandiri (*self-contained ecosystem*) namun terhubung dengan beberapa layanan eksternal melalui antarmuka REST API:
 
-| Role Pengguna | Ruang Lingkup Otoritas (Scope) | Fungsi Utama |
+```
+[ Warga / Pengurus / Publik ]
+             │
+             ├── Web Browser (Desktop / Mobile) ──┐
+             ├── WhatsApp Instant Messaging ──────┼──► [ Reverse Proxy / Nginx ] ──► [ Laravel Core Engine ]
+             └── Telegram Messenger ──────────────┘                  │                         │
+                                                                     │                         ├── MySQL Relational DB
+                                                                     │                         ├── Redis / Local Cache
+                                                                     │                         └── Local Public Disk Storage
+                                                                     ▼
+                                                   [ External Intelligence & APIs ]
+                                                             │
+                                                             ├── Google Gemini LLM API (Tool Calling)
+                                                             ├── OpenAI API Fallback
+                                                             ├── QR Code Verification Server
+                                                             └── SMTP Mail Gateway
+```
+
+### 2.2 Karakteristik & Profil Aktor (User Personas)
+
+| ID Aktor | Nama Peran | Deskripsi Karakteristik & Kebutuhan Inti |
 | :--- | :--- | :--- |
-| **Masyarakat / Publik** | Tanpa Login (Akses Terbuka) | Melihat profil desa, transparansi APBDes, statistik demografi kependudukan, dan pemantauan proyek pembangunan fisik. |
-| **Warga** | Data Pribadi & Anggota KK-nya | Pengajuan surat mandiri, tracking status, unduh berkas PDF resmi ber-barcode, lapor aduan foto & GPS, tombol darurat SOS, voting musyawarah, dan konsultasi asisten AI. |
-| **Ketua RT** | 1 Rukun Tetangga (RT binaan) | Verifikasi permohonan surat tingkat 1, verifikasi akun warga baru, kelola data master penduduk & KK RT, penanggap pertama peringatan darurat SOS, dan buat polling RT. |
-| **Ketua RW** | 1 Rukun Warga (Seluruh RT binaan) | Verifikasi berkas surat tingkat 2, pemantauan statistik agregat RW, koordinasi musyawarah tingkat RW, dan disposisi aduan lingkungan lintas RT. |
-| **Admin Desa / Kelurahan** | 1 Desa / Kelurahan Terkait | Verifikasi akhir dan penerbitan surat resmi berkop desa dengan stempel dan TTE QR Code Kepala Desa, kelola anggaran APBDes dan proyek fisik pembangunan, rilis pengumuman desa. |
-| **Super Administrator** | Global Sistem (Seluruh Desa) | Manajemen multi-desa, konfigurasi global (AI Provider, API Keys, token WhatsApp/Telegram, SMTP mailer), inspeksi audit log forensik, dan manajemen seluruh user. |
+| **ACT-01** | **Warga (Citizen)** | Masyarakat umum domisili RT/RW yang menginginkan kemudahan pengurusan surat tanpa antre, pelaporan aduan lingkungan cepat, pemantauan kegiatan musyawarah, dan akses tombol darurat. Mengakses via smartphone dan bot chat. |
+| **ACT-02** | **Pengurus RT** | Relawan pengurus RT yang memiliki pekerjaan utama di luar. Memerlukan sistem notifikasi instan saat ada warga mendaftar, berkas surat yang perlu ditandatangani digital, atau situasi darurat di lingkungannya. |
+| **ACT-03** | **Pengurus RW** | Koordinator lingkungan tingkat RW yang memverifikasi surat pengantar antar-RT, mengesahkan izin keramaian/mediasi sengketa, dan memantau agregat demografi RW. |
+| **ACT-04** | **Admin Desa / Kelurahan** | Aparatur sipil kantor desa yang bertanggung jawab penuh terhadap legalitas surat dinas desa, penatausahaan APBDes, inventarisasi proyek fisik pembangunan, dan sosialisasi warta resmi desa. |
+| **ACT-05** | **Super Admin** | Administrator teknis yang bertugas mengelola siklus hidup akun pengguna, konfigurasi runtime (kredensial API Key AI, WhatsApp gateway, SMTP), pemeliharaan master wilayah, dan audit trail. |
+| **ACT-06** | **Pengunjung Publik** | Masyarakat luas yang ingin melihat transparansi penyelenggaraan desa (profil wilayah, realisasi APBDes, status pembangunan fisik, dan statistik terbuka tanpa perlu login). |
+| **ACT-07** | **SIWIL AI Agent** | Entitas kecerdasan buatan otonom yang berperan sebagai Customer Service virtual 24/7 untuk menjawab pertanyaan dan mengeksekusi operasi data melalui function calling berbatas izin. |
+
+### 2.3 Batasan Perancangan & Implementasi (Design Constraints)
+1. **Bahasa Pemrograman & Framework:** PHP 8.3+ menggunakan framework Laravel 12/13 LTS dengan struktur arsitektur MVC dan *Service Pattern*.
+2. **Tipe Data Primary Key:** Wajib menggunakan format UUID v4 (`HasUuids`) di seluruh entitas basis data untuk memitigasi risiko *Insecure Direct Object Reference* (IDOR).
+3. **Regulasi Perlindungan Privasi:** Implementasi wajib mematuhi amanat UU No. 27 Tahun 2022 tentang Perlindungan Data Pribadi (UU PDP). NIK, alamat lengkap, dan nomor kontak dilindungi oleh pembatasan akses data (*scopeAccessibleBy*).
+4. **Kemandirian Modul AI:** Integrasi AI tidak boleh mengakibatkan ketergantungan fatal (*single point of failure*). Jika API Key AI pihak ketiga mengalami limitasi, aplikasi harus tetap berjalan normal dengan *rule-based smart fallback*.
 
 ---
 
-## 4. Fitur Utama MVP
+## 3. SPESIFIKASI KEBUTUHAN FUNGSIONAL (USER STORIES & ACCEPTANCE CRITERIA)
 
-### A. Dashboard
-Dashboard adaptif berbasis peran yang menyajikan metrik operasional secara *real-time*:
-- **Dashboard Warga:** Ringkasan status surat aktif, riwayat aduan pribadi, musyawarah/polling yang sedang berjalan, papan pengumuman desa terbaru, dan tombol darurat SOS.
-- **Dashboard RT/RW:** Statistik jumlah jiwa, jumlah KK, rasio gender, sebaran usia, antrean verifikasi surat masuk, aduan warga belum tertangani, dan notifikasi insiden darurat aktif.
-- **Dashboard Admin Desa & Super Admin:** Pohon struktur teritorial wilayah lengkap (Desa $ightarrow$ RW $ightarrow$ RT beserta jumlah KK dan penduduk per wilayah), serapan fiskal APBDes, progres proyek pembangunan, direktori pengguna, dan rekapitulasi audit log.
+### 3.1 FR-01: Autentikasi & Pre-Enrollment NIK Terverifikasi
+* **ID Kebutuhan:** `REQ-F-001`
+* **User Story:**
+  > *Sebagai warga baru, saya ingin melakukan registrasi akun menggunakan NIK dan No. KK saya, sehingga akun saya terverifikasi secara resmi dengan data kependudukan RT.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 1.1: Registrasi Berhasil (Data Valid & Terdaftar di Database RT)**
+    * **Given** Warga memasukkan 16 digit NIK dan No. KK yang telah diinput sebelumnya oleh Ketua RT.
+    * **When** Warga mengisi password (min. 6 karakter), nomor HP/WhatsApp, dan menekan tombol "Daftar".
+    * **Then** Sistem membuat rekaman user baru dengan role `WARGA` dan status `pending`, lalu menampilkan pesan sukses bahwa akun sedang menunggu verifikasi RT/Admin.
+  * **Skenario 1.2: Registrasi Ditolak (NIK Belum Terdaftar)**
+    * **Given** Warga memasukkan NIK yang belum tercatat pada basis data kependudukan RT.
+    * **When** Warga menekan tombol "Daftar".
+    * **Then** Sistem menolak pendaftaran dan memberikan pesan galat: *"NIK tidak ditemukan di data kependudukan. Pastikan RT/RW Anda sudah mendaftarkan NIK Anda."*
+  * **Skenario 1.3: Login Akun Menunggu Verifikasi**
+    * **Given** Warga memiliki akun berstatus `pending`.
+    * **When** Warga mencoba login menggunakan NIK dan password yang benar.
+    * **Then** Sistem menolak sesi login dan menampilkan pesan: *"Akun Anda masih menunggu verifikasi oleh RT/Admin."*
 
-### B. Manajemen Wilayah
-Struktur wilayah hierarkis berjenjang:
-$$	ext{Provinsi} ightarrow 	ext{Kabupaten/Kota} ightarrow 	ext{Kecamatan} ightarrow 	ext{Desa/Kelurahan} ightarrow 	ext{RW} ightarrow 	ext{RT}$$
-- **Fitur:** Tambah/sunting nama desa dan kode wilayah, pendataan nomor RW dan RT, penugasan kepala wilayah/ketua RT/RW, dan rekapitulasi jumlah KK serta penduduk di setiap level teritorial.
+### 3.2 FR-02: Pemulihan Akun via OTP WhatsApp
+* **ID Kebutuhan:** `REQ-F-002`
+* **User Story:**
+  > *Sebagai pengguna yang lupa kata sandi, saya ingin menerima kode OTP verifikasi melalui pesan WhatsApp resmi sistem, sehingga saya dapat mereset kata sandi dengan aman tanpa email konvensional.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 2.1: Permintaan OTP Berhasil**
+    * **Given** Pengguna memasukkan NIK, email, atau nomor HP yang terdaftar aktif.
+    * **When** Pengguna mengklik tombol "Kirim Kode OTP".
+    * **Then** Sistem menggenerasi 6 digit angka acak kriptografis, menyimpannya di Cache terenkripsi selama 10 menit, menyetel *cooldown* 60 detik, dan mengirimkan pesan WhatsApp ke nomor pengguna.
+  * **Skenario 2.2: Pembatasan Frekuensi Permintaan (*Rate Limiting*)**
+    * **Given** Pengguna telah meminta kode OTP kurang dari 60 detik yang lalu.
+    * **When** Pengguna menekan tombol "Kirim Ulang".
+    * **Then** Sistem menolak pengiriman dan menampilkan sisa waktu tunggu dalam detik.
+  * **Skenario 2.3: Verifikasi OTP Valid & Pembaruan Sandi**
+    * **Given** Pengguna memasukkan kode 6-digit yang cocok dengan rekaman Cache.
+    * **When** Pengguna memasukkan kata sandi baru dan menekan tombol "Simpan Kata Sandi".
+    * **Then** Kata sandi di-hash menggunakan algoritma Bcrypt, OTP di-flush dari Cache, dan pengguna diarahkan ke halaman login dengan pesan sukses.
 
-### C. Data Penduduk (Residents Master Data)
-Pengelolaan data induk kependudukan warga secara mendalam:
-- **Atribut Lengkap:** NIK (16 digit unik), Nama Lengkap, Nomor KK, Tempat/Tanggal Lahir, Jenis Kelamin, Alamat Domisili, RT/RW, Agama, Status Perkawinan, Pendidikan Terakhir, Pekerjaan, Status Kependudukan (Aktif, Pindah, Meninggal), Penanda Kepala Keluarga, dan Foto e-KTP.
-- **Fitur Tambahan:** Pencarian multi-kriteria (berdasarkan NIK, Nama, RT, RW), filter kependudukan, riwayat perubahan biodata, dan ekspor data ke format PDF/Excel.
+### 3.3 FR-03: Hierarki Wilayah & Administrasi Kependudukan
+* **ID Kebutuhan:** `REQ-F-003`
+* **User Story:**
+  > *Sebagai pengurus RT/RW/Desa, saya ingin mengelola data struktur wilayah dan kependudukan sesuai yurisdiksi saya, sehingga pencatatan mutasi penduduk (lahir, pindah, wafat) tersinkronisasi rapi.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 3.1: Hak Akses Data Sesuai Scope Wilayah (RBAC)**
+    * **Given** Pengurus RT 01 login ke dalam sistem.
+    * **When** Pengurus membuka menu data kependudukan.
+    * **Then** Sistem hanya menampilkan daftar warga dan Kartu Keluarga yang berdomisili di RT 01. Warga RT 02 atau RW lain tidak terlihat (*strict data scoping*).
+  * **Skenario 3.2: Penambahan Anggota Keluarga Baru**
+    * **Given** Pengurus RT memilih data Kartu Keluarga tertentu.
+    * **When** Pengurus menginput NIK, nama, tanggal lahir, jenis kelamin, hubungan keluarga, dan foto KTP fisik.
+    * **Then** Sistem menyimpan rekaman penduduk baru berelasi dengan `family_id` yang sesuai dan mencatat aktivitas penambahan ke dalam `audit_logs`.
 
-### D. Data Keluarga / Kartu Keluarga (KK)
-Pengelolaan data Kartu Keluarga terpusat:
-- **Atribut:** Nomor KK (16 digit unik), Alamat Domisili, relasi RT/RW, dan Nama Kepala Keluarga.
-- **Fitur "Keluarga Saya" (`/dashboard/my-family`):** Memberikan akses mandiri kepada warga untuk memeriksa seluruh daftar anggota keluarga yang terdaftar pada Kartu Keluarganya secara privat dan terisolasi.
+### 3.4 FR-04: Layanan Persuratan Berjenjang & Digital Signature
+* **ID Kebutuhan:** `REQ-F-004`
+* **User Story:**
+  > *Sebagai warga, saya ingin mengajukan surat administrasi (SKTM/SKU/Pengantar) secara online, dan sebagai pengurus saya ingin menyetujui serta membubuhkan tanda tangan digital secara bertingkat.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 4.1: Pengajuan Surat Tingkat RT**
+    * **Given** Warga memilih jenis surat `IZIN_RENOVASI_RUMAH`.
+    * **When** Warga mengunggah berkas lampiran dan mengirim pengajuan.
+    * **Then** Dokumen dibuat dengan status `DIAJUKAN_RT`, dan sistem mendeteksi level approval final adalah `RT`.
+  * **Skenario 4.2: Alur Persetujuan Berjenjang Surat Desa (Contoh: SKTM)**
+    * **Given** Dokumen berstatus `DIAJUKAN_RT` dengan jenis `SURAT_KETERANGAN_TIDAK_MAMPU`.
+    * **When** Ketua RT menekan "Setujui (Teruskan ke RW)".
+    * **Then** Sistem mencatat stempel persetujuan RT (`rt_approved_by_id`), menyematkan tanda tangan RT, mengubah status menjadi `DIAJUKAN_RW`, serta mengirim notifikasi otomatis ke WhatsApp/Telegram Ketua RW.
+    * **When** Ketua RW menyetujui, status berubah menjadi `DIAJUKAN_DESA` dan diteruskan ke Kantor Desa.
+    * **When** Admin Desa/Kades menekan "Setujui & Terbitkan", status berubah menjadi `DISETUJUI / SELESAI`.
 
-### E. Administrasi & Pelayanan Surat Digital
-Masyarakat dapat mengajukan kebutuhan administrasi secara mandiri dari web browser, WhatsApp, atau Telegram:
-- **Katalog Layanan Surat:**
-  1. Surat Keterangan Domisili
-  2. Surat Keterangan Tidak Mampu (SKTM)
-  3. Surat Keterangan Usaha (SKU)
-  4. Surat Pengantar Nikah (ke KUA)
-  5. Surat Izin Keramaian
-  6. Surat Keterangan Kehilangan / Legalitas
-  7. Surat Izin Renovasi Rumah
-  8. Surat Pendataan Tamu Menginap
-  9. Surat Pengantar Umum RT/RW
-- **Alur Kerja Persetujuan 3-Tier:**
-  $$	ext{Pengajuan Warga} ightarrow 	ext{Verifikasi RT} ightarrow 	ext{Verifikasi RW} ightarrow 	ext{Pengesahan Admin Desa} ightarrow 	ext{Terbit}$$
-- **Status Alur Persuratan:**
-  `DRAFT` $ightarrow$ `DIAJUKAN_RT` $ightarrow$ `DIAJUKAN_RW` $ightarrow$ `DIAJUKAN_DESA` $ightarrow$ `DISETUJUI / SELESAI` (atau `DITOLAK` disertai catatan alasan).
-- **Tanda Tangan Elektronik & Validasi Dokumen (QR Code TTE):**
-  Sistem secara otomatis menyematkan stempel desa dan TTE digital Kepala Desa serta men-generate berkas PDF resmi via DomPDF lengkap dengan **QR Code Validator** yang dapat dipindai oleh pihak eksternal (Perbankan, Kepolisian, Instansi Dinas) untuk verifikasi keaslian dokumen secara *real-time*.
+### 3.5 FR-05: Penerbitan Vector PDF & Verifikasi QR Code
+* **ID Kebutuhan:** `REQ-F-005`
+* **User Story:**
+  > *Sebagai pemohon yang suratnya disetujui, saya ingin mengunduh berkas surat dalam format PDF resmi berkop desa lengkap dengan stempel dinas, tanda tangan digital, dan QR Code verifikasi.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 5.1: Ekspor Dokumen Resmi DomPDF**
+    * **Given** Pengajuan surat telah berstatus `DISETUJUI` atau `SELESAI`.
+    * **When** Pengguna atau pengurus menekan tombol "Cetak PDF".
+    * **Then** Sistem merender template Blade yang sesuai (`formats/desa.blade.php` atau `formats/rt_only.blade.php`), menyematkan nomor registrasi otomatis, stempel transparan, dan gambar TTD resmi.
+  * **Skenario 5.2: Pemindaian QR Code Keabsahan**
+    * **Given** Dokumen fisik dicetak oleh warga.
+    * **When** Pihak ketiga (bank/instansi lain) memindai QR Code pada pojok bawah surat.
+    * **Then** QR Code mengarah ke data verifikasi terenkripsi: `VERIFIED_SIWIL_AI|NO:<request_number>|TGL:<date>|STATUS:DISETUJUI` yang membuktikan keaslian dokumen tanpa rekayasa.
 
-### F. Data Bantuan Sosial, APBDes & Proyek Pembangunan
-- **Transparansi APBDes:** Pencatatan anggaran desa per tahun buku yang terbagi ke dalam 3 klasifikasi fiskal: **Pendapatan**, **Belanja**, dan **Pembiayaan**, dilengkapi perbandingan pagu anggaran vs realisasi serapan dana riil.
-- **Monitoring Proyek Fisik:** Pencatatan proyek pembangunan sarana desa dilengkapi pagu biaya, sumber dana (Dana Desa, PADes, Bantuan Provinsi), jadwal pelaksanaan, foto dokumentasi lapangan, dan progress bar fisik ($0\% - 100\%$).
-- **Data Bantuan Sosial:** Pencatatan warga penerima bantuan (PKH, BLT, BPNT) untuk memastikan transparansi dan mencegah penyaluran ganda.
+### 3.6 FR-06: Pengaduan Warga Berbasis Spasial (GIS)
+* **ID Kebutuhan:** `REQ-F-006`
+* **User Story:**
+  > *Sebagai warga, saya ingin menyampaikan laporan keluhan kerusakan fasilitas lingkungan lengkap dengan foto dan titik lokasi peta GPS, sehingga pengurus dapat meninjau ke lokasi secara tepat.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 6.1: Pelaporan Aduan dengan Geotagging**
+    * **Given** Warga berada di lokasi lampu jalan rusak.
+    * **When** Warga membuka form aduan, mengizinkan akses GPS peramban (mendapatkan `location_lat` dan `location_lng`), mengunggah foto bukti, dan mengirimkan aduan.
+    * **Then** Sistem menyimpan aduan dengan status `PENDING`, mengaitkannya ke wilayah RT/RW pelapor, dan menampilkannya sebagai pin koordinat di Peta Spasial Dashboard Desa.
+  * **Skenario 6.2: Pembaruan Status Penanganan**
+    * **Given** Pengurus RT/Desa meninjau aduan.
+    * **When** Pengurus mengubah status menjadi `PROCESSING` lalu `RESOLVED`.
+    * **Then** Sistem memperbarui status aduan dan mengirimkan pemberitahuan progres kepada warga pelapor.
 
-### G. Laporan & Rekapitulasi Data
-Penyusunan laporan berkala yang dapat difilter berdasarkan level RT, RW, Desa, rentang tanggal, dan jenis transaksi:
-- Laporan Kependudukan & Piramida Usia
-- Laporan Rekapitulasi Pelayanan Surat Administrasi
-- Laporan Penanganan Pengaduan Masyarakat
-- Laporan Realisasi Anggaran APBDes
-- **Format Output:** Dokumen cetak PDF resmi dan berkas Spreadsheet Excel.
+### 3.7 FR-07: Tombol Darurat Satu Ketukan (SOS Panic Button)
+* **ID Kebutuhan:** `REQ-F-007`
+* **User Story:**
+  > *Sebagai warga yang menghadapi bahaya (medis darurat, kebakaran, kriminalitas), saya ingin menekan tombol SOS merah di dashboard/bot, sehingga pengurus wilayah terdekat segera mendapat sinyal bahaya berkoordinat.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 7.1: Pemicuan Alarm Darurat Aktif**
+    * **Given** Warga membuka aplikasi dalam kondisi krisis.
+    * **When** Warga menekan tombol "Kirim Panggilan Darurat" dan memilih tipe insiden (`Medis`, `Kebakaran`, `Kriminal`).
+    * **Then** Sistem mencatat rekaman `emergencies` berstatus `ACTIVE` lengkap dengan koordinat GPS real-time.
+  * **Skenario 7.2: Penyiaran Alarm Audio-Visual**
+    * **Given** Terdapat sinyal SOS darurat berstatus `ACTIVE`.
+    * **When** Pengurus RT, RW, atau Admin Desa membuka dashboard.
+    * **Then** Sistem memunculkan banner peringatan darurat berwarna merah mencolok disertai koordinat lokasi dan identitas pelapor.
+  * **Skenario 7.3: Penyelesaian Insiden Darurat**
+    * **Given** Penanganan lapangan telah diselesaikan oleh satgas/pengurus.
+    * **When** Pengurus menekan tombol "Selesaikan Darurat".
+    * **Then** Status darurat berubah menjadi `RESOLVED` dan banner peringatan otomatis hilang.
 
-### H. Pengaduan Geotagging & Tombol Darurat SOS
-- **Pengaduan Warga Geotagging:** Pelaporan kerusakan sarana fisik (jalan berlubang, lampu penerangan mati, sampah liar) disertai unggah foto bukti lapangan dan titik koordinat GPS presisi (`latitude` & `longitude`).
-- **Tombol Darurat Panik (Emergency SOS):** Tombol cepat untuk keadaan bahaya mendesak (**Medis**, **Kebakaran**, **Kriminal**, **Bencana Alam**) yang secara instan menangkap koordinat GPS korban dan memicu banner alarm darurat aktif berkedip di dashboard seluruh pengurus RT, RW, dan kantor desa.
+### 3.8 FR-08: Musyawarah Digital & Polling Warga (E-Voting Scoped)
+* **ID Kebutuhan:** `REQ-F-008`
+* **User Story:**
+  > *Sebagai pengurus, saya ingin mengadakan musyawarah lingkungan berbasis e-voting berbatas wilayah, dan sebagai warga saya ingin memberikan suara secara rahasia dan sah.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 8.1: Pembuatan Polling Berskala RT**
+    * **Given** Ketua RT 02 membuat polling jadwal kerja bakti.
+    * **When** Polling disimpan dengan `rt_id` RT 02 dan batas kedaluwarsa waktu.
+    * **Then** Polling hanya muncul pada daftar musyawarah warga RT 02. Warga RT 01 tidak dapat melihat maupun memilih.
+  * **Skenario 8.2: Pencegahan Pemilihan Ganda (One Citizen One Vote)**
+    * **Given** Warga telah memberikan 1 suara pada opsi pilihan polling.
+    * **When** Warga mencoba mengklik dan memilih opsi lain kembali.
+    * **Then** Sistem menolak dan menampilkan status bahwa hak suara pengguna telah tercatat.
+  * **Skenario 8.3: Otomasi Penentuan Pemenang**
+    * **Given** Masa aktif polling telah mencapai `expires_at`.
+    * **When** Polling ditutup (`CLOSED`).
+    * **Then** Sistem menghitung persentase suara terbesar secara matematis, menetapkan `winning_option`, dan menyiarkan hasil rekapitulasi ke WhatsApp warga.
+
+### 3.9 FR-09: Transparansi Anggaran Desa (APBDes Digital)
+* **ID Kebutuhan:** `REQ-F-009`
+* **User Story:**
+  > *Sebagai masyarakat publik atau warga, saya ingin melihat rincian APBDes per tahun anggaran beserta perbandingan realisasinya, sehingga tata kelola keuangan desa transparan dan akuntabel.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 9.1: Inspeksi APBDes Terbuka (Tanpa Login)**
+    * **Given** Pengunjung mengakses rute `/portal/apbdes`.
+    * **When** Pengunjung memilih filter tahun anggaran (misal: 2026).
+    * **Then** Sistem menyajikan ringkasan 3 pilar: Total Pendapatan, Belanja, dan Pembiayaan lengkap dengan grafik visual perbandingan Anggaran vs Realisasi.
+
+### 3.10 FR-10: Monitoring Proyek Pembangunan Fisik Berbasis GIS
+* **ID Kebutuhan:** `REQ-F-010`
+* **User Story:**
+  > *Sebagai perangkat desa, saya ingin mencatat progres proyek pembangunan desa, dan sebagai warga saya ingin memantau persebaran proyek fisik tersebut di peta geografis.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 10.1: Pemetaan Proyek Infrastruktur**
+    * **Given** Admin Desa menginput proyek baru (Judul, Pagu Anggaran, Sumber Dana, Foto, Titik Koordinat GPS, dan % Progres).
+    * **When** Warga atau publik membuka menu Pembangunan (`/portal/pembangunan`).
+    * **Then** Sistem menampilkan kartu proyek beserta titik pin interaktif di peta spasial yang menunjukkan lokasi riil pekerjaan infrastruktur.
+
+### 3.11 FR-11: Portal Informasi Publik & Pengumuman Warga
+* **ID Kebutuhan:** `REQ-F-011`
+* **User Story:**
+  > *Sebagai aparatur desa, saya ingin mempublikasikan pengumuman warta desa yang dapat dibaca di portal web dan disalurkan ke kanal pesan warga.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 11.1: Publikasi Warta Resmi**
+    * **Given** Admin Desa menyusun pengumuman dengan judul, isi warta, dan mengaktifkan status publikasi.
+    * **When** Pengumuman disimpan.
+    * **Then** Pengumuman tampil di beranda utama portal publik, dashboard warga, serta dapat ditarik informasinya oleh AI saat ditanyakan oleh warga.
+
+### 3.12 FR-12: Layanan Omnichannel Bot (WhatsApp & Telegram)
+* **ID Kebutuhan:** `REQ-F-012`
+* **User Story:**
+  > *Sebagai warga yang lebih sering memakai WhatsApp atau Telegram, saya ingin mengajukan surat, melapor aduan, dan mengunduh berkas PDF surat langsung dari ruang percakapan obrolan.*
+* **Kriteria Penerimaan (Acceptance Criteria):**
+  * **Skenario 12.1: Identifikasi Otomatis Pengguna WhatsApp**
+    * **Given** Warga mengirim pesan obrolan ke nomor bot WhatsApp resmi.
+    * **When** Endpoint webhook `/api/whatsapp/check-user` menerima nomor telepon pengirim.
+    * **Then** Sistem mengenali profil warga tanpa perlu login manual berulang, menyajikan menu interaktif layanan surat, aduan, dan polling.
+  * **Skenario 12.2: Pengiriman Berkas PDF Surat via Bot**
+    * **Given** Pengajuan surat warga telah disetujui penuh oleh Kepala Desa.
+    * **When** Sistem menyelesaikan proses pembuatan berkas PDF.
+    * **Then** Microservice bot WhatsApp dan Telegram secara otomatis mengirimkan pesan konfirmasi beserta lampiran dokumen PDF resmi ke nomor ponsel pemohon.
 
 ---
 
-### Contoh Kriteria Penerimaan Fitur Kunci (Format Gherkin: Given - When - Then)
+## 4. SPESIFIKASI FITUR KECERDASAN BUATAN UTAMA (AI SPECIFICATION)
 
-```gherkin
-Scenario: Registrasi akun warga dengan validasi silang kependudukan desa (Zero Fake Account)
-  Given Calon warga mengakses formulir "/register"
-  When Menginputkan NIK 16 digit dan Nomor KK 16 digit yang cocok di data kependudukan desa
-  Then Sistem membuat akun baru dengan status "pending" menunggu persetujuan RT/Desa
-  And Jika NIK/KK tidak terdaftar, sistem membatalkan proses registrasi secara tegas
+### 4.1 Arsitektur Agen Cerdas SIWIL AI
+Fitur AI pada SIWIL dirancang menggunakan pola **Autonomous Tool-Calling Agent** yang menggabungkan kemampuan pemahaman bahasa alami dari model fondasi LLM (Google Gemini) dengan kendali deterministik atas basis data relasional sistem:
 
-Scenario: Alur persetujuan surat berjenjang 3-tier hingga terbit ber-barcode TTE
-  Given Permohonan surat diajukan warga berstatus "DIAJUKAN_RT"
-  When Ketua RT menyetujui, status naik menjadi "DIAJUKAN_RW"
-  When Ketua RW menyetujui, status naik menjadi "DIAJUKAN_DESA"
-  When Admin Desa menyetujui, status berubah menjadi "DISETUJUI / SELESAI"
-  And Sistem menyematkan stempel desa, TTE Kepala Desa, dan QR Code verifikasi dokumen asli
-  And Dokumen PDF resmi ter-generate otomatis dan siap diunduh oleh warga
+```
+[ Pesan Pengguna (Teks Input) ]
+             │
+             ▼
+[ 1. Deterministic Security Guardrails (PHP Layer) ]
+  ├── Cek Apakah Warga Meminta NIK / Data Pribadi Orang Lain? ──► [ YA: Langsung Tolak (UU PDP) ]
+  └── TIDAK (Lolos Filter Keamanan)
+             │
+             ▼
+[ 2. Dynamic Context & Prompt Assembler ]
+  ├── Injeksi Identitas Sesi: Nama, NIK, Peran (WARGA/RT/RW/DESA), Alamat Resmi
+  ├── Injeksi Dokumen RAG (ai_knowledge: SOP Surat, Peraturan Wilayah)
+  └── Deklarasi Schema Tools (12 Native Function Calling Declarations)
+             │
+             ▼
+[ 3. LLM Inference Engine (Google Gemini 2.5 Flash) ]
+  ├── Menghasilkan Jawaban Teks Langsung, ATAU
+  └── Memutuskan Memanggil Tool Database (Function Calling)
+             │
+             ▼
+[ 4. Backend Tool Executor (RBAC Bounded) ]
+  ├── Menjalankan Handler PHP Sesuai Scope Identitas Auth Pengguna
+  └── Mengembalikan Data JSON Terverifikasi ke Model LLM
+             │
+             ▼
+[ 5. Final Grounded Response Generator ]
+  └── Jawaban Ramah, Akurat, Tanpa Halusinasi + Opsi Tombol Aksi Cepat
 ```
 
----
+### 4.2 Dynamic System Prompt & Session Context Injection
+Setiap interaksi obrolan menginjeksikan *system prompt* dinamis yang dikonstruksi secara programatik oleh `AiToolService::buildDynamicSystemPrompt(User $user)`:
+- **Identitas Terotentikasi:** Menyematkan Nama, Username/NIK, Peran resmi, dan Nomor RT/RW pengguna aktif.
+- **Batasan Kewenangan Hukum:** Menguraikan instruksi tegas bahwa pengguna hanya boleh disajikan data yang sesuai dengan hak akses perannya.
+- **Pedoman Anti-Halusinasi:** AI dilarang keras mengarang data kependudukan atau status surat; AI wajib memanggil fungsi *tool calling* jika data faktual tersedia di database.
 
-## 5. Fitur AI (SIWIL AI Engine)
+### 4.3 Deterministic UU PDP Guardrails (Anti-Scraping Data Pribadi)
+Sebelum pesan diteruskan ke model AI, layer kontroler mengevaluasi masukan dengan aturan deterministik:
+- Jika pengguna ber-role `WARGA` mengajukan kueri yang mengandung indikasi pencarian informasi warga lain (contoh pola regex: nomor telepon orang lain, NIK tetangga, alamat warga lain di luar KK):
+  * **Respons Instan:** *"Permintaan ditolak. Demi kepatuhan Undang-Undang Perlindungan Data Pribadi (UU PDP No. 27/2022), Anda hanya berhak mengakses data pribadi dan data keluarga dalam Kartu Keluarga Anda sendiri."*
+  * Request tidak dikirim ke API Gemini, menghemat kuota token dan menutup celah manipulasi *jailbreak prompt*.
 
-Kecerdasan buatan (*Artificial Intelligence*) menjadi fitur pembeda dan nilai kebaruan (*novelty*) utama dalam SIWIL. SIWIL AI ditenagai oleh Large Language Model **Google Gemini Generative API** (`gemini-2.5-flash` / `gemini-1.5-flash`) yang terhubung langsung dengan *backend* operasional.
+### 4.4 12 Native Tool Function Declarations
 
-### 5.1 AI Assistant (Percakapan Bahasa Alami)
-Warga dan pengurus wilayah dapat mengajukan pertanyaan menggunakan bahasa natural sehari-hari melalui widget chat mengambang di dashboard:
-- *"Bagaimana syarat dan alur mengajukan Surat Keterangan Usaha?"*
-- *"Bagaimana status surat domisili yang saya ajukan kemarin?"*
-- *"Berapa jumlah penduduk lansia di wilayah RT 02 saat ini?"*
-- *"Tampilkan daftar pengumuman desa terbaru terkait posyandu."*
+| Nama Function Tool | Deskripsi Fungsionalitas | Parameter Masukan | Batasan Akses Role (RBAC) |
+| :--- | :--- | :--- | :--- |
+| `fetch_dashboard_data` | Mengambil ringkasan metrik statistik dashboard yang difilter per wilayah. | `category`: `all`, `residents`, `documents`, `complaints`, `announcements`. | Seluruh Role (Data tersaring otomatis sesuai scope) |
+| `fetch_residents_and_areas` | Mengambil data kependudukan dan struktur RT/RW. | `search`, `rt_number`, `rw_number`, `limit`. | Khusus `RT`, `RW`, `ADMIN_DESA`, `SUPER_ADMIN` (Warga diblokir total) |
+| `fetch_announcements` | Mengambil warta pengumuman resmi desa yang sedang aktif. | `search`, `limit`. | Seluruh Role |
+| `fetch_document_requests` | Memeriksa permohonan surat administrasi warga (SKTM, SKU, Domisili). | `status`, `type`, `limit`. | Warga (surat milik sendiri), Pengurus (surat yang perlu diverifikasi) |
+| `fetch_complaints` | Memeriksa riwayat pengaduan dan status penyelesaian masalah warga. | `status`, `limit`. | Warga (aduan sendiri), Pengurus (aduan wilayah binaan) |
+| `fetch_polls` | Mengambil daftar musyawarah dan polling yang sedang aktif beserta opsi voting. | `status`, `limit`. | Seluruh Role (Sesuai yurisdiksi polling) |
+| `fetch_family_data` | Menampilkan susunan anggota keluarga resmi dalam Kartu Keluarga (KK). | `kk_number` (opsional). | Warga (otomatis mengunci KK miliknya), Pengurus (binaan) |
+| `fetch_development_and_budgets` | Memeriksa rincian anggaran APBDes dan progres proyek pembangunan fisik. | `type`, `fiscal_year`, `limit`. | Pengurus RT, RW, Desa, Super Admin |
+| `fetch_audit_logs` | Menginspeksi riwayat audit jejak aktivitas sistem. | `action`, `limit`. | Khusus Pengurus dan Super Admin (Warga diblokir) |
+| `fetch_users_directory` | Mengakses daftar akun pengguna terdaftar di sistem. | `role_filter`, `search`, `limit`. | Khusus Admin Desa & Super Admin |
+| `fetch_ai_knowledge` | Mengambil basis pengetahuan resmi SOP persuratan dan aturan desa. | `topic`. | Seluruh Role |
+| `fetch_current_user_profile` | Menampilkan biodata profil lengkap pengguna yang sedang login. | *(tanpa parameter)* | Seluruh Role (Mengembalikan data sesi login) |
 
-### 5.2 AI Analisis Wilayah & Bantuan Administrasi
-AI mampu menganalisis agregasi data sistem untuk memberikan rekomendasi kebijakan bagi pimpinan wilayah:
-- Menganalisis piramida usia penduduk dan mendeteksi tren penuaan warga di lingkungan RW tertentu.
-- Membantu merangkum data serapan anggaran pos belanja APBDes.
-- Mengidentifikasi anomali data (misal: Kartu Keluarga tanpa penanda Kepala Keluarga).
-- Membantu menyusun draf ringkasan laporan bulanan RT/RW.
-
-### 5.3 Katalog 12 Backend Function Calling Tools
-AI tidak diperbolehkan mengarang fakta kependudukan (*halusinasi*). AI dibekali 12 *function calling tools* deterministik di backend (`App\Services\AiToolService`):
-
-| No | Nama Function Calling Tool | Deskripsi & Tugas Fungsional | Batasan Hak Akses Data (RBAC) |
-| :-: | :--- | :--- | :--- |
-| 1 | `fetch_dashboard_data` | Mengambil ringkasan metrik statistik wilayah (total surat, aduan aktif). | Disesuaikan dengan role akun pengguna yang login. |
-| 2 | `fetch_residents_and_areas` | Mengambil data kependudukan dan hierarki struktur teritorial wilayah. | **Khusus Pengurus (RT, RW, Desa, Superadmin)**. Ditolak untuk Warga. |
-| 3 | `fetch_announcements` | Mengambil artikel pengumuman dan surat edaran desa yang berstatus aktif. | Terbuka untuk seluruh peran pengguna. |
-| 4 | `fetch_document_requests` | Mengambil riwayat permohonan surat administrasi beserta status terkininya. | Warga hanya menerima datanya sendiri; Pengurus sesuai wilayah binaan. |
-| 5 | `fetch_complaints` | Mengambil daftar pengaduan masyarakat dan status penanganannya. | Warga menerima aduan miliknya; Pengurus sesuai yurisdiksi tugas. |
-| 6 | `fetch_polls` | Mengambil daftar polling musyawarah aktif dan status hak pilih pengguna. | Sesuai level wilayah polling (RT / RW / Desa). |
-| 7 | `fetch_family_data` | Mengambil rincian data Kartu Keluarga dan anggota keluarga pemohon. | **Wajib sama No. KK-nya**. Warga dilarang melihat KK orang lain. |
-| 8 | `fetch_development_and_budgets` | Mengambil data proyek pembangunan fisik dan rincian alokasi APBDes. | Khusus pengurus atau portal keterbukaan informasi. |
-| 9 | `fetch_audit_logs` | Mengambil jejak audit aktivitas manipulasi data sensitif sistem. | Khusus Super Administrator dan Pimpinan Wilayah. |
-| 10 | `fetch_users_directory` | Mengambil direktori akun pengguna sistem dan status verifikasi akun. | Khusus Super Administrator dan Admin Desa. |
-| 11 | `fetch_ai_knowledge` | Mengambil basis data pengetahuan resmi (SOP pelayanan, sejarah desa). | Dapat diakses seluruh peran sebagai referensi aturan resmi. |
-| 12 | `fetch_current_user_profile` | Mengambil biodata dan profil lengkap dari akun yang sedang login saat ini. | Mengembalikan profil privat milik akun terotentikasi. |
-
-### 5.4 Penegakan Privasi & Guardrail UU No. 27 Tahun 2022 (UU PDP)
-Sesuai amanat Undang-Undang Pelindungan Data Pribadi:
-- **Instruction Guardrail:** AI secara tegas dilarang membocorkan Nomor Induk Kependudukan (NIK), Nomor KK, Nomor Telepon/WhatsApp, dan alamat tinggal warga lain kepada akun berstatus warga biasa.
-- **Backend Deterministic Scoping:** Di tingkat backend (`AiToolService.php`), jika akun Warga mencoba memanggil tool data kependudukan global, sistem secara otomatis memotong data (*empty payload*) dan mengembalikan pesan penolakan privasi resmi.
-
-### 5.5 Ketahanan Sistem: Multi-Key API Rotation & Smart Fallback
-- **Rotasi Multi-API Key:** Kunci API Google Gemini disimpan dalam array JSON di tabel `system_configurations`. Jika kunci utama mengalami limitasi kuota (HTTP 429), sistem otomatis beralih ke kunci cadangan berikutnya.
-- **Smart Local Fallback:** Jika koneksi API luar terputus, controller AI mengaktifkan mesin pencocokan pola kata kunci (*regex pattern matching*) lokal untuk menjawab pertanyaan umum persuratan dan nomor kontak darurat secara offline.
+### 4.5 Mekanisme Multi-Key API Rotation & Smart Fallback
+- **Rotasi Kunci Mandiri:** Sistem mendukung penyimpanan beberapa API Key Google Gemini dalam tabel `system_configurations`. Jika satu kunci terkena *rate limit* (HTTP 429), sistem otomatis memindahkan panggilan ke kunci cadangan berikutnya.
+- **Smart Fallback Tanpa AI:** Jika seluruh koneksi AI pihak ketiga terputus, sistem secara elegan beralih ke *rule-based keyword matcher* yang menyajikan tombol navigasi cepat (Kembali ke Beranda, Cek Surat, Buat Pengaduan) sehingga pengguna tidak mengalami layar *error blank*.
 
 ---
 
-## 6. Notifikasi Multichannel
+## 5. SPESIFIKASI KEBUTUHAN NON-FUNGSIONAL (NFR)
 
-Sistem dilengkapi dengan *Notification Hub* terpadu yang menyiarkan pemberitahuan secara paralel:
-1. **In-App Notification:** Notifikasi lonceng pada bilah navigasi atas dashboard lengkap dengan penanda belum dibaca (*unread badge counter*) dan aksi tandai telah dibaca.
-2. **WhatsApp Gateway Notification:** Pengiriman pesan instan otomatis via microservice Node.js port 3000 langsung ke nomor WhatsApp pengguna.
-3. **Telegram Bot Notification:** Notifikasi real-time ke akun Telegram warga yang telah ditautkan melalui fitur *deep linking*.
-4. **Email Notification (SMTP):** Notifikasi resmi menggunakan template email HTML responsif.
+### 5.1 Performance & Response Latency
+* **NFR-P1 (Kecepatan Muat Web):** Halaman antarmuka web harus berhasil dirender dalam waktu kurang dari $1.5\text{ detik}$ pada koneksi 4G standar.
+* **NFR-P2 (Respon Bot Pesan Instan):** Respons otomatis bot WhatsApp dan Telegram untuk kueri berbasis menu tidak boleh melebihi $2\text{ detik}$.
+* **NFR-P3 (Waktu Eksekusi AI Tool):** Keseluruhan siklus obrolan AI (Prompting $\to$ Function Calling $\to$ Database Execution $\to$ Final Text) ditargetkan tuntas dalam waktu $\le 4\text{ detik}$.
+* **NFR-P4 (Ukuran Berkas PDF):** Berkas dokumen surat yang digenerasi oleh DomPDF harus memiliki ukuran efisien ($< 200\text{ KB}$) agar ramah kuota data seluler.
 
-**Pemicu Notifikasi Otomatis:**
-- Pengajuan surat baru masuk ke antrean verifikasi Ketua RT.
-- Perubahan status surat (disetujui RT, disetujui RW, disetujui Desa, atau ditolak).
-- Surat selesai diterbitkan (mengirimkan link dan berkas PDF ber-barcode langsung).
-- Pembaruan status tindak lanjut penanganan aduan warga.
-- Peringatan insiden darurat SOS yang memicu alarm visual di dashboard pengurus.
-- Publikasi pengumuman atau surat edaran resmi desa baru.
-- Penutupan musyawarah dan penyiaran hasil akhir jajak pendapat warga.
+### 5.2 Security & Cryptography
+* **NFR-S1 (Otentikasi & Hashing):** Seluruh kata sandi pengguna wajib dienkripsi searah menggunakan algoritma Bcrypt dengan *work factor* standar Laravel. Tidak ada teks sandi mentah yang disimpan di basis data.
+* **NFR-S2 (Insecure Direct Object Reference Mitigation):** Seluruh entitas tabel menggunakan UUID v4 acak 36-karakter sebagai primary key untuk menggagalkan upaya manipulasi enumerasi ID pada URL.
+* **NFR-S3 (Proteksi Form & Akses API):** Semua form web wajib menerapkan token proteksi *Cross-Site Request Forgery* (CSRF). Komunikasi API bot dilindungi oleh autentikasi bearer token/LID validation.
+* **NFR-S4 (Penyembunyian Kredensial Sensitif):** Kredensial sistem (API Keys, Token Telegram, Password SMTP) wajib disamarkan (*masked*) pada antarmuka admin.
 
----
+### 5.3 Reliability & High Availability
+* **NFR-R1 (Ketersediaan Sistem):** Ketersediaan layanan web ditargetkan mencapai $99.5\%$ *uptime* pada jam operasional pelayanan warga.
+* **NFR-R2 (Integritas Data Transaksional):** Mutasi data kependudukan dan persuratan berjenjang harus dibungkus dalam mekanisme `DB::transaction` untuk mencegah anomali inkonsistensi data jika terjadi kegagalan jaringan di tengah proses.
+* **NFR-R3 (Pencatatan Audit Trail):** Setiap operasi manipulasi data esensial wajib dicatat ke tabel `audit_logs` meliputi ID pengguna, aksi, IP address, serta nilai data sebelum dan sesudah perubahan.
 
-## 7. Manajemen Pengguna & Keamanan Identitas (IAM)
+### 5.4 Usability & Mobile-First Accessibility
+* **NFR-U1 (Desain Responsif):** Seluruh antarmuka portal publik dan dashboard warga harus tampil proporsional pada resolusi layar mulai dari 360px (smartphone) hingga 1920px (desktop).
+* **NFR-U2 (Target Sentuh Ramah Ponsel):** Komponen tombol utama, navigasi menu, dan pemicu SOS memiliki area sentuh minimal $44 \times 44\text{ piksel}$ sesuai panduan aksesibilitas WCAG 2.1 AA.
+* **NFR-U3 (Kemudahan Alur Surat):** Pengajuan surat mandiri oleh warga harus dapat diselesaikan dalam maksimal 3 langkah interaksi formulir.
 
-Super Admin dan Admin Desa mengelola akun pengguna menggunakan kontrol akses berbasis peran (RBAC):
-- **Pengelolaan User:** Tambah akun pengurus wilayah, tinjau akun warga berstatus `pending`, setujui (*active*), atau tolak (*rejected*).
-- **Multi-Identifier Login:** Pengguna dapat masuk menggunakan **NIK 16 digit**, **Alamat Email**, atau **Nomor WhatsApp terdaftar**.
-- **Pemulihan Kata Sandi dengan WhatsApp OTP:**
-  - Warga memasukkan NIK atau nomor WhatsApp di halaman lupa kata sandi.
-  - Sistem men-generate **kode OTP 6 digit acak** dengan masa berlaku tepat 5 menit di penyimpanan cache.
-  - OTP dikirimkan instan ke nomor WhatsApp warga melalui WhatsApp Gateway.
-  - Dilengkapi *resend throttle timer* 60 detik dan proteksi anti *brute-force*.
-- **Enkripsi Kredensial:** Seluruh kata sandi dienkripsi menggunakan algoritma **Bcrypt** (*cost factor* 12).
-- **Tanda Tangan Elektronik & Stempel Pengurus:** Pengurus RT, RW, dan Desa dapat mengunggah berkas transparansi tanda tangan digital (`signature_path`) dan stempel wilayah (`stamp_path`) pada profilnya untuk disematkan otomatis pada dokumen PDF surat resmi.
+### 5.5 Maintainability & Clean Architecture
+* **NFR-M1 (Separation of Concerns):** Pemisahan tegas antara routing (`routes/web.php` dan `routes/api.php`), penanganan HTTP (`Controllers`), aturan bisnis (`Services`), dan lapisan persistensi (`Models`).
+* **NFR-M2 (Standar Kualitas Kode):** Penulisan kode PHP mematuhi PSR-12 dan diverifikasi otomatis menggunakan Laravel Pint (`vendor/bin/pint`).
 
 ---
 
-## 8. Audit Log (Jejak Forensik Sistem)
+## 6. MATRIKS KETERTELUSURAN KEBUTUHAN (TRACEABILITY MATRIX)
 
-Sistem mencatat seluruh mutasi data sensitif secara otomatis ke dalam tabel `audit_logs` yang bersifat *append-only* (tidak dapat disunting):
-- **Informasi yang Dicatat:**
-  - Identitas Aktor (`user_id`, nama, peran)
-  - Jenis Operasi (`CREATE`, `UPDATE`, `DELETE`, `LOGIN`, `LOGOUT`)
-  - Entitas Terdampak (`entity_name`, misal: `DocumentRequest`, `Resident`, `Budget`)
-  - ID Entitas (`entity_id`)
-  - Detail Payload Data Sebelum dan Sesudah Perubahan (`details`)
-  - Waktu Transaksi (*Timestamp*)
-- **Fungsi:** Menjamin akuntabilitas aparatur pemerintahan, mencegah manipulasi data sepihak, dan menyediakan bukti jejak audit forensik bagi pengawas tata kelola wilayah.
-
----
-
-## 9. Struktur Menu Sederhana
-
-```
-SIWIL NAVIGATION STRUCTURE
-├── Dashboard (Tampilan Adaptif sesuai Role: Warga / RT-RW / Desa / Superadmin)
-│
-├── Wilayah (Khusus Pengurus & Superadmin)
-│   ├── Desa / Kelurahan
-│   ├── Rukun Warga (RW)
-│   └── Rukun Tetangga (RT)
-│
-├── Kependudukan
-│   ├── Data Penduduk (Residents Master)
-│   ├── Data Kartu Keluarga (KK)
-│   └── Keluarga Saya (Khusus Warga)
-│
-├── Pelayanan Administrasi
-│   ├── Pengajuan Surat (Katalog Surat Mandiri)
-│   ├── Antrean Verifikasi (Khusus RT, RW, Desa)
-│   └── Arsip & Unduh Dokumen PDF Ber-Barcode
-│
-├── Pengaduan & Layanan Darurat
-│   ├── Lapor Pengaduan Geotagging GPS & Foto
-│   ├── Monitoring & Tindak Lanjut Aduan
-│   └── Tombol Darurat SOS (Emergency Panic Button)
-│
-├── Demokrasi & Informasi
-│   ├── Musyawarah & Polling Warga (E-Democracy)
-│   └── Papan Pengumuman & Berita Desa
-│
-├── Pembangunan & Fiskal (Transparansi Publik & Admin)
-│   ├── Transparansi Anggaran APBDes
-│   └── Monitoring Proyek Pembangunan Fisik (GIS Map)
-│
-├── SIWIL AI Assistant (Floating Chatbot Widget Interaktif)
-├── Notifikasi Sistem (In-App, WhatsApp, Telegram)
-├── Manajemen Pengguna & Hak Akses (User Directory & Verification)
-├── Pusat Konfigurasi Sistem (AI Provider, WhatsApp, Telegram, SMTP)
-└── Audit Log Aktivitas
-```
+| ID Kebutuhan | Nama Fungsionalitas | Aktor Terkait | Use Case ID | Implementasi Arsitektur | Validasi Pengujian |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **REQ-F-001** | Registrasi & Login NIK | Warga, RT, Super Admin | UC-01, UC-02 | `AuthController`, `RegisterWargaRequest` | Unit & Feature Test |
+| **REQ-F-002** | Reset Password OTP | Seluruh Pengguna | UC-03 | `ForgotPasswordController`, `WhatsAppService` | Mock Service Test |
+| **REQ-F-003** | Manajemen Wilayah & Data Warga | RT, RW, Desa, Super Admin | UC-04, UC-05 | `AreaController`, `ResidentController` | Scope Query Test |
+| **REQ-F-004** | Persuratan Berjenjang & TTD | Warga, RT, RW, Desa | UC-06 | `DocumentRequestController`, `DocumentRequestService` | Workflow Transition Test |
+| **REQ-F-005** | Unduh PDF & Verifikasi QR | Warga, Publik, Pengurus | UC-07 | `DomPDF Facade`, `formats/desa.blade.php` | PDF Export Test |
+| **REQ-F-006** | Pengaduan Warga Spasial | Warga, RT, RW, Desa | UC-08 | `ComplaintController`, Leaflet/GIS Module | Coordinate Parsing Test |
+| **REQ-F-007** | Panggilan Darurat (SOS) | Warga, RT, Desa | UC-09 | `EmergencyController`, Dashboard Banner | Event Broadcasting Test |
+| **REQ-F-008** | Musyawarah & E-Voting | Warga, RT, RW, Desa | UC-10 | `PollController`, `PollVote Model` | Anti-Duplicate Vote Test |
+| **REQ-F-009** | Transparansi APBDes | Pengunjung Publik, Desa | UC-11 | `PublicController`, `BudgetController` | Public Route Test |
+| **REQ-F-010** | Monitoring Proyek Pembangunan | Pengunjung Publik, Desa | UC-12 | `DevelopmentController`, Peta Spasial | Geolocation Rendering Test |
+| **REQ-F-011** | Publikasi Informasi Publik | Admin Desa, Publik | UC-13 | `AnnouncementController`, `PublicController` | Publication Status Test |
+| **REQ-F-012** | Layanan Bot WA & Telegram | Warga, Pengurus | UC-14, UC-15 | `WhatsAppController`, `TelegramService` | Webhook Simulator Test |
+| **REQ-F-013** | Asisten SIWIL AI Function Calling | Seluruh Pengguna Terdaftar | UC-16 | `AiController`, `AiToolService`, Gemini API | Tool Calling Scope Test |
 
 ---
 
-## 10. Alur Utama Pengguna (User Flows)
+## 7. PENGESAHAN DOKUMEN (SIGN-OFF)
 
-### A. Alur Pengguna Warga (Citizen Flow)
-$$	ext{Registrasi Validasi NIK/KK} ightarrow 	ext{Verifikasi RT/Desa} ightarrow 	ext{Login Multi-ID} ightarrow 	ext{Dashboard Warga}$$
-- **Pengajuan Surat:** Pilih jenis surat $ightarrow$ Isi keperluan & upload syarat $ightarrow$ Submit $ightarrow$ Pantau status tracking $ightarrow$ Surat disetujui $ightarrow$ Unduh PDF resmi ber-barcode TTE.
-- **Pengaduan & Darurat:** Buka form aduan $ightarrow$ Ambil foto & GPS $ightarrow$ Kirim $ightarrow$ Pantau status tindak lanjut petugas; ATAU tekan tombol merah SOS saat bahaya mendesak.
-- **Konsultasi AI:** Buka floating widget chat $ightarrow$ Tanyakan prosedur/data $ightarrow$ AI merespons instan sesuai privasi UU PDP.
+Dokumen Spesifikasi Kebutuhan Perangkat Lunak (SRS/PRD) ini telah disesuaikan secara komprehensif dengan rubrik evaluasi Proyek Akhir Mandiri Rekayasa Perangkat Lunak berbasis Kurikulum Outcome-Based Education (OBE).
 
-### B. Alur Pengurus RT (Neighborhood Leader Flow)
-$$	ext{Login RT} ightarrow 	ext{Dashboard RT} ightarrow 	ext{Kelola Data Warga & KK RT} ightarrow 	ext{Verifikasi Akun Warga Pending}$$
-- **Verifikasi Surat Tingkat 1:** Buka antrean surat masuk $ightarrow$ Periksa lampiran $ightarrow$ Klik "Setujui" (status naik ke `DIAJUKAN_RW`) atau "Tolak" (disertai catatan).
-- **Tanggap Darurat & Aduan:** Terima banner kedip darurat SOS $ightarrow$ Lihat koordinat lokasi korban di peta $ightarrow$ Berikan pertolongan lapangan $ightarrow$ Tandai selesai.
-
-### C. Alur Pengurus RW (Sub-district Coordinator Flow)
-$$	ext{Login RW} ightarrow 	ext{Dashboard Monitoring RW} ightarrow 	ext{Pantau Demografi RT se-RW} ightarrow 	ext{Verifikasi Surat Tingkat 2}$$
-- **Verifikasi Surat Tingkat 2:** Periksa surat yang telah disetujui RT $ightarrow$ Klik "Setujui" (status naik ke `DIAJUKAN_DESA`) $ightarrow$ Fasilitasi musyawarah tingkat RW.
-
-### D. Alur Pemerintah Desa / Kelurahan (Village Admin Flow)
-$$	ext{Login Admin Desa} ightarrow 	ext{Dashboard Wilayah Desa} ightarrow 	ext{Verifikasi Akhir & Penerbitan Surat}$$
-- **Penerbitan Dokumen Resmi:** Buka surat terverifikasi RT & RW $ightarrow$ Bubuhkan stempel digital & TTE Kepala Desa $ightarrow$ Sistem menerbitkan berkas PDF berkop resmi ber-QR Code validator.
-- **Tata Kelola Pembangunan:** Input pagu anggaran dan realisasi APBDes $ightarrow$ Perbarui progres fisik proyek pembangunan beserta dokumentasi foto.
-
-### E. Alur Super Administrator (System Owner Flow)
-$$	ext{Login Super Admin} ightarrow 	ext{Pusat Konfigurasi Sistem} ightarrow 	ext{Diagnostik Integrasi}$$
-- Atur API Key Google Gemini, URL microservice WhatsApp, token Telegram Bot, dan SMTP Mailer.
-- Uji koneksi langsung melalui tombol diagnostik.
-- Pantau seluruh mutasi data melalui menu Audit Log forensik.
-
----
-
-## 11. Non-Functional Requirements (Standar ISO/IEC 25010)
-
-Sistem memenuhi karakteristik kualitas perangkat lunak internasional:
-- **Responsif & Mobile-First:** Antarmuka web dibangun menggunakan Tailwind CSS v4, responsif mulai dari layar smartphone (min 360px) hingga monitor desktop 1920px. Mendukung mode Terang dan Gelap (*Dark/Light Mode*).
-- **Efisiensi Kinerja (Performance):** Rata-rata waktu pemuatan halaman $< 1.5$ detik; latensi inferensi asisten AI $< 3.0$ detik; penggunaan *Eager Loading* (`with(...)`) untuk mengeliminasi masalah *N+1 query*; paginasi data 10–25 baris per halaman.
-- **Keamanan & Kriptografi:** Seluruh password di-hash dengan Bcrypt (*cost factor* 12); seluruh entitas menggunakan kunci primer **UUID v4** untuk mencegah eksploitasi enumerasi URL; proteksi bawaan terhadap CSRF, XSS, dan SQL Injection.
-- **Kepatuhan Privasi Data (UU PDP No. 27/2022):** Kueri data kependudukan privat diproteksi oleh *Eloquent Scoped Queries* (`accessibleBy(User $user)`); Asisten AI dibekali aturan sistem keras yang menolak membocorkan NIK, nomor telepon, atau data privat warga lain kepada akun berstatus warga biasa.
-- **Keandalan & Toleransi Kesalahan (Reliability):** Target ketersediaan layanan *uptime* 99.5%; panggilan API eksternal (WhatsApp & Telegram) dibungkus blok proteksi *try-catch non-blocking* sehingga kegagalan jaringan luar tidak menggagalkan penyimpanan transaksi utama database; rotasi otomatis multi-key API dan *fallback local pattern matching* pada modul AI.
-- **Kemudahan Pemeliharaan & Kualitas Kode (Maintainability):** Mengikuti prinsip *Clean Architecture* dan *SOLID*; pemformatan kode mematuhi standar PSR-12 menggunakan Laravel Pint; dilengkapi **105 skrip pengujian otomatis (PHPUnit Feature & Unit Tests)** dengan status kelulusan 100%.
-
----
-
-## 12. MVP Prioritas
-
-Pengembangan fitur SIWIL dikelompokkan ke dalam 3 skala prioritas implementasi:
-
-### P0 — Wajib (Core Foundation - 100% Implemented)
-1. Autentikasi, IAM & Validasi Silang Registrasi NIK/KK (Zero Fake Account)
-2. Manajemen Hirarki Wilayah (Desa $ightarrow$ RW $ightarrow$ RT)
-3. Master Data Penduduk (Residents) & Kartu Keluarga (KK)
-4. Dashboard Berbasis Peran (Warga, RT, RW, Desa, Superadmin)
-5. Alur Pelayanan Persuratan 3-Tier (RT $ightarrow$ RW $ightarrow$ Desa) & TTE QR Code DomPDF
-6. Laporan Rekapitulasi Data (PDF & Excel)
-7. Audit Log Forensik Sistem
-8. Portal Keterbukaan Publik (APBDes & Pembangunan)
-
-### P1 — Fitur Cerdas & Layanan Lapangan (100% Implemented)
-9. Asisten Cerdas SIWIL AI (Google Gemini LLM dengan 12 Backend Function Calling Tools)
-10. Penegakan Guardrail Privasi UU No. 27 Tahun 2022 (UU PDP) & Smart Fallback
-11. Pengaduan Warga Geotagging Koordinat GPS Presisi & Unggah Foto Bukti
-12. Tombol Peringatan Bahaya Darurat Cepat (Emergency SOS Panic Button)
-13. Musyawarah & Polling Warga Berintegritas (One Citizen One Vote)
-14. Sistem Notifikasi Multichannel (In-App, WhatsApp Gateway port 3000, Telegram Bot, Email)
-15. Reset Password Mandiri via Kode OTP WhatsApp 6 Digit
-
-### P2 — Pengembangan Lanjutan (Product Roadmap)
-16. Aplikasi Mobile PWA (Progressive Web App) dengan Push Notifications (FCM) dan mode offline-first.
-17. Integrasi Payment Gateway (QRIS / Midtrans) untuk pembayaran digital kas RT bulanan dan sampah.
-18. Integrasi REST API Nasional Dukcapil untuk verifikasi identitas e-KTP dan KIA secara otomatis.
-19. Modul Manajemen Ronda Malam & Absensi Pos Kamling berbasis QR Code scanner.
-
----
-
-## 13. Indikator Keberhasilan (Key Performance Indicators)
-
-Target capaian terukur dari implementasi SIWIL:
-- **$\ge 90\%$ data kependudukan dan persuratan wilayah terdigitalisasi**, mengeliminasi kebutuhan berkas fotokopi dan kertas formulir manual.
-- **Waktu penerbitan surat administratif turun drastis**, dari 2–5 hari kerja menjadi $< 4$ jam (bahkan dalam hitungan menit begitu diverifikasi).
-- **Akurasi identitas akun pengguna 100% sah (Zero Fake Account)** melalui validasi silang NIK dan KK saat registrasi.
-- **Waktu tanggap penanganan awal pengaduan warga $< 24$ jam** berkat informasi titik lokasi koordinat GPS yang presisi.
-- **Partisipasi hak pilih warga dalam musyawarah lingkungan meningkat hingga $> 70\%$** berkat kemudahan voting via web dan WhatsApp.
-- **Asisten AI Gemini mampu merespons pertanyaan dan mengambil data riil wilayah dalam waktu $< 3.0$ detik** dengan akurasi faktual tinggi dan 100% patuh regulasi UU PDP.
-- **Pipeline otomatisasi CI/CD pada GitHub Actions berjalan 100% berstatus Centang Hijau (Success)** dengan seluruh 105 skrip pengujian otomatis (540 assertions) lolos uji.
-
----
-
-## 14. Prinsip Utama Produk
-
-> ### *"Satu Data Wilayah, Satu Sistem Pemerintahan, Dibantu Kecerdasan Buatan (AI)."*
-
-SIWIL tidak sekadar berfungsi sebagai basis data digital administratif, melainkan hadir sebagai **Pusat Informasi Terpadu dan Lapisan Kecerdasan (*Intelligence Layer*)** yang memberdayakan Warga, Ketua RT, Ketua RW, dan Pemerintah Desa untuk memahami dinamika lingkungan, mempercepat pelayanan publik, serta mengambil keputusan tata kelola wilayah yang transparan, akuntabel, dan berbasis data riil.
-
----
-*Product Requirements Document (PRD) ini disusun secara komprehensif oleh Muhammad Al Farel (NIM: 41257124), Kelas TI 1B 2025, sebagai spesifikasi acuan rekayasa perangkat lunak aplikasi SIWIL.*
+*Ditetapkan di: Cirebon*  
+*Tanggal: 12 November 2026*  
+*Pengembang Mandiri (Full-Stack Software Engineer): Mahasiswa S1 Teknik Informatika*

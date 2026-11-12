@@ -1,0 +1,256 @@
+<?xml version="1.0" ?>
+<mxfile host="app.diagrams.net" version="22.1.16">
+  <diagram name="4. Sequence Diagram (Frontend-Backend-DB-AI)" id="page-sequence">
+    <mxGraphModel dx="2000" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="seq_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#0F172A;" value="SEQUENCE DIAGRAM — ALUR PERTUKARAN PESAN PERSURATAN 3-TIER &amp; AI FUNCTION CALLING" vertex="1">
+          <mxGeometry x="250" y="15" width="1500" height="35" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_warga" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#1D4ED8;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":Warga (Pemohon)" vertex="1">
+          <mxGeometry x="70" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_warga_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_warga">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="145" y="110" as_="sourcePoint"/>
+          <mxPoint x="145" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="ll_fe" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#334155;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":Web UI / Blade" vertex="1">
+          <mxGeometry x="260" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_fe_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_fe">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="335" y="110" as_="sourcePoint"/>
+          <mxPoint x="335" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="ll_ctrl" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":DocRequestController" vertex="1">
+          <mxGeometry x="470" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_ctrl_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_ctrl">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="545" y="110" as_="sourcePoint"/>
+          <mxPoint x="545" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="ll_srv" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":DocumentApprovalService" vertex="1">
+          <mxGeometry x="720" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_srv_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_srv">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="110" as_="sourcePoint"/>
+          <mxPoint x="795" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="ll_db" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#6D28D9;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":Database (MySQL/SQLite)" vertex="1">
+          <mxGeometry x="990" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_db_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_db">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1065" y="110" as_="sourcePoint"/>
+          <mxPoint x="1065" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="ll_notif" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#CCFBF1;strokeColor=#0D9488;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":NotificationService" vertex="1">
+          <mxGeometry x="1230" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_notif_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_notif">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1305" y="110" as_="sourcePoint"/>
+          <mxPoint x="1305" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="ll_rt" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":Ketua RT (Verifikator)" vertex="1">
+          <mxGeometry x="1470" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_rt_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_rt">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1545" y="110" as_="sourcePoint"/>
+          <mxPoint x="1545" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="ll_ai" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":GeminiAiService" vertex="1">
+          <mxGeometry x="1690" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_ai_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_ai">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1765" y="110" as_="sourcePoint"/>
+          <mxPoint x="1765" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="ll_gemini" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#BE185D;strokeWidth=1.5;fontStyle=1;fontSize=10;fontColor=#0F172A;" value=":Google Gemini API" vertex="1">
+          <mxGeometry x="1880" y="70" width="150" height="40" as_="geometry"/>
+        </mxCell>
+        <mxCell id="ll_gemini_line" parent="1" style="strokeColor=#94A3B8;strokeWidth=1.2;dashed=1;endArrow=none;" edge="1" source="ll_gemini">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1955" y="110" as_="sourcePoint"/>
+          <mxPoint x="1955" y="1320" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg01" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="1. Isi form surat &amp; pilih jenis dokumen (SKTM)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="145" y="145" as_="sourcePoint"/>
+          <mxPoint x="335" y="145" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg02" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="2. POST /documents/store (FormData + KTP)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="335" y="175" as_="sourcePoint"/>
+          <mxPoint x="545" y="175" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg03" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="3. submit(dto): validasi otorisasi &amp; berkas" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="545" y="205" as_="sourcePoint"/>
+          <mxPoint x="795" y="205" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg04" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="4. INSERT document_requests (status='DIAJUKAN_RT')" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="235" as_="sourcePoint"/>
+          <mxPoint x="1065" y="235" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg05" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="5. Record Created (ID: DOC-2026-001)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1065" y="265" as_="sourcePoint"/>
+          <mxPoint x="795" y="265" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg06" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#15803D;" value="6. dispatch(NewDocumentRequestEvent)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="295" as_="sourcePoint"/>
+          <mxPoint x="1305" y="295" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg07" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#15803D;" value="7. Kirim Notifikasi WhatsApp ke Ketua RT" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1305" y="325" as_="sourcePoint"/>
+          <mxPoint x="1545" y="325" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg08" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="8. Return DocumentRequest Model" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="355" as_="sourcePoint"/>
+          <mxPoint x="545" y="355" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg09" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="9. 302 Redirect with Flash Message 'Berhasil'" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="545" y="385" as_="sourcePoint"/>
+          <mxPoint x="335" y="385" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg10" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="10. Tampilkan Status 'Menunggu Verifikasi RT'" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="335" y="415" as_="sourcePoint"/>
+          <mxPoint x="145" y="415" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg11" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="11. Ketua RT Buka Dashboard &amp; Klik 'Setujui'" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1545" y="465" as_="sourcePoint"/>
+          <mxPoint x="335" y="465" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg12" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="12. PATCH /documents/{id}/approve-rt" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="335" y="495" as_="sourcePoint"/>
+          <mxPoint x="545" y="495" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg13" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="13. approveTier(id, actor='RT_01', tier=1)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="545" y="525" as_="sourcePoint"/>
+          <mxPoint x="795" y="525" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg14" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="14. UPDATE status='DIAJUKAN_RW', record history" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="555" as_="sourcePoint"/>
+          <mxPoint x="1065" y="555" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg15" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="15. DB Transaction Commit" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1065" y="585" as_="sourcePoint"/>
+          <mxPoint x="795" y="585" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg16" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#15803D;" value="16. dispatch(DocumentApprovedRtEvent)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="615" as_="sourcePoint"/>
+          <mxPoint x="1305" y="615" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg17" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#15803D;" value="17. Notifikasi WhatsApp ke Warga: Disetujui RT" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1305" y="645" as_="sourcePoint"/>
+          <mxPoint x="145" y="645" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg18" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="18. Warga ketik: 'Bagaimana status surat saya?'" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="145" y="720" as_="sourcePoint"/>
+          <mxPoint x="335" y="720" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg19" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="19. POST /api/ai/chat (prompt, userId)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="335" y="750" as_="sourcePoint"/>
+          <mxPoint x="1765" y="750" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg20" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#0284C7;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0369A1;" value="20. checkUuPdpGuardrail(prompt): PASS" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1765" y="780" as_="sourcePoint"/>
+          <mxPoint x="1805" y="800" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg21" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="21. POST /v1beta/models/gemini-2.5-flash:generateContent" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1765" y="810" as_="sourcePoint"/>
+          <mxPoint x="1955" y="810" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg22" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="22. HTTP 200 ToolCall: fetch_document_requests(userId)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1955" y="850" as_="sourcePoint"/>
+          <mxPoint x="1765" y="850" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg23" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="23. SELECT * FROM document_requests WHERE user_id=?" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1765" y="890" as_="sourcePoint"/>
+          <mxPoint x="1065" y="890" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg24" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="24. Return: [{id:'DOC-001', type:'SKTM', status:'DIAJUKAN_RW'}]" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1065" y="920" as_="sourcePoint"/>
+          <mxPoint x="1765" y="920" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg25" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="25. POST response tool_call hasil JSON ke Gemini" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1765" y="960" as_="sourcePoint"/>
+          <mxPoint x="1955" y="960" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg26" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="26. HTTP 200 Generated Natural Indonesian Response" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1955" y="1000" as_="sourcePoint"/>
+          <mxPoint x="1765" y="1000" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg27" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="27. Return JSON {status:'success', text:'Surat SKTM Anda...'}" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1765" y="1040" as_="sourcePoint"/>
+          <mxPoint x="335" y="1040" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg28" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;strokeWidth=1.2;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#475569;" value="28. Render Chat Widget Bubble di Antarmuka Warga" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="335" y="1070" as_="sourcePoint"/>
+          <mxPoint x="145" y="1070" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg29" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="29. approveDesa(id): Pengesahan Kades" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="545" y="1140" as_="sourcePoint"/>
+          <mxPoint x="795" y="1140" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg30" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#0284C7;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0369A1;" value="30. generateQrPayload(id, hashTte, kadesName)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="1170" as_="sourcePoint"/>
+          <mxPoint x="835" y="1190" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg31" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="31. UPDATE status='DISETUJUI', file_pdf='sktm-001.pdf'" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="1200" as_="sourcePoint"/>
+          <mxPoint x="1065" y="1200" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg32" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#15803D;" value="32. Kirim Link Download PDF Resmi ke WhatsApp Warga" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="795" y="1230" as_="sourcePoint"/>
+          <mxPoint x="1305" y="1230" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg33" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16A34A;strokeWidth=1.5;dashed=1;endArrow=open;endFill=0;fontSize=9;fontColor=#15803D;" value="33. WhatsApp Bot kirim pesan PDF Resmi siap unduh" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="1305" y="1260" as_="sourcePoint"/>
+          <mxPoint x="145" y="1260" as_="targetPoint"/>
+        </mxCell>
+        <mxCell id="msg34" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1E3A8A;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=9;fontColor=#0F172A;" value="34. Warga Klik 'Unduh Surat Resmi PDF' (Selesai)" edge="1">
+          <mxGeometry relative="1" as_="geometry"/>
+          <mxPoint x="145" y="1290" as_="sourcePoint"/>
+          <mxPoint x="335" y="1290" as_="targetPoint"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

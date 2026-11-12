@@ -366,3 +366,4 @@ Berdasarkan seluruh hasil observasi, pengujian unit, peninjauan kode sumber (*co
 
 ---
 *Laporan Audit ini disusun secara independen dan objektif sebagai dokumen penjaminan mutu rekayasa perangkat lunak resmi.*
+
