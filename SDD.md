@@ -106,6 +106,8 @@ SIWIL mengadopsi arsitektur berlapis (*Layered Architecture*) yang memisahkan ta
 #### 2.1.1 Use Case Diagram Overview
 Sistem memodelkan interaksi antara 5 aktor pengguna terotentikasi (**Warga**, **Ketua RT**, **Ketua RW**, **Admin Desa**, **Super Administrator**) dan 1 aktor **Publik (Tamu)**. Berkas diagram grafis lengkap dengan pembagian warna unik (*color-coded*) per aktor tersimpan pada file `diagram.drawio` dan `usecase_diagram.drawio`.
 
+![Use Case Diagram SIWIL](usecase_diagram.drawio.png)
+
 Berikut adalah matriks relasi aktor ke Use Case:
 - **Warga (Biru `#1D4ED8`):** Registrasi Mandiri, Login Multi-Identifier, Ubah Profil & Tautkan Bot, Ajukan Permohonan Surat, Cek Status & Download PDF, Lapor Pengaduan Foto/GPS, Tekan Tombol Darurat SOS, Voting Musyawarah Polling, Konsultasi Asisten AI.
 - **Ketua RT (Hijau `#15803D`):** Verifikasi Akun Warga Baru, Kelola Data Penduduk & KK RT, Verifikasi Surat Tingkat 1 (Approve/Reject), Respon Aduan Wilayah RT, Tangani Peringatan Darurat SOS, Buat Polling Tingkat RT.

@@ -39,6 +39,19 @@
 
 ---
 
+## 📑 Berkas & Dokumen Luaran Proyek (Tahap 1 - 4)
+
+Semua berkas luaran resmi proyek rekayasa perangkat lunak ini telah disusun secara lengkap dan terstandarisasi:
+
+| Tahapan Proyek | Berkas Luaran Utama (PDF / Word) | Berkas Pendukung & Source | Skrip Panduan Presentasi | Status |
+| :--- | :--- | :--- | :--- | :---: |
+| **Tahap 1: Inisiasi & PRD / SRS** | 📄 [`PRD.pdf`](file:///c:/Users/alfar/Documents/laragon/www/siwil/PRD.pdf) *(Standar 14 Bagian Industri)* | [`PRD.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/PRD.md) | 🎬 [`VIDEO_SCRIPT_PROGRES_1.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_PROGRES_1.md) *(Durasi 3–5 Menit)* | ✅ Lengkap |
+| **Tahap 2: SDD & Perancangan UML** | 📐 [`SDD.pdf`](file:///c:/Users/alfar/Documents/laragon/www/siwil/SDD.pdf) *(Standar IEEE 1016-2009)* | [`SDD.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/SDD.md), [`diagram.drawio`](file:///c:/Users/alfar/Documents/laragon/www/siwil/diagram.drawio), [`usecase_diagram.drawio.png`](file:///c:/Users/alfar/Documents/laragon/www/siwil/usecase_diagram.drawio.png) | 🎬 [`VIDEO_SCRIPT_PROGRES_2.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_PROGRES_2.md) *(Durasi 5–7 Menit)* | ✅ Lengkap |
+| **Tahap 3: Konstruksi, AI & CI/CD** | ⚙️ [GitHub Actions CI/CD](https://github.com/Yenvys/SistemWilayah/actions) *(100% Passing)* | [`.github/workflows/ci.yml`](file:///c:/Users/alfar/Documents/laragon/www/siwil/.github/workflows/ci.yml), 105 Automated Tests (540 Assertions) | 🧪 Skrip Pengujian Otomatis (`php artisan test`) | ✅ 100% Green |
+| **Tahap 4: Pelaporan Final & Demo** | 📊 [`LAPORAN_FINAL.pdf`](file:///c:/Users/alfar/Documents/laragon/www/siwil/LAPORAN_FINAL.pdf)<br>📝 [`DOKUMEN_LENGKAP_PROYEK_RPL_MUHAMMAD_AL_FAREL_41257124.docx`](file:///c:/Users/alfar/Documents/laragon/www/siwil/DOKUMEN_LENGKAP_PROYEK_RPL_MUHAMMAD_AL_FAREL_41257124.docx) | [`LAPORAN_FINAL.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/LAPORAN_FINAL.md) | 🎬 [`VIDEO_SCRIPT_FINAL_DEMO.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_FINAL_DEMO.md) *(Durasi 8–12 Menit)* | ✅ Lengkap |
+
+---
+
 ## 🎥 Tautan Video Progres & Demo
 
 Berikut adalah tautan rekaman video dokumentasi perkembangan dan demonstrasi aplikasi (beserta naskah skrip presentasi terlampir):
