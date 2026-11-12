@@ -1,0 +1,363 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Sequence Diagram (Frontend-Backend-DB-AI)" id="siwil-sequence-multitier">
+    <mxGraphModel dx="2600" dy="1800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="1800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- HEADER TITLE -->
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#0F172A;" value="UML SEQUENCE DIAGRAM — ALUR PERTUKARAN PESAN PERSURATAN 3-TIER &amp; AI FUNCTION CALLING (SIWIL)" vertex="1">
+          <mxGeometry x="300" y="15" width="2000" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#475569;" value="Pemetaan Interaksi Real-Time: Frontend Web UI • Controller • Service Layer • Database • Storage • Notification Service • Gemini AI Engine" vertex="1">
+          <mxGeometry x="300" y="55" width="2000" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================= -->
+        <!-- PARTICIPANT LIFELINES (NATIVE UML LIFELINES)                      -->
+        <!-- ================================================================= -->
+        <!-- 1. Warga -->
+        <mxCell id="ll_warga" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#DBEAFE;strokeColor=#1D4ED8;strokeWidth=1.5;fontColor=#1E3A8A;fontStyle=1;fontSize=11;" value=":Warga (Pemohon)" vertex="1">
+          <mxGeometry x="70" y="90" width="140" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- 2. Web UI -->
+        <mxCell id="ll_fe" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#F1F5F9;strokeColor=#334155;strokeWidth=1.5;fontColor=#0F172A;fontStyle=1;fontSize=11;" value=":Web UI (Blade &amp; JS)" vertex="1">
+          <mxGeometry x="300" y="90" width="140" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- 3. Controller -->
+        <mxCell id="ll_ctrl" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontColor=#B45309;fontStyle=1;fontSize=11;" value=":DocRequestController" vertex="1">
+          <mxGeometry x="540" y="90" width="150" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- 4. Service -->
+        <mxCell id="ll_srv" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#DCFCE7;strokeColor=#15803D;strokeWidth=1.5;fontColor=#15803D;fontStyle=1;fontSize=11;" value=":DocApprovalService" vertex="1">
+          <mxGeometry x="790" y="90" width="150" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- 5. Database -->
+        <mxCell id="ll_db" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#EDE9FE;strokeColor=#6D28D9;strokeWidth=1.5;fontColor=#6D28D9;fontStyle=1;fontSize=11;" value=":Database (Eloquent)" vertex="1">
+          <mxGeometry x="1040" y="90" width="150" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- 6. Notification -->
+        <mxCell id="ll_notif" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#CCFBF1;strokeColor=#0D9488;strokeWidth=1.5;fontColor=#0F766E;fontStyle=1;fontSize=11;" value=":NotificationService" vertex="1">
+          <mxGeometry x="1290" y="90" width="150" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- 7. Ketua RT -->
+        <mxCell id="ll_rt" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontStyle=1;fontSize=11;" value=":Ketua RT (Verifikator)" vertex="1">
+          <mxGeometry x="1540" y="90" width="150" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- 8. AI Service -->
+        <mxCell id="ll_ai" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#E0F2FE;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0369A1;fontStyle=1;fontSize=11;" value=":GeminiAiService" vertex="1">
+          <mxGeometry x="1790" y="90" width="150" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- 9. External Gemini API -->
+        <mxCell id="ll_gemini" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#FCE7F3;strokeColor=#BE185D;strokeWidth=1.5;fontColor=#9D174D;fontStyle=1;fontSize=11;" value=":Google Gemini API" vertex="1">
+          <mxGeometry x="2040" y="90" width="150" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================================= -->
+        <!-- SCENARIO 1: PENGAJUAN SURAT MANDIRI OLEH WARGA                    -->
+        <!-- ================================================================= -->
+        <mxCell id="fr_sc1" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=180;height=25;fillColor=#F8FAFC;strokeColor=#2563EB;strokeWidth=1.5;fontColor=#1E3A8A;fontStyle=1;fontSize=10;" value="sd: Pengajuan Surat Mandiri" vertex="1">
+          <mxGeometry x="40" y="160" width="1440" height="350" as="geometry" />
+        </mxCell>
+
+        <!-- msg 1: Warga -> Web UI -->
+        <mxCell id="m_1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="1. Isi formulir surat &amp; unggah KTP/KK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="140" y="200" as="sourcePoint" />
+            <mxPoint x="370" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 2: Web UI -> Controller -->
+        <mxCell id="m_2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="2. POST /documents/store (FormData)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="235" as="sourcePoint" />
+            <mxPoint x="615" y="235" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 3: Controller -> Service -->
+        <mxCell id="m_3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="3. submit(dto): validasi kepemilikan data">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="270" as="sourcePoint" />
+            <mxPoint x="865" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 4: Service -> Database -->
+        <mxCell id="m_4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="4. INSERT document_requests (status='DIAJUKAN_RT')">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="865" y="305" as="sourcePoint" />
+            <mxPoint x="1115" y="305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 5: Database --> Service (reply) -->
+        <mxCell id="m_5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#64748B;strokeWidth=1.2;fontColor=#475569;fontSize=10;" value="5. Record Created (ID: DOC-2026-001)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1115" y="340" as="sourcePoint" />
+            <mxPoint x="865" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 6: Service -> Notification -->
+        <mxCell id="m_6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" value="6. dispatch(NewDocEvent)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="865" y="375" as="sourcePoint" />
+            <mxPoint x="1365" y="375" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 7: Notification -> Ketua RT -->
+        <mxCell id="m_7" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" value="7. Kirim Notifikasi WhatsApp ke RT">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1365" y="410" as="sourcePoint" />
+            <mxPoint x="1615" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 8: Service --> Controller -->
+        <mxCell id="m_8" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#64748B;strokeWidth=1.2;fontColor=#475569;fontSize=10;" value="8. Return Model">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="865" y="445" as="sourcePoint" />
+            <mxPoint x="615" y="445" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 9: Controller --> Web UI -->
+        <mxCell id="m_9" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#64748B;strokeWidth=1.2;fontColor=#475569;fontSize=10;" value="9. 302 Redirect with Flash Message">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="475" as="sourcePoint" />
+            <mxPoint x="370" y="475" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ================================================================= -->
+        <!-- SCENARIO 2: VERIFIKASI BERJENJANG KETUA RT (APPROVAL TIER 1)      -->
+        <!-- ================================================================= -->
+        <mxCell id="fr_sc2" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=180;height=25;fillColor=#F8FAFC;strokeColor=#15803D;strokeWidth=1.5;fontColor=#15803D;fontStyle=1;fontSize=10;" value="sd: Verifikasi Berjenjang RT" vertex="1">
+          <mxGeometry x="40" y="540" width="1680" height="290" as="geometry" />
+        </mxCell>
+
+        <!-- msg 10: RT -> Web UI -->
+        <mxCell id="m_10" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#15803D;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="10. RT Buka Antrean Dokumen &amp; Klik 'Setujui'">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1615" y="580" as="sourcePoint" />
+            <mxPoint x="370" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 11: Web UI -> Controller -->
+        <mxCell id="m_11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="11. PATCH /documents/{id}/approve-rt">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="615" as="sourcePoint" />
+            <mxPoint x="615" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 12: Controller -> Service -->
+        <mxCell id="m_12" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="12. approveTier(id, actor='RT_01', tier=1)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="650" as="sourcePoint" />
+            <mxPoint x="865" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 13: Service -> Database -->
+        <mxCell id="m_13" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="13. UPDATE status='DIAJUKAN_RW', INSERT history">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="865" y="685" as="sourcePoint" />
+            <mxPoint x="1115" y="685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 14: Service -> Notification -->
+        <mxCell id="m_14" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" value="14. dispatch(DocumentApprovedRtEvent)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="865" y="720" as="sourcePoint" />
+            <mxPoint x="1365" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 15: Notification -> Warga -->
+        <mxCell id="m_15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" value="15. Notifikasi WhatsApp ke Warga: Surat Disetujui RT">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1365" y="755" as="sourcePoint" />
+            <mxPoint x="140" y="755" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 16: Controller --> Web UI -->
+        <mxCell id="m_16" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#64748B;strokeWidth=1.2;fontColor=#475569;fontSize=10;" value="16. 200 OK (SweetAlert2 Berhasil)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="790" as="sourcePoint" />
+            <mxPoint x="370" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ================================================================= -->
+        <!-- SCENARIO 3: TANYA JAWAB AI ASSISTANT & 12 TOOLS FUNCTION CALLING  -->
+        <!-- ================================================================= -->
+        <mxCell id="fr_sc3" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=220;height=25;fillColor=#F8FAFC;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0369A1;fontStyle=1;fontSize=10;" value="sd: AI Assistant &amp; 12 Function Tools" vertex="1">
+          <mxGeometry x="40" y="860" width="2200" height="420" as="geometry" />
+        </mxCell>
+
+        <!-- msg 17: Warga -> Web UI Chat -->
+        <mxCell id="m_17" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="17. Warga ketik: 'Bagaimana status permohonan surat saya?'">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="140" y="900" as="sourcePoint" />
+            <mxPoint x="370" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 18: Web UI -> Controller -->
+        <mxCell id="m_18" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="18. POST /api/ai/chat (prompt, userId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="935" as="sourcePoint" />
+            <mxPoint x="615" y="935" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 19: Controller -> AI Service -->
+        <mxCell id="m_19" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="19. generateResponse(prompt, userContext)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="970" as="sourcePoint" />
+            <mxPoint x="1865" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 20: AI Service -> Gemini API -->
+        <mxCell id="m_20" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#BE185D;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="20. POST generateContent (Prompt + 12 Tools Schema)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1865" y="1005" as="sourcePoint" />
+            <mxPoint x="2115" y="1005" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 21: Gemini API -> AI Service (Tool Call) -->
+        <mxCell id="m_21" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#BE185D;strokeWidth=1.2;fontColor=#9D174D;fontSize=10;" value="21. HTTP 200 ToolCall: fetch_document_requests(userId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2115" y="1040" as="sourcePoint" />
+            <mxPoint x="1865" y="1040" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 22: AI Service -> Database (Execute Tool) -->
+        <mxCell id="m_22" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#6D28D9;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="22. SELECT * FROM document_requests WHERE user_id=?">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1865" y="1075" as="sourcePoint" />
+            <mxPoint x="1115" y="1075" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 23: Database --> AI Service -->
+        <mxCell id="m_23" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#64748B;strokeWidth=1.2;fontColor=#475569;fontSize=10;" value="23. JSON: [{id:'DOC-001', type:'SKTM', status:'DIAJUKAN_RW'}]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1115" y="1110" as="sourcePoint" />
+            <mxPoint x="1865" y="1110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 24: AI Service -> Gemini API (Tool Response) -->
+        <mxCell id="m_24" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#BE185D;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="24. POST ToolResponse (JSON Data Result)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1865" y="1145" as="sourcePoint" />
+            <mxPoint x="2115" y="1145" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 25: Gemini API --> AI Service (Final Text) -->
+        <mxCell id="m_25" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#BE185D;strokeWidth=1.2;fontColor=#9D174D;fontSize=10;" value="25. HTTP 200 Natural Indonesian Summary">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2115" y="1180" as="sourcePoint" />
+            <mxPoint x="1865" y="1180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 26: AI Service --> Controller -->
+        <mxCell id="m_26" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#64748B;strokeWidth=1.2;fontColor=#475569;fontSize=10;" value="26. Return JSON response">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1865" y="1215" as="sourcePoint" />
+            <mxPoint x="615" y="1215" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 27: Controller --> Web UI -->
+        <mxCell id="m_27" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#64748B;strokeWidth=1.2;fontColor=#475569;fontSize=10;" value="27. Render Balasan Interaktif di Widget Chat">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="1245" as="sourcePoint" />
+            <mxPoint x="370" y="1245" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ================================================================= -->
+        <!-- SCENARIO 4: PENGESAHAN AKHIR DESA, TTE QR & DOWNLOAD PDF          -->
+        <!-- ================================================================= -->
+        <mxCell id="fr_sc4" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=220;height=25;fillColor=#F8FAFC;strokeColor=#C2410C;strokeWidth=1.5;fontColor=#C2410C;fontStyle=1;fontSize=10;" value="sd: Pengesahan TTE &amp; Unduh PDF" vertex="1">
+          <mxGeometry x="40" y="1310" width="1440" height="290" as="geometry" />
+        </mxCell>
+
+        <!-- msg 28: Controller -> Service -->
+        <mxCell id="m_28" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#C2410C;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="28. approveDesa(id): Pengesahan Kades">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="1350" as="sourcePoint" />
+            <mxPoint x="865" y="1350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 29: Service -> Service (self) -->
+        <mxCell id="m_29" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=1;strokeColor=#15803D;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" value="29. generateQrPayload(id, hashTte, kadesName)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="865" y="1385" as="sourcePoint" />
+            <mxPoint x="865" y="1415" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="915" y="1385" />
+              <mxPoint x="915" y="1415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 30: Service -> Database -->
+        <mxCell id="m_30" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="30. UPDATE status='DISETUJUI', file_pdf='sktm-001.pdf'">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="865" y="1450" as="sourcePoint" />
+            <mxPoint x="1115" y="1450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 31: Service -> Notification -->
+        <mxCell id="m_31" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" value="31. Kirim Pesan WhatsApp ke Warga + Tautan Unduh PDF">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="865" y="1485" as="sourcePoint" />
+            <mxPoint x="1365" y="1485" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 32: Notification -> Warga -->
+        <mxCell id="m_32" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#15803D;fontSize=10;" value="32. Bot WhatsApp kirim berkas PDF Resmi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1365" y="1520" as="sourcePoint" />
+            <mxPoint x="140" y="1520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- msg 33: Warga -> Web UI -->
+        <mxCell id="m_33" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeColor=#1E3A8A;strokeWidth=1.5;fontColor=#0F172A;fontSize=10;" value="33. Warga Klik 'Unduh Surat Resmi PDF' (Selesai)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="140" y="1560" as="sourcePoint" />
+            <mxPoint x="370" y="1560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
