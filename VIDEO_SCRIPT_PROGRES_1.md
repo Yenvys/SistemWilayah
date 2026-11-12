@@ -37,7 +37,7 @@
 
 ### BAGIAN 2: LATAR BELAKANG MASALAH & URGENSI RIIL (00:35 - 01:20)
 **Panduan Durasi:** 45 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bab 2.1 — Poin Masalah Birokrasi Manual, Keterbatasan Jam RT/RW, Kerentanan Privasi UU PDP, dan Minimnya Transparansi APBDes]`
+**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 1.1 — Poin Masalah Birokrasi Manual, Keterbatasan Jam RT/RW, Kerentanan Privasi UU PDP, dan Minimnya Transparansi APBDes]`
 
 > *"Bapak dosen dan rekan-rekan, proyek SIWIL diinisiasi dari permasalahan nyata dalam birokrasi pemerintahan akar rumput di Indonesia, yaitu di tingkat RT, RW, dan kantor Desa/Kelurahan.*  
 > 
@@ -53,7 +53,7 @@
 
 ### BAGIAN 3: RUANG LINGKUP & PENGGUNA SISTEM (RBAC) (01:20 - 02:00)
 **Panduan Durasi:** 40 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bab 2.4 — Diagram Hirarki Aktor & Tabel Matriks Hak Akses RBAC: Warga, RT, RW, Desa, Superadmin, dan Publik]`
+**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 2 — Diagram Hirarki Aktor & Tabel Matriks Hak Akses RBAC: Warga, RT, RW, Desa, Superadmin, dan Publik]`
 
 > *"Sistem SIWIL menerapkan arsitektur kontrol akses berbasis peran atau **Role-Based Access Control (RBAC)** yang ketat dan terbagi atas 5 aktor utama:*  
 > 
@@ -68,7 +68,7 @@
 
 ### BAGIAN 4: KEBUTUHAN FUNGSIONAL & CRITERIA GHERKIN (02:00 - 02:50)
 **Panduan Durasi:** 50 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bab 3 — Contoh User Stories dan Acceptance Criteria Gherkin (Given-When-Then) untuk Modul Surat 3-Tier & Registrasi NIK/KK]`
+**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 4 — Contoh User Stories dan Acceptance Criteria Gherkin (Given-When-Then) untuk Modul Persuratan & Registrasi NIK/KK]`
 
 > *"Dalam mendefinisikan kebutuhan fungsional, dokumen PRD SIWIL menyusun seluruh kebutuhan ke dalam format **User Stories** dan memvalidasinya menggunakan kriteria penerimaan **Gherkin (Given-When-Then)**.*  
 > 
@@ -85,7 +85,7 @@
 
 ### BAGIAN 5: SPESIFIKASI FITUR KECERDASAN BUATAN (AI ENGINE) (02:50 - 03:45)
 **Panduan Durasi:** 55 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bab 5 — Diagram Arsitektur AI SIWIL, Daftar 12 Backend Function Calling Tools, dan Klausul Guardrail UU PDP]`
+**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 5 — Diagram Arsitektur AI SIWIL, Daftar 12 Backend Function Calling Tools, dan Klausul Guardrail UU PDP]`
 
 > *"Salah satu keunggulan inovatif SIWIL adalah integrasi fitur kecerdasan buatan, yaitu **SIWIL AI Assistant**.*  
 > 
@@ -100,7 +100,7 @@
 
 ### BAGIAN 6: PENUTUP & KESIAPAN TAHAP 2 (03:45 - 04:10)
 **Panduan Durasi:** 25 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: Bab 7 Matriks RTM dan Slide Penutup yang memuat Identitas Mahasiswa & Ucapan Terima Kasih]`
+**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 6 Non-Fungsional & Bagian 7 Roadmap Produk serta Slide Penutup]`
 
 > *"Seluruh spesifikasi kebutuhan fungsional dan non-fungsional berstandar **ISO 25010** ini telah dipetakan secara lengkap ke dalam **Requirements Traceability Matrix (RTM)** di dalam dokumen PRD.*  
 > 
