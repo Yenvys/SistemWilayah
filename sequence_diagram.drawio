@@ -6,10 +6,10 @@
         <mxCell id="1" parent="0" />
 
         <!-- HEADER TITLE -->
-        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#0F172A;" value="UML SEQUENCE DIAGRAM — ALUR PERTUKARAN PESAN PERSURATAN 3-TIER &amp; AI FUNCTION CALLING (SIWIL)" vertex="1">
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#0F172A;" value="UML SEQUENCE DIAGRAM - ALUR PERTUKARAN PESAN PERSURATAN 3-TIER &amp; AI FUNCTION CALLING (SIWIL)" vertex="1">
           <mxGeometry x="300" y="15" width="2000" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#475569;" value="Pemetaan Interaksi Real-Time: Frontend Web UI • Controller • Service Layer • Database • Storage • Notification Service • Gemini AI Engine" vertex="1">
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#475569;" value="Pemetaan Interaksi Real-Time: Frontend Web UI | Controller | Service Layer | Database | Storage | Notification Service | Gemini AI Engine" vertex="1">
           <mxGeometry x="300" y="55" width="2000" height="25" as="geometry" />
         </mxCell>
 

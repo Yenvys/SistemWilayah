@@ -6,10 +6,10 @@
         <mxCell id="1" parent="0" />
 
         <!-- HEADER TITLE -->
-        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#0F172A;" value="UML CLASS DIAGRAM — ARSITEKTUR BERORIENTASI OBJEK &amp; KEPATUHAN PRINSIP SOLID (SIWIL)" vertex="1">
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#0F172A;" value="UML CLASS DIAGRAM - ARSITEKTUR BERORIENTASI OBJEK &amp; KEPATUHAN PRINSIP SOLID (SIWIL)" vertex="1">
           <mxGeometry x="300" y="15" width="2000" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=2;fontColor=#334155;" value="Penerapan 5 Prinsip SOLID: SRP (Controller Layer) • OCP &amp; DIP (Service Abstraction) • LSP (Model Eloquent) • ISP (Form Requests &amp; Repositories)" vertex="1">
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=2;fontColor=#334155;" value="Penerapan 5 Prinsip SOLID: SRP (Controller Layer) | OCP &amp; DIP (Service Abstraction) | LSP (Model Eloquent) | ISP (Form Requests &amp; Repositories)" vertex="1">
           <mxGeometry x="300" y="55" width="2000" height="25" as="geometry" />
         </mxCell>
 

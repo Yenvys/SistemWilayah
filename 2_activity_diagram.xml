@@ -6,10 +6,10 @@
         <mxCell id="1" parent="0" />
 
         <!-- HEADER TITLE -->
-        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#0F172A;" value="UML ACTIVITY DIAGRAM — ALUR PELAYANAN PERSURATAN BERJENJANG &amp; PENERBITAN TTE DIGITAL (SIWIL)" vertex="1">
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#0F172A;" value="UML ACTIVITY DIAGRAM - ALUR PELAYANAN PERSURATAN BERJENJANG &amp; PENERBITAN TTE DIGITAL (SIWIL)" vertex="1">
           <mxGeometry height="45" width="2200" x="250" y="15" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#475569;" value="Pemetaan Alur Kerja Terpadu: Warga • Ketua RT (Verifikator 1) • Ketua RW (Verifikator 2) • Pemerintah Desa (Penerbit) • Sistem SIWIL &amp; Omnichannel Bot" vertex="1">
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#475569;" value="Pemetaan Alur Kerja Terpadu: Warga | Ketua RT (Verifikator 1) | Ketua RW (Verifikator 2) | Pemerintah Desa (Penerbit) | Sistem SIWIL &amp; Omnichannel Bot" vertex="1">
           <mxGeometry height="25" width="2200" x="250" y="50" as="geometry" />
         </mxCell>
 
@@ -196,7 +196,7 @@
           <mxGeometry height="55" width="360" x="110" y="1705" as="geometry" />
         </mxCell>
 
-        <mxCell id="act_sys_dispatch_done" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontSize=11;fontStyle=1;fontColor=#14532D;arcSize=14;" value="Broadcast Notifikasi &amp; Dokumen Serentak:&#xa;• WhatsApp: Kirim File PDF Otomatis Langsung di Chat&#xa;• Telegram: Kirim Link Unduh Dokumen PDF&#xa;• In-App: Notifikasi Surat Siap Diambil/Dicetak&#xa;• Email: Kirim Dokumen PDF via SMTP Attachment" vertex="1">
+        <mxCell id="act_sys_dispatch_done" parent="lane_sys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontSize=11;fontStyle=1;fontColor=#14532D;arcSize=14;" value="Broadcast Notifikasi &amp; Dokumen Serentak:&#xa;| WhatsApp: Kirim File PDF Otomatis Langsung di Chat&#xa;| Telegram: Kirim Link Unduh Dokumen PDF&#xa;| In-App: Notifikasi Surat Siap Diambil/Dicetak&#xa;| Email: Kirim Dokumen PDF via SMTP Attachment" vertex="1">
           <mxGeometry height="80" width="360" x="110" y="1785" as="geometry" />
         </mxCell>
 
