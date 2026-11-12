@@ -1,114 +1,136 @@
-# NASKAH PRESENTASI VIDEO PROGRES 1 (PRD / SRS MANDIRI)
-## SIWIL — Sistem Informasi Wilayah & Pemerintahan Terpadu
-**Mata Kuliah:** Rekayasa Perangkat Lunak (RPL)  
-**Dosen Pengampu:** Yudhistira  
+# NASKAH SKRIP VIDEO PRESENTASI PROGRES 1 (PRD v2.5.0)
+## SIWIL: Sistem Informasi Wilayah & Pemerintahan Terpadu
+**Format Tampilan:** Poster / Infografis Ekosistem Digital SIWIL  
+**Mata Kuliah:** Rekayasa Perangkat Lunak (TIKB2503021) — STMIK IKMI Cirebon  
+**Dosen Pengampu:** Yudhistira Arie Wijaya, M.Kom., CDS.  
 **Nama Mahasiswa:** Muhammad Al Farel  
-**NIM:** 41257124  
-**Kelas:** TI 1B 2025  
-**Target Durasi:** 3 – 5 Menit (Optimal: ~4 Menit)
+**NIM:** 41257124 | **Kelas:** TI 1B 2025  
+**Target Durasi:** 3 Menit 30 Detik – 4 Menit 15 Detik (**Maksimal 5 Menit**)  
+**Total Kata:** ~491 Kata (Kecepatan Bicara: 125–130 kata/menit)
 
 ---
 
-### PANDUAN PEREKAMAN BAGI MAHASISWA
-- **Gaya Penyampaian:** Percaya diri, lugas, artikulasi jelas, tempo stabil (tidak terlalu cepat, tidak berbelit-belit).
-- **Tata Letak Layar:** 
-  - Kamera wajah (webcam) di pojok kanan bawah atau kiri bawah.
-  - Tampilan utama merekam dokumen PRD.md / slide presentasi PowerPoint / PDF.
-- **Tanda Visual:** Ikuti petunjuk `[TAMPILKAN PADA LAYAR]` untuk mengganti tampilan visual yang sedang direkam.
+### PANDUAN REKAMAN VIDEO BAGI MAHASISWA
+1. **Posisi Layar:** Buka gambar/infografis PRD SIWIL secara layar penuh (fullscreen). Tempatkan kamera wajah (webcam) di sudut layar.
+2. **Kamera/Kursor Mouse:** Gunakan kursor mouse untuk menyorot atau mengarahkan ke bagian kartu/kotak yang sedang dibahas sesuai penanda `[ARAHKAN KURSOR KE: ...]`.
+3. **Ketepatan Waktu:** Naskah ini telah dikalibrasi tuntas dalam waktu ~3 menit 45 detik, sehingga Anda memiliki cadangan waktu lebih dari 1 menit sebelum batas maksimal 5 menit berakhir.
 
 ---
 
-## TIMELINE & NASKAH KATA-DEMI-KATA (VERBATIM)
+## NASKAH LENGKAP KATA-DEMI-KATA (VERBATIM)
 
-### BAGIAN 1: PEMBUKAAN & IDENTITAS DIRI (00:00 - 00:35)
-**Panduan Durasi:** 35 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: Slide Judul berisi Nama: Muhammad Al Farel, NIM: 41257124, Kelas: TI 1B 2025, Dosen: Yudhistira, Mata Kuliah: Rekayasa Perangkat Lunak, Judul: SIWIL]`
+### 1. PEMBUKAAN & IDENTITAS DIRI (00:00 – 00:25)
+*Durasi: ~25 detik | 56 kata*  
+`[ARAHKAN KURSOR KE: Header Banner Paling Atas — Judul SIWIL & Identitas Diri]`
 
-> *"Assalamu’alaikum Warahmatullahi Wabarakatuh,*  
-> *Selamat pagi/siang kepada Bapak Yudhistira selaku dosen pengampu mata kuliah Rekayasa Perangkat Lunak, serta rekan-rekan sekalian.*  
+> *"Assalamu’alaikum Warahmatullahi Wabarakatuh.*  
+> *Selamat pagi/siang kepada Bapak Yudhistira Arie Wijaya selaku dosen pengampu mata kuliah Rekayasa Perangkat Lunak, serta rekan-rekan sekalian.*  
 > 
-> *Perkenalkan, nama saya Muhammad Al Farel, NIM 41257124, dari kelas TI 1B angkatan 2025.*  
+> *Perkenalkan, saya **Muhammad Al Farel**, NIM **41257124**, kelas **TI 1B angkatan 2025**, Program Studi S1 Teknik Informatika, STMIK IKMI Cirebon.*  
 > 
-> *Pada kesempatan kali ini, saya akan mempresentasikan laporan **Tahap 1: Inisiasi dan Penyusunan Product Requirements Document (PRD) atau Software Requirements Specification (SRS)** untuk proyek aplikasi web yang saya kembangkan, yaitu **SIWIL — Sistem Informasi Wilayah dan Pemerintahan Terpadu**.*  
-> 
-> *Penyusunan dokumen ini mengacu secara ketat pada standar internasional **IEEE Std 830** dan **ISO/IEC/IEEE 29148**, serta standar evaluasi kualitas **ISO/IEC 25010**."*
+> *Pada video progres Tahap 1 ini, saya mempresentasikan luaran **Product Requirements Document (PRD v2.5.0)** untuk proyek **SIWIL: Sistem Informasi Wilayah & Pemerintahan Terpadu**, sebuah ekosistem digital tata kelola pemerintahan desa berbasis web dan kecerdasan buatan."*
 
 ---
 
-### BAGIAN 2: LATAR BELAKANG MASALAH & URGENSI RIIL (00:35 - 01:20)
-**Panduan Durasi:** 45 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 1.1 — Poin Masalah Birokrasi Manual, Keterbatasan Jam RT/RW, Kerentanan Privasi UU PDP, dan Minimnya Transparansi APBDes]`
+### 2. LATAR BELAKANG & URGENSI BIROKRASI (00:25 – 00:55)
+*Durasi: ~30 detik | 59 kata*  
+`[ARAHKAN KURSOR KE: Bagian 1 — LATAR BELAKANG & URGENSI: 4 Hambatan Birokrasi Manual]`
 
-> *"Bapak dosen dan rekan-rekan, proyek SIWIL diinisiasi dari permasalahan nyata dalam birokrasi pemerintahan akar rumput di Indonesia, yaitu di tingkat RT, RW, dan kantor Desa/Kelurahan.*  
-> 
-> *Setidaknya ada empat masalah utama yang kami temukan:*  
-> *1. **Rantai birokrasi berjenjang yang lambat:** Warga harus bolak-balik meminta surat pengantar fisik ke rumah Ketua RT, lalu ke rumah Ketua RW, dan mengantre di kantor desa. Proses ini memakan waktu 2 hingga 5 hari kerja.*  
-> *2. **Keterbatasan waktu pengurus wilayah:** Pengurus RT dan RW adalah tokoh masyarakat yang memiliki pekerjaan utama di luar perannya, sehingga warga kerap kali kesulitan menemui mereka secara langsung.*  
-> *3. **Kerentanan privasi data:** Pencatatan kependudukan di buku register manual sangat rentan hilang, rusak, dan melanggar **Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP)** karena NIK dan data keluarga terbuka secara bebas.*  
-> *4. **Minimnya transparansi anggaran:** Informasi realisasi APBDes dan progres proyek pembangunan desa jarang tersosialisasikan secara terbuka kepada warga.*  
-> 
-> *Hadirnya SIWIL adalah untuk mentransformasikan seluruh birokrasi fisik ini menjadi **layanan digital nirkertas (zero paperwork)**, transparan, dan dapat diakses 24 jam sehari."*
+> *"Pengembangan SIWIL diinisiasi dari empat hambatan birokrasi manual yang kerap terjadi di lapangan:*  
+> *Pertama, **birokrasi yang lambat**, di mana pengurusan surat fisik membutuhkan waktu 2 hingga 5 hari kerja.*  
+> *Kedua, **keterbatasan waktu temu**, yang memaksa warga bolak-balik mendatangi rumah pengurus RT dan RW.*  
+> *Ketiga, **kerentanan privasi data**, di mana pencatatan di buku register manual sangat rentan tercecer dan berisiko melanggar amanat **Undang-Undang Pelindungan Data Pribadi (UU PDP)**.*  
+> *Serta keempat, **minimnya transparansi realisasi APBDes** bagi masyarakat luas."*
 
 ---
 
-### BAGIAN 3: RUANG LINGKUP & PENGGUNA SISTEM (RBAC) (01:20 - 02:00)
-**Panduan Durasi:** 40 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 2 — Diagram Hirarki Aktor & Tabel Matriks Hak Akses RBAC: Warga, RT, RW, Desa, Superadmin, dan Publik]`
+### 3. VISI & SOLUSI TERPADU (00:55 – 01:20)
+*Durasi: ~25 detik | 47 kata*  
+`[ARAHKAN KURSOR KE: Bagian 2 — VISI & SOLUSI TERPADU: Transformasi Digital Pemerintahan Desa]`
 
-> *"Sistem SIWIL menerapkan arsitektur kontrol akses berbasis peran atau **Role-Based Access Control (RBAC)** yang ketat dan terbagi atas 5 aktor utama:*  
+> *"Menjawab masalah tersebut, SIWIL mengusung visi utama:*  
+> *'**Satu Data Wilayah, Satu Sistem Pemerintahan, Dibantu Kecerdasan Buatan (AI)**'.*  
 > 
-> *1. **Warga Masyarakat:** Memiliki layanan mandiri untuk mengajukan surat, melapor aduan dengan bukti foto dan koordinat GPS, voting musyawarah, menekan tombol darurat SOS, dan berkonsultasi dengan asisten AI.*  
-> *2. **Ketua RT:** Sebagai verifikator tingkat pertama permohonan surat warga, verifikator akun warga baru, serta pengelola master kependudukan di lingkup RT-nya.*  
-> *3. **Ketua RW:** Sebagai verifikator tingkat kedua dan koordinator kebijakan antar-RT.*  
-> *4. **Admin Desa:** Sebagai penerbit surat resmi berkekuatan hukum dengan Tanda Tangan Elektronik ber-QR Code, pengelola proyek fisik, dan administrator APBDes.*  
-> *5. **Super Administrator:** Mengelola konfigurasi terpusat sistem seperti API Key AI, WhatsApp Gateway, dan audit logs.*  
-> *Serta **Pengunjung Publik** yang dapat mengakses portal keterbukaan APBDes dan statistik desa tanpa perlu login."*
+> *Solusi terpadu kami mencakup tiga pilar:*  
+> *1. **Sentralisasi Teritorial**, yaitu integrasi master data hierarkis dari tingkat Desa hingga RT.*  
+> *2. **Layanan Zero Paperwork 24/7**, yang dapat diakses mandiri via Web, WhatsApp, maupun Telegram.*  
+> *3. Serta **Intelligence Layer**, analitik kebijakan wilayah secara real-time berbasis Google Gemini."*
 
 ---
 
-### BAGIAN 4: KEBUTUHAN FUNGSIONAL & CRITERIA GHERKIN (02:00 - 02:50)
-**Panduan Durasi:** 50 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 4 — Contoh User Stories dan Acceptance Criteria Gherkin (Given-When-Then) untuk Modul Persuratan & Registrasi NIK/KK]`
+### 4. ROLE-BASED ACCESS CONTROL (RBAC) (01:20 – 01:50)
+*Durasi: ~30 detik | 59 kata*  
+`[ARAHKAN KURSOR KE: Bagian 3 — Tabel ROLE-BASED ACCESS CONTROL (RBAC): 6 Tingkat Otoritas]`
 
-> *"Dalam mendefinisikan kebutuhan fungsional, dokumen PRD SIWIL menyusun seluruh kebutuhan ke dalam format **User Stories** dan memvalidasinya menggunakan kriteria penerimaan **Gherkin (Given-When-Then)**.*  
-> 
-> *Sebagai contoh pada **Modul Autentikasi (US-03)**, registrasi warga menerapkan **Zero Fake Account validation**:*  
-> *`Given` calon warga berada di halaman register,*  
-> *`When` menginput NIK dan Nomor KK 16 digit,*  
-> *`Then` sistem memvalidasi silang ke basis data kependudukan desa. Akun hanya akan dibuat berstatus pending jika NIK dan No. KK-nya terdaftar resmi di database desa.*  
-> 
-> *Contoh lain pada **Modul Persuratan Digital 3-Tier (US-08)**:*  
-> *Ketika warga mengajukan surat SKTM atau Domisili, sistem memproses alur persetujuan berjenjang: disetujui RT terlebih dahulu, diteruskan ke RW, hingga disahkan oleh Kantor Desa.*  
-> *Setelah disahkan, sistem secara otomatis membubuhkan Tanda Tangan Elektronik dan men-generate dokumen PDF resmi ber-QR Code verifikasi yang dapat dipindai oleh pihak instansi luar."*
+> *"Untuk menjamin keamanan dan partisi data, sistem membagi hak akses ke dalam **6 tingkat otoritas RBAC**:*  
+> *1. **Masyarakat Publik**, memiliki akses terbuka untuk memantau APBDes, statistik demografi, dan proyek fisik tanpa login.*  
+> *2. **Warga Terdaftar**, untuk mengajukan surat mandiri, aduan GPS, tombol darurat SOS, e-voting, dan chat AI.*  
+> *3. **Ketua RT**, sebagai verifikator surat tingkat 1.*  
+> *4. **Ketua RW**, sebagai verifikator surat tingkat 2 dan koordinator lintas RT.*  
+> *5. **Admin Desa**, untuk menerbitkan surat TTE ber-QR Code resmi.*  
+> *Serta 6. **Super Admin**, untuk konfigurasi API AI, WhatsApp Gateway, dan pemantauan audit log."*
 
 ---
 
-### BAGIAN 5: SPESIFIKASI FITUR KECERDASAN BUATAN (AI ENGINE) (02:50 - 03:45)
-**Panduan Durasi:** 55 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 5 — Diagram Arsitektur AI SIWIL, Daftar 12 Backend Function Calling Tools, dan Klausul Guardrail UU PDP]`
+### 5. ADMINISTRASI & PELAYANAN SURAT 3-TIER (01:50 – 02:20)
+*Durasi: ~30 detik | 56 kata*  
+`[ARAHKAN KURSOR KE: Bagian 4 — Alur Persetujuan Surat 3-Tier (< 4 Jam)]`
 
-> *"Salah satu keunggulan inovatif SIWIL adalah integrasi fitur kecerdasan buatan, yaitu **SIWIL AI Assistant**.*  
+> *"Pada pilar administrasi, SIWIL menerapkan **alur persetujuan persuratan berjenjang 3-Tier** dengan target penyelesaian di bawah 4 jam:*  
+> *Dimulai dari langkah pertama, **Pengajuan mandiri oleh warga** untuk 9 jenis surat via Web atau WhatsApp.*  
+> *Kedua, **Verifikasi domisili oleh Ketua RT**.*  
+> *Ketiga, **Persetujuan wilayah oleh Ketua RW**.*  
+> *Dan keempat, **Pengesahan oleh Kepala Desa**.*  
 > 
-> *Kami menggunakan Large Language Model berbasis **Google Gemini API** sebagai engine primer, yang kami integrasikan secara real-time ke dalam backend aplikasi.*  
-> 
-> *Fitur AI ini dirancang dengan prinsip **kebenaran data dan kepatuhan privasi** melalui tiga arsitektur utama:*  
-> *1. **12 Dynamic Function Calling Tools:** AI tidak dibiarkan berhalusinasi atau mengarang data. AI dibekali 12 tools di backend untuk membaca data riil secara aman, seperti memeriksa status surat, jadwal pengumuman, data APBDes, hingga biodata keluarga pengguna.*  
-> *2. **Penegakan Guardrails UU PDP:** AI kami bekali instruksi sistem yang melarang keras membocorkan NIK, nomor telepon, alamat, atau biodata warga lain kepada akun berstatus warga biasa.*  
-> *3. **Multi-Key Rotation & Smart Fallback:** Sistem mendukung rotasi otomatis kunci API cadangan jika kuota habis, serta dilengkapi fallback berbasis pattern matching lokal sehingga layanan chat tetap aktif meski koneksi API luar terputus."*
+> *Surat terbit otomatis dalam format PDF resmi berstempel dan bertanda tangan elektronik dinas, dilengkapi **QR Code Validator** yang dapat dipindai langsung oleh pihak luar untuk menguji keaslian dokumen secara real-time."*
 
 ---
 
-### BAGIAN 6: PENUTUP & KESIAPAN TAHAP 2 (03:45 - 04:10)
-**Panduan Durasi:** 25 Detik  
-**Tampilan Layar:** `[TAMPILKAN PADA LAYAR: PRD Bagian 6 Non-Fungsional & Bagian 7 Roadmap Produk serta Slide Penutup]`
+### 6. FITUR OPERASIONAL & PARTISIPASI WARGA (02:20 – 02:50)
+*Durasi: ~30 detik | 47 kata*  
+`[ARAHKAN KURSOR KE: Bagian 5 — FITUR OPERASIONAL & PARTISIPASI: Layanan Lapangan]`
 
-> *"Seluruh spesifikasi kebutuhan fungsional dan non-fungsional berstandar **ISO 25010** ini telah dipetakan secara lengkap ke dalam **Requirements Traceability Matrix (RTM)** di dalam dokumen PRD.*  
-> 
-> *Dokumen PRD ini menjadi fondasi yang kokoh bagi saya untuk melanjutkan ke **Tahap 2**, yaitu perancangan arsitektur sistem dan pemodelan empat diagram UML utama, ERD basis data, serta prototipe antarmuka UI/UX.*  
-> 
-> *Demikian presentasi progres tahap 1 ini saya sampaikan. Terima kasih banyak atas perhatian Bapak Yudhistira dan rekan-rekan semua.*  
-> *Wassalamu’alaikum Warahmatullahi Wabarakatuh."*
+> *"SIWIL memperkuat pelayanan lapangan dan akuntabilitas publik melalui tiga modul utama:*  
+> *Pertama, **Pengaduan GPS dan Tombol Darurat SOS**. Warga dapat melapor aduan dengan foto presisi, serta memancarkan alarm darurat instan ke aparat wilayah.*  
+> *Kedua, **Transparansi APBDes**, yang mempublikasikan serapan dana desa, bantuan sosial, dan progres proyek fisik secara terbuka.*  
+> *Serta ketiga, **E-Democracy Warga**, yaitu musyawarah dan polling digital berintegritas tinggi dengan asas **One Citizen One Vote**."*
 
 ---
-*Naskah ini dirancang khusus untuk memenuhi rubrik penilaian Tahap 1 RPL: waktu tepat 3–5 menit, isi komprehensif, berbasis standar IEEE 830 / ISO 29148, dan berfokus pada keunggulan teknis serta kepatuhan UU PDP.*
 
+### 7. NOVELTY & KECERDASAN BUATAN (SIWIL AI) (02:50 – 03:25)
+*Durasi: ~35 detik | 53 kata*  
+`[ARAHKAN KURSOR KE: Bagian 6 — NOVELTY & KECERDASAN BUATAN: SIWIL AI Engine]`
+
+> *"Pembeda utama sekaligus kebaruan (*novelty*) sistem ini adalah **SIWIL AI Engine**.*  
+> *AI ini dibekali **12 Deterministic Function Calling Tools** di backend untuk menarik data operasional nyata tanpa halusinasi fakta.*  
+> 
+> *AI berfungsi sebagai asisten konsultasi syarat surat, deteksi anomali kependudukan, serta dilengkapi **Guardrail UU PDP otomatis** yang memotong payload data sensitif agar NIK warga tidak bocor ke publik.*  
+> *Sistem juga mendukung multi-key auto-rotation dan mode offline lokal agar layanan chat tetap tangguh 24 jam."*
+
+---
+
+### 8. ARSITEKTUR KEMANDIRIAN & FORENSIK (03:25 – 03:50)
+*Durasi: ~25 detik | 50 kata*  
+`[ARAHKAN KURSOR KE: Bagian 7 — ARSITEKTUR & KEPATUHAN REGULASI: ISO 25010 & Notification Hub]`
+
+> *"Dari sisi arsitektur dan standar kualitas **ISO/IEC 25010**:*  
+> *Sistem menjamin prinsip **Zero Fake Account** melalui validasi silang 16 digit NIK dan KK ke basis data desa.*  
+> *Keamanan didukung enkripsi Bcrypt, UUID v4, WhatsApp OTP, serta **audit log append-only** permanen.*  
+> *Penyebaran informasi ditopang oleh **Notification Hub 4 Saluran**, yang mengintegrasikan WhatsApp Gateway microservice Node.js, Telegram Bot, In-App Alert, dan SMTP Email."*
+
+---
+
+### 9. KEY PERFORMANCE INDICATORS (KPI) & PENUTUP (03:50 – 04:15)
+*Durasi: ~25 detik | 64 kata*  
+`[ARAHKAN KURSOR KE: Bagian 8 & Footer — Kotak Hijau KEY PERFORMANCE INDICATORS (KPI) & Terima Kasih]`
+
+> *"Kualitas keandalan sistem telah teruji **100% lulus pada 105 skrip pengujian otomatis PHPUnit dengan 540 assertions** pada pipeline CI/CD GitHub Actions.*  
+> 
+> *Target capaian KPI kami:*  
+> *Digitalisasi data di atas 90%, waktu terbit surat di bawah 4 jam, 100% akurasi NIK dan kepatuhan UU PDP, serta latensi inferensi AI di bawah 3 detik.*  
+> 
+> *Demikian presentasi progres Tahap 1 PRD SIWIL ini saya sampaikan. Terima kasih banyak atas perhatian Bapak Yudhistira dan rekan-rekan semua.*  
+> *Wabillahi taufiq wal hidayah, Wassalamu’alaikum Warahmatullahi Wabarakatuh."*
+
+---
+*Naskah ini dirancang khusus dan terbukti berdurasi **03:45 hingga 04:15 menit** dengan tempo tenang, sangat aman di bawah batas maksimal 5 menit.*
