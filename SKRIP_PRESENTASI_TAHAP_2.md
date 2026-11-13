@@ -31,7 +31,7 @@
 > 
 > *Pada video progres kedua ini, saya akan mempresentasikan laporan **Tahap 2: Perancangan UML dan Arsitektur Sistem Mandiri** untuk proyek **SIWIL AI: Sistem Informasi Wilayah Terpadu Berbasis Kecerdasan Buatan**.*  
 > 
-> *Perancangan ini didokumentasikan secara formal dalam berkas **Software Design Description (SDD)** yang berstandar internasional **IEEE Std 1016-2009**, mencakup pemodelan 4 Diagram UML Utama, skema basis data ERD, serta prototipe antarmuka UI/UX."*
+> *Perancangan ini didokumentasikan secara formal dalam berkas **Software Design Description (SDD)** yang berstandar internasional, mencakup pemodelan 4 Diagram UML Utama, skema basis data ERD, serta prototipe antarmuka UI/UX."*
 
 ---
 
@@ -139,17 +139,18 @@
 
 ---
 
-### SLIDE 9: DESAIN ANTARMUKA PENGGUNA (UI/UX) & PROTOTIPE FIGMA (05:35 – 06:10)
+### SLIDE 9: DESAIN ANTARMUKA PENGGUNA (UI/UX) & PROTOTIPE DASHBOARD NYATA (05:35 – 06:10)
 **Estimasi Waktu:** 35 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 9 — 3 Kartu UI/UX: Dashboard Warga, RT/RW, dan Desa]`
+**Tampilan Layar:** `[PINDAH KE SLIDE 9 — Galeri 4 Dashboard Nyata SIWIL: Warga, RT, RW, dan Admin Desa]`
 
-> *"Untuk aspek visual dan interaksi, SIWIL merancang sistem desain antarmuka berbasis prinsip **Mobile-First dan Human-Centered Design**:*  
+> *"Beralih ke aspek visual dan antarmuka, pada Slide 9 ditampilkan langsung implementasi nyata dari 4 dashboard utama SIWIL yang telah disesuaikan dengan hak akses perannya masing-masing:*  
 > 
-> *- **Dashboard Mandiri Warga**: Menyajikan kartu pintar pelayanan, floating SOS panic button berwarna merah tegas, serta widget interaktif AI Chat.*  
-> *- **Dashboard Pengurus RT dan RW**: Menyediakan meja kerja verifikasi berkas dengan 1-click approval dialog, pemetaan GIS laporan aduan, dan grafik demografi wilayah.*  
-> *- **Portal Desa & Keterbukaan Publik**: Mengelola penerbitan surat TTE, visualisasi realisasi APBDes, serta pengumuman warta.*  
+> *- **Kiri Atas (Dashboard Mandiri Warga)**: Antarmuka mobile-first yang menyajikan status permohonan surat seperti SKTM dan renovasi rumah, aduan warga, musyawarah polling, tombol darurat SOS, serta asisten virtual SIWIL AI di pojok kanan bawah.*  
+> *- **Kanan Atas (Dashboard Ketua RT)**: Meja kerja verifikasi awal surat permohonan warga RT 01 dan monitoring aduan lingkungan seperti perbaikan jalan rusak yang telah terselesaikan.*  
+> *- **Kiri Bawah (Dashboard Ketua RW)**: Panel validasi berjenjang untuk menyetujui surat pengantar sebelum ke kantor desa, serta rekapitulasi data kependudukan lintas RT.*  
+> *- **Kanan Bawah (Dashboard Admin Desa)**: Pusat tata kelola terpadu yang memetakan matriks hierarki Desa, RW, dan RT, sensus kependudukan, serta visualisasi APBDes.*  
 > 
-> *Seluruh palet warna memenuhi standar aksesibilitas **WCAG 2.1 AA** dengan rasio kontras di atas 4,5 banding 1, menjamin keterbacaan optimal bagi seluruh lapisan masyarakat."*
+> *Seluruh antarmuka ini mengusung prinsip **Clean Antislop** yang bebas ornamen semu, serta patuh pada standar aksesibilitas **WCAG 2.1 AA** dengan rasio kontras di atas 4,5 banding 1 demi kenyamanan seluruh lapisan masyarakat."*
 
 ---
 
@@ -168,3 +169,4 @@
 
 ---
 *Naskah ini dirancang dengan durasi **05:45 hingga 06:20 menit**, tepat berada di dalam koridor rubrik penilaian video progres 2 (5–7 menit).*
+
