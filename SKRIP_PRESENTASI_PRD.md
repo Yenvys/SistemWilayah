@@ -49,9 +49,11 @@
 
 ### SLIDE 3: STRUKTUR PENGGUNA (RBAC) & KEPENDUDUKAN (01:00 – 01:35)
 **Estimasi Waktu:** 35 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 3 — Matriks 5 Aktor RBAC & Panel Zero Fake Account]`
+**Tampilan Layar:** `[PINDAH KE SLIDE 3 — Matriks 10 Aktor Sistem (6 Human & 4 Engine) & Panel Zero Fake Account]`
 
-> *"SIWIL menerapkan **Role-Based Access Control** ketat pada 5 peran: Publik tanpa login, Warga terdaftar, Ketua RT, Ketua RW, dan Admin Desa.*  
+> *"SIWIL memodelkan **10 Aktor Sistem** yang terbagi dalam dua kelompok:*  
+> *- **6 Aktor Manusia**: Publik, Warga terdaftar, Ketua RT, Ketua RW, Admin Desa, dan Super Admin.*  
+> *- Serta **4 Aktor Sistem dan Gateway Eksternal**: SIWIL AI Agent, WhatsApp Bot, Telegram Bot, dan SMTP Mail System.*  
 > 
 > *Untuk modul kependudukan, kami menjamin prinsip **Zero Fake Account**: registrasi warga mewajibkan validasi silang 16-digit NIK dan Nomor KK ke database desa, diverifikasi faktual oleh RT setempat, serta memetakan struktur Kartu Keluarga digital dan mutasi penduduk secara real-time."*
 

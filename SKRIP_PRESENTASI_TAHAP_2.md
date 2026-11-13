@@ -37,16 +37,12 @@
 
 ### SLIDE 2: DIAGRAM UML 1 — USE CASE DIAGRAM & SYSTEM BOUNDARY (00:30 – 01:25)
 **Estimasi Waktu:** 55 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 2 — Diagram Use Case 173 Elemen & 6 Koridor Aktor]`
+**Tampilan Layar:** `[PINDAH KE SLIDE 2 — Diagram Use Case 173 Elemen & 10 Aktor Sistem]`
 
-> *"Diagram UML pertama yang dirancang adalah **Use Case Diagram**, yang memodelkan batasan sistem (*system boundary*) dengan total **173 elemen visual** dan **6 aktor sistem**:*  
+> *"Diagram UML pertama yang dirancang adalah **Use Case Diagram**, yang memodelkan batasan sistem (*system boundary*) dengan total **173 elemen visual** dan **10 aktor sistem**:*  
 > 
-> *- Pertama, **Masyarakat Publik**: Mengakses warta pengumuman dan transparansi APBDes secara terbuka tanpa login.*  
-> *- Kedua, **Warga Terdaftar**: Mengakses layanan mandiri pengajuan surat, pelaporan aduan geotagging, polling musyawarah, tombol darurat SOS, dan asisten pintar SIWIL AI.*  
-> *- Ketiga, **Ketua RT**: Verifikator tahap awal pengajuan surat warga dan penanggap darurat pertama lingkungan.*  
-> *- Keempat, **Ketua RW**: Validator berjenjang surat pengantar dan pengawas wilayah antar-RT.*  
-> *- Kelima, **Admin Desa**: Pengesah dokumen resmi dengan Tanda Tangan Elektronik ber-QR Code serta pengelola data master.*  
-> *- Dan keenam, **SIWIL AI**: Sistem otomatisasi validasi OCR berkas serta pengirim notifikasi bot WhatsApp dan Telegram.*  
+> *- **6 Aktor Manusia di Koridor Kiri**: Publik untuk akses warta terbuka, Warga terdaftar untuk layanan mandiri dan darurat SOS, Ketua RT sebagai verifikator awal, Ketua RW sebagai validator berjenjang, Admin Desa sebagai pengesah TTE dan APBDes, serta Super Admin untuk audit sistem.*  
+> *- Serta **4 Aktor Sistem Pendukung di Koridor Kanan**: SIWIL AI Agent sebagai mesin OCR dan asisten cerdas, WhatsApp Bot Gateway untuk layanan pesan omnichannel, Telegram Bot Gateway untuk broadcasting darurat, dan SMTP Mail System untuk pengiriman dokumen dinas resmi.*  
 > 
 > *Setiap aktor memiliki koridor visual berwarna unik sehingga seluruh relasi include autentikasi NIK dan extend rekomendasi AI dapat ditelusuri secara presisi tanpa tumpang tindih."*
 

@@ -120,15 +120,20 @@ SIWIL AI berposisi sebagai aplikasi web terdistribusi yang berdiri mandiri (*sel
 
 ### 2.2 Karakteristik & Profil Aktor (User Personas)
 
-| ID Aktor | Nama Peran | Deskripsi Karakteristik & Kebutuhan Inti |
-| :--- | :--- | :--- |
-| **ACT-01** | **Warga (Citizen)** | Masyarakat umum domisili RT/RW yang menginginkan kemudahan pengurusan surat tanpa antre, pelaporan aduan lingkungan cepat, pemantauan kegiatan musyawarah, dan akses tombol darurat. Mengakses via smartphone dan bot chat. |
-| **ACT-02** | **Pengurus RT** | Relawan pengurus RT yang memiliki pekerjaan utama di luar. Memerlukan sistem notifikasi instan saat ada warga mendaftar, berkas surat yang perlu ditandatangani digital, atau situasi darurat di lingkungannya. |
-| **ACT-03** | **Pengurus RW** | Koordinator lingkungan tingkat RW yang memverifikasi surat pengantar antar-RT, mengesahkan izin keramaian/mediasi sengketa, dan memantau agregat demografi RW. |
-| **ACT-04** | **Admin Desa / Kelurahan** | Aparatur sipil kantor desa yang bertanggung jawab penuh terhadap legalitas surat dinas desa, penatausahaan APBDes, inventarisasi proyek fisik pembangunan, dan sosialisasi warta resmi desa. |
-| **ACT-05** | **Super Admin** | Administrator teknis yang bertugas mengelola siklus hidup akun pengguna, konfigurasi runtime (kredensial API Key AI, WhatsApp gateway, SMTP), pemeliharaan master wilayah, dan audit trail. |
-| **ACT-06** | **Pengunjung Publik** | Masyarakat luas yang ingin melihat transparansi penyelenggaraan desa (profil wilayah, realisasi APBDes, status pembangunan fisik, dan statistik terbuka tanpa perlu login). |
-| **ACT-07** | **SIWIL AI Agent** | Entitas kecerdasan buatan otonom yang berperan sebagai Customer Service virtual 24/7 untuk menjawab pertanyaan dan mengeksekusi operasi data melalui function calling berbatas izin. |
+Sistem Informasi Wilayah Terpadu (SIWIL) memodelkan **10 Aktor Sistem** yang terbagi menjadi dua klasifikasi arsitektur utama: **6 Aktor Primer (Pengguna Manusia)** dengan hak akses berbasis *Role-Based Access Control* (RBAC), serta **4 Aktor Sekunder (Sistem Pendukung & Gateway Otomasi)** yang bertindak sebagai mesin inferensi kecerdasan buatan dan kanal komunikasi omnichannel terintegrasi.
+
+| ID Aktor | Nama Peran | Kategori Aktor | Deskripsi Karakteristik & Kebutuhan Inti |
+| :--- | :--- | :--- | :--- |
+| **ACT-01** | **Warga (Citizen)** | Primer (Manusia) | Masyarakat umum domisili RT/RW yang menginginkan kemudahan pengurusan surat nirkertas tanpa antre fisik, pelaporan aduan lingkungan cepat, pemantauan kegiatan musyawarah, dan akses tombol darurat SOS. Mengakses via web mobile, bot WhatsApp, dan Telegram. |
+| **ACT-02** | **Pengurus RT (Ketua RT)** | Primer (Manusia) | Relawan pengurus RT yang memiliki profesi utama di luar. Memerlukan meja kerja digital dan sistem notifikasi instan saat ada warga mendaftar, berkas surat yang perlu diverifikasi awal, atau situasi darurat di lingkungannya. |
+| **ACT-03** | **Pengurus RW (Ketua RW)** | Primer (Manusia) | Koordinator lingkungan tingkat RW yang memvalidasi persetujuan surat berjenjang antar-RT, mengesahkan izin kegiatan lingkungan, dan memantau agregat demografi serta disparitas antar-RT. |
+| **ACT-04** | **Admin Desa / Kelurahan** | Primer (Manusia) | Aparatur sipil kantor desa yang bertanggung jawab penuh terhadap legalitas surat dinas desa (Tanda Tangan Elektronik), penatausahaan APBDes, inventarisasi proyek fisik pembangunan, dan sosialisasi warta resmi desa. |
+| **ACT-05** | **Super Admin** | Primer (Manusia) | Administrator teknis yang bertugas mengelola siklus hidup akun pengguna, konfigurasi runtime (kredensial API Key AI, WhatsApp gateway, SMTP), pemeliharaan master wilayah, dan audit logging sistem. |
+| **ACT-06** | **Pengunjung Publik** | Primer (Manusia) | Masyarakat luas yang ingin melihat transparansi penyelenggaraan desa (profil wilayah, realisasi APBDes, status pembangunan fisik, dan statistik terbuka tanpa perlu login). |
+| **ACT-07** | **SIWIL AI Agent** | Sekunder (Mesin/AI) | Entitas kecerdasan buatan otonom berbasis LLM Google Gemini yang berperan sebagai Customer Service virtual 24/7 untuk menjawab pertanyaan administrasi dan mengeksekusi operasi data melalui function calling berbatas izin (*read-only tools* & guardrails UU PDP). |
+| **ACT-08** | **WhatsApp Bot Gateway** | Sekunder (Gateway Eksternal) | Layanan bot percakapan instan WhatsApp multi-device (Baileys / Cloud API) yang bertindak sebagai antarmuka omnichannel warga untuk mengecek status surat, menerima notifikasi darurat SOS, dan mempermudah warga senior yang tidak terbiasa dengan antarmuka web. |
+| **ACT-09** | **Telegram Bot Gateway** | Sekunder (Gateway Eksternal) | Kanal bot resmi Telegram (`@cewilBot` / API Gateway) untuk broadcasting pengumuman resmi desa, penerusan peringatan dini bencana/keamanan lingkungan, dan alternatif kanal interaksi dua arah dengan sistem. |
+| **ACT-10** | **SMTP Mail System** | Sekunder (Mail Engine) | Layanan mail transfer agent (SMTP) untuk pengiriman surat elektronik resmi, pengiriman tautan verifikasi akun/reset kata sandi, lampiran dokumen PDF ber-TTE ke instansi eksternal, dan notifikasi audit keamanan sistem. |
 
 ### 2.3 Batasan Perancangan & Implementasi (Design Constraints)
 1. **Bahasa Pemrograman & Framework:** PHP 8.3+ menggunakan framework Laravel 12/13 LTS dengan struktur arsitektur MVC dan *Service Pattern*.
