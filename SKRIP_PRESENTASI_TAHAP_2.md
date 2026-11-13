@@ -1,172 +1,141 @@
-# NASKAH SKRIP PRESENTASI TAHAP 2 (UML, ARSITEKTUR SDD & UI/UX)
+# NASKAH SKRIP PRESENTASI TAHAP 2 (KHUSUS UML & UI/UX)
 ## SIWIL AI — Sistem Informasi Wilayah Terpadu Berbasis Kecerdasan Buatan
 **Standar Acuan:** IEEE Std 1016-2009 (Software Design Description)  
 **Mata Kuliah:** Rekayasa Perangkat Lunak (TIKB2503021) — STMIK IKMI Cirebon  
 **Dosen Pengampu:** Yudhistira Arie Wijaya, M.Kom., CDS.  
 **Nama Mahasiswa:** Muhammad Al Farel  
 **NIM:** 41257124 | **Kelas:** TI 1B 2025  
-**Target Durasi:** 5 Menit 30 Detik – 6 Menit 30 Detik (Rentang Rubrik: 5–7 Menit)  
-**Total Slide:** 10 Slide Komprehensif Berisi Seluruh Diagram UML Resolusi Tinggi  
+**Target Durasi:** 05 Menit 45 Detik – 06 Menit 20 Detik (**Batas Maksimal: 7 Menit**)  
+**Total Slide:** 7 Slide Terfokus (4 Diagram UML Resmi & Prototipe 4 Dashboard Nyata)  
 **Dokumen Acuan:** `PRESENTASI_TAHAP_2_UML_SDD.pptx` / `PRESENTASI_TAHAP_2_UML_SDD.pdf`
 
 ---
 
-### PANDUAN PEREKAMAN VIDEO MAHASISWA
-1. **Tampilan Layar:** Presentasikan file PowerPoint atau PDF `PRESENTASI_TAHAP_2_UML_SDD.pptx` / `.pdf` secara *fullscreen*.
-2. **Kamera & Kursor:** Posisikan webcam di sudut bawah. Gunakan kursor mouse untuk menunjuk elemen diagram (aktor, swimlane, class box, atau garis pesan) saat Anda menjelaskannya.
-3. **Penyampaian:** Percaya diri, artikulasi teknis tegas, tempo teratur.
+### PANDUAN PEREKAMAN VIDEO PRESENTASI (MAKSIMAL 7 MENIT)
+1. **Tampilan Layar:** Buka file `PRESENTASI_TAHAP_2_UML_SDD.pptx` atau `.pdf` secara *fullscreen* (layar penuh 16:9).
+2. **Kamera & Kursor Mouse:** Posisikan webcam di pojok layar. Gunakan kursor mouse untuk menunjuk bagian diagram yang sedang dijelaskan (misalnya: menunjuk aktor, swimlane, nama kelas, atau alur pesan).
+3. **Tempo Bicara:** Bicara dengan nada percaya diri, artikulasi teknis tegas, dan tempo wajar (sekitar 125–130 kata per menit) agar presentasi selesai dengan tenang pada kisaran menit ke **05:50 – 06:15** (sangat aman di bawah batas maksimal 7 menit).
 
 ---
 
 ## NASKAH LENGKAP KATA-DEMI-KATA (SLIDE-BY-SLIDE)
 
-### SLIDE 1: COVER & IDENTITAS DIRI (00:00 – 00:35)
-**Estimasi Waktu:** 35 Detik  
-**Tampilan Layar:** `[TAMPILKAN SLIDE 1 — Cover Tahap 2 SIWIL AI, Nama: Muhammad Al Farel, NIM: 41257124]`
+### SLIDE 1: COVER PRESENTASI & IDENTITAS DIRI (00:00 – 00:30)
+**Estimasi Waktu:** 30 Detik  
+**Tampilan Layar:** `[TAMPILKAN SLIDE 1 — Cover Tahap 2: Muhammad Al Farel, NIM: 41257124, STMIK IKMI Cirebon]`
 
 > *"Assalamu’alaikum Warahmatullahi Wabarakatuh.*  
-> *Selamat pagi/siang kepada Bapak Yudhistira Arie Wijaya selaku dosen pengampu mata kuliah Rekayasa Perangkat Lunak, serta rekan-rekan mahasiswa sekalian.*  
+> *Selamat pagi/siang kepada Bapak Yudhistira Arie Wijaya, M.Kom., CDS. selaku dosen pengampu mata kuliah Rekayasa Perangkat Lunak, serta rekan-rekan sekalian.*  
 > 
 > *Perkenalkan, saya **Muhammad Al Farel**, NIM **41257124**, kelas **TI 1B angkatan 2025**, Program Studi S1 Teknik Informatika, STMIK IKMI Cirebon.*  
 > 
-> *Pada video progres kedua ini, saya akan mempresentasikan laporan **Tahap 2: Perancangan UML dan Arsitektur Sistem Mandiri** untuk proyek **SIWIL AI: Sistem Informasi Wilayah Terpadu Berbasis Kecerdasan Buatan**.*  
+> *Pada video progres kedua ini, saya mempresentasikan laporan **Tahap 2: Perancangan UML dan Desain Antarmuka UI/UX** untuk proyek sistem **SIWIL AI (Sistem Informasi Wilayah Terpadu Berbasis Kecerdasan Buatan)**.*  
 > 
-> *Perancangan ini didokumentasikan secara formal dalam berkas **Software Design Description (SDD)** yang berstandar internasional, mencakup pemodelan 4 Diagram UML Utama, skema basis data ERD, serta prototipe antarmuka UI/UX."*
+> *Presentasi ini berfokus pada pemodelan 4 Diagram UML resmi berstandar IEEE 1016 serta visualisasi nyata 4 dashboard sistem dalam batas waktu maksimal 7 menit. Mari kita mulai."*
 
 ---
 
-### SLIDE 2: KERANGKA ARSITEKTUR & TRANSISI PRD KE SDD (00:35 – 01:10)
-**Estimasi Waktu:** 35 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 2 — 3 Lapisan Clean Architecture Multi-Tier]`
+### SLIDE 2: DIAGRAM UML 1 — USE CASE DIAGRAM & SYSTEM BOUNDARY (00:30 – 01:25)
+**Estimasi Waktu:** 55 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 2 — Diagram Use Case 173 Elemen & 6 Koridor Aktor]`
 
-> *"Melanjutkan dari tahap spesifikasi kebutuhan (PRD), perancangan teknis SIWIL mengadopsi prinsip **Clean Architecture Multi-Tier** yang memisahkan tanggung jawab sistem ke dalam tiga lapisan utama:*  
+> *"Diagram UML pertama yang dirancang adalah **Use Case Diagram**, yang memodelkan batasan sistem (*system boundary*) dengan total **173 elemen visual** dan **6 aktor sistem**:*  
 > 
-> *1. **Presentation & Controller Layer**: Mengelola lalu lintas HTTP, sesi pengguna, dan Form Request validasi tanpa mencampuradukkan logika bisnis atau kueri basis data.*  
-> *2. **Service & Abstraction Layer**: Mengisolasi proses bisnis inti—seperti verifikasi persuratan, notifikasi omnichannel, dan kecerdasan artifisial—yang disuntikkan secara dinamis melalui Service Container berbasis Interface Contract.*  
-> *3. **Domain & Data Repository Layer**: Mengelola entitas Eloquent dengan Primary Key UUID v4, audit logging append-only, dan pembatasan kueri wilayah yang ketat.*  
+> *- Pertama, **Masyarakat Publik**: Mengakses warta pengumuman dan transparansi APBDes secara terbuka tanpa login.*  
+> *- Kedua, **Warga Terdaftar**: Mengakses layanan mandiri pengajuan surat, pelaporan aduan geotagging, polling musyawarah, tombol darurat SOS, dan asisten pintar SIWIL AI.*  
+> *- Ketiga, **Ketua RT**: Verifikator tahap awal pengajuan surat warga dan penanggap darurat pertama lingkungan.*  
+> *- Keempat, **Ketua RW**: Validator berjenjang surat pengantar dan pengawas wilayah antar-RT.*  
+> *- Kelima, **Admin Desa**: Pengesah dokumen resmi dengan Tanda Tangan Elektronik ber-QR Code serta pengelola data master.*  
+> *- Dan keenam, **SIWIL AI**: Sistem otomatisasi validasi OCR berkas serta pengirim notifikasi bot WhatsApp dan Telegram.*  
 > 
-> *Arsitektur ini dimodelkan ke dalam empat sudut pandang UML: Use Case, Activity, Class, dan Sequence Diagram."*
+> *Setiap aktor memiliki koridor visual berwarna unik sehingga seluruh relasi include autentikasi NIK dan extend rekomendasi AI dapat ditelusuri secara presisi tanpa tumpang tindih."*
 
 ---
 
-### SLIDE 3: DIAGRAM UML 1 — USE CASE DIAGRAM (01:10 – 01:55)
-**Estimasi Waktu:** 45 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 3 — Gambar Use Case Diagram Resolusi Tinggi]`
-
-> *"Diagram UML pertama adalah **Use Case Diagram**, yang memvisualisasikan batas sistem (*system boundary*) dan interaksi fungsional antara 6 aktor:*  
-> 
-> *Dapat kita lihat pada layar, setiap aktor dipisahkan melalui koridor dan relasi garis berwarna unik untuk menjaga kerapian diagram:*  
-> *- **Aktor Warga (Warna Biru)**: Memiliki akses mandiri untuk pengajuan surat online, aduan GPS, tombol darurat SOS, musyawarah digital, dan chatbot AI.*  
-> *- **Ketua RT (Warna Hijau)**: Bertindak sebagai verifikator surat tahap 1 dan penanggap pertama sinyal darurat warga.*  
-> *- **Ketua RW (Warna Teal)**: Bertindak sebagai verifikator tahap 2 dan koordinator kebijakan antar-RT.*  
-> *- **Admin Desa (Warna Oranye)**: Berwenang mengesahkan surat resmi dengan Tanda Tangan Elektronik ber-QR Code serta mengelola APBDes.*  
-> *- **Superadmin (Warna Ungu)**: Mengelola konfigurasi multi-wilayah dan API AI.*  
-> *- Serta **Masyarakat Publik (Warna Abu-abu)**: Yang dapat memantau keterbukaan APBDes dan statistik desa tanpa perlu login.*  
-> 
-> *Diagram ini tersusun atas 173 elemen grafis dengan relasi include dan extend yang terdefinisi ketat."*
-
----
-
-### SLIDE 4: SKENARIO FORMAL USE CASE UTAMA (01:55 – 02:30)
-**Estimasi Waktu:** 35 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 4 — Tabel Skenario Formal UC-04, UC-05, dan UC-11]`
-
-> *"Seluruh use case krusial telah dilengkapi spesifikasi skenario formal sesuai standar IEEE 1016:*  
-> 
-> *Sebagai contoh pada **UC-04: Pengajuan Surat Digital**: Warga memilih jenis surat, melampirkan berkas identitas, lalu sistem mencatat permohonan berstatus `DIAJUKAN_RT` serta mengirim notifikasi instan ke WhatsApp Ketua RT.*  
-> 
-> *Pada **UC-05: Verifikasi Berjenjang**: Menjelaskan alur normal persetujuan bertahap dari RT ke RW hingga Desa, serta alur alternatif jika permohonan ditolak dengan kewajiban menyertakan catatan alasan tertulis kepada warga.*  
-> 
-> *Dan pada **UC-11: Konsultasi Cerdas AI**: Memodelkan eksekusi function calling backend serta alur eksepsi di mana filter Guardrail UU PDP secara deterministik memblokir permintaan akses data pribadi warga lain."*
-
----
-
-### SLIDE 5: DIAGRAM UML 2 — ACTIVITY DIAGRAM (02:30 – 03:15)
-**Estimasi Waktu:** 45 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 5 — Gambar Activity Diagram 5 Swimlanes]`
-
-> *"Diagram UML kedua adalah **Activity Diagram**, yang menggambarkan alur kendali dinamis dari proses bisnis persuratan dan eksekusi AI.*  
-> 
-> *Alur kerja dibagi secara tegas ke dalam **5 Swimlanes**: Warga, Ketua RT, Ketua RW, Admin Desa, serta SIWIL System dan AI Engine.*  
-> 
-> *Proses dimulai saat warga mengisi permohonan di web. Sistem meneruskannya ke antrean Ketua RT. Terdapat Decision Node percabangan validasi: jika berkas tidak sesuai, surat ditolak kembali ke warga; jika disetujui RT, status naik ke RW, dan diteruskan ke Admin Desa.*  
-> 
-> *Pada titik akhir di Admin Desa, sistem mengeksekusi otomatisasi kritis: membubuhkan stempel digital, menyematkan Tanda Tangan Elektronik Kepala Desa, melakukan hashing SHA-256, dan men-generate dokumen **Vector PDF resmi ber-QR Code unik** yang siap diunduh warga."*
-
----
-
-### SLIDE 6: DIAGRAM UML 3 — CLASS DIAGRAM & PRINSIP SOLID (03:15 – 04:05)
+### SLIDE 3: DIAGRAM UML 2 — ACTIVITY DIAGRAM & ALUR KONTROL (01:25 – 02:15)
 **Estimasi Waktu:** 50 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 6 — Gambar Class Diagram SOLID Berwarna]`
+**Tampilan Layar:** `[PINDAH KE SLIDE 3 — Diagram Aktivitas 5 Swimlanes: Warga, RT, RW, Desa, dan AI]`
 
-> *"Diagram UML ketiga adalah **Class Diagram Berorientasi Objek**, yang dirancang dengan mematuhi secara ketat **5 Prinsip Desain SOLID**:*  
+> *"Diagram UML kedua adalah **Activity Diagram**, yang menggambarkan alur kendali dinamis pelayanan persuratan digital dalam **5 Swimlanes**:*  
 > 
-> *1. **Single Responsibility Principle (SRP)**: Kelas Controller hanya menangani request-response HTTP, sementara logika bisnis didelegasikan ke Service Layer terpisah.*  
-> *2. **Open/Closed Principle (OCP)**: Layanan AI diabstraksikan melalui interface contract, sehingga penambahan model AI baru dapat dilakukan tanpa mengubah kode pemanggil.*  
-> *3. **Liskov Substitution Principle (LSP)**: Seluruh entitas domain diturunkan secara konsisten dari Eloquent Model dengan trait HasUuids.*  
-> *4. **Interface Segregation Principle (ISP)**: Kontrak antarmuka notifikasi dipisahkan secara spesifik antara WhatsApp Gateway dan Telegram Bot.*  
-> *5. **Dependency Inversion Principle (DIP)**: Modul tingkat tinggi bergantung pada abstraksi interface yang diinjeksi via Laravel Service Container.*  
+> *Proses dimulai saat Warga mengajukan surat secara online. Di latar belakang, SIWIL AI memvalidasi kelayakan berkas via teknologi OCR.*  
 > 
-> *Setiap lapisan kelas pada diagram dibedakan dengan warna header kontras tinggi: Navy untuk Controller, Hijau untuk Service, Biru untuk Model, dan Ungu untuk Enums."*
+> *Permohonan masuk ke antrean Ketua RT. Melalui Decision Node, jika berkas tidak sesuai, RT menolak dengan catatan revisi yang langsung diterima warga. Jika valid, status disetujui dan berlanjut ke Ketua RW untuk validasi berjenjang kedua.*  
+> 
+> *Setelah disetujui RW, berkas diterima Admin Desa untuk penomoran otomatis dan pembubuhan Tanda Tangan Elektronik Kepala Desa.*  
+> 
+> *Sistem kemudian menerbitkan file PDF resmi berstempel QR Code terenkripsi SHA-256 dan memicu notifikasi WhatsApp ke warga. Seluruh rantai birokrasi selesai secara digital tanpa tatap muka fisik."*
 
 ---
 
-### SLIDE 7: DIAGRAM UML 4 — SEQUENCE DIAGRAM MULTI-TIER (04:05 – 04:55)
-**Estimasi Waktu:** 50 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 7 — Gambar Sequence Diagram Multi-Tier]`
+### SLIDE 4: DIAGRAM UML 3 — CLASS DIAGRAM & KEPATUHAN SOLID (02:15 – 03:15)
+**Estimasi Waktu:** 60 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 4 — Class Diagram 4 Layer & 5 Prinsip SOLID]`
 
-> *"Diagram UML keempat adalah **Sequence Diagram**, yang memodelkan urutan kronologis pertukaran 34 pesan melintasi **9 Lifelines Multi-Tier**: mulai dari Actor, View Antarmuka, Router, Controller, Service Layer, Database Eloquent, Cache, AI Engine, hingga Notification Hub.*  
+> *"Diagram UML ketiga adalah **Class Diagram**, yang menyusun arsitektur berorientasi objek dalam 4 lapisan bersih dengan kepatuhan penuh terhadap **5 Prinsip SOLID**:*  
 > 
-> *Diagram ini memetakan empat fragmen interaksi utama:*  
-> *1. Alur autentikasi dan validasi silang NIK pre-enrollment.*  
-> *2. Alur persetujuan surat berjenjang 3-tier dan pembentukan dokumen PDF.*  
-> *3. Alur pemrosesan AI Function Calling, di mana AI meminta data operasional nyata ke backend melalui tool controller dengan filter guardrail privasi.*  
-> *4. Dan pengiriman pesan asinkron melalui antrean background queue ke WhatsApp Gateway microservice."*
+> *- **Single Responsibility Principle (SRP)**: Controller hanya menangani request-response HTTP, logika bisnis diisolasi ke Service Layer seperti `SuratService`, dan manipulasi data diserahkan ke `SuratRepository`.*  
+> *- **Open/Closed Principle (OCP)**: Layanan kecerdasan buatan diabstraksikan via `AIServiceInterface`, sehingga model AI dapat diperbarui tanpa mengubah kode bisnis inti.*  
+> *- **Liskov Substitution Principle (LSP)**: Seluruh kelas domain turunan Eloquent mempertahankan kontrak perilaku entitas yang konsisten.*  
+> *- **Interface Segregation Principle (ISP)**: Interface dirancang ramping dan spesifik peran, seperti `NotifiableInterface` dan `AuditableInterface`, tanpa membebani kelas klien.*  
+> *- Dan **Dependency Inversion Principle (DIP)**: Lapisan Controller bergantung pada abstraksi interface yang diinjeksikan secara otomatis melalui Service Container Laravel."*
 
 ---
 
-### SLIDE 8: BASIS DATA RELASIONAL (ERD) & KEAMANAN DATA (04:55 – 05:35)
-**Estimasi Waktu:** 40 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 8 — Panel Desain Basis Data ERD & Kepatuhan UU PDP]`
+### SLIDE 5: DIAGRAM UML 4 — SEQUENCE DIAGRAM MULTI-TIER (03:15 – 04:15)
+**Estimasi Waktu:** 60 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 5 — Sequence Diagram 9 Lifelines & 34 Interaksi Pesan]`
 
-> *"Beralih ke arsitektur penyimpanan, SIWIL merancang **Entity-Relationship Diagram (ERD) 20 entitas** yang telah memenuhi normalisasi **Third Normal Form (3NF)**:*  
+> *"Diagram UML keempat adalah **Sequence Diagram**, yang memodelkan interaksi pertukaran pesan secara kronologis melalui **9 Lifelines Multi-Tier**: dari Actor Warga, Blade View, Router, Controller, Service Layer, Eloquent, PostgreSQL, AI Engine, hingga Notification Hub.*  
 > 
-> *Master kependudukan terstruktur secara presisi dari relasi desa, RW, RT, kepala keluarga, hingga anggota keluarga.*  
-> *Seluruh tabel menggunakan **Primary Key UUID v4** untuk mencegah kerentanan manipulasi ID atau serangan IDOR.*  
-> *Kueri kependudukan dioptimalkan dengan indeks komposit pada kolom NIK, Nomor KK, dan RT ID.*  
+> *Diagram ini mencakup 4 tahapan: autentikasi sesi NIK, validasi berkas via AI, persetujuan berjenjang RT/RW/Desa, dan penerbitan surat.*  
 > 
-> *Guna mematuhi UU PDP No. 27 Tahun 2022, data sensitif warga dilindungi enkripsi, password diamankan dengan algoritma Argon2id, dan seluruh mutasi data dicatat ke dalam audit log append-only yang tidak dapat diubah."*
+> *Skenario alternatif (`alt`) menangani percabangan antara berkas valid versus penolakan dengan pesan revisi.*  
+> 
+> *Secara arsitektur, SIWIL memadukan pemrosesan sinkron dan asinkron: permintaan HTTP dijawab instan di bawah 2 detik, sedangkan kompilasi dokumen PDF TTE dan broadcast WhatsApp diproses di latar belakang menggunakan antrean Queue Job agar sistem tetap ringan dan tanggap."*
 
 ---
 
-### SLIDE 9: DESAIN ANTARMUKA PENGGUNA (UI/UX) & PROTOTIPE DASHBOARD NYATA (05:35 – 06:10)
-**Estimasi Waktu:** 35 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 9 — Galeri 4 Dashboard Nyata SIWIL: Warga, RT, RW, dan Admin Desa]`
+### SLIDE 6: DESAIN ANTARMUKA PENGGUNA (UI/UX) & 4 DASHBOARD REAL (04:15 – 05:15)
+**Estimasi Waktu:** 60 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 6 — Galeri 4 Dashboard Nyata: Warga, RT, RW, dan Admin Desa]`
 
-> *"Beralih ke aspek visual dan antarmuka, pada Slide 9 ditampilkan langsung implementasi nyata dari 4 dashboard utama SIWIL yang telah disesuaikan dengan hak akses perannya masing-masing:*  
+> *"Beralih ke aspek desain antarmuka, pada Slide 6 ditampilkan implementasi nyata dari **4 Dashboard Utama SIWIL** sesuai peran pengguna:*  
 > 
-> *- **Kiri Atas (Dashboard Mandiri Warga)**: Antarmuka mobile-first yang menyajikan status permohonan surat seperti SKTM dan renovasi rumah, aduan warga, musyawarah polling, tombol darurat SOS, serta asisten virtual SIWIL AI di pojok kanan bawah.*  
-> *- **Kanan Atas (Dashboard Ketua RT)**: Meja kerja verifikasi awal surat permohonan warga RT 01 dan monitoring aduan lingkungan seperti perbaikan jalan rusak yang telah terselesaikan.*  
-> *- **Kiri Bawah (Dashboard Ketua RW)**: Panel validasi berjenjang untuk menyetujui surat pengantar sebelum ke kantor desa, serta rekapitulasi data kependudukan lintas RT.*  
-> *- **Kanan Bawah (Dashboard Admin Desa)**: Pusat tata kelola terpadu yang memetakan matriks hierarki Desa, RW, dan RT, sensus kependudukan, serta visualisasi APBDes.*  
+> *- **Kiri Atas — Dashboard Warga**: Berbasis mobile-first dengan kartu permohonan surat, aduan lingkungan, musyawarah polling, tombol darurat SOS merah, serta floating widget asisten cerdas SIWIL AI.*  
+> *- **Kanan Atas — Dashboard Ketua RT**: Meja kerja verifikasi surat warga RT 01 dan monitoring aduan jalan rusak yang telah terselesaikan.*  
+> *- **Kiri Bawah — Dashboard Ketua RW**: Panel supervisi berjenjang untuk menyetujui surat pengantar serta memantau agregasi kependudukan lintas RT.*  
+> *- **Kanan Bawah — Dashboard Admin Desa**: Pusat kendali terpadu yang memetakan matriks wilayah Desa, RW, RT, sensus demografi, serta transparansi APBDes.*  
 > 
-> *Seluruh antarmuka ini mengusung prinsip **Clean Antislop** yang bebas ornamen semu, serta patuh pada standar aksesibilitas **WCAG 2.1 AA** dengan rasio kontras di atas 4,5 banding 1 demi kenyamanan seluruh lapisan masyarakat."*
+> *Seluruh antarmuka ini mengusung filosofi **Clean Antislop** yang bebas ornamen semu serta mematuhi standar aksesibilitas **WCAG 2.1 AA** dengan rasio kontras warna di atas 4,5 banding 1 demi kemudahan membaca seluruh lapisan warga."*
 
 ---
 
-### SLIDE 10: KESIMPULAN & KESIAPAN MELANGKAH KE TAHAP 3 (06:10 – 06:45)
-**Estimasi Waktu:** 35 Detik  
-**Tampilan Layar:** `[PINDAH KE SLIDE 10 — Kesimpulan, Kesiapan Tahap 3, dan Sesi Q&A]`
+### SLIDE 7: KESIMPULAN PERANCANGAN & KESIAPAN TAHAP 3 (05:15 – 05:45)
+**Estimasi Waktu:** 30 Detik  
+**Tampilan Layar:** `[PINDAH KE SLIDE 7 — Kesimpulan, Kesiapan Eksekusi Tahap 3, dan Sesi Q&A]`
 
 > *"Bapak dosen dan rekan-rekan sekalian,*  
-> *Sebagai kesimpulan, luaran **Tahap 2: Software Design Description (SDD)** telah selesai disusun secara utuh, matang, dan tervalidasi 100% menggunakan 4 Diagram UML resmi Draw.io berstandar IEEE 1016.*  
+> *Sebagai kesimpulan, luaran **Tahap 2 SDD** telah selesai dirancang secara tuntas, teruji, dan patuh 100% pada standar IEEE 1016 melalui 4 Diagram UML resmi dan implementasi nyata 4 dashboard sistem.*  
 > 
-> *Perancangan arsitektur ini telah diuji dan siap diimplementasikan secara solid ke dalam **Tahap 3**, di mana basis kode Laravel 12 dan PHP 8.4 telah terverifikasi melalui **105 skrip pengujian otomatis PHPUnit dengan 540 assertions** yang lulus 100% pada pipeline CI/CD GitHub Actions.*  
+> *Perancangan ini siap dieksekusi ke **Tahap 3**, di mana basis kode Laravel 12 dan PHP 8.4 telah terverifikasi melalui **105 skrip pengujian otomatis PHPUnit dengan 540 assertions** yang lulus 100% hijau di pipeline CI/CD GitHub Actions.*  
 > 
 > *Demikian presentasi progres Tahap 2 ini saya sampaikan. Terima kasih banyak atas perhatian Bapak Yudhistira dan rekan-rekan semua.*  
-> *Sesi tanya jawab dan diskusi dipersilakan.*  
+> *Sesi tanya jawab dan masukan saya persilakan.*  
 > *Wabillahi taufiq wal hidayah, Wassalamu’alaikum Warahmatullahi Wabarakatuh."*
 
 ---
-*Naskah ini dirancang dengan durasi **05:45 hingga 06:20 menit**, tepat berada di dalam koridor rubrik penilaian video progres 2 (5–7 menit).*
 
+### RINGKASAN MONITORING DURASI PRESENTASI (MAKSIMAL 7 MENIT)
+
+| No. Slide | Topik Bahasan | Target Durasi | Akumulasi Waktu | Status Rubrik |
+|:---:|:---|:---:|:---:|:---:|
+| **Slide 1** | Cover & Identitas Mahasiswa | 00:30 | 00:30 | Sesuai Rubrik |
+| **Slide 2** | Diagram UML 1: Use Case Diagram & System Boundary | 00:55 | 01:25 | Sesuai Rubrik |
+| **Slide 3** | Diagram UML 2: Activity Diagram & 5 Swimlanes AI | 00:50 | 02:15 | Sesuai Rubrik |
+| **Slide 4** | Diagram UML 3: Class Diagram 4 Layer & 5 Prinsip SOLID | 01:00 | 03:15 | Sesuai Rubrik |
+| **Slide 5** | Diagram UML 4: Sequence Diagram Multi-Tier & Lifelines | 01:00 | 04:15 | Sesuai Rubrik |
+| **Slide 6** | Desain UI/UX: 4 Dashboard Real & Standar WCAG 2.1 AA | 01:00 | 05:15 | Sesuai Rubrik |
+| **Slide 7** | Kesimpulan SDD, Kesiapan Tahap 3 & Sesi Tanya Jawab | 00:30 | **05:45** | **Sangat Aman (< 7 Menit)** |
+
+*Naskah ini dirancang dengan total durasi pembacaan sekitar **05 Menit 45 Detik hingga 06 Menit 15 Detik**, memberikan margin aman sekitar 1 menit penuh di bawah batas maksimal 7 menit.*
