@@ -94,8 +94,7 @@ Kompilasi lengkap seluruh gambar diagram arsitektur, pemodelan UML, ERD, dan ant
 | 2 | **Activity Diagram** | [`activity_diagram.drawio.png`](activity_diagram.drawio.png) | Alur bisnis persuratan nirkertas 3-tier dari pengajuan warga hingga penerbitan dokumen resmi ber-TTE. |
 | 3 | **Class Diagram (SOLID)** | [`class_diagram.drawio.png`](class_diagram.drawio.png) | Struktur model, service layer, dan controller yang mematuhi 5 prinsip desain SOLID. |
 | 4 | **Sequence Diagram** | [`sequence_diagram.drawio.png`](sequence_diagram.drawio.png) | Urutan pertukaran pesan transaksi persuratan dan eksekusi function calling Google Gemini AI. |
-| 5 | **Entity Relationship Diagram (ERD)** | [`diagram.drawio.png`](diagram.drawio.png) | Struktur 20 tabel basis data relasional ternormalisasi dengan UUID primary keys. |
-| 6 | **Prototipe UI/UX Dashboard** | [`dashboard_warga.jpg`](dashboard_warga.jpg)<br>[`dashboard_rt.jpg`](dashboard_rt.jpg)<br>[`dashboard_rw.jpg`](dashboard_rw.jpg)<br>[`dashboard_desa.jpg`](dashboard_desa.jpg) | Desain antarmuka mobile-first responsif untuk Warga, RT, RW, dan Kantor Desa. |
+| 5 | **Prototipe UI/UX Dashboard** | [`dashboard_warga.jpg`](dashboard_warga.jpg)<br>[`dashboard_rt.jpg`](dashboard_rt.jpg)<br>[`dashboard_rw.jpg`](dashboard_rw.jpg)<br>[`dashboard_desa.jpg`](dashboard_desa.jpg) | Desain antarmuka mobile-first responsif untuk Warga, RT, RW, dan Kantor Desa. |
 
 ---
 

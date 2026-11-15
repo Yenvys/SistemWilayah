@@ -24,8 +24,8 @@
 2. [Diagram 2: Activity Diagram Alur Persuratan 3-Tier & AI Workflow](#2-activity-diagram-alur-persuratan-3-tier--ai)
 3. [Diagram 3: Class Diagram Berorientasi Objek (Penerapan 5 Prinsip SOLID)](#3-class-diagram-berorientasi-objek-prinsip-solid)
 4. [Diagram 4: Sequence Diagram Pertukaran Pesan Antar-Komponen](#4-sequence-diagram-pertukaran-pesan-sistem--ai)
-5. [Diagram 5: Entity Relationship Diagram (ERD) & Arsitektur Global](#5-entity-relationship-diagram-erd--arsitektur-sistem)
-6. [Diagram 6: Prototipe Desain Antarmuka & Dashboard Pengguna (UI/UX)](#6-prototipe-desain-antarmuka--dashboard-pengguna-uiux)
+5. [Struktur Basis Data: Katalog 20 Entitas Relasional Basis Data](#5-struktur-basis-data-relasional-20-entitas)
+6. [Diagram 5: Prototipe Desain Antarmuka & Dashboard Pengguna (UI/UX)](#6-prototipe-desain-antarmuka--dashboard-pengguna-uiux)
 
 ---
 
@@ -157,11 +157,9 @@ Sequence Diagram menggambarkan urutan kronologis pertukaran pesan (*message flow
 
 ---
 
-## 5. ENTITY RELATIONSHIP DIAGRAM (ERD) & ARSITEKTUR SISTEM
+## 5. STRUKTUR BASIS DATA RELASIONAL (20 ENTITAS)
 
-Diagram Arsitektur Sistem dan Entity Relationship Diagram (ERD) memetakan 20 entitas tabel relasional basis data beserta relasi kardinalitasnya (`1:N`, `N:M`, `1:1`) dengan integritas referensial dan UUID v4 primary keys.
-
-![Arsitektur Sistem & ERD](diagram.drawio.png)
+Basis Data SIWIL memetakan 20 entitas tabel relasional beserta relasi kardinalitasnya (`1:N`, `N:M`, `1:1`) dengan integritas referensial dan UUID v4 primary keys.
 
 ### Struktur 20 Entitas Relasional Basis Data:
 1. **Entitas Teritorial & Kewilayahan:**

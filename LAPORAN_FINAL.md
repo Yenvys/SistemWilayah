@@ -145,13 +145,9 @@ Menjabarkan urutan kronologis pertukaran pesan antar-objek pada transaksi penerb
 
 ---
 
-### 3.2 Entity Relationship Diagram (ERD Basis Data) & Arsitektur Global
+### 3.2 Struktur Entitas Relasional Basis Data (20 Tabel)
 
 Basis data SIWIL dimodelkan secara relasional dengan normalisasi 3NF dan integritas referensial kuat, terdiri dari **20 entitas tabel** dengan kunci primer UUID v4:
-
-![Arsitektur Sistem & ERD](diagram.drawio.png)
-
-*Gambar 3.5: Entity Relationship Diagram (ERD 20 Entitas) & Arsitektur Sistem Terintegrasi SIWIL.*
 
 *Katalog 20 Entitas Basis Data:*
 1. `villages` — Master data pemerintahan desa/kelurahan.
