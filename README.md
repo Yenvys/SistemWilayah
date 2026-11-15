@@ -44,13 +44,17 @@
 
 ---
 
-## 🎥 Tautan Video Presentasi & Live Demo
+## 🎥 Tautan Video Presentasi & Live Demo (Tahap 1, 2, & Final)
 
-Tautan rekaman video presentasi dan demonstrasi sistem aplikasi SIWIL (menampilkan rekaman layar penuh dan webcam wajah mahasiswa secara langsung):
+Sesuai ketentuan pengumpulan Bab V, berikut adalah tautan video rekaman presentasi dan demonstrasi sistem aplikasi SIWIL (menampilkan rekaman layar penuh dan webcam wajah mahasiswa secara langsung):
 
-[![Tonton Video Presentasi & Live Demo SIWIL](https://img.shields.io/badge/YouTube-Tonton_Video_Presentasi_%26_Live_Demo-red?style=for-the-badge&logo=youtube)](https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC)
+| Tahapan Video | Topik Bahasan | Durasi | Tautan Video (YouTube) |
+| :--- | :--- | :---: | :--- |
+| **Video Progres 1** | **PRD & Konsep Aplikasi** (Latar belakang masalah, nilai guna, kebutuhan fungsional & non-fungsional, spesifikasi fitur AI) | ~4 Menit | 🔗 [Tonton Video Progres 1](https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC) |
+| **Video Progres 2** | **Pemodelan UML & Arsitektur SDD** (Bedah 4 Diagram UML: Use Case, Activity, Class SOLID, Sequence, dan walkthrough UI/UX) | ~6 Menit | 🔗 [Tonton Video Progres 2](https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC) |
+| **Video Final Demo** | **Live Demo Aplikasi Web & Sistem Utuh** (Elevator Pitch, arsitektur sistem, Live Demo web + fitur AI real-time, 105 automated unit/feature tests, verifikasi status hijau CI/CD GitHub Actions) | ~10 Menit | 🔗 [Tonton Video Final Live Demo](https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC) |
 
-> 🔗 **Tautan Langsung YouTube:**  
+> 🌐 **Tautan Langsung Master Video:**  
 > 👉 **[https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC](https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC)**
 
 ### Rincian Konten Video Presentasi & Live Demo:
@@ -70,22 +74,23 @@ Tautan rekaman video presentasi dan demonstrasi sistem aplikasi SIWIL (menampilk
 
 ---
 
-## 📑 Berkas & Dokumen Luaran Proyek (Tahap 1 - 4)
+## 📑 Berkas & Dokumen Luaran Proyek (Tahap 1 - 4 & Berkas Lengkap PDF Tunggal)
 
-Semua berkas luaran resmi proyek rekayasa perangkat lunak ini telah disusun secara lengkap dan terstandarisasi:
+Sesuai Ketentuan Bab V Butir 2, seluruh berkas luaran resmi proyek rekayasa perangkat lunak ini telah dijilid menjadi **Satu Berkas Dokumen PDF Tunggal Lengkap** beserta dokumen pelengkapnya:
 
 | Tahapan Proyek | Berkas Luaran Utama (Markdown / PDF / Word) | Berkas Diagram & Asset | Status Luaran |
 | :--- | :--- | :--- | :---: |
+| **DOKUMEN LENGKAP (PDF Tunggal)** | 📕 [`DOKUMEN_LENGKAP_SIWIL_MUHAMMAD_AL_FAREL_41257124.pdf`](DOKUMEN_LENGKAP_SIWIL_MUHAMMAD_AL_FAREL_41257124.pdf)<br>*(Gabungan Utuh PRD/SRS, SDD 4 UML & Laporan Akhir)* | 📊 [`DIAGRAM.md`](DIAGRAM.md)<br>4 Diagram UML Resolusi Tinggi | ✅ Siap Upload LMS |
 | **Tahap 1: Inisiasi & PRD / SRS** | 📄 [`PRD.md`](PRD.md)<br>📄 [`PRD.pdf`](PRD.pdf) *(Standar IEEE 830 / ISO 29148)* | User Stories Gherkin, Spesifikasi 12 AI Tools, Matriks NFR ISO 25010 | ✅ Lengkap |
-| **Tahap 2: SDD & Perancangan UML** | 📐 [`SDD.md`](SDD.md)<br>📐 [`SDD.pdf`](SDD.pdf) *(Standar IEEE 1016-2009)* | 📊 [`DIAGRAM.md`](DIAGRAM.md)<br>4 Diagram UML, ERD 20 Entitas, UI/UX | ✅ Lengkap |
+| **Tahap 2: SDD & Perancangan UML** | 📐 [`SDD.md`](SDD.md)<br>📐 [`SDD.pdf`](SDD.pdf) *(Standar IEEE 1016-2009)* | 📊 [`DIAGRAM.md`](DIAGRAM.md)<br>4 Diagram UML, Struktur Basis Data, UI/UX | ✅ Lengkap |
 | **Tahap 3: Konstruksi, AI & CI/CD** | ⚙️ [GitHub Actions Workflow](https://github.com/Yenvys/SistemWilayah/actions)<br>🧪 105 Automated Tests (540 Assertions Passed) | [`.github/workflows/ci.yml`](.github/workflows/ci.yml)<br>Kode Bersih (PSR-12, Laravel Pint Passed) | ✅ 100% Green |
-| **Tahap 4: Pelaporan Final & Berkas Akhir** | 📊 [`LAPORAN_FINAL.md`](LAPORAN_FINAL.md)<br>📊 [`LAPORAN_FINAL.pdf`](LAPORAN_FINAL.pdf)<br>📝 [`DOKUMEN_LENGKAP_PROYEK_RPL_MUHAMMAD_AL_FAREL_41257124.docx`](DOKUMEN_LENGKAP_PROYEK_RPL_MUHAMMAD_AL_FAREL_41257124.docx) | 🖼️ [`DIAGRAM.md`](DIAGRAM.md) *(Kompilasi Gambar Diagram Arsitektur Lengkap)* | ✅ Lengkap |
+| **Tahap 4: Pelaporan Final & Berkas Akhir** | 📊 [`LAPORAN_FINAL.md`](LAPORAN_FINAL.md)<br>📊 [`LAPORAN_FINAL.pdf`](LAPORAN_FINAL.pdf) | 🖼️ [`DIAGRAM.md`](DIAGRAM.md) *(Kompilasi Gambar 4 Diagram UML Lengkap)* | ✅ Lengkap |
 
 ---
 
-## 📐 Kompilasi Diagram Arsitektur & Pemodelan UML
+## 📐 Kompilasi 4 Diagram UML Utama
 
-Kompilasi lengkap seluruh gambar diagram arsitektur, pemodelan UML, ERD, dan antarmuka dapat dilihat pada berkas khusus:
+Kompilasi lengkap seluruh gambar diagram arsitektur dan pemodelan UML beresolusi tinggi dapat dilihat pada berkas khusus:
 👉 **[DIAGRAM.md](DIAGRAM.md)**
 
 | No | Jenis Diagram | Berkas Gambar | Penjelasan Singkat |
@@ -94,7 +99,6 @@ Kompilasi lengkap seluruh gambar diagram arsitektur, pemodelan UML, ERD, dan ant
 | 2 | **Activity Diagram** | [`activity_diagram.drawio.png`](activity_diagram.drawio.png) | Alur bisnis persuratan nirkertas 3-tier dari pengajuan warga hingga penerbitan dokumen resmi ber-TTE. |
 | 3 | **Class Diagram (SOLID)** | [`class_diagram.drawio.png`](class_diagram.drawio.png) | Struktur model, service layer, dan controller yang mematuhi 5 prinsip desain SOLID. |
 | 4 | **Sequence Diagram** | [`sequence_diagram.drawio.png`](sequence_diagram.drawio.png) | Urutan pertukaran pesan transaksi persuratan dan eksekusi function calling Google Gemini AI. |
-| 5 | **Prototipe UI/UX Dashboard** | [`dashboard_warga.jpg`](dashboard_warga.jpg)<br>[`dashboard_rt.jpg`](dashboard_rt.jpg)<br>[`dashboard_rw.jpg`](dashboard_rw.jpg)<br>[`dashboard_desa.jpg`](dashboard_desa.jpg) | Desain antarmuka mobile-first responsif untuk Warga, RT, RW, dan Kantor Desa. |
 
 ---
 

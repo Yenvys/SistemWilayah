@@ -175,41 +175,12 @@ Basis data SIWIL dimodelkan secara relasional dengan normalisasi 3NF dan integri
 
 ### 3.3 Prototipe Antarmuka & Desain UI/UX (Mobile-First)
 
-Antarmuka SIWIL dibangun dengan pendekatan *Mobile-First Responsive Design* menggunakan **Tailwind CSS v4**, tipografi Google Font *Outfit*, tata letak modern *card-based*, dan navigasi ramah sentuhan.
+Antarmuka SIWIL dibangun dengan pendekatan *Mobile-First Responsive Design* menggunakan **Tailwind CSS v4**, tipografi modern Google Font *Outfit*, tata letak *card-based*, dan navigasi ramah sentuhan (touch-friendly):
 
-#### 1. Dashboard Mandiri Warga (Citizen Portal)
-Menyajikan status surat aktif, tombol pemicu SOS darurat, akses polling musyawarah warga, dan floating chatbot SIWIL AI.
-
-![Dashboard Warga](dashboard_warga.jpg)
-
-*Gambar 3.6: Tampilan Antarmuka Dashboard Mandiri Warga.*
-
----
-
-#### 2. Dashboard Ketua RT (Rukun Tetangga)
-Menyajikan antrean verifikasi surat warga tingkat 1, data kependudukan RT, peringatan insiden darurat SOS aktif, dan pengelolaan aduan warga lingkungan RT.
-
-![Dashboard Ketua RT](dashboard_rt.jpg)
-
-*Gambar 3.7: Tampilan Antarmuka Dashboard Ketua RT.*
-
----
-
-#### 3. Dashboard Ketua RW (Rukun Warga)
-Menyajikan rekapitulasi verifikasi surat tingkat 2, agregasi statistik wilayah RW, pengawasan proyek pembangunan, dan penanganan aduan tingkat RW.
-
-![Dashboard Ketua RW](dashboard_rw.jpg)
-
-*Gambar 3.8: Tampilan Antarmuka Dashboard Ketua RW.*
-
----
-
-#### 4. Dashboard Pemerintahan Desa / Super Administrator
-Menyajikan pusat kendali legalisasi surat resmi desa, visualisasi ringkasan APBDes tahunan, direktori penduduk desa, pengelolaan pengumuman serentak, konfigurasi terpusat sistem, dan audit log forensik.
-
-![Dashboard Admin Desa](dashboard_desa.jpg)
-
-*Gambar 3.9: Tampilan Antarmuka Dashboard Pemerintahan Desa & Super Administrator.*
+1. **Dashboard Mandiri Warga (Citizen Portal):** Menyajikan status surat aktif, tombol pemicu SOS darurat, akses polling musyawarah warga, dan floating chatbot SIWIL AI.
+2. **Dashboard Ketua RT (Rukun Tetangga):** Menyajikan antrean verifikasi surat warga tingkat 1, data kependudukan RT, peringatan insiden darurat SOS aktif, dan pengelolaan aduan warga lingkungan RT.
+3. **Dashboard Ketua RW (Rukun Warga):** Menyajikan rekapitulasi verifikasi surat tingkat 2, agregasi statistik wilayah RW, pengawasan proyek pembangunan, dan penanganan aduan tingkat RW.
+4. **Dashboard Pemerintahan Desa & Super Administrator:** Menyajikan pusat kendali legalisasi surat resmi desa, visualisasi ringkasan APBDes tahunan, direktori penduduk desa, pengelolaan pengumuman serentak, konfigurasi terpusat sistem, dan audit log forensik.
 
 ---
 

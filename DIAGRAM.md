@@ -198,28 +198,20 @@ Antarmuka SIWIL dirancang menggunakan prinsip **Mobile-First Responsive Design**
 ### 6.1 Dashboard Warga (Citizen Portal)
 Menyajikan status permohonan surat terkini, tombol pemicu SOS darurat, akses polling musyawarah warga, dan floating chatbot SIWIL AI.
 
-![Dashboard Warga](dashboard_warga.jpg)
-
 ---
 
 ### 6.2 Dashboard Ketua RT (Rukun Tetangga)
 Menyajikan antrean verifikasi surat warga tingkat 1, data kependudukan RT, peringatan insiden darurat SOS aktif, dan pengelolaan aduan warga lingkungan RT.
-
-![Dashboard Ketua RT](dashboard_rt.jpg)
 
 ---
 
 ### 6.3 Dashboard Ketua RW (Rukun Warga)
 Menyajikan rekapitulasi verifikasi surat tingkat 2, agregasi statistik wilayah RW, pengawasan proyek pembangunan, dan penanganan aduan tingkat RW.
 
-![Dashboard Ketua RW](dashboard_rw.jpg)
-
 ---
 
 ### 6.4 Dashboard Pemerintahan Desa / Super Admin
 Menyajikan pusat kendali legalisasi surat resmi desa, visualisasi ringkasan APBDes tahunan, direktori penduduk desa, pengelolaan pengumuman serentak, konfigurasi terpusat sistem, dan audit log forensik.
-
-![Dashboard Admin Desa](dashboard_desa.jpg)
 
 ---
 
