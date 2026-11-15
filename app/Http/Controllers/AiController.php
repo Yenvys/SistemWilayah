@@ -24,6 +24,7 @@ use App\Services\AiToolService;
 use App\Services\DocumentRequestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -77,6 +78,89 @@ class AiController extends Controller
             ];
         }
 
+        $clean = trim($message);
+        $lower = strtolower($clean);
+
+        // 2. INSTANT FAST PATH CHECKS (Local deterministic queries - < 10ms execution, zero external API latency)
+        // A. Direct dashboard confirmation queries ("baca dashboard ga si", "baca dashboard gak sih", etc.)
+        if ($dashboardCheck = $this->handleDirectDashboardConfirmationQuery($clean, $lower, $user)) {
+            return $dashboardCheck;
+        }
+
+        // B. Resident account status queries ("ada berapa warga belum punya akun", "warga tanpa akun", etc.)
+        if ($accountCheck = $this->handleResidentAccountStatusQuery($clean, $lower, $user)) {
+            return $accountCheck;
+        }
+
+        // B2. Available services question ("apa saja layanan yang tersedia", "layanan untuk warga", etc.)
+        if (preg_match('/(?:layanan|fitur|fasilitas)\s*(?:yang\s+)?(?:tersedia|ada|bisa\s+diakses|untuk\s+warga)|(?:apa\s+saja\s+layanan|layanan\s+apa\s+saja|fitur\s+apa\s+saja)/i', $lower)) {
+            return [
+                'message' => "🏛️ **Layanan yang Tersedia di SIWIL:**\n\n".
+                    "1. 📄 **Pengajuan Surat Mandiri**: Pembuatan Surat Pengantar Domisili, SKTM, dan SKU secara online langsung ke pengurus RT/RW.\n".
+                    "2. 📢 **Pengaduan Warga**: Layanan pelaporan masalah infrastruktur jalan, kebersihan lingkungan, keamanan, dan ketertiban.\n".
+                    "3. 🗳️ **Musyawarah & Polling**: Partisipasi aktif dalam musyawarah pengambilan keputusan dan pemungutan suara warga.\n".
+                    "4. 🔍 **Cek Status Layanan**: Memeriksa status verifikasi surat dan perkembangan tindak lanjut pengaduan Anda.\n".
+                    '5. 📞 **Informasi Kontak Pengurus**: Layanan informasi kontak resmi Ketua RT, Ketua RW, dan Kantor Desa.',
+                'options' => [
+                    ['label' => 'Buat Surat Baru', 'icon' => 'document', 'next_node' => 'surat_pilih_jenis'],
+                    ['label' => 'Lapor Pengaduan', 'icon' => 'alert', 'next_node' => 'lapor_mulai'],
+                    ['label' => 'Kontak Pengurus', 'icon' => 'phone', 'next_node' => 'info_kontak'],
+                ],
+            ];
+        }
+
+        // C. Universal Password Shield
+        $cleanNoPunct = preg_replace('/[^\w\s]/', ' ', $lower);
+        $isAskingWithoutPassword = (bool) preg_match('/(?:tidak\s+(?:dengan|termasuk)|tanpa|kecuali|bukan)\s*(?:kata\s*sandi|password|pin)/i', $cleanNoPunct);
+        $isAskingPassword = ! $isAskingWithoutPassword && (bool) preg_match('/(?:apa\s+(?:saja\s+)?(?:kata\s*sandi|password|pin)|(?:tampilkan|lihat|bocorkan|minta|berikan|cari|cek)\s+(?:.*)?(?:kata\s*sandi|password|pin)|(?:kata\s*sandi|password|pin)\s+(?:saya|dia|warga|user|pengguna|akun|admin|rt|rw|desa)|^(?:kata\s*sandi|password|pin)$)/i', $cleanNoPunct);
+        if ($isAskingPassword) {
+            return [
+                'message' => "🔒 **Perlindungan Keamanan Kata Sandi (Password):**\n\n".
+                    "Sesuai standar keamanan sistem SIWIL dan kebijakan privasi data kependudukan:\n".
+                    "• Seluruh kata sandi pengguna di database dienkripsi satu arah menggunakan algoritma hashing kriptografis (**Bcrypt**) dan **tidak pernah disimpan dalam bentuk teks biasa**.\n".
+                    "• Oleh karena itu, kata sandi asli **tidak dapat dibaca, ditampilkan, maupun dibocorkan oleh AI kepada siapa pun** demi menjaga kerahasiaan dan keamanan akun.\n\n".
+                    ($user->role === 'SUPER_ADMIN'
+                        ? 'Sebagai **Super Administrator**, Anda dapat membantu mereset kata sandi pengguna yang membutuhkan pembaruan akses melalui menu **Manajemen User**.'
+                        : 'Jika Anda membutuhkan pembaruan kata sandi, silakan gunakan fitur ganti kata sandi pada menu **Pengaturan Akun** atau hubungi Administrator wilayah Anda.'),
+                'options' => [
+                    ['label' => 'Lihat Menu Sidebar', 'icon' => 'home', 'next_node' => 'start'],
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // D. Identity check ("siapa kamu", "kamu siapa", "siapa anda")
+        if (preg_match('/^(?:siapa\s*(?:sih\s*)?(?:kamu|anda|dirimu|lu|ente|bot|ai\b)|(?:kamu|anda|dirimu|lu|ente|bot|ai\b)\s*(?:itu\s*)?siapa|apa\s*itu\s*siwil\s*ai|tentang\s*(?:kamu|dirimu|siwil\s*ai)|kenalan)$/i', trim($cleanNoPunct))) {
+            return [
+                'message' => "Saya adalah **SIWIL AI**, Asisten Virtual Cerdas Sistem Informasi Wilayah Terpadu (SIWIL). 🤖\n\n".
+                    "Saya bertugas untuk membantu Anda dalam mengakses informasi dan layanan kependudukan, seperti:\n".
+                    "• Pengecekan data kependudukan dan statistik wilayah resmi\n".
+                    "• Informasi panduan dan pembuatan surat pengantar mandiri\n".
+                    "• Layanan pelaporan pengaduan dan keluhan warga\n".
+                    "• Informasi kontak resmi pengurus RT, RW, dan Kantor Desa\n".
+                    "• Pemantauan pengumuman resmi dan musyawarah/polling warga\n\n".
+                    'Ada yang bisa saya bantu terkait layanan SIWIL saat ini?',
+                'options' => [
+                    ['label' => 'Kembali ke Menu Utama', 'icon' => 'home', 'next_node' => 'start'],
+                ],
+            ];
+        }
+
+        // E. Greetings ("halo", "hai", "selamat pagi", etc.)
+        if (preg_match('/^(halo|hai|hi|pagi|siang|sore|malam|assalamu[\w]*|permisi|tes|ping)$/i', trim($lower))) {
+            $profile = $this->getUserProfileData($user);
+
+            return [
+                'message' => "Halo Bapak/Ibu **{$profile['name']}** ({$profile['role_label']})! 👋 Saya Asisten Virtual SIWIL. Ada yang bisa saya bantu hari ini terkait layanan mandiri, data kependudukan, pengurusan surat, pengaduan, atau kontak wilayah Anda?",
+                'options' => [
+                    ['label' => 'Data Diri Saya', 'icon' => 'search', 'next_node' => 'profil_saya'],
+                    ['label' => 'Buat Surat Baru', 'icon' => 'document', 'next_node' => 'surat_pilih_jenis'],
+                    ['label' => 'Lapor/Pengaduan', 'icon' => 'alert', 'next_node' => 'lapor_mulai'],
+                    ['label' => 'Info Kontak Pengurus', 'icon' => 'phone', 'next_node' => 'info_kontak'],
+                ],
+            ];
+        }
+
         $scopedData = $this->buildScopedContext($user, $message);
 
         // Inject dynamic system prompt with user identity, RBAC boundaries, and function calling tools
@@ -92,7 +176,7 @@ class AiController extends Controller
             return $this->handleSmartFallback($message, $user, $scopedData);
         }
 
-        $userPrompt = "Konteks Sistem Wilayah SIWIL (Database Berdasarkan Role Pengguna):\n".($scopedData['context_text'] ?? '')."\n\nPertanyaan Pengguna: ".$message;
+        $userPrompt = $message;
 
         $reply = null;
         foreach ($apiKeys as $index => $apiKey) {
@@ -133,8 +217,7 @@ class AiController extends Controller
         $candidateModels = array_values(array_unique([
             $model,
             'gemini-2.5-flash',
-            'gemini-2.0-flash',
-            'gemini-1.5-flash',
+            'gemini-2.5-flash-lite',
         ]));
 
         $tools = [
@@ -163,7 +246,7 @@ class AiController extends Controller
         foreach ($candidateModels as $candidateModel) {
             try {
                 $url = "https://generativelanguage.googleapis.com/v1beta/models/{$candidateModel}:generateContent?key={$apiKey}";
-                $response = Http::timeout(15)->post($url, $payload);
+                $response = Http::timeout(8)->post($url, $payload);
                 if ($response->successful()) {
                     $data = $response->json();
                     $candidate = $data['candidates'][0] ?? null;
@@ -199,7 +282,7 @@ class AiController extends Controller
                             ];
 
                             // Follow-up request to get final conversational answer
-                            $followUp = Http::timeout(15)->post($url, $payload);
+                            $followUp = Http::timeout(8)->post($url, $payload);
                             if ($followUp->successful()) {
                                 $followUpData = $followUp->json();
                                 $finalText = $followUpData['candidates'][0]['content']['parts'][0]['text'] ?? null;
@@ -1636,15 +1719,17 @@ class AiController extends Controller
             "- HINDARI basa-basi berlebihan, pengantar panjang, atau kalimat penutup berulang yang klise. Bersikaplah lugas, akurat, faktual berdasarkan database SIWIL, dan langsung menjawab inti pertanyaan.\n\n";
 
         // General knowledge
-        $knowledgeList = AiKnowledge::all();
+        $knowledgeArray = Cache::remember('ai_knowledge_list', 3600, function () {
+            return AiKnowledge::all()->map(fn ($k) => ['topic' => $k->topic, 'content' => $k->content])->toArray();
+        });
         $knowledgeText = '';
-        if ($knowledgeList->isNotEmpty()) {
+        if (! empty($knowledgeArray)) {
             $knowledgeText .= "Basis Pengetahuan Wilayah:\n";
-            foreach ($knowledgeList as $kn) {
-                $knowledgeText .= "- {$kn->topic}: {$kn->content}\n";
+            foreach ($knowledgeArray as $kn) {
+                $knowledgeText .= "- {$kn['topic']}: {$kn['content']}\n";
             }
         }
-        $extraData['knowledge_list'] = $knowledgeList;
+        $extraData['knowledge_list'] = $knowledgeArray;
 
         if ($role === 'WARGA') {
             $resident = Resident::where('nik', $user->username)->first();
@@ -2069,36 +2154,13 @@ class AiController extends Controller
             }
             $extraData['audit_text'] = $auditText;
             $extraData['recent_audit'] = $recentAudit;
-            $extraData['all_residents'] = Resident::with(['user', 'family', 'rt.rw.village'])->orderBy('full_name')->get();
-            $extraData['all_users'] = User::with('resident')->orderBy('role')->orderBy('username')->get();
-
-            // Direktori Kependudukan Seluruh Warga untuk Super Admin
+            // Direktori Kependudukan Ringkas Warga untuk Super Admin
             $residentDirectoryText = "DIREKTORI DATA DIRI WARGA DI DATABASE SIWIL (AKSES SUPER ADMIN):\n";
-            foreach ($extraData['all_residents'] as $idx => $fr) {
-                $num = $idx + 1;
-                $uHp = $fr->user?->phone_number ?? 'Belum ada No HP';
-                $uEm = $fr->user?->email ?? '-';
-                $rNum = $fr->rt?->number ?? '-';
-                $wNum = $fr->rt?->rw?->number ?? '-';
-                $vNm = $fr->rt?->rw?->village?->name ?? '-';
-                $fAddr = $fr->user?->address ?: ($fr->family?->address ?? '-');
-                $fKk = $fr->family?->kk_number ?? '-';
-                $bDate = $fr->birth_date ? $fr->birth_date->format('d/m/Y') : '-';
-                $bPlace = $fr->birth_place ?? '-';
-                $accInfo = $fr->user
-                    ? "Akun SIWIL: {$fr->user->username} (Status: {$fr->user->status})"
-                    : 'Belum Ada Akun SIWIL';
+            $allResidentNames = Resident::pluck('full_name')->implode(', ');
+            $residentDirectoryText .= "- Daftar Warga Terdaftar: {$allResidentNames}\n- Catatan: Rincian biodata lengkap (NIK, KK, Alamat) dapat diakses secara live melalui tool fetch_residents_and_areas.\n";
 
-                $residentDirectoryText .= "{$num}. {$fr->full_name} | NIK: {$fr->nik} | KK: {$fKk} | JK: {$fr->gender} | TTL: {$bPlace}, {$bDate} | Agama: {$fr->religion} | Pekerjaan: {$fr->occupation} | Wilayah: RT {$rNum}/RW {$wNum}, Desa {$vNm} | HP: {$uHp} | Email: {$uEm} | Alamat: {$fAddr} | {$accInfo}\n";
-            }
-
-            // Direktori Akun Login Pengguna (Kecuali Kata Sandi / Password yang terenkripsi)
-            $usersDirectoryText = "DIREKTORI AKUN LOGIN PENGGUNA TERDAFTAR (KATA SANDI TERENKRIPSI HASH BCRYPT):\n";
-            foreach ($extraData['all_users'] as $idx => $au) {
-                $num = $idx + 1;
-                $resName = $au->resident?->full_name ?: ($au->name ?: $au->username);
-                $usersDirectoryText .= "{$num}. Username: {$au->username} | Nama: {$resName} | Role: {$au->role} | Status: {$au->status} | Email: ".($au->email ?? '-').' | HP: '.($au->phone_number ?? '-')."\n";
-            }
+            // Direktori Akun Login Pengguna
+            $usersDirectoryText = "RINGKASAN AKUN PENGGUNA TERDAFTAR:\n- {$usersSummary}\n- Catatan: Rincian akun pengguna per peran dapat diakses melalui tool fetch_users_directory.\n";
 
             // Dynamic resident lookup across entire database for Super Admin
             $dynamicSuperSearch = '';
@@ -5174,11 +5236,13 @@ class AiController extends Controller
         // Knowledge Base check: if question matches topic in AiKnowledge
         $knowledgeList = $extra['knowledge_list'] ?? AiKnowledge::all();
         foreach ($knowledgeList as $kn) {
-            $topicWords = array_filter(explode(' ', strtolower($kn->topic)), fn ($w) => strlen($w) > 3);
+            $topic = is_array($kn) ? ($kn['topic'] ?? '') : ($kn->topic ?? '');
+            $content = is_array($kn) ? ($kn['content'] ?? '') : ($kn->content ?? '');
+            $topicWords = array_filter(explode(' ', strtolower($topic)), fn ($w) => strlen($w) > 3);
             foreach ($topicWords as $word) {
                 if (str_contains($lower, $word)) {
                     return [
-                        'message' => "💡 **Informasi Terkait {$kn->topic}:**\n\n{$kn->content}",
+                        'message' => "💡 **Informasi Terkait {$topic}:**\n\n{$content}",
                         'options' => [
                             ['label' => 'Kembali ke Menu Awal', 'icon' => 'home', 'next_node' => 'start'],
                         ],

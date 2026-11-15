@@ -27,15 +27,46 @@
 | **Nama Pengembang** | **Muhammad Al Farel** |
 | **NIM** | **41257124** |
 | **Kelas** | **TI 1B 2025** |
-| **Kelompok** | **Mandiri / Proyek SIWIL (Muhammad Al Farel)** |
+| **Kelompok** | **Mandiri / Perorangan (100% Individual Ownership & Full-App Build)** |
 | **Tema / Topik Kelompok** | **Smart Governance & E-Government Wilayah Desa, RW, dan RT Terpadu Berbasis AI & Omnichannel Bot** |
-| **Mata Kuliah** | **Rekayasa Perangkat Lunak (RPL)** |
-| **Dosen Pengampu** | **Yudhistira** |
-| **Program Studi / Institusi**| **Teknik Informatika (TI)** |
-| **Tahun Akademik** | **2025 / 2026** |
+| **Mata Kuliah / Kode** | **Rekayasa Perangkat Lunak (TIKB2503021) — 4 SKS (2 Teori + 2 Praktik)** |
+| **Dosen Pengampu** | **Yudhistira Arie Wijaya, M.Kom., CDS.** |
+| **Program Studi / Institusi**| **S1 Teknik Informatika — STMIK IKMI Cirebon** |
+| **Tahun Akademik** | **2025 / 2026 (Semester 3)** |
+| **Repositori GitHub** | [`https://github.com/Yenvys/SistemWilayah.git`](https://github.com/Yenvys/SistemWilayah.git) |
 
 > [!NOTE]
-> Proyek SIWIL dikembangkan sebagai pemenuhan tugas proyek mata kuliah **Rekayasa Perangkat Lunak (RPL)** yang mencakup 4 tahapan utuh: Inisiasi PRD/SRS (IEEE 830 / ISO 29148), Perancangan SDD & UML/UI-UX (IEEE 1016), Konstruksi Kode & CI/CD Pipeline, serta Pelaporan Final & Live Demo.
+> Proyek SIWIL dikembangkan sebagai pemenuhan tugas proyek akhir mata kuliah **Rekayasa Perangkat Lunak (RPL)** berbasis kurikulum **Outcome-Based Education (OBE)** yang mencakup 4 tahapan utuh Software Development Life Cycle (SDLC):
+> 1. Inisiasi PRD/SRS Mandiri (Standar IEEE 830 / ISO 29148)
+> 2. Perancangan SDD, 4 Diagram UML & Prototipe UI/UX (Standar IEEE 1016)
+> 3. Konstruksi Kode (Clean Code & SOLID), Integrasi AI Real-Time, Automated Testing & CI/CD Pipeline
+> 4. Pelaporan Final Terintegrasi & Video Presentasi Live Demo Utuh
+
+---
+
+## 🎥 Tautan Video Presentasi & Live Demo
+
+Tautan rekaman video presentasi dan demonstrasi sistem aplikasi SIWIL (menampilkan rekaman layar penuh dan webcam wajah mahasiswa secara langsung):
+
+[![Tonton Video Presentasi & Live Demo SIWIL](https://img.shields.io/badge/YouTube-Tonton_Video_Presentasi_%26_Live_Demo-red?style=for-the-badge&logo=youtube)](https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC)
+
+> 🔗 **Tautan Langsung YouTube:**  
+> 👉 **[https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC](https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC)**
+
+### Rincian Konten Video Presentasi & Live Demo:
+- **Elevator Pitch & Masalah Nyata:** Latar belakang rantai birokrasi berjenjang RT/RW/Desa, perlindungan data pribadi (UU PDP No. 27/2022), dan transparansi anggaran APBDes.
+- **Arsitektur Sistem & Pemodelan UML:** Penjelasan komprehensif 4 Diagram UML Utama (Use Case Diagram RBAC, Activity Diagram alur persuratan 3-tier, Class Diagram berorientasi objek mematuhi 5 prinsip SOLID, Sequence Diagram pertukaran pesan inter-komponen) dan ERD 20 entitas relasional.
+- **Live Demo Sistem Utuh (Real-Time):**
+  - Demonstrasi portal transparansi publik (Beranda Desa, APBDes interaktif, Proyek Pembangunan).
+  - Alur persuratan digital 3-tier: Pengajuan oleh Warga $\rightarrow$ Verifikasi & TTE Ketua RT $\rightarrow$ Verifikasi Ketua RW $\rightarrow$ Legalisasi Kepala Desa ber-QR Code TTE $\rightarrow$ Cetak PDF DomPDF resmi.
+  - Pengaduan warga berbasis GPS geotagging & bukti foto serta tombol darurat (SOS button).
+  - Musyawarah demokrasi digital (*polling* terarah tingkat RT/RW/Desa).
+- **Pengujian Live Fitur AI (SIWIL AI):**
+  - Interaksi natural language query via Floating Chatbot Widget.
+  - Eksekusi 12 backend function calling tools secara deterministik membaca data riil wilayah.
+  - Verifikasi ketat *Guardrail UU PDP* (AI menolak membocorkan NIK, nomor HP, dan data privat warga lain kepada akun biasa).
+- **Kanal Omnichannel:** Demonstrasi layanan mandiri persuratan dan notifikasi real-time via WhatsApp Bot dan Telegram Bot.
+- **Verifikasi CI/CD & Automated Testing:** Pembuktian status hijau (*passing*) 105 automated unit & feature tests (540 assertions) dan pipeline otomatisasi GitHub Actions (`.github/workflows/ci.yml`).
 
 ---
 
@@ -43,26 +74,28 @@
 
 Semua berkas luaran resmi proyek rekayasa perangkat lunak ini telah disusun secara lengkap dan terstandarisasi:
 
-| Tahapan Proyek | Berkas Luaran Utama (PDF / Word) | Berkas Pendukung & Source | Skrip Panduan Presentasi | Status |
-| :--- | :--- | :--- | :--- | :---: |
-| **Tahap 1: Inisiasi & PRD / SRS** | 📄 [`PRD.pdf`](file:///c:/Users/alfar/Documents/laragon/www/siwil/PRD.pdf) *(Standar 14 Bagian Industri)* | [`PRD.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/PRD.md) | 🎬 [`VIDEO_SCRIPT_PROGRES_1.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_PROGRES_1.md) *(Durasi 3–5 Menit)* | ✅ Lengkap |
-| **Tahap 2: SDD & Perancangan UML** | 📐 [`SDD.pdf`](file:///c:/Users/alfar/Documents/laragon/www/siwil/SDD.pdf) *(Standar IEEE 1016-2009)* | [`SDD.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/SDD.md), [`diagram.drawio`](file:///c:/Users/alfar/Documents/laragon/www/siwil/diagram.drawio), [`usecase_diagram.drawio.png`](file:///c:/Users/alfar/Documents/laragon/www/siwil/usecase_diagram.drawio.png) | 🎬 [`VIDEO_SCRIPT_PROGRES_2.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_PROGRES_2.md) *(Durasi 5–7 Menit)* | ✅ Lengkap |
-| **Tahap 3: Konstruksi, AI & CI/CD** | ⚙️ [GitHub Actions CI/CD](https://github.com/Yenvys/SistemWilayah/actions) *(100% Passing)* | [`.github/workflows/ci.yml`](file:///c:/Users/alfar/Documents/laragon/www/siwil/.github/workflows/ci.yml), 105 Automated Tests (540 Assertions) | 🧪 Skrip Pengujian Otomatis (`php artisan test`) | ✅ 100% Green |
-| **Tahap 4: Pelaporan Final & Demo** | 📊 [`LAPORAN_FINAL.pdf`](file:///c:/Users/alfar/Documents/laragon/www/siwil/LAPORAN_FINAL.pdf)<br>📝 [`DOKUMEN_LENGKAP_PROYEK_RPL_MUHAMMAD_AL_FAREL_41257124.docx`](file:///c:/Users/alfar/Documents/laragon/www/siwil/DOKUMEN_LENGKAP_PROYEK_RPL_MUHAMMAD_AL_FAREL_41257124.docx) | [`LAPORAN_FINAL.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/LAPORAN_FINAL.md) | 🎬 [`VIDEO_SCRIPT_FINAL_DEMO.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_FINAL_DEMO.md) *(Durasi 8–12 Menit)* | ✅ Lengkap |
+| Tahapan Proyek | Berkas Luaran Utama (Markdown / PDF / Word) | Berkas Diagram & Asset | Status Luaran |
+| :--- | :--- | :--- | :---: |
+| **Tahap 1: Inisiasi & PRD / SRS** | 📄 [`PRD.md`](PRD.md)<br>📄 [`PRD.pdf`](PRD.pdf) *(Standar IEEE 830 / ISO 29148)* | User Stories Gherkin, Spesifikasi 12 AI Tools, Matriks NFR ISO 25010 | ✅ Lengkap |
+| **Tahap 2: SDD & Perancangan UML** | 📐 [`SDD.md`](SDD.md)<br>📐 [`SDD.pdf`](SDD.pdf) *(Standar IEEE 1016-2009)* | 📊 [`DIAGRAM.md`](DIAGRAM.md)<br>4 Diagram UML, ERD 20 Entitas, UI/UX | ✅ Lengkap |
+| **Tahap 3: Konstruksi, AI & CI/CD** | ⚙️ [GitHub Actions Workflow](https://github.com/Yenvys/SistemWilayah/actions)<br>🧪 105 Automated Tests (540 Assertions Passed) | [`.github/workflows/ci.yml`](.github/workflows/ci.yml)<br>Kode Bersih (PSR-12, Laravel Pint Passed) | ✅ 100% Green |
+| **Tahap 4: Pelaporan Final & Berkas Akhir** | 📊 [`LAPORAN_FINAL.md`](LAPORAN_FINAL.md)<br>📊 [`LAPORAN_FINAL.pdf`](LAPORAN_FINAL.pdf)<br>📝 [`DOKUMEN_LENGKAP_PROYEK_RPL_MUHAMMAD_AL_FAREL_41257124.docx`](DOKUMEN_LENGKAP_PROYEK_RPL_MUHAMMAD_AL_FAREL_41257124.docx) | 🖼️ [`DIAGRAM.md`](DIAGRAM.md) *(Kompilasi Gambar Diagram Arsitektur Lengkap)* | ✅ Lengkap |
 
 ---
 
-## 🎥 Tautan Video Progres & Demo
+## 📐 Kompilasi Diagram Arsitektur & Pemodelan UML
 
-Berikut adalah tautan rekaman video dokumentasi perkembangan dan demonstrasi aplikasi (beserta naskah skrip presentasi terlampir):
+Kompilasi lengkap seluruh gambar diagram arsitektur, pemodelan UML, ERD, dan antarmuka dapat dilihat pada berkas khusus:
+👉 **[DIAGRAM.md](DIAGRAM.md)**
 
-| Tahapan Video | Tautan Video Presentasi | Dokumen Naskah Skrip Terkait | Deskripsi Singkat Konten |
-| :--- | :--- | :--- | :--- |
-| **Video Progres 1** | [![Tonton Video Progres 1](https://img.shields.io/badge/YouTube-Video_Progres_1-red?style=for-the-badge&logo=youtube)](https://youtu.be/PROGRES_1_LINK_HERE) | [`VIDEO_SCRIPT_PROGRES_1.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_PROGRES_1.md) | Presentasi Tahap 1: Latar belakang masalah, User Stories & Acceptance Criteria Gherkin, kepatuhan UU PDP, dan spesifikasi AI Gemini dengan 12 Function Calling Tools (Durasi 3–5 Menit). |
-| **Video Progres 2** | [![Tonton Video Progres 2](https://img.shields.io/badge/YouTube-Video_Progres_2-red?style=for-the-badge&logo=youtube)](https://youtu.be/PROGRES_2_LINK_HERE) | [`VIDEO_SCRIPT_PROGRES_2.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_PROGRES_2.md) | Presentasi Tahap 2: Penjelasan 4 Diagram UML (Use Case, Activity, Class SOLID, Sequence), ERD 20 Entitas, dan Prototipe Antarmuka UI/UX (Durasi 5–7 Menit). |
-| **Video Final Demo** | [![Tonton Video Final Demo](https://img.shields.io/badge/YouTube-Video_Final_Demo-green?style=for-the-badge&logo=youtube)](https://youtu.be/FINAL_DEMO_LINK_HERE) | [`VIDEO_SCRIPT_FINAL_DEMO.md`](file:///c:/Users/alfar/Documents/laragon/www/siwil/VIDEO_SCRIPT_FINAL_DEMO.md) | Demonstrasi Final Sistem Utuh: Live demo seluruh fitur dari Warga -> Chatbot AI -> Persuratan 3-Tier -> Barcode TTE & Cetak PDF -> Pengaduan Geotagging & SOS (Durasi 8–12 Menit). |
-
-*(Perbarui URL YouTube di atas dengan tautan rekaman video final Anda).*
+| No | Jenis Diagram | Berkas Gambar | Penjelasan Singkat |
+| :---: | :--- | :--- | :--- |
+| 1 | **Use Case Diagram** | [`usecase_diagram.drawio.png`](usecase_diagram.drawio.png) | Interaksi 6 aktor (Publik, Warga, RT, RW, Desa, Super Admin) berbasis RBAC. |
+| 2 | **Activity Diagram** | [`activity_diagram.drawio.png`](activity_diagram.drawio.png) | Alur bisnis persuratan nirkertas 3-tier dari pengajuan warga hingga penerbitan dokumen resmi ber-TTE. |
+| 3 | **Class Diagram (SOLID)** | [`class_diagram.drawio.png`](class_diagram.drawio.png) | Struktur model, service layer, dan controller yang mematuhi 5 prinsip desain SOLID. |
+| 4 | **Sequence Diagram** | [`sequence_diagram.drawio.png`](sequence_diagram.drawio.png) | Urutan pertukaran pesan transaksi persuratan dan eksekusi function calling Google Gemini AI. |
+| 5 | **Entity Relationship Diagram (ERD)** | [`diagram.drawio.png`](diagram.drawio.png) | Struktur 20 tabel basis data relasional ternormalisasi dengan UUID primary keys. |
+| 6 | **Prototipe UI/UX Dashboard** | [`dashboard_warga.jpg`](dashboard_warga.jpg)<br>[`dashboard_rt.jpg`](dashboard_rt.jpg)<br>[`dashboard_rw.jpg`](dashboard_rw.jpg)<br>[`dashboard_desa.jpg`](dashboard_desa.jpg) | Desain antarmuka mobile-first responsif untuk Warga, RT, RW, dan Kantor Desa. |
 
 ---
 
@@ -195,8 +228,8 @@ Pastikan perangkat Anda telah terpasang:
 #### Langkah 1: Kloning Repositori
 Buka terminal dan unduh kode sumber proyek:
 ```bash
-git clone <URL_REPOSITORY_ANDA>
-cd siwil
+git clone https://github.com/Yenvys/SistemWilayah.git
+cd SistemWilayah
 ```
 
 #### Langkah 2: Pasang Dependensi Backend (Composer)
@@ -229,38 +262,26 @@ Buka file `.env` dan sesuaikan pengaturan database serta integrasi:
 APP_NAME=SIWIL
 APP_URL=http://localhost:8000
 
-# Pilihan Database (SQLite sebagai default cepat):
-DB_CONNECTION=sqlite
-
-# Atau jika menggunakan MySQL:
-# DB_CONNECTION=mysql
-# DB_HOST=127.0.0.1
-# DB_PORT=3306
-# DB_DATABASE=siwil_db
-# DB_USERNAME=root
-# DB_PASSWORD=
+# Konfigurasi Database (MySQL / SQLite):
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=siwil
+DB_USERNAME=root
+DB_PASSWORD=
 
 # Kunci API AI (Google Gemini):
-GEMINI_API_KEY=KUNCI_API_GEMINI_ANDA
+GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-2.5-flash
 AI_PROVIDER=gemini
 
-# Integrasi WhatsApp Bot Microservice (Opsional):
+# Integrasi WhatsApp Bot Microservice (Port 3000):
 WHATSAPP_BOT_URL=http://127.0.0.1:3000
-WHATSAPP_BOT_NUMBER=628xxxxxxxxxx
+WHATSAPP_BOT_NUMBER=628981295171
 
-# Integrasi Telegram Bot (Opsional):
-TELEGRAM_BOT_TOKEN=TOKEN_BOT_TELEGRAM_ANDA
-TELEGRAM_BOT_USERNAME=NAMA_BOT_TELEGRAM_ANDA
-```
-
-Jika menggunakan SQLite, pastikan file database tersedia:
-```bash
-# Windows PowerShell:
-if (!(Test-Path database\database.sqlite)) { New-Item -ItemType File -Path database\database.sqlite }
-
-# Linux / macOS:
-touch database/database.sqlite
+# Integrasi Telegram Bot:
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+TELEGRAM_BOT_USERNAME=your_bot_username
 ```
 
 #### Langkah 5: Jalankan Migrasi & Database Seeder
@@ -275,18 +296,22 @@ npm run build
 ```
 
 #### Langkah 7: Jalankan Aplikasi
-Jalankan server aplikasi. Disarankan membuka 2 tab terminal terpisah:
+Jalankan server aplikasi di terminal:
 
-**Terminal 1 (Backend Server):**
 ```bash
+# Terminal 1 - Backend Server:
 php artisan serve
-```
-*Aplikasi akan aktif di:* `http://127.0.0.1:8000`
 
-**Terminal 2 (Frontend Hot-Reload / Vite Dev):**
-```bash
+# Terminal 2 - Frontend Development Server (Opsional):
 npm run dev
+
+# Terminal 3 - WhatsApp Bot Microservice (Opsional):
+cd ../bot && npm start
+
+# Terminal 4 - Telegram Bot cevlt (Opsional):
+cd ../cevlt && npm start
 ```
+*Aplikasi web akan aktif di:* `http://127.0.0.1:8000` (atau `http://localhost/siwil/public` jika via Laragon Apache).
 
 ---
 

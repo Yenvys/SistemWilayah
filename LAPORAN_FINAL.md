@@ -77,25 +77,143 @@ Dokumen PRD telah menetapkan kebutuhan sistem terstruktur ke dalam 12 modul utam
 
 ## BAB III: PERANCANGAN ARSITEKTUR & MODEL SISTEM (SDD SUMMARY)
 
+Perancangan sistem SIWIL mengacu pada standar internasional **IEEE Std 1016-2009 (Software Design Descriptions)** dan spesifikasi formal **UML 2.5**, memvisualisasikan struktur statis dan perilaku dinamis sistem secara menyeluruh.
+
+---
+
 ### 3.1 Pemodelan 4 Diagram UML Utama
-1. **Use Case Diagram:** Memodelkan 5 aktor terotentikasi dan 1 tamu publik dengan pewarnaan garis unik (Warga: Biru, RT: Hijau, RW: Teal, Desa: Oranye, Superadmin: Ungu, Publik: Abu-abu) serta isolasi wewenang RBAC.
-2. **Activity Diagram:** Memvisualisasikan alur persuratan 3-tier nirkertas dari pengajuan warga, verifikasi berjenjang pengurus, penerbitan QR TTE, hingga kompilasi berkas PDF DomPDF.
-3. **Class Diagram Berorientasi Objek (SOLID):**
-   - Penerapan **Single Responsibility Principle (SRP)** pada Controller, Service, dan Notifier.
-   - Penerapan **Open/Closed Principle (OCP)** pada arsitektur AI provider.
-   - Penerapan **Liskov Substitution Principle (LSP)** pada seluruh Eloquent Model.
-   - Penerapan **Interface Segregation Principle (ISP)** pada kontrak layanan bot.
-   - Penerapan **Dependency Inversion Principle (DIP)** via Laravel Service Container.
-4. **Sequence Diagram:** Menjabarkan pertukaran pesan presisi pada transaksi penerbitan surat ber-TTE dan eksekusi percakapan AI dengan 12 backend function calling tools.
 
-### 3.2 Entity Relationship Diagram (ERD Basis Data)
-Sistem menggunakan 20 tabel model Eloquent dengan UUID primary key:
-`villages`, `rws`, `rts`, `families`, `residents`, `users`, `document_requests`, `document_request_histories`, `complaints`, `emergencies`, `polls`, `poll_options`, `poll_votes`, `announcements`, `budgets`, `developments`, `app_notifications`, `audit_logs`, `ai_knowledge`, dan `system_configurations`.
+#### 1. Use Case Diagram Sistem
+Memodelkan batasan interaksi fungsional antara 6 aktor (5 aktor terotentikasi dan 1 publik tamu) dengan seluruh modul sistem berbasis *Role-Based Access Control* (RBAC).
 
-### 3.3 Perancangan UI/UX & Prototipe Antarmuka
-- Mengadopsi arsitektur *mobile-first* responsif berbasis Tailwind CSS v4.
-- Menggunakan tipografi Google Font *Outfit*, palet warna Slate/Indigo, Emerald Green, dan Crimson Red (SOS).
-- Navigasi bilah bawah (*bottom bar*) untuk kenyamanan ponsel pintar, serta floating chatbot widget interaktif yang dapat diakses dari seluruh halaman dashboard.
+![Use Case Diagram](usecase_diagram.drawio.png)
+
+*Gambar 3.1: Use Case Diagram Sistem SIWIL (Isolasi Wewenang Publik, Warga, RT, RW, Desa, dan Super Admin).*
+
+*Rincian Peran & Batasan Wewenang Aktor:*
+- **Publik / Tamu:** Transparansi APBDes, profil desa, statistik demografi, pendaftaran warga (validasi silang NIK & KK), permohonan reset OTP WhatsApp.
+- **Warga (Citizen):** Pengajuan surat mandiri, tracking berkas, download surat PDF ber-TTE QR Code, pengaduan foto & GPS geotagging, sinyal darurat SOS instan, hak suara musyawarah/polling (*one citizen one vote*), dan asisten chatbot cerdas SIWIL AI.
+- **Ketua RT (Rukun Tetangga):** Verifikasi akun warga baru, verifikasi berkas surat Tier-1, pembubuhan TTE & stempel RT, tindak lanjut aduan RT, penerimaan sinyal SOS darurat warga, dan pembuatan polling RT.
+- **Ketua RW (Rukun Warga):** Verifikasi berkas surat Tier-2, pembubuhan TTE & stempel RW, agregasi data wilayah RT, pengawasan pembangunan, dan polling RW.
+- **Pemerintah Desa / Kelurahan:** Verifikasi akhir Tier-3 penerbitan surat resmi desa, pembubuhan stempel basah digital & TTE Kades, render PDF DomPDF ber-QR Code TTE validator, manajemen APBDes, monitoring proyek fisik, dan siaran pengumuman serentak.
+- **Super Administrator:** Manajemen pengguna global, audit trail forensik (*AuditLog*), konfigurasi kredensial AI, bot WhatsApp, bot Telegram, dan basis pengetahuan AI (*AiKnowledge*).
+
+---
+
+#### 2. Activity Diagram Alur Persuratan 3-Tier & AI
+Memvisualisasikan alur proses bisnis persuratan nirkertas (*paperless*) berjenjang dari inisiasi pemohon hingga penerbitan dokumen resmi ber-TTE.
+
+![Activity Diagram](activity_diagram.drawio.png)
+
+*Gambar 3.2: Activity Diagram Alur Persuratan Nirkertas 3-Tier & Penerbitan Dokumen Resmi Ber-TTE.*
+
+*Rincian Alur Aktivitas:*
+1. **Pengajuan:** Warga menginput jenis surat dan catatan keperluan di portal web atau bot omnichannel. Sistem memvalidasi kelengkapan dan menetapkan status awal `DIAJUKAN_RT`.
+2. **Review RT (Tier-1):** Ketua RT meninjau berkas. Jika tidak valid, RT menolak dengan catatan alasan penolakan (`DITOLAK`). Jika valid, RT menyetujui dan membubuhkan TTE RT. Status beralih ke `DIAJUKAN_RW`.
+3. **Review RW (Tier-2):** Ketua RW meninjau berkas yang disetujui RT. Jika disetujui, RW membubuhkan TTE RW. Status beralih ke `DIAJUKAN_DESA`.
+4. **Legalisasi Desa (Tier-3):** Kantor Desa memverifikasi akhir. Sistem meng-generate QR Code TTE resmi, merender dokumen PDF berstandar dinas via DomPDF, dan menyimpan berkas secara terenkripsi.
+5. **Distribusi Otomatis:** Status berkas menjadi `DISETUJUI`/`SELESAI`, dan file PDF dikirimkan secara real-time ke nomor WhatsApp dan akun Telegram pemohon.
+
+---
+
+#### 3. Class Diagram Berorientasi Objek (Penerapan 5 Prinsip SOLID)
+Memodelkan struktur kelas, service layer, repository, model domain, atribut, visibilitas method, dan relasi dependensi dengan mematuhi **5 Prinsip Desain SOLID**.
+
+![Class Diagram](class_diagram.drawio.png)
+
+*Gambar 3.3: Class Diagram Berorientasi Objek Sistem SIWIL Mematuhi 5 Prinsip SOLID.*
+
+*Implementasi 5 Prinsip SOLID:*
+- **Single Responsibility Principle (SRP):** Setiap service memiliki satu domain fungsional tunggal: `DocumentRequestService` mengelola siklus hidup surat; `AiToolService` mengeksekusi function calling AI; `ResidentService` mengelola data kependudukan; `WhatsAppService` dan `TelegramService` mengelola gateway pesan.
+- **Open/Closed Principle (OCP):** Arsitektur sistem terbuka terhadap penambahan channel komunikasi atau LLM provider baru (OpenAI, Gemini, Groq, Ollama) melalui implementasi driver terstandar tanpa mengubah kode controller yang telah berjalan.
+- **Liskov Substitution Principle (LSP):** Seluruh model domain mewarisi kontrak dasar `Illuminate\Database\Eloquent\Model` dengan integritas UUID primary keys dan casts tanpa mengubah perilaku yang diharapkan framework.
+- **Interface Segregation Principle (ISP):** Kontrak antarmuka bot WhatsApp dan bot Telegram dipisahkan secara independen sehingga tiap gateway hanya mengimplementasikan method yang dibutuhkannya.
+- **Dependency Inversion Principle (DIP):** Modul tingkat tinggi (Controller) menginjeksi service melalui *Laravel Service Container* (`constructor property promotion`), memisahkan implementasi konkrit dari logika alur request.
+
+---
+
+#### 4. Sequence Diagram Pertukaran Pesan Transaksi & AI
+Menjabarkan urutan kronologis pertukaran pesan antar-objek pada transaksi penerbitan surat dan eksekusi percakapan cerdas dengan 12 backend tools AI.
+
+![Sequence Diagram](sequence_diagram.drawio.png)
+
+*Gambar 3.4: Sequence Diagram Transaksi Penerbitan Dokumen & Integrasi 12 Backend Tools AI.*
+
+*Rincian Alur Pertukaran Pesan:*
+- **Transaksi Persuratan:** `Admin Desa` $\rightarrow$ `DocumentRequestController` $\rightarrow$ `DocumentRequestService` $\rightarrow$ `DB Transaction (Lock & Update)` $\rightarrow$ `QR Code Generator` $\rightarrow$ `DomPDF Renderer` $\rightarrow$ `Storage Saver` $\rightarrow$ `Multi-Channel Dispatcher (Email, WhatsApp Bot, Telegram Bot)` $\rightarrow$ `Warga`.
+- **Percakapan Asisten AI:** `Warga` $\rightarrow$ `AiController` $\rightarrow$ `Instant Fast-Path Filter (<10ms)` $\rightarrow$ `AiService` $\rightarrow$ `Google Gemini API` $\rightarrow$ `Function Calling Declaration` $\rightarrow$ `AiToolService (Scoped DB Query)` $\rightarrow$ `Synthesized Natural Response` $\rightarrow$ `Frontend Widget`.
+
+---
+
+### 3.2 Entity Relationship Diagram (ERD Basis Data) & Arsitektur Global
+
+Basis data SIWIL dimodelkan secara relasional dengan normalisasi 3NF dan integritas referensial kuat, terdiri dari **20 entitas tabel** dengan kunci primer UUID v4:
+
+![Arsitektur Sistem & ERD](diagram.drawio.png)
+
+*Gambar 3.5: Entity Relationship Diagram (ERD 20 Entitas) & Arsitektur Sistem Terintegrasi SIWIL.*
+
+*Katalog 20 Entitas Basis Data:*
+1. `villages` — Master data pemerintahan desa/kelurahan.
+2. `rws` — Pembagian teritorial Rukun Warga (*foreign key* `village_id`).
+3. `rts` — Pembagian teritorial Rukun Tetangga (*foreign key* `rw_id`).
+4. `families` — Data Kartu Keluarga, nomor KK, dan alamat kepala keluarga.
+5. `residents` — Data biodata warga (NIK, nama, TTL, gender, agama, pekerjaan).
+6. `users` — Kredensial akun login, peran Spatie, status akun aktif/pending.
+7. `document_requests` — Pengajuan surat, jenis surat, nomor registrasi, status approval.
+8. `document_request_histories` — Rekam jejak audit status permohonan surat per tingkat pejabat.
+9. `complaints` — Laporan keluhan warga, foto bukti, dan koordinat GPS geotagging.
+10. `emergencies` — Sinyal darurat SOS aktif, tipe insiden, status penanganan petugas.
+11. `polls` — Agenda musyawarah dan jajak pendapat digital tingkat RT/RW/Desa.
+12. `poll_options` — Opsi pilihan jawaban pada musyawarah/polling.
+13. `poll_votes` — Rekam hak suara warga pemilih (mencegah *double voting*).
+14. `budgets` — Transparansi APBDes per tahun (pagu anggaran vs realisasi serapan).
+15. `developments` — Proyek pembangunan fisik, koordinat peta GIS, progres kemajuan.
+16. `announcements` — Edaran resmi desa multi-kanal.
+17. `app_notifications` — Notifikasi internal in-app multi-user.
+18. `audit_logs` — Rekam jejak forensik seluruh operasi mutasi data sensitif (*append-only*).
+19. `ai_knowledge` — Basis pengetahuan regulasi desa dan SOP rujukan kecerdasan buatan.
+20. `system_configurations` — Penyimpanan terpusat kredensial AI, WhatsApp, Telegram, dan SMTP.
+
+---
+
+### 3.3 Prototipe Antarmuka & Desain UI/UX (Mobile-First)
+
+Antarmuka SIWIL dibangun dengan pendekatan *Mobile-First Responsive Design* menggunakan **Tailwind CSS v4**, tipografi Google Font *Outfit*, tata letak modern *card-based*, dan navigasi ramah sentuhan.
+
+#### 1. Dashboard Mandiri Warga (Citizen Portal)
+Menyajikan status surat aktif, tombol pemicu SOS darurat, akses polling musyawarah warga, dan floating chatbot SIWIL AI.
+
+![Dashboard Warga](dashboard_warga.jpg)
+
+*Gambar 3.6: Tampilan Antarmuka Dashboard Mandiri Warga.*
+
+---
+
+#### 2. Dashboard Ketua RT (Rukun Tetangga)
+Menyajikan antrean verifikasi surat warga tingkat 1, data kependudukan RT, peringatan insiden darurat SOS aktif, dan pengelolaan aduan warga lingkungan RT.
+
+![Dashboard Ketua RT](dashboard_rt.jpg)
+
+*Gambar 3.7: Tampilan Antarmuka Dashboard Ketua RT.*
+
+---
+
+#### 3. Dashboard Ketua RW (Rukun Warga)
+Menyajikan rekapitulasi verifikasi surat tingkat 2, agregasi statistik wilayah RW, pengawasan proyek pembangunan, dan penanganan aduan tingkat RW.
+
+![Dashboard Ketua RW](dashboard_rw.jpg)
+
+*Gambar 3.8: Tampilan Antarmuka Dashboard Ketua RW.*
+
+---
+
+#### 4. Dashboard Pemerintahan Desa / Super Administrator
+Menyajikan pusat kendali legalisasi surat resmi desa, visualisasi ringkasan APBDes tahunan, direktori penduduk desa, pengelolaan pengumuman serentak, konfigurasi terpusat sistem, dan audit log forensik.
+
+![Dashboard Admin Desa](dashboard_desa.jpg)
+
+*Gambar 3.9: Tampilan Antarmuka Dashboard Pemerintahan Desa & Super Administrator.*
 
 ---
 
