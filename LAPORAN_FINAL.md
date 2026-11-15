@@ -17,7 +17,7 @@
 | **Institusi** | **STMIK IKMI Cirebon** |
 | **Tema / Topik** | **Smart Governance & E-Government Wilayah Desa, RW, dan RT Berbasis AI & Omnichannel Bot** |
 | **Tahun Akademik** | **2025 / 2026** |
-| **Repositori GitHub** | `https://github.com/Yenvys/SistemWilayah.git` |
+| **Repositori GitHub** | `https://github.com/Yenvys/proyek-rpl-Siwil.git` |
 | **Tautan Video Demo** | `https://youtu.be/0H_HhHe1bR4?si=PfxTpZPErlz5iVDC` (Progres 1, Progres 2, & Final Live Demo) |
 | **Status Pengujian** | **105 Tests Passed (540 Assertions), 100% Code Quality (Pint Passed)** |
 
