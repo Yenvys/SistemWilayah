@@ -74,17 +74,17 @@ Sesuai ketentuan pengumpulan Bab V, berikut adalah tautan video rekaman presenta
 
 ---
 
-## 📑 Berkas & Dokumen Luaran Proyek (Tahap 1 - 4 & Berkas Lengkap PDF Tunggal)
+## 📑 Berkas & Dokumen Luaran Proyek (Tahap 1 - 4 & Laporan PDF Tunggal)
 
-Sesuai Ketentuan Bab V Butir 2, seluruh berkas luaran resmi proyek rekayasa perangkat lunak ini telah dijilid menjadi **Satu Berkas Dokumen PDF Tunggal Lengkap** beserta dokumen pelengkapnya:
+Sesuai Ketentuan Bab V Butir 2, seluruh luaran resmi proyek rekayasa perangkat lunak ini dijilid ke dalam **Satu Berkas Laporan Akhir PDF Tunggal Lengkap** beserta dokumen sumbernya:
 
 | Tahapan Proyek | Berkas Luaran Utama (Markdown / PDF) | Berkas Diagram & Asset | Status Luaran |
 | :--- | :--- | :--- | :---: |
-| **DOKUMEN LENGKAP (PDF Tunggal)** | 📕 [`DOKUMEN_LENGKAP_SIWIL_MUHAMMAD_AL_FAREL_41257124.pdf`](DOKUMEN_LENGKAP_SIWIL_MUHAMMAD_AL_FAREL_41257124.pdf)<br>*(Gabungan Utuh PRD/SRS, SDD 4 UML & Laporan Akhir)* | 📊 [`DIAGRAM.md`](DIAGRAM.md)<br>4 Diagram UML Resolusi Tinggi | ✅ Siap Upload LMS |
+| **LAPORAN AKHIR LENGKAP (PDF Tunggal)** | 📕 [`LAPORAN_FINAL.pdf`](LAPORAN_FINAL.pdf)<br>*(Jilid Utuh Gabungan PRD/SRS, SDD 4 Diagram UML & Laporan Testing)* | 📊 [`DIAGRAM.md`](DIAGRAM.md)<br>4 Diagram UML Resolusi Tinggi | ✅ Siap Upload LMS |
 | **Tahap 1: Inisiasi & PRD / SRS** | 📄 [`PRD.md`](PRD.md) *(Standar IEEE 830 / ISO 29148)* | User Stories Gherkin, Spesifikasi 12 AI Tools, Matriks NFR ISO 25010 | ✅ Lengkap |
 | **Tahap 2: SDD & Perancangan UML** | 📐 [`SDD.md`](SDD.md) *(Standar IEEE 1016-2009)* | 📊 [`DIAGRAM.md`](DIAGRAM.md)<br>4 Diagram UML, Struktur Basis Data, UI/UX | ✅ Lengkap |
 | **Tahap 3: Konstruksi, AI & CI/CD** | ⚙️ [GitHub Actions Workflow](https://github.com/Yenvys/SistemWilayah/actions)<br>🧪 105 Automated Tests (540 Assertions Passed) | [`.github/workflows/ci.yml`](.github/workflows/ci.yml)<br>Kode Bersih (PSR-12, Laravel Pint Passed) | ✅ 100% Green |
-| **Tahap 4: Pelaporan Final & Berkas Akhir** | 📊 [`LAPORAN_FINAL.md`](LAPORAN_FINAL.md)<br>📊 [`LAPORAN_FINAL.pdf`](LAPORAN_FINAL.pdf) | 🖼️ [`DIAGRAM.md`](DIAGRAM.md) *(Kompilasi Gambar 4 Diagram UML Lengkap)* | ✅ Lengkap |
+| **Tahap 4: Pelaporan Final & Evaluasi** | 📊 [`LAPORAN_FINAL.md`](LAPORAN_FINAL.md) *(Dokumen Laporan Lengkap)* | 🖼️ [`DIAGRAM.md`](DIAGRAM.md) *(Kompilasi 4 Gambar UML Resolusi Tinggi)* | ✅ Lengkap |
 
 ---
 
