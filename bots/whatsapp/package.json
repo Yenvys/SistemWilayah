@@ -1,0 +1,29 @@
+{
+  "name": "siwil-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp Bot Notifikasi & Layanan Warga SIWIL",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "baileys",
+    "siwil",
+    "pelayanan-warga",
+    "notifikasi"
+  ],
+  "author": "SIWIL",
+  "license": "ISC",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pino": "^9.6.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

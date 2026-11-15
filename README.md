@@ -308,11 +308,11 @@ php artisan serve
 # Terminal 2 - Frontend Development Server (Opsional):
 npm run dev
 
-# Terminal 3 - WhatsApp Bot Microservice (Opsional):
-cd ../bot && npm start
+# Terminal 3 - WhatsApp Bot Microservice (Port 3000):
+cd bots/whatsapp && npm start
 
-# Terminal 4 - Telegram Bot cevlt (Opsional):
-cd ../cevlt && npm start
+# Terminal 4 - Telegram Bot cevlt:
+cd bots/telegram && npm start
 ```
 *Aplikasi web akan aktif di:* `http://127.0.0.1:8000` (atau `http://localhost/siwil/public` jika via Laragon Apache).
 

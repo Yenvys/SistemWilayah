@@ -28,3 +28,14 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 ~$*
+
+# SIWIL Bots Ignored Files & Secrets
+node_modules/
+/bots/**/node_modules/
+/bots/**/.env
+/bots/**/auth_info_baileys/
+/bots/**/auth_info_baileys.bak/
+/bots/**/dist/
+/bots/whatsapp/data/store.json
+*.log
+
