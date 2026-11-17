@@ -441,16 +441,29 @@ Basis data SIWIL dimodelkan secara relasional dengan normalisasi 3NF dan integri
 
 ---
 
-### 3.4 Perancangan Antarmuka UI/UX (Mobile-First Tailwind CSS v4)
-Antarmuka pengguna dirancang dengan standar aksesibilitas modern:
-- **Design System:** Palet warna *Emerald Green* (`#10B981`) melambangkan keterbukaan pelayanan publik, *Emergency Red* (`#EF4444`) untuk tombol bahaya SOS, dan *Amber* (`#F59E0B`) untuk antrean verifikasi berkas.
-- **Tipografi & Tata Letak:** Menggunakan Google Font *Outfit* dan *Inter* dengan hierarki visual tegas.
-- **Mobile-First Accessibility:** Seluruh tombol dan komponen sentuh memiliki luas area minimal $44 \times 44$ piksel sesuai standar WCAG 2.1 AA.
-- **4 Dasbor Peran Terpadu:**
-  1. *Citizen Dashboard:* Ringkasan surat aktif, tombol SOS, jajak pendapat musyawarah, dan floating chat SIWIL AI.
-  2. *RT Dashboard:* Meja kerja verifikasi surat tier-1, daftar kependudukan RT, penanganan aduan, dan sinyal SOS.
-  3. *RW Dashboard:* Verifikasi surat tier-2, agregasi statistik antar-RT, dan pengawasan proyek wilayah.
-  4. *Desa & Super Admin Dashboard:* Pengesahan surat resmi dinas desa, visualisasi APBDes, pusat konfigurasi AI/bot, dan audit trail forensik.
+### 3.4 Perancangan Antarmuka UI/UX Figma & Design System
+
+Prototipe antarmuka SIWIL dirancang di Figma dengan pendekatan *Mobile-First* dan mematuhi standar aksesibilitas WCAG 2.1 AA. Sistem menyediakan 4 tampilan antarmuka terintegrasi yang mencakup seluruh yurisdiksi peran:
+
+| Tampilan 1: Citizen Portal (Layanan Mandiri Warga) | Tampilan 2: Meja Kerja RT (Verifikasi & Monitoring SOS) |
+| :---: | :---: |
+| ![Dashboard Warga](dashboard_warga.jpg) | ![Dashboard RT](dashboard_rt.jpg) |
+| *Citizen Dashboard: Layanan Mandiri Persuratan & SOS* | *RT Dashboard: Verifikasi Berkas & Tanggap Darurat* |
+
+| Tampilan 3: Supervisi RW (Agregasi Wilayah & Proyek GIS) | Tampilan 4: Pusat Komando Desa (Legalisasi TTE & APBDes) |
+| :---: | :---: |
+| ![Dashboard RW](dashboard_rw.jpg) | ![Dashboard Desa](dashboard_desa.jpg) |
+| *RW Dashboard: Rekapitulasi Penduduk & Supervisi Proyek* | *Desa Dashboard: Legalisasi Berstempel TTE & APBDes* |
+
+- **Design System & Panduan Gaya:**
+  - *Palet Warna:* `Emerald Green` (`#10B981`) melambangkan keterbukaan pelayanan publik, `Emergency Red` (`#EF4444`) untuk tombol bahaya SOS, `Amber` (`#F59E0B`) untuk antrean verifikasi berkas, dan `Blue` (`#3B82F6`) untuk warta pengumuman desa.
+  - *Tipografi:* Menggunakan Google Font *Outfit* (Heading) dan *Inter* (Body UI) dengan skala hierarki tegas.
+  - *Layout & Grid:* 12-kolom Grid Desktop (Sidebar 260px) serta 1-kolom Mobile Fluid dengan Bottom Navigation Bar.
+  - *Mobile-First Accessibility:* Seluruh tombol dan komponen interaktif memiliki target sentuh minimal $44 \times 44$ piksel (WCAG 2.1 AA).
+- **Alur Interaktivitas Figma (Walkthrough Video Demo Progres 2):**
+  1. *Flow 1 (Pengajuan Mandiri Warga):* Pengajuan surat SKTM $\to$ upload berkas $\to$ tracking status $\to$ unduh berkas resmi PDF ber-QR TTE.
+  2. *Flow 2 (Persetujuan 3-Tier):* Verifikasi Ketua RT $\to$ Verifikasi Ketua RW $\to$ Legalisasi Kepala Desa berstempel digital dinas.
+  3. *Flow 3 (Konsultasi SIWIL AI):* Interaksi natural language via Chat Widget $\to$ function calling deterministik $\to$ jawaban faktual berbatas izin UU PDP.
 
 ---
 
